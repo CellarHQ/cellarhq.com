@@ -4,6 +4,8 @@ import static ratpack.groovy.Groovy.ratpack
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
 import com.cellarhq.jdbi.JdbiModule
+import com.cellarhq.liquibase.LiquibaseModule
+import com.cellarhq.liquibase.LiquibaseService
 import org.pac4j.http.client.FormClient
 import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
 import ratpack.error.ServerErrorHandler
@@ -17,6 +19,7 @@ ratpack {
     bindings {
         // TODO: Need to add configuration for URL & Driver.
         add new HikariModule([URL: 'jdbc:h2:mem:dev;INIT=CREATE SCHEMA IF NOT EXISTS DEV'], 'org.h2.jdbcx.JdbcDataSource')
+        add new LiquibaseModule()
         add new JdbiModule()
         add new SessionModule()
         add new MapSessionsModule(10, 5)
@@ -25,6 +28,11 @@ ratpack {
                             new AuthPathAuthorizer())
 
         add new MarkupTemplatingModule()
+
+        init { LiquibaseService liquibaseService ->
+            liquibaseService.launchConfig = launchConfig
+            liquibaseService.run()
+        }
 
         bind ServerErrorHandler, ErrorHandler
     }
