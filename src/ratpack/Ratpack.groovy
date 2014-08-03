@@ -1,19 +1,37 @@
-import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
+import com.cellarhq.auth.AuthPathAuthorizer
+import com.cellarhq.ErrorHandler
 import com.cellarhq.jdbi.JdbiModule
+import org.pac4j.http.client.FormClient
+import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
+import ratpack.error.ServerErrorHandler
+import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 import ratpack.hikari.HikariModule
+import ratpack.pac4j.Pac4jModule
+import ratpack.session.SessionModule
+import ratpack.session.store.MapSessionsModule
 
 ratpack {
     bindings {
         // TODO: Need to add configuration for URL & Driver.
         add new HikariModule([URL: 'jdbc:h2:mem:dev;INIT=CREATE SCHEMA IF NOT EXISTS DEV'], 'org.h2.jdbcx.JdbcDataSource')
         add new JdbiModule()
+        add new SessionModule()
+        add new MapSessionsModule(10, 5)
+        // TODO Need to write a new authenticator when JDBI Users are added into the mix.
+        add new Pac4jModule<>(new FormClient('/login', new SimpleTestUsernamePasswordAuthenticator()),
+                            new AuthPathAuthorizer())
+
+        add new MarkupTemplatingModule()
+
+        bind ServerErrorHandler, ErrorHandler
     }
 
     handlers {
         get {
-            render groovyTemplate("index.html", title: "My Ratpack App")
+            render groovyMarkupTemplate('index.gtpl')
         }
 
         handler('cellars') {
@@ -205,7 +223,35 @@ ratpack {
             }
         }
 
-        handler('about') {}
+        get('about') {}
+        get('register') {}
+
+        /**
+         * The login page.
+         */
+        get('login') {
+            render groovyMarkupTemplate('login.gtpl',
+                    title: 'Login',
+                    action: '/pac4j-callback',
+                    method: 'post',
+                    buttonText: 'Login',
+                    error: request.queryParams.error ?: '')
+        }
+
+        get('forgot-password') {}
+
+        /**
+         * Backwards compatibility endpoints:
+         */
+        handler('signup') {
+            redirect(301, '/register')
+        }
+        handler('signin') {
+            redirect(301, '/login')
+        }
+        handler('forgotpassword') {
+            redirect(301, '/forgot-password')
+        }
 
         assets "public"
     }
