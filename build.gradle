@@ -23,12 +23,14 @@ dependencies {
     // It is not part of the app runtime and is not shipped in the distribution.
     springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
 
+    compile ratpack.dependency('codahale-metrics')
     compile ratpack.dependency('h2')
     compile ratpack.dependency('hikari')
     compile ratpack.dependency('pac4j')
     compile 'org.pac4j:pac4j-http:1.5.1'
 
     compile 'org.jdbi:jdbi:2.55'
+    compile 'org.liquibase:liquibase-core:3.2.2'
 
     // Default SLF4J binding.  Note that this is a blocking implementation.
     // See here for a non blocking appender http://logging.apache.org/log4j/2.x/manual/async.html

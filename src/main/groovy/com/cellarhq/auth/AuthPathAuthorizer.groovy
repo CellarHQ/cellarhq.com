@@ -1,6 +1,7 @@
 package com.cellarhq.auth
 
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import ratpack.handling.Context
 import ratpack.pac4j.AbstractAuthorizer
 
@@ -10,20 +11,24 @@ import ratpack.pac4j.AbstractAuthorizer
  * @todo Add consideration of the HTTP method... M<S, L<HttpMethod>>
  */
 @CompileStatic
+@Slf4j
 class AuthPathAuthorizer extends AbstractAuthorizer {
 
     final static List<String> ANONYMOUS_WHITELIST = [
-            '/',
-            '/cellars',
-            /\/cellars\/[a-zA-Z0-9\-_]+/,
-            '/beers',
-            /\/beers\/[a-zA-Z0-9\-_]+/,
-            '/breweries',
-            /\/breweries\/[a-zA-Z0-9\-_]+/,
-            '/about',
-            '/register',
-            '/login',
-            '/forgot-password'
+            '',
+            'cellars',
+            /cellars\/[a-zA-Z0-9\-_]+/,
+            'beers',
+            /beers\/[a-zA-Z0-9\-_]+/,
+            'breweries',
+            /breweries\/[a-zA-Z0-9\-_]+/,
+            'about',
+            'register',
+            'login',
+            'forgot-password',
+            /lib\/*/,
+            /styles\/*/
+
     ]
 
     @Override
