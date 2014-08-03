@@ -1,0 +1,34 @@
+<FindBugsFilter>
+    <Match>
+        <!--clone() does not call super.clone(). In Groovy even if the code is calling super.clone()
+            Probably due to the fact that Groovy classes extend GroovyObject instead of Object-->
+        <Bug pattern="CN_IDIOM_NO_SUPER_CALL"/>
+    </Match>
+    <Match>
+        <!--A extends B, a.equals(b) != b.equals(a) when using in @EqualsAndHasCode in both the parent
+            and child classes since it will use the instanceof check-->
+        <Bug pattern="EQ_OVERRIDING_EQUALS_NOT_SYMMETRIC"/>
+    </Match>
+    <Match>
+        <!--No serialVersionUID property on a Closure even though Closure is Serializable-->
+        <Bug pattern="SE_NO_SERIALVERSIONID"/>
+    </Match>
+    <Match>
+        <!-- Incorrect lazy initialization of static field $callSiteArray -->
+        <Bug pattern="LI_LAZY_INIT_STATIC"/>
+    </Match>
+    <Match>
+        <!-- Exception is caught when Exception is not thrown -->
+        <Bug pattern="REC_CATCH_EXCEPTION"/>
+    </Match>
+    <Match>
+        <!-- Ignore that fact that resources.groovy creates a class that starts with a lower case letter -->
+        <Class name="resources"/>
+        <Bug pattern="NM_CLASS_NAMING_CONVENTION"/>
+    </Match>
+    <Match>
+        <!-- Ignore that fact that config files create a class that starts with a lower case letter -->
+        <Class name="~.*-config"/>
+        <Bug pattern="NM_CLASS_NAMING_CONVENTION"/>
+    </Match>
+</FindBugsFilter>
