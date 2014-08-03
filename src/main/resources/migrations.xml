@@ -6,10 +6,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <preConditions>
-        <runningAs username="liquibase"/>
-    </preConditions>
+    <!-- TODO: The current LiquibaseModule is using the standard site's pg user. The Module will need its own user created -->
+    <!--<preConditions>-->
+    <!--<runningAs username="liquibase"/>-->
+    <!--</preConditions>-->
 
-    <!-- TODO -->
+    <include file="migrations/initial-schema.xml"/>
 
 </databaseChangeLog>
