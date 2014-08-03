@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="initial-schema" author="rzienert" dbms="postgresql">
+        <sql dbms="postgresql">
+            -- I don't know if this is correct... I've never modeled OpenID before.
+            CREATE TABLE account_openid (
+                id bigserial primary key,
+                cellar_id int8,
+                source varchar(20),
+                source_username varchar(100),
+                source_id varchar(100),
+                created_date timestamp,
+                modified_date timestamp
+            );
+            -- TODO: 95% sure this index is incorrect.
+            CREATE INDEX account_openid_cellar_lookup_idx ON account_openid (cellar_id, source, source_id);
+
+            CREATE TABLE account_email (
+                id bigserial primary key,
+                cellar_id int8,
+                email varchar(256),
+                password char(64),
+                salt char(64),
+                created_date timestamp,
+                modified_date timestamp
+            );
+            CREATE INDEX account_email_cellar_lookup_idx ON account_email (cellar_id, email);
+
+            CREATE TABLE cellar (
+                id bigserial primary key,
+                photo_id int8,
+                screen_name varchar(60) UNIQUE,
+                name varchar(60),
+                location varchar(60),
+                website varchar(256),
+                bio text,
+                update_from_network boolean,
+                contact_email varchar(256),
+                private boolean,
+                last_login timestamp,
+                last_login_ip cidr,
+                created_date timestamp,
+                modified_date timestamp
+            );
+            CREATE INDEX cellar_url_name_idx ON cellar (screen_name);
+            COMMENT ON COLUMN cellar.update_from_network IS 'Whether or not to update profile data from external site (Twitter, etc)';
+
+            CREATE TABLE cellar_role (
+                cellar_id int8,
+                role varchar(20),
+                PRIMARY KEY(cellar_id, role)
+            );
+            CREATE INDEX cellar_role_idx ON cellar_role (role);
+
+            CREATE TABLE beer (
+                id bigserial primary key,
+                photo_id int8,
+                brewery_id int8,
+                style_id int,
+                glassware_id int,
+                version int,
+                url_name varchar(100) UNIQUE,
+                name varchar(100),
+                description text,
+                srm int,
+                ibu int,
+                abv float4,
+                availability varchar(30), -- TODO Java enum / free-text?
+                searchable boolean,
+                brewery_db_id varchar(64),
+                brewery_db_last_update timestamp,
+                created_date timestamp,
+                modified_date timestamp,
+                needs_moderation boolean,
+                locked boolean
+            );
+            CREATE INDEX beer_url_name_idx ON beer (url_name);
+            CREATE INDEX beer_needs_moderation_idx ON beer (needs_moderation);
+            CREATE INDEX beer_brewery_db_id_idx ON beer (brewery_db_id);
+
+            CREATE TABLE brewery (
+                id bigserial primary key,
+                photo_id int8,
+                version int,
+                url_name varchar(100) UNIQUE,
+                name varchar(100),
+                description text,
+                established date,
+                phone varchar(20),
+                website varchar(256),
+                address varchar(100),
+                address2 varchar(100),
+                locality varchar(100), -- TODO datatype, what is this?
+                region varchar(100),
+                postal_code varchar(20),
+                country varchar(60),
+                searchable boolean,
+                brewery_db_id varchar(64),
+                brewery_db_last_update timestamp,
+                created_date timestamp,
+                modified_date timestamp,
+                needs_moderation boolean,
+                locked boolean
+            );
+            CREATE INDEX brewery_url_name_idx ON brewery (url_name);
+            CREATE INDEX brewery_needs_moderation_idx ON brewery (needs_moderation);
+            CREATE INDEX brewery_brewery_db_id_idx ON beer (brewery_db_id);
+
+            CREATE TABLE category (
+                id bigserial primary key,
+                name varchar(100),
+                description text,
+                searchable boolean,
+                created_date timestamp,
+                modified_date timestamp,
+                brewery_db_id varchar(64),
+                brewery_db_last_update timestamp
+            );
+
+            CREATE TABLE cellared_beer (
+                cellar_id int8,
+                beer_id int8,
+                bottle_date date,
+                style_id int,
+                size varchar(12),
+                quantity int CONSTRAINT positive_quantity CHECK (quantity >= 0),
+                notes text,
+                drink_by_date date,
+                private boolean,
+                created_date timestamp,
+                modified_date timestamp,
+                PRIMARY KEY(cellar_id, beer_id, bottle_date)
+            );
+
+            CREATE TABLE glassware (
+                id serial primary key,
+                name varchar(30),
+                description text,
+                searchable boolean,
+                created_date timestamp,
+                modified_date timestamp,
+                brewery_db_id varchar(64),
+                brewery_db_last_update timestamp
+            );
+
+            CREATE TABLE photo (
+                id bigserial primary key,
+                description text,
+                original_url varchar(256),
+                thumb_url varchar(256),
+                thumb_width int,
+                thumb_height int,
+                large_url varchar(256),
+                large_width int,
+                large_height int,
+                created_date timestamp
+            );
+
+            CREATE TABLE style (
+                id serial primary key,
+                category_id int,
+                name varchar(100),
+                description text,
+                searchable boolean,
+                created_date timestamp,
+                modified_date timestamp,
+                brewery_db_id varchar(64),
+                brewery_db_last_update timestamp
+            );
+
+            CREATE TABLE activity (
+                id bigserial primary key,
+                cellar_id int8,
+                subject text,
+                action text,
+                private boolean,
+                data json,
+                created_date timestamp
+            );
+            COMMENT ON COLUMN activity.cellar_id IS 'If the cellar is deleted, we want to keep activity, but it will be unlinked';
+
+            ALTER TABLE account_openid ADD CONSTRAINT cellar_fk FOREIGN KEY (cellar_id) REFERENCES cellar (id) ON DELETE CASCADE;
+            ALTER TABLE account_email ADD CONSTRAINT cellar_fk FOREIGN KEY (cellar_id) REFERENCES cellar (id) ON DELETE CASCADE;
+            ALTER TABLE cellar ADD CONSTRAINT photo_fk FOREIGN KEY (photo_id) REFERENCES photo (id) ON DELETE SET NULL;
+            ALTER TABLE cellar_role ADD CONSTRAINT cellar_fk FOREIGN_KEY (cellar_id) REFERENCES cellar (id) ON DELETE CASCADE;
+            ALTER TABLE beer ADD CONSTRAINT photo_fk FOREIGN KEY (photo_id) REFERENCES photo (id) ON DELETE SET NULL;
+            ALTER TABLE beer ADD CONSTRAINT brewery_fk FOREIGN KEY (brewery_id) REFERENCES brewery (id) ON DELETE RESTRICT;
+            ALTER TABLE beer ADD CONSTRAINT style_fk FOREIGN KEY (style_id) REFERENCES style (id) ON DELETE RESTRICT;
+            ALTER TABLE beer ADD CONSTRAINT glassware_fk FOREIGN KEY (glassware_id) REFERENCES glassware (id) ON DELETE RESTRICT;
+            ALTER TABLE brewery ADD CONSTRAINT photo_fk FOREIGN KEY (photo_id) REFERENCES photo (id) ON DELETE SET NULL;
+            ALTER TABLE cellared_beer ADD CONSTRAINT beer_fk FOREIGN KEY (beer_id) REFERENCES beer (id) ON DELETE RESTRICT;
+            ALTER TABLE cellared_beer ADD CONSTRAINT cellar_fk FOREIGN KEY (cellar_id) REFERENCES cellar (id) ON DELETE CASCADE;
+            ALTER TABLE cellared_beer ADD CONSTRAINT style_fk FOREIGN KEY (style_id) REFERENCES style (id) ON DELETE RESTRICT;
+            ALTER TABLE style ADD CONSTRAINT category_fk FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE RESTRICT;
+            ALTER TABLE activity ADD CONSTRAINT cellar_fk FOREIGN KEY (cellar_id) REFERENCES cellar (id) ON DELETE SET NULL;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
