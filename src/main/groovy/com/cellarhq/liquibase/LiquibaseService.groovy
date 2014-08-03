@@ -1,6 +1,7 @@
 package com.cellarhq.liquibase
 
 import com.google.inject.Inject
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import liquibase.Contexts
 import liquibase.Liquibase
@@ -27,6 +28,7 @@ import java.sql.Connection
  * @see https://github.com/liquibase/liquibase/blob/6d884cd7c0a1b9843bf051c6a83f9d72aede6e10/liquibase-core/src/main/java/liquibase/integration/servlet/LiquibaseServletListener.java
  */
 @Slf4j
+@CompileStatic
 class LiquibaseService {
 
     private final static String LIQUIBASE_CHANGELOG = 'liquibase.changelog'
@@ -67,7 +69,7 @@ class LiquibaseService {
                 executeUpdate()
             }
         } catch (Exception e) {
-            if (failOnError.asBoolean()) {
+            if (failOnError != null && failOnError.asBoolean()) {
                 throw new RuntimeException(e)
             }
         }

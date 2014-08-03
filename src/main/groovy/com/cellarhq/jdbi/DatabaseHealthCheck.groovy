@@ -2,6 +2,7 @@ package com.cellarhq.jdbi
 
 import com.codahale.metrics.health.HealthCheck
 import com.google.inject.Inject
+import groovy.transform.CompileStatic
 import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
 import ratpack.codahale.metrics.NamedHealthCheck
@@ -9,6 +10,7 @@ import ratpack.codahale.metrics.NamedHealthCheck
 /**
  * Simple ping database health check.
  */
+@CompileStatic
 class DatabaseHealthCheck extends NamedHealthCheck {
 
     @Inject

@@ -2,9 +2,11 @@ package com.cellarhq.liquibase
 
 import com.google.inject.Inject
 import com.google.inject.Provider
+import groovy.transform.CompileStatic
 
 import javax.sql.DataSource
 
+@CompileStatic
 class LiquibaseProvider implements Provider<LiquibaseService> {
 
     private final DataSource ds
