@@ -4,6 +4,8 @@ buildscript {
     }
     dependencies {
         classpath "io.ratpack:ratpack-gradle:0.9.7"
+        classpath 'org.postgresql:postgresql:9.3-1102-jdbc41'
+        classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
     }
 }
 
@@ -12,6 +14,7 @@ apply plugin: "idea"
 apply plugin: "eclipse"
 apply from: "${rootDir}/gradle/codenarc.gradle"
 apply from: "${rootDir}/gradle/findbugs.gradle"
+apply plugin: 'liquibase'
 
 repositories {
     jcenter()
@@ -31,10 +34,29 @@ dependencies {
 
     compile 'org.jdbi:jdbi:2.55'
     compile 'org.liquibase:liquibase-core:3.2.2'
+    compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
 
     // Default SLF4J binding.  Note that this is a blocking implementation.
     // See here for a non blocking appender http://logging.apache.org/log4j/2.x/manual/async.html
     runtime 'org.slf4j:slf4j-simple:1.7.7'
 
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+run {
+    environment 'env', project.hasProperty('env') ? project.property('env') : 'development'
+}
+
+liquibase {
+    activities {
+        development {
+            changeLogFile 'migrations/migrations.xml'
+            url 'jdbc:postgresql://localhost:15432/cellarhq'
+            username 'cellarhq'
+            password 'cellarhq'
+        }
+//        production {}
+    }
+
+    runList 'development'
 }

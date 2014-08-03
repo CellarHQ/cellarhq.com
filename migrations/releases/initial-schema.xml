@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="initial-schema" author="rzienert" dbms="postgresql, h2">
+    <changeSet id="initial-schema" author="rzienert" dbms="postgresql">
         <sql dbms="postgresql">
             -- I don't know if this is correct... I've never modeled OpenID before.
             CREATE TABLE account_openid (
@@ -51,12 +51,20 @@
             CREATE INDEX cellar_url_name_idx ON cellar (screen_name);
             COMMENT ON COLUMN cellar.update_from_network IS 'Whether or not to update profile data from external site (Twitter, etc)';
 
+            CREATE TABLE cellar_role (
+                cellar_id int8,
+                role varchar(20),
+                PRIMARY KEY(cellar_id, role)
+            );
+            CREATE INDEX cellar_role_idx ON cellar_role (role);
+
             CREATE TABLE beer (
                 id bigserial primary key,
                 photo_id int8,
                 brewery_id int8,
                 style_id int,
                 glassware_id int,
+                version int,
                 url_name varchar(100) UNIQUE,
                 name varchar(100),
                 description text,
@@ -69,13 +77,17 @@
                 brewery_db_last_update timestamp,
                 created_date timestamp,
                 modified_date timestamp,
-                needs_moderation boolean
+                needs_moderation boolean,
+                locked boolean
             );
             CREATE INDEX beer_url_name_idx ON beer (url_name);
+            CREATE INDEX beer_needs_moderation_idx ON beer (needs_moderation);
+            CREATE INDEX beer_brewery_db_id_idx ON beer (brewery_db_id);
 
             CREATE TABLE brewery (
                 id bigserial primary key,
                 photo_id int8,
+                version int,
                 url_name varchar(100) UNIQUE,
                 name varchar(100),
                 description text,
@@ -93,9 +105,12 @@
                 brewery_db_last_update timestamp,
                 created_date timestamp,
                 modified_date timestamp,
-                needs_moderation boolean
+                needs_moderation boolean,
+                locked boolean
             );
             CREATE INDEX brewery_url_name_idx ON brewery (url_name);
+            CREATE INDEX brewery_needs_moderation_idx ON brewery (needs_moderation);
+            CREATE INDEX brewery_brewery_db_id_idx ON beer (brewery_db_id);
 
             CREATE TABLE category (
                 id bigserial primary key,
@@ -173,6 +188,7 @@
             ALTER TABLE account_openid ADD CONSTRAINT cellar_fk FOREIGN KEY (cellar_id) REFERENCES cellar (id) ON DELETE CASCADE;
             ALTER TABLE account_email ADD CONSTRAINT cellar_fk FOREIGN KEY (cellar_id) REFERENCES cellar (id) ON DELETE CASCADE;
             ALTER TABLE cellar ADD CONSTRAINT photo_fk FOREIGN KEY (photo_id) REFERENCES photo (id) ON DELETE SET NULL;
+            ALTER TABLE cellar_role ADD CONSTRAINT cellar_fk FOREIGN_KEY (cellar_id) REFERENCES cellar (id) ON DELETE CASCADE;
             ALTER TABLE beer ADD CONSTRAINT photo_fk FOREIGN KEY (photo_id) REFERENCES photo (id) ON DELETE SET NULL;
             ALTER TABLE beer ADD CONSTRAINT brewery_fk FOREIGN KEY (brewery_id) REFERENCES brewery (id) ON DELETE RESTRICT;
             ALTER TABLE beer ADD CONSTRAINT style_fk FOREIGN KEY (style_id) REFERENCES style (id) ON DELETE RESTRICT;
@@ -183,10 +199,6 @@
             ALTER TABLE cellared_beer ADD CONSTRAINT style_fk FOREIGN KEY (style_id) REFERENCES style (id) ON DELETE RESTRICT;
             ALTER TABLE style ADD CONSTRAINT category_fk FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE RESTRICT;
             ALTER TABLE activity ADD CONSTRAINT cellar_fk FOREIGN KEY (cellar_id) REFERENCES cellar (id) ON DELETE SET NULL;
-        </sql>
-        <sql dbms="h2">
-            <!-- TODO: Rewrite in SQL92 for H2 support after feedback -->
-            <!-- The XML formatting won't work correctly due to being unable to create columns specific to dbms. -->
         </sql>
     </changeSet>
 

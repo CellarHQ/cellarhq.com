@@ -11,6 +11,6 @@
     <!--<runningAs username="liquibase"/>-->
     <!--</preConditions>-->
 
-    <include file="migrations/initial-schema.xml"/>
+    <include file="migrations/releases/initial-schema.xml"/>
 
 </databaseChangeLog>
