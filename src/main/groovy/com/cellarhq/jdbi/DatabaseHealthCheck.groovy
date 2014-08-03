@@ -13,13 +13,10 @@ import ratpack.codahale.metrics.NamedHealthCheck
 @CompileStatic
 class DatabaseHealthCheck extends NamedHealthCheck {
 
+    String name = 'Database-Health-Check'
+
     @Inject
     DBI dbi
-
-    @Override
-    String getName() {
-        return 'Database-Health-Check'
-    }
 
     @Override
     protected HealthCheck.Result check() throws Exception {

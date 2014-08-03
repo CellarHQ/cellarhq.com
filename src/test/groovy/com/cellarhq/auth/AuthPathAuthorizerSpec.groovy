@@ -30,9 +30,9 @@ class AuthPathAuthorizerSpec extends Specification {
         where:
         path                                           | expected
         AuthPathAuthorizer.ANONYMOUS_WHITELIST.first() | false
-        '/foo'                                         | true
-        '/cellars/12'                                  | false
-        '/beers/'                                      | false
+        'foo'                                          | true
+        'cellars/12'                                   | false
+        'beers/'                                       | false
 
         expectation = expected ? 'should require' : 'should not require'
     }

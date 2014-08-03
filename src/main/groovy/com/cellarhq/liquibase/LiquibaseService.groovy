@@ -20,13 +20,14 @@ import liquibase.util.NetUtil
 import ratpack.launch.LaunchConfig
 
 import javax.sql.DataSource
+@java.lang.SuppressWarnings('JdbcConnectionReference') // Jeez...
 import java.sql.Connection
 
 /**
  * Adapted from the LiquibaseServletListener class.
- *
- * @see https://github.com/liquibase/liquibase/blob/6d884cd7c0a1b9843bf051c6a83f9d72aede6e10/liquibase-core/src/main/java/liquibase/integration/servlet/LiquibaseServletListener.java
+ * @see https://github.com/liquibase/liquibase
  */
+@SuppressWarnings('JdbcConnectionReference')
 @Slf4j
 @CompileStatic
 class LiquibaseService {
@@ -51,6 +52,7 @@ class LiquibaseService {
         this.dataSource = dataSource
     }
 
+    @SuppressWarnings(['CatchException', 'UnnecessaryNullCheck'])
     void run() {
         log.info('Running Liquibase...')
         LiquibaseConfiguration.instance.init(configurationValueProvider)
@@ -59,24 +61,24 @@ class LiquibaseService {
             hostName = NetUtil.localHostName
         } catch (Exception e) {
             log.error('Cannot find hostname: ' + e.message)
-            return
         }
 
-        String failOnError = null
-        try {
-            failOnError = configurationValueProvider.getValue(LIQUIBASE_ONERROR_FAIL)
-            if (checkPreconditions()) {
-                executeUpdate()
-            }
-        } catch (Exception e) {
-            if (failOnError != null && failOnError.asBoolean()) {
-                throw new RuntimeException(e)
+        if (hostName) {
+            String failOnError = null
+            try {
+                failOnError = configurationValueProvider.getValue(LIQUIBASE_ONERROR_FAIL)
+                if (checkPreconditions()) {
+                    executeUpdate()
+                }
+            } catch (Exception e) {
+                if (failOnError != null && failOnError.asBoolean()) {
+                    throw new FailedExecutionException(e)
+                }
             }
         }
         log.info('Liquibase done!')
     }
 
-    @SuppressWarnings('LineLength')
     protected boolean checkPreconditions() {
         GlobalConfiguration globalConfiguration = LiquibaseConfiguration.instance.getConfiguration(GlobalConfiguration)
         if (!globalConfiguration.shouldRun) {
@@ -108,12 +110,13 @@ class LiquibaseService {
             }
         }
 
-        if (globalConfiguration.shouldRun && globalConfiguration.getProperty(GlobalConfiguration.SHOULD_RUN).getWasOverridden()) {
+        boolean wasOverridden = globalConfiguration.getProperty(GlobalConfiguration.SHOULD_RUN).wasOverridden
+        if (globalConfiguration.shouldRun && wasOverridden) {
             shouldRun = true
             log.info("Ignoring ${LIQUIBASE_HOST_INCLUDES} and ${LIQUIBASE_HOST_EXCLUDES}, since "
                     + LiquibaseConfiguration.instance.describeValueLookupLogic(
                             globalConfiguration.getProperty(GlobalConfiguration.SHOULD_RUN))
-                    + "=true")
+                    + '=true')
         }
         if (!shouldRun) {
             log.info("LiquibaseService did not run due to ${LIQUIBASE_HOST_INCLUDES} and/or ${LIQUIBASE_HOST_EXCLUDES}")
@@ -125,7 +128,7 @@ class LiquibaseService {
     protected void executeUpdate() {
         String changeLogFile = configurationValueProvider.getValue(LIQUIBASE_CHANGELOG)
         if (changeLogFile == null) {
-            throw new RuntimeException("Cannot run Liquibase: 'changeLogFile' is not set")
+            throw new MissingConfigurationException("Cannot run Liquibase: 'changeLogFile' is not set")
         }
 
         String contexts = configurationValueProvider.getValue(LIQUIBASE_CONTEXTS)
