@@ -1,13 +1,14 @@
 import static ratpack.groovy.Groovy.groovyTemplate
 import static ratpack.groovy.Groovy.ratpack
 
-import ratpack.groovy.sql.SqlModule
+import com.cellarhq.jdbi.JdbiModule
 import ratpack.hikari.HikariModule
 
 ratpack {
     bindings {
+        // TODO: Need to add configuration for URL & Driver.
         add new HikariModule([URL: 'jdbc:h2:mem:dev;INIT=CREATE SCHEMA IF NOT EXISTS DEV'], 'org.h2.jdbcx.JdbcDataSource')
-        add new SqlModule() // TODO Create JDBIModule? Bite the hibernate bullet?
+        add new JdbiModule()
     }
 
     handlers {
