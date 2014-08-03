@@ -3,11 +3,13 @@ import static ratpack.groovy.Groovy.ratpack
 
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
+import com.cellarhq.jdbi.DatabaseHealthCheck
 import com.cellarhq.jdbi.JdbiModule
 import com.cellarhq.liquibase.LiquibaseModule
 import com.cellarhq.liquibase.LiquibaseService
 import org.pac4j.http.client.FormClient
 import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
+import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler
 import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 import ratpack.hikari.HikariModule
@@ -17,6 +19,9 @@ import ratpack.session.store.MapSessionsModule
 
 ratpack {
     bindings {
+        bind DatabaseHealthCheck
+
+        add new CodaHaleMetricsModule().healthChecks()
         // TODO: Need to add configuration for URL & Driver.
         add new HikariModule([URL: 'jdbc:h2:mem:dev;INIT=CREATE SCHEMA IF NOT EXISTS DEV'], 'org.h2.jdbcx.JdbcDataSource')
         add new LiquibaseModule()
