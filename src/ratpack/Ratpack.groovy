@@ -1,12 +1,13 @@
 import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
+import com.cellarhq.CellarHQModule
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
-import com.cellarhq.dao.CellarDAO
 import com.cellarhq.entities.Cellar
-import com.cellarhq.hibernate.HibernateModule
-import com.cellarhq.hibernate.SessionFactoryHealthCheck
+import com.cellarhq.ratpack.hibernate.HibernateModule
+import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
+import com.cellarhq.services.CellarService
 import org.hibernate.SessionFactory
 import org.pac4j.http.client.FormClient
 import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
@@ -32,14 +33,14 @@ ratpack {
 
         add new MarkupTemplatingModule()
 
+        add new CellarHQModule()
+
         bind ServerErrorHandler, ErrorHandler
     }
 
-    handlers { SessionFactory sessionFactory ->
+    handlers { CellarService cellarService ->
         get {
-//            blocking {
-//                new CellarDAO(sessionFactory).save(new Cellar())
-//            }
+            cellarService.save(new Cellar())
             render groovyMarkupTemplate('index.gtpl')
         }
 

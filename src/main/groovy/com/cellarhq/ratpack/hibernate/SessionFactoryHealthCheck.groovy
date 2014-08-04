@@ -1,4 +1,4 @@
-package com.cellarhq.hibernate
+package com.cellarhq.ratpack.hibernate
 
 import com.codahale.metrics.health.HealthCheck
 import com.google.inject.Inject

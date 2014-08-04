@@ -1,4 +1,4 @@
-package com.cellarhq.hibernate
+package com.cellarhq.ratpack.hibernate
 
 import com.google.common.collect.ImmutableList
 import com.google.inject.AbstractModule

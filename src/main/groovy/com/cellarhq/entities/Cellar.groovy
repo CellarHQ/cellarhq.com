@@ -1,6 +1,6 @@
 package com.cellarhq.entities
 
-import com.cellarhq.hibernate.Entity
+import com.cellarhq.ratpack.hibernate.Entity
 
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
