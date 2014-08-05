@@ -1,7 +1,7 @@
 package com.cellarhq.services
 
 import com.cellarhq.dao.CellarDAO
-import com.cellarhq.entities.Cellar
+import com.cellarhq.domain.Cellar
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 
@@ -15,8 +15,16 @@ class CellarService {
         this.cellarDAO = cellarDAO
     }
 
-    void save(Cellar cellar) {
+    rx.Observable<Cellar> save(Cellar cellar) {
         cellarDAO.save(cellar)
+    }
+
+    rx.Observable<Cellar> get(Long id) {
+        cellarDAO.find(id)
+    }
+
+    rx.Observable<Iterable<Cellar>> all() {
+        cellarDAO.findAll()
     }
 
 }

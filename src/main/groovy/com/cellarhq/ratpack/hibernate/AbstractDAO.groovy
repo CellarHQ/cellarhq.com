@@ -6,8 +6,8 @@ import static ratpack.rx.RxRatpack.observeEach
 
 import com.cellarhq.util.Generics
 import groovy.transform.CompileStatic
-import org.hibernate.Criteria
-import org.hibernate.Hibernate
+import groovy.util.logging.Slf4j
+import org.hibernate.FlushMode
 import org.hibernate.HibernateException
 import org.hibernate.Session
 import org.hibernate.SessionFactory
@@ -19,6 +19,7 @@ import ratpack.exec.ExecControl
  *
  * This DAO only provides support for DetachedCriteria, so that the session is opened in the blocking thread.
  */
+@Slf4j
 @CompileStatic
 class AbstractDAO<E> {
 
@@ -33,11 +34,30 @@ class AbstractDAO<E> {
     }
 
     protected Session currentSession() {
-        return sessionFactory.currentSession
+        sessionFactory.currentSession.with { Session session ->
+            flushMode = FlushMode.MANUAL
+            return session
+        }
     }
 
     protected DetachedCriteria criteria() {
         return DetachedCriteria.forClass(entityClass)
+    }
+
+    @SuppressWarnings('CatchException')
+    protected <U> U transaction(Closure<U> c) {
+        U result = null
+        try {
+            currentSession().beginTransaction()
+            result = c()
+            currentSession().flush()
+            currentSession().transaction.commit()
+        } catch (Exception e) {
+            log.error('Transaction failed:', e)
+            currentSession().transaction.rollback()
+        }
+
+        return result
     }
 
     @SuppressWarnings('unchecked')
@@ -48,28 +68,36 @@ class AbstractDAO<E> {
     @SuppressWarnings('unchecked')
     protected rx.Observable<E> uniqueResult(DetachedCriteria criteria) throws HibernateException {
         return observe(execControl.blocking {
-            (E) checkNotNull(criteria.getExecutableCriteria(currentSession())).uniqueResult()
+            transaction {
+                (E) checkNotNull(criteria.getExecutableCriteria(currentSession())).uniqueResult()
+            }
         })
     }
 
     @SuppressWarnings('unchecked')
     protected rx.Observable<Iterable<E>> list(DetachedCriteria criteria) throws HibernateException {
         return observeEach(execControl.blocking {
-            checkNotNull(criteria.getExecutableCriteria(currentSession())).list()
+            transaction {
+                checkNotNull(criteria.getExecutableCriteria(currentSession())).list()
+            }
         })
     }
 
     @SuppressWarnings('unchecked')
     protected rx.Observable<E> get(Serializable id) {
         return observe(execControl.blocking {
-            (E) currentSession().get(entityClass, checkNotNull(id))
+            transaction {
+                (E) currentSession().get(entityClass, checkNotNull(id))
+            }
         })
     }
 
     protected rx.Observable<E> persist(E entity) throws HibernateException {
         return observe(execControl.blocking {
-            currentSession().saveOrUpdate(checkNotNull(entity))
-            entity
+            transaction {
+                currentSession().saveOrUpdate(checkNotNull(entity))
+                entity
+            }
         })
     }
 }

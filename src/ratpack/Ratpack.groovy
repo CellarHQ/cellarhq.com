@@ -4,11 +4,21 @@ import static ratpack.groovy.Groovy.ratpack
 import com.cellarhq.CellarHQModule
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
-import com.cellarhq.entities.Cellar
+import com.cellarhq.domain.Activity
+import com.cellarhq.domain.Beer
+import com.cellarhq.domain.BeerCategory
+import com.cellarhq.domain.Brewery
+import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.CellarRole
+import com.cellarhq.domain.CellaredBeer
+import com.cellarhq.domain.EmailAccount
+import com.cellarhq.domain.Glassware
+import com.cellarhq.domain.OpenIdAccount
+import com.cellarhq.domain.Photo
+import com.cellarhq.domain.Style
 import com.cellarhq.ratpack.hibernate.HibernateModule
 import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
 import com.cellarhq.services.CellarService
-import org.hibernate.SessionFactory
 import org.pac4j.http.client.FormClient
 import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
 import ratpack.codahale.metrics.CodaHaleMetricsModule
@@ -18,14 +28,28 @@ import ratpack.hikari.HikariModule
 import ratpack.pac4j.Pac4jModule
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
+import rx.functions.Action1
 
 ratpack {
     bindings {
         bind SessionFactoryHealthCheck
 
         add new CodaHaleMetricsModule().healthChecks()
-        add new HikariModule([URL: 'jdbc:h2:mem:dev;INIT=CREATE SCHEMA IF NOT EXISTS DEV'], 'org.h2.jdbcx.JdbcDataSource')
-        add new HibernateModule(Cellar)
+        add new HikariModule()
+        add new HikariModule([URL: 'jdbc:h2:mem:;INIT=CREATE SCHEMA IF NOT EXISTS cellarhq'], 'org.h2.jdbcx.JdbcDataSource')
+        add new HibernateModule(
+                Activity,
+                Beer,
+                Brewery,
+                BeerCategory,
+                Cellar,
+                CellaredBeer,
+                CellarRole,
+                EmailAccount,
+                Glassware,
+                OpenIdAccount,
+                Photo,
+                Style)
         add new SessionModule()
         add new MapSessionsModule(10, 5)
         add new Pac4jModule<>(new FormClient('/login', new SimpleTestUsernamePasswordAuthenticator()),
@@ -40,8 +64,11 @@ ratpack {
 
     handlers { CellarService cellarService ->
         get {
-            cellarService.save(new Cellar())
-            render groovyMarkupTemplate('index.gtpl')
+            cellarService.save(new Cellar(screenName: 'someone')).subscribe { Cellar persistedCellar ->
+                cellarService.all().toList().subscribe { List<Cellar> cellarList ->
+                    render groovyMarkupTemplate('index.gtpl', cellars: cellarList)
+                }
+            }
         }
 
         handler('cellars') {

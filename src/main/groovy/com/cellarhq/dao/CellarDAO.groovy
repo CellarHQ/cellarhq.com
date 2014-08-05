@@ -1,6 +1,6 @@
 package com.cellarhq.dao
 
-import com.cellarhq.entities.Cellar
+import com.cellarhq.domain.Cellar
 import com.cellarhq.ratpack.hibernate.AbstractDAO
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
@@ -15,7 +15,15 @@ class CellarDAO extends AbstractDAO<Cellar> {
         super(sessionFactory, execControl)
     }
 
-    void save(Cellar cellar) {
-        persist(cellar)
+    rx.Observable<Cellar> save(Cellar cellar) {
+        return persist(cellar)
+    }
+
+    rx.Observable<Cellar> find(Serializable id) {
+        return get(id)
+    }
+
+    rx.Observable<Iterable<Cellar>> findAll() {
+        return list(criteria())
     }
 }
