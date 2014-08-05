@@ -12,6 +12,7 @@ class LiquibaseModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(LiquibaseService).toProvider(LiquibaseProvider).in(Scopes.SINGLETON)
+        throw new UnsupportedOperationException('LiquibaseModule useage not possible until Ratpack has lifecycles')
+//        bind(LiquibaseService).toProvider(LiquibaseProvider).in(Scopes.SINGLETON)
     }
 }
