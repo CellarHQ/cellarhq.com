@@ -1,4 +1,4 @@
-package com.cellarhq.liquibase
+package com.cellarhq.ratpack.liquibase
 
 import com.google.inject.Inject
 import groovy.transform.CompileStatic

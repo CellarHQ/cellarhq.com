@@ -1,4 +1,4 @@
-package com.cellarhq.liquibase
+package com.cellarhq.ratpack.liquibase
 
 import com.google.inject.AbstractModule
 import com.google.inject.Scopes

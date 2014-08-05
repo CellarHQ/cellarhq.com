@@ -1,12 +1,14 @@
 import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
+import com.cellarhq.CellarHQModule
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
-import com.cellarhq.jdbi.DatabaseHealthCheck
-import com.cellarhq.jdbi.JdbiModule
-import com.cellarhq.liquibase.LiquibaseModule
-import com.cellarhq.liquibase.LiquibaseService
+import com.cellarhq.entities.Cellar
+import com.cellarhq.ratpack.hibernate.HibernateModule
+import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
+import com.cellarhq.services.CellarService
+import org.hibernate.SessionFactory
 import org.pac4j.http.client.FormClient
 import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
 import ratpack.codahale.metrics.CodaHaleMetricsModule
@@ -19,31 +21,26 @@ import ratpack.session.store.MapSessionsModule
 
 ratpack {
     bindings {
-        bind DatabaseHealthCheck
+        bind SessionFactoryHealthCheck
 
         add new CodaHaleMetricsModule().healthChecks()
-        // TODO: Need to add configuration for URL & Driver.
         add new HikariModule([URL: 'jdbc:h2:mem:dev;INIT=CREATE SCHEMA IF NOT EXISTS DEV'], 'org.h2.jdbcx.JdbcDataSource')
-        add new LiquibaseModule()
-        add new JdbiModule()
+        add new HibernateModule(Cellar)
         add new SessionModule()
         add new MapSessionsModule(10, 5)
-        // TODO Need to write a new authenticator when JDBI Users are added into the mix.
         add new Pac4jModule<>(new FormClient('/login', new SimpleTestUsernamePasswordAuthenticator()),
                             new AuthPathAuthorizer())
 
         add new MarkupTemplatingModule()
 
-        init { LiquibaseService liquibaseService ->
-            liquibaseService.launchConfig = launchConfig
-            liquibaseService.run()
-        }
+        add new CellarHQModule()
 
         bind ServerErrorHandler, ErrorHandler
     }
 
-    handlers {
+    handlers { CellarService cellarService ->
         get {
+            cellarService.save(new Cellar())
             render groovyMarkupTemplate('index.gtpl')
         }
 

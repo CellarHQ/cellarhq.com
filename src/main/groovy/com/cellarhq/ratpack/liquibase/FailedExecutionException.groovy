@@ -1,4 +1,4 @@
-package com.cellarhq.liquibase
+package com.cellarhq.ratpack.liquibase
 
 /**
  * Thrown when Liquibase fails to complete successfully and fail on error is enabled.

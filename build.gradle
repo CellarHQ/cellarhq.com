@@ -28,8 +28,9 @@ dependencies {
     compile ratpack.dependency('hikari')
     compile ratpack.dependency('pac4j')
     compile 'org.pac4j:pac4j-http:1.5.1'
+    compile ratpack.dependency('rx')
 
-    compile 'org.jdbi:jdbi:2.55'
+    compile 'org.hibernate:hibernate-core:4.3.5.Final'
     compile 'org.liquibase:liquibase-core:3.2.2'
 
     // Default SLF4J binding.  Note that this is a blocking implementation.
