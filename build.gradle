@@ -4,12 +4,15 @@ buildscript {
     }
     dependencies {
         classpath "io.ratpack:ratpack-gradle:0.9.7"
+        classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
+        classpath databaseDriver
     }
 }
 
 apply plugin: "io.ratpack.ratpack-groovy"
 apply plugin: "idea"
 apply plugin: "eclipse"
+apply plugin: 'liquibase'
 apply from: "${rootDir}/gradle/codenarc.gradle"
 apply from: "${rootDir}/gradle/findbugs.gradle"
 
@@ -30,6 +33,7 @@ dependencies {
     compile 'org.pac4j:pac4j-http:1.5.1'
     compile ratpack.dependency('rx')
 
+    compile databaseDriver
     compile 'org.hibernate:hibernate-core:4.3.5.Final'
     compile 'org.liquibase:liquibase-core:3.2.2'
 
@@ -38,4 +42,16 @@ dependencies {
     runtime 'org.slf4j:slf4j-simple:1.7.7'
 
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+liquibase {
+    activities {
+        development {
+            changeLogFile 'migrations/migrations.xml'
+            url 'jdbc:postgresql://localhost:15432/cellarhq'
+            username 'cellarhq'
+            password 'cellarhq'
+        }
+//        production {}
+    }
 }
