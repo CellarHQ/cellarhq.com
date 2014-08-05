@@ -9,13 +9,10 @@ import groovy.transform.CompileStatic
 import org.hibernate.Criteria
 import org.hibernate.Hibernate
 import org.hibernate.HibernateException
-import org.hibernate.Query
 import org.hibernate.Session
 import org.hibernate.SessionFactory
 import org.hibernate.criterion.DetachedCriteria
 import ratpack.exec.ExecControl
-import rx.Observable.OnSubscribe
-import rx.Subscriber
 
 /**
  * Rx-enabled Hibernate DAO, inspired by Dropwizard.
