@@ -65,6 +65,14 @@ class SessionFactoryProvider implements Provider<SessionFactory> {
             setProperty(AvailableSettings.ORDER_INSERTS, 'true')
             setProperty(AvailableSettings.USE_NEW_ID_GENERATOR_MAPPINGS, 'true')
             setProperty('jadira.usertype.autoRegisterUserTypes', 'true')
+
+            if (hikariConfig.dataSourceClassName == 'org.h2.jdbcx.JdbcDataSource') {
+                log.warn('H2 DataSource: Auto-generating DDL')
+                setProperty('hibernate.hbm2ddl.auto', 'create-drop')
+                setProperty('hibernate.dialect', 'org.hibernate.dialect.H2Dialect')
+            } else {
+                setProperty('hibernate.dialect', 'org.hibernate.dialect.PostgreSQL9Dialect')
+            }
         }
 
         addAnnotatedClasses(configuration, annotatedEntities.entities)

@@ -9,4 +9,18 @@ bodyContents: contents {
         h1(model.title)
         p('This is the main page for your Ratpack app.')
     }
+    table(class: 'table table-striped table-bordered') {
+        thead {
+            tr {
+                th('ID')
+                th('Screen Name')
+            }
+        }
+        tbody { cellars.each { cellar ->
+            tr {
+                td(cellar.id)
+                td(cellar.screenName)
+            }
+        }}
+    }
 }
