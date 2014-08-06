@@ -10,8 +10,8 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
-@Entity(name = 'cellared_beer')
-class CellaredBeer extends AbstractEntity {
+@Entity(name = 'cellared_drink')
+class CellaredDrink extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,8 @@ class CellaredBeer extends AbstractEntity {
     Cellar cellar
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = 'beer_id', nullable = false, updatable = false)
-    Beer beer
+    @JoinColumn(name = 'drink_id', nullable = false, updatable = false)
+    Drink drink
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = 'style_id', nullable = false, updatable = false)

@@ -11,7 +11,7 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 
 @Entity(name = 'category')
-class BeerCategory extends AbstractEntity {
+class DrinkCategory extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

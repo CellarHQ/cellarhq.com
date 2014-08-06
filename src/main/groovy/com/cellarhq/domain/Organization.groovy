@@ -4,6 +4,8 @@ import com.cellarhq.ratpack.hibernate.Entity
 
 import javax.persistence.CascadeType
 import javax.persistence.Column
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -12,12 +14,16 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 
-@Entity(name = 'brewery')
-class Brewery extends AbstractEntity {
+@Entity(name = 'organization')
+class Organization extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    OrganizationType type
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'photo_id')
@@ -71,6 +77,6 @@ class Brewery extends AbstractEntity {
     @Column(name = 'needs_moderation', nullable = false)
     boolean needsModeration = true
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'brewery', fetch = FetchType.LAZY)
-    Set<Beer> beers = []
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'organization', fetch = FetchType.LAZY)
+    Set<Drink> drinks = []
 }

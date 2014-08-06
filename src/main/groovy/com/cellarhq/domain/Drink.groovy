@@ -4,6 +4,8 @@ import com.cellarhq.ratpack.hibernate.Entity
 
 import javax.persistence.CascadeType
 import javax.persistence.Column
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -13,20 +15,24 @@ import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 
-@Entity(name = 'beer')
-class Beer extends AbstractEntity {
+@Entity(name = 'drink')
+class Drink extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    DrinkType type
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'photo_id')
     Photo photo
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = 'brewery_id', nullable = false, updatable = false)
-    Brewery brewery
+    @JoinColumn(name = 'organization_id', nullable = false, updatable = false)
+    Organization organization
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = 'style_id', nullable = false, updatable = false)
@@ -73,6 +79,6 @@ class Beer extends AbstractEntity {
     @Column(name = 'needs_moderation', nullable = false)
     boolean needsModeration = true
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'beer', fetch = FetchType.LAZY)
-    Set<CellaredBeer> cellars = []
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'drink', fetch = FetchType.LAZY)
+    Set<CellaredDrink> cellars = []
 }

@@ -21,7 +21,7 @@ class Style extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = 'category_id', nullable = false, updatable = false)
-    BeerCategory category
+    DrinkCategory category
 
     @Column(length = 100, nullable = false)
     String name
@@ -39,8 +39,8 @@ class Style extends AbstractEntity {
     Date breweryDbLastUpdated
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'style', fetch = FetchType.LAZY)
-    Set<Beer> beers = []
+    Set<Drink> drinks = []
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'style', fetch = FetchType.LAZY)
-    Set<CellaredBeer> cellars = []
+    Set<CellaredDrink> cellars = []
 }

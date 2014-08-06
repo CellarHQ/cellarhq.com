@@ -33,5 +33,5 @@ class Glassware extends AbstractEntity {
     Date breweryDbLastUpdated
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'glassware', fetch = FetchType.LAZY)
-    Set<Beer> beers = []
+    Set<Drink> drinks = []
 }

@@ -40,10 +40,10 @@ class Photo extends AbstractEntity {
     int largeHeight = 0
 
     @OneToOne(optional = true, mappedBy = 'photo')
-    Beer beer
+    Drink drink
 
     @OneToOne(optional = true, mappedBy = 'photo')
-    Brewery brewery
+    Organization organization
 
     @OneToOne(optional = true, mappedBy = 'photo')
     Cellar cellar

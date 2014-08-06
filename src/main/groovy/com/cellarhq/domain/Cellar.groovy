@@ -70,7 +70,7 @@ class Cellar extends AbstractEntity {
     Set<EmailAccount> emailAccounts  = []
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
-    Set<CellaredBeer> beers = []
+    Set<CellaredDrink> drinks = []
 
     boolean isPrivate() {
         return _private

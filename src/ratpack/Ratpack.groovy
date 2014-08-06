@@ -5,12 +5,12 @@ import com.cellarhq.CellarHQModule
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
 import com.cellarhq.domain.Activity
-import com.cellarhq.domain.Beer
-import com.cellarhq.domain.BeerCategory
-import com.cellarhq.domain.Brewery
+import com.cellarhq.domain.Drink
+import com.cellarhq.domain.DrinkCategory
+import com.cellarhq.domain.Organization
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellarRole
-import com.cellarhq.domain.CellaredBeer
+import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.domain.Glassware
 import com.cellarhq.domain.OpenIdAccount
@@ -28,7 +28,6 @@ import ratpack.hikari.HikariModule
 import ratpack.pac4j.Pac4jModule
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
-import rx.functions.Action1
 
 ratpack {
     bindings {
@@ -39,11 +38,11 @@ ratpack {
         add new HikariModule([URL: 'jdbc:h2:mem:;INIT=CREATE SCHEMA IF NOT EXISTS cellarhq'], 'org.h2.jdbcx.JdbcDataSource')
         add new HibernateModule(
                 Activity,
-                Beer,
-                Brewery,
-                BeerCategory,
+                Drink,
+                Organization,
+                DrinkCategory,
                 Cellar,
-                CellaredBeer,
+                CellaredDrink,
                 CellarRole,
                 EmailAccount,
                 Glassware,
