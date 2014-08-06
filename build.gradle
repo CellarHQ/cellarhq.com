@@ -14,7 +14,6 @@ apply plugin: "idea"
 apply plugin: "eclipse"
 apply plugin: 'liquibase'
 apply from: "${rootDir}/gradle/codenarc.gradle"
-apply from: "${rootDir}/gradle/findbugs.gradle"
 
 repositories {
     jcenter()
