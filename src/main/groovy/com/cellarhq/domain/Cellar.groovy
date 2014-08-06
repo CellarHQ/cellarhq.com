@@ -41,7 +41,6 @@ class Cellar extends AbstractEntity {
     @Column(name = 'update_from_network', nullable = false)
     boolean updateFromNetwork = false
 
-    // TODO email usertype
     @Column(name = 'contact_email', nullable = true)
     String contactEmail
 
@@ -53,9 +52,8 @@ class Cellar extends AbstractEntity {
     @Column(name = 'last_login', nullable = true)
     Date lastLogin
 
-    // TODO ip address usertype
     @Column(name = 'last_login_ip', nullable = true)
-    InetAddress lastLoginIp
+    String lastLoginIp
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
     Set<CellarRole> roles = []

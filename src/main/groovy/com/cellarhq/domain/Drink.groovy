@@ -60,9 +60,9 @@ class Drink extends AbstractEntity {
     @Column(nullable = true)
     Float abv
 
-    // TODO Enum?
     @Column(nullable = true)
-    String availability
+    @Enumerated(value = EnumType.STRING)
+    Availability availability
 
     @Column(nullable = false)
     boolean searchable = true

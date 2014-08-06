@@ -32,8 +32,7 @@ class CellaredDrink extends AbstractEntity {
     @Column(name = 'bottle_date', nullable = true)
     Date bottleDate
 
-    // TODO enum
-    @Column(length = 10, nullable = true)
+    @Column(nullable = true)
     String size
 
     @Column(nullable = false)

@@ -21,7 +21,6 @@ class EmailAccount extends AbstractEntity {
     @JoinColumn(name = 'cellar_id', nullable = false, updatable = false)
     Cellar cellar
 
-    // TODO Email usertype
     @Column(nullable = false, unique = true)
     String email
 
