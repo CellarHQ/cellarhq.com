@@ -1,29 +1,37 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url "http://oss.jfrog.org/repo" }
     }
     dependencies {
-        classpath "io.ratpack:ratpack-gradle:0.9.7"
+        classpath "io.ratpack:ratpack-gradle:0.9.8-SNAPSHOT"
         classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
         classpath databaseDriver
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.0.2'
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+
     }
 }
 
 apply plugin: "io.ratpack.ratpack-groovy"
-apply plugin: "idea"
-apply plugin: "eclipse"
 apply plugin: 'liquibase'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'docker'
 apply from: "${rootDir}/gradle/codenarc.gradle"
+
+group = 'com.cellarhq'
+
 
 repositories {
     jcenter()
     maven { url "http://repo.springsource.org/repo" } // for springloaded
+    maven { url "http://oss.jfrog.org/repo" }
 }
 
 dependencies {
     // SpringLoaded enables runtime hot reloading.
     // It is not part of the app runtime and is not shipped in the distribution.
-    springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
+    // springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
 
     compile ratpack.dependency('codahale-metrics')
     compile ratpack.dependency('h2')
@@ -54,3 +62,16 @@ liquibase {
 //        production {}
     }
 }
+
+task cellarHqDocker(type: Docker) {
+    dependsOn shadowJar
+    applicationName = 'cellarhq'
+    tagVersion = '0.1'
+    dockerfile = project.file('Dockerfile')
+
+    doFirst {
+        addFile project.shadowJar.outputs.files.singleFile
+    }
+}
+
+build.dependsOn cellarHqDocker
