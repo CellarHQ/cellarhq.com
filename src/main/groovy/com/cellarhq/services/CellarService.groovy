@@ -15,15 +15,15 @@ class CellarService {
         this.cellarDAO = cellarDAO
     }
 
-    rx.Observable<Cellar> save(Cellar cellar) {
+    Cellar save(Cellar cellar) {
         cellarDAO.save(cellar)
     }
 
-    rx.Observable<Cellar> get(Long id) {
+    Cellar get(Long id) {
         cellarDAO.find(id)
     }
 
-    rx.Observable<Iterable<Cellar>> all() {
+    Iterable<Cellar> all() {
         cellarDAO.findAll()
     }
 

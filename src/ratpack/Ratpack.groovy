@@ -1,3 +1,4 @@
+import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
 import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
@@ -63,10 +64,10 @@ ratpack {
 
     handlers { CellarService cellarService ->
         get {
-            cellarService.save(new Cellar(screenName: 'someone')).subscribe { Cellar persistedCellar ->
-                cellarService.all().toList().subscribe { List<Cellar> cellarList ->
-                    render groovyMarkupTemplate('index.gtpl', cellars: cellarList)
-                }
+            transaction(context, {
+                [cellarService.save(new Cellar(screenName: 'someone'))]
+            }).then { List<Cellar> cellarList ->
+                render groovyMarkupTemplate('index.gtpl', cellars: cellarList)
             }
         }
 
