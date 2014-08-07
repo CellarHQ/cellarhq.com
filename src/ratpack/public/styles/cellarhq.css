@@ -1,0 +1,19 @@
+#footer {
+    height: 44px;
+    font-size: 12px;
+    color: #A2A2A2;
+    border-top: 1px solid #EEE;
+    margin-top: 17px;
+    padding-top: 17px;
+}
+
+#footer ul {
+    margin: 0 0 18px 0;
+}
+
+#footer li {
+    float: left;
+    list-style: none;
+    padding: 0 12px;
+    margin: 0;
+}
