@@ -5,21 +5,10 @@ import static ratpack.groovy.Groovy.ratpack
 import com.cellarhq.CellarHQModule
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
-import com.cellarhq.domain.Activity
-import com.cellarhq.domain.Drink
-import com.cellarhq.domain.DrinkCategory
-import com.cellarhq.domain.Organization
-import com.cellarhq.domain.Cellar
-import com.cellarhq.domain.CellarRole
-import com.cellarhq.domain.CellaredDrink
-import com.cellarhq.domain.EmailAccount
-import com.cellarhq.domain.Glassware
-import com.cellarhq.domain.OpenIdAccount
-import com.cellarhq.domain.Photo
-import com.cellarhq.domain.Style
+import com.cellarhq.domain.*
 import com.cellarhq.ratpack.hibernate.HibernateModule
 import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
-import com.cellarhq.services.CellarService
+import com.cellarhq.services.*
 import org.pac4j.http.client.FormClient
 import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
 import ratpack.codahale.metrics.CodaHaleMetricsModule
@@ -62,13 +51,60 @@ ratpack {
         bind ServerErrorHandler, ErrorHandler
     }
 
-    handlers { CellarService cellarService ->
+    handlers { CellarService cellarService, 
+               DrinkService drinkService, 
+               StyleService styleService, 
+               GlasswareService glasswareService,
+               DrinkCategoryService drinkCategoryService,
+               OrganizationService organizationService ->
         get {
             transaction(context, {
+                DrinkCategory drinkCategory = drinkCategoryService.save(
+                    new DrinkCategory(
+                        name: 'North American Origin Ales'
+                        ))
+                Style style = styleService.save(new Style(
+                        category: drinkCategory, 
+                        name: 'IPA',
+                        searchable: true))
+
+                Glassware glassware = glasswareService.save(new Glassware(
+                        name: 'Pint',
+                        searchable: true
+                    ))
+
+                Organization org = organizationService.save(new Organization(
+                        type: OrganizationType.BREWERY,
+                        urlName: 'http://',
+                        name: 'Surly'
+                    ))
+
+
+                Drink drink = drinkService.save(new Drink(
+                        type: DrinkType.BEER,
+                        photo: null,
+                        style: style,
+                        glassware: glassware,
+                        organization: org,
+                        name: 'Furious',
+                        description: 'A tempest on the tongue, or a moment of pure hop bliss? Brewed with a dazzling blend of American hops and Scottish malt, this crimson-hued ale delivers waves of citrus, pine and caramel-toffee. For those who favor flavor, Furious has the hop-fire your taste buds have been screeching for.',
+                        urlName: 'http://kyleboon.com',
+                        srm: 27,
+                        ibu: 65,
+                        abv: 6.5,
+                        availability: Availability.YEAR_ROUND,
+                        locked: true,
+                        needsModeration: false,
+                        searchable: true,
+                        breweryDbId: 'dsfasdgdgdfvc',
+                        breweryDbLastUpdated: new Date()
+                    ))
+
                 [cellarService.save(new Cellar(screenName: 'someone'))]
             }).then { List<Cellar> cellarList ->
                 render groovyMarkupTemplate('index.gtpl', cellars: cellarList)
             }
+
         }
 
         handler('cellars') {
@@ -124,7 +160,7 @@ ratpack {
             }
         }
 
-        handler('beers') {
+        handler('beers') {  ->
             byMethod {
                 /**
                  * Paginated list of beers, has search.
@@ -143,12 +179,22 @@ ratpack {
          */
         get('beers/add') {}
 
-        handler('beers/:id') {
+        handler('beers/:id') {  ->
             byMethod {
                 /**
                  * Get an individual beer
                  */
-                get {}
+                get {
+                    transaction(context, {
+                         drinkService.get(pathTokens["id"].toLong())
+                    }).then { Drink drink ->
+                        if (drink) {
+                            render groovyMarkupTemplate('beers/show.gtpl', drink: drink)
+                        } else {
+                            clientError(404)
+                        }
+                    }
+                }
 
                 /**
                  * Update an existing beer
