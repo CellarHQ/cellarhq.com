@@ -26,9 +26,9 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'register',
             'login',
             'forgot-password',
-            /lib\/.*/,
-            /styles\/.*/
-
+            /styles\/.*/,
+            /images\/.*/,
+            /pac4j.*/
     ]
 
     @Override

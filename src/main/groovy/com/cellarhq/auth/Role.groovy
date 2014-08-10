@@ -8,7 +8,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 public enum Role {
     ANONYMOUS('anonymous'),
-    AUTHENTICATED('authenticated'),
+    MEMBER('member'),
     ADMIN('admin')
 
     private final String value

@@ -1,6 +1,8 @@
 package com.cellarhq.domain
 
+import com.cellarhq.auth.Role
 import com.cellarhq.ratpack.hibernate.Entity
+import com.github.slugify.Slugify
 
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -11,9 +13,14 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
+import javax.persistence.UniqueConstraint
+import javax.validation.constraints.NotNull
+
 import java.time.LocalDateTime
 
-@Entity(name = 'account')
+@Entity(name = 'cellar', uniqueConstraints = [
+        @UniqueConstraint(name = 'unq_cellar_screen_name', columnNames = ['screen_name'])
+])
 class Cellar extends AbstractEntity {
 
     @Id
@@ -24,11 +31,12 @@ class Cellar extends AbstractEntity {
     @JoinColumn(name = 'photo_id')
     Photo photo
 
+    @NotNull
     @Column(name = 'screen_name', nullable = false, updatable = false)
     String screenName
 
     @Column(length = 60, nullable = true)
-    String name
+    String displayName
 
     @Column(length = 100, nullable = true)
     String location
@@ -52,6 +60,7 @@ class Cellar extends AbstractEntity {
     @Column(name = 'last_login', nullable = true)
     LocalDateTime lastLogin
 
+    // TODO Ratpack doesn't expose the remote IP yet.
     @Column(name = 'last_login_ip', nullable = true)
     String lastLoginIp
 
@@ -61,8 +70,8 @@ class Cellar extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
     Set<Activity> activities = []
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
-    Set<OpenIdAccount> openIdAccounts = []
+    @OneToOne(optional = true, mappedBy = 'cellar', cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    OAuthAccount openIdAccount
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
     Set<EmailAccount> emailAccounts  = []
@@ -72,5 +81,13 @@ class Cellar extends AbstractEntity {
 
     boolean isPrivate() {
         return _private
+    }
+
+    void addRole(Role role) {
+        roles << new CellarRole(cellar: this, role: role)
+    }
+
+    void setScreenName(String screenName) {
+        this.screenName = new Slugify().slugify(screenName)
     }
 }

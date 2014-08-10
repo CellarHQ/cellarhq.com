@@ -5,12 +5,6 @@ if (error) {
     }
 }
 
-div {
-    a(href: '/login-twitter', id: 'twitter-login-btn') {
-        img(src: '/images/sign-in-with-twitter-gray.png', alt: 'Sign in with Twitter'){}
-    }
-}
-
 def formGroup = [class: 'form-group']
 def column = [class: 'col-sm-10']
 def columnOffset = [class: 'col-sm-offset-2 col-sm-10']
@@ -19,9 +13,15 @@ def inputAttr(id, Map opts = [:]) { [name: id, class: 'form-control', id: id, va
 
 form(class: 'form-horizontal', role: 'form', method: method, action: action) {
     div(formGroup) {
-        label(controlLabel('username'), 'Username')
+        label(controlLabel('displayName'), 'Screen Name')
         div(column) {
-            input(inputAttr('username', [type: 'text'])) {}
+            input(inputAttr('displayName', [type: 'text'])) {}
+        }
+    }
+    div(formGroup) {
+        label(controlLabel('email'), 'Email')
+        div(column) {
+            input(inputAttr('email', [type: 'text'])) {}
         }
     }
     div(formGroup) {
@@ -31,10 +31,15 @@ form(class: 'form-horizontal', role: 'form', method: method, action: action) {
         }
     }
     div(formGroup) {
+        label(controlLabel('passwordConfirm'), 'Confirm Password')
+        div(column) {
+            input(inputAttr('passwordConfirm', [type: 'password'])) {}
+        }
+    }
+    div(formGroup) {
         div(columnOffset) {
-            button(type: 'submit', class: 'btn btn-primary', buttonText)
+            button(type: 'submit', class: 'btn btn-primary', 'Register')
             a(href: '/', class: 'btn btn-link', 'cancel')
         }
     }
-    input(inputAttr('client_name', [type: 'hidden', value: 'FormClient'])) {}
 }

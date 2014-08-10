@@ -1,6 +1,8 @@
 layout 'layout.gtpl',
 title: title,
 error: error,
+loggedIn: loggedIn,
+pageId: 'login',
 bodyContents: contents {
     h1('Login')
     div(class: 'alert alert-info') {

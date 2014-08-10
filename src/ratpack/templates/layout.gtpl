@@ -5,6 +5,7 @@ html(lang: 'en') {
         title(title ?: 'CellarHQ')
         meta('http-equiv': "Content-Type", content:"text/html; charset=utf-8")
         meta(name: 'viewport', content: 'width=device-width, initial-scale=1.0')
+        meta(name: 'pageId', content: pageId ?: 'NOT-ASSIGNED')
         link(href: '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css', rel: 'stylesheet')
         link(href: '/styles/cellarhq.css', rel: 'stylesheet')
     }
@@ -12,7 +13,9 @@ html(lang: 'en') {
         div(class: 'container') {
             div(id: 'header') {
                 div(id: 'header-logo') {
-                    h1('CellarHQ')
+                    h1 {
+                        a(href: '/', 'CellarHQ')
+                    }
                 }
             
                 div(id: 'header-ad') {
@@ -48,6 +51,28 @@ html(lang: 'en') {
                         }
                         li { 
                             a(href:'#', 'Beers')
+                        }
+                    }
+                    if (loggedIn) {
+                        ul(class: 'nav navbar-nav pull-right', id: 'authenticated-menu', role: 'menu') {
+                            li {
+                                a(href: '/yourcellar', 'Your Cellar')
+                            }
+                            li {
+                                a(href: '/settings', 'Settings')
+                            }
+                            li {
+                                a(href: '/logout', 'Logout')
+                            }
+                        }
+                    } else {
+                        ul(class: 'nav navbar-nav pull-right', id: 'unauthenticated-menu', role: 'menu') {
+                            li {
+                                a(href: '/login', 'Login')
+                            }
+                            li {
+                                a(href: '/register', 'Register')
+                            }
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package com.cellarhq.domain
 
 import com.cellarhq.ratpack.hibernate.Entity
+import com.github.slugify.Slugify
 
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -43,8 +44,8 @@ class Drink extends AbstractEntity {
     @JoinColumn(name = 'glassware_id', nullable = false, updatable = false)
     Glassware glassware
 
-    @Column(length = 100, name = 'url_name', nullable = false, unique = true)
-    String urlName
+    @Column(length = 100, name = 'slug', nullable = false, unique = true)
+    String slug
 
     @Column(length = 100, nullable = false)
     String name
@@ -82,4 +83,8 @@ class Drink extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'drink', fetch = FetchType.LAZY)
     Set<CellaredDrink> cellars = []
+
+    void setSlug(String slug) {
+        this.slug = new Slugify().slugify(slug)
+    }
 }

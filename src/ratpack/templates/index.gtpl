@@ -1,5 +1,7 @@
 layout 'layout.gtpl',
 title: title,
+loggedIn: loggedIn,
+pageId: 'home',
 bodyContents: contents {
     header {
         h1('Ratpack')
@@ -19,7 +21,7 @@ bodyContents: contents {
         tbody { cellars.each { cellar ->
             tr {
                 td(cellar.id)
-                td(cellar.screenName)
+                td(cellar.displayName)
             }
         }}
     }

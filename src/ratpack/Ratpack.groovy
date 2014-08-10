@@ -6,27 +6,33 @@ import com.cellarhq.CellarHQModule
 import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
 import com.cellarhq.domain.*
+import com.cellarhq.endpoints.RegisterEndpoint
+import com.cellarhq.endpoints.TwitterLoginEndpoint
 import com.cellarhq.ratpack.hibernate.HibernateModule
 import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
 import com.cellarhq.services.*
-import org.pac4j.http.client.FormClient
-import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
+import com.cellarhq.util.SessionUtil
+import org.pac4j.core.profile.CommonProfile
+import org.pac4j.oauth.client.TwitterClient
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler
 import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 import ratpack.hikari.HikariModule
 import ratpack.pac4j.Pac4jModule
+import ratpack.pac4j.internal.Pac4jCallbackHandler
+import ratpack.remote.RemoteControlModule
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
+import ratpack.session.store.SessionStorage
 
 import java.time.LocalDateTime
 
 ratpack {
     bindings {
         bind SessionFactoryHealthCheck
+        bind Pac4jCallbackHandler
 
         add new CodaHaleMetricsModule().healthChecks()
-        add new HikariModule()
         add new HikariModule([URL: 'jdbc:h2:mem:;INIT=CREATE SCHEMA IF NOT EXISTS cellarhq'], 'org.h2.jdbcx.JdbcDataSource')
         add new HibernateModule(
                 Activity,
@@ -38,13 +44,17 @@ ratpack {
                 CellarRole,
                 EmailAccount,
                 Glassware,
-                OpenIdAccount,
+                OAuthAccount,
                 Photo,
                 Style)
+        add new RemoteControlModule()
+
         add new SessionModule()
         add new MapSessionsModule(10, 5)
-        add new Pac4jModule<>(new FormClient('/login', new SimpleTestUsernamePasswordAuthenticator()),
-                            new AuthPathAuthorizer())
+        add new Pac4jModule<>(
+//                new FormClient('/login', new SimpleTestUsernamePasswordAuthenticator()),
+                new TwitterClient('jnvxx2qjluMFdJN5dt4xRw', 'IPRGbYPFlEqfSHFdaNxQtOc755HnGVIGrqpOHWXmI'),
+                new AuthPathAuthorizer())
 
         add new MarkupTemplatingModule()
 
@@ -77,7 +87,7 @@ ratpack {
 
                 Organization org = organizationService.save(new Organization(
                         type: OrganizationType.BREWERY,
-                        urlName: 'http://',
+                        slug: 'http://',
                         name: 'Surly'
                     ))
 
@@ -90,7 +100,7 @@ ratpack {
                         organization: org,
                         name: 'Furious',
                         description: 'A tempest on the tongue, or a moment of pure hop bliss? Brewed with a dazzling blend of American hops and Scottish malt, this crimson-hued ale delivers waves of citrus, pine and caramel-toffee. For those who favor flavor, Furious has the hop-fire your taste buds have been screeching for.',
-                        urlName: 'http://kyleboon.com',
+                        slug: 'http://kyleboon.com',
                         srm: 27,
                         ibu: 65,
                         abv: 6.5,
@@ -104,9 +114,11 @@ ratpack {
 
                 [cellarService.save(new Cellar(screenName: 'someone'))]
             }).then { List<Cellar> cellarList ->
-                render groovyMarkupTemplate('index.gtpl', cellars: cellarList)
+                render groovyMarkupTemplate(
+                        'index.gtpl',
+                        cellars: cellarList,
+                        loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
             }
-
         }
 
         handler('cellars') {
@@ -191,7 +203,9 @@ ratpack {
                          drinkService.get(pathTokens["id"].toLong())
                     }).then { Drink drink ->
                         if (drink) {
-                            render groovyMarkupTemplate('beers/show.gtpl', drink: drink)
+                            render groovyMarkupTemplate('beers/show.gtpl',
+                                    drink: drink,
+                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
                         } else {
                             clientError(404)
                         }
@@ -260,7 +274,13 @@ ratpack {
         /**
          * Alias to /cellars/:id, auto-loads authenticated user.
          */
-        get('yourcellar') {}
+        get('yourcellar') {
+            CommonProfile profile = request.get(CommonProfile)
+            render groovyMarkupTemplate('yourcellar.gtpl',
+                    username: profile.username,
+                    title: 'Your Cellar',
+                    loggedIn: true)
+        }
 
         handler('account') {
             byMethod {
@@ -309,10 +329,11 @@ ratpack {
         }
 
         get('about') {}
-        get('register') {}
+
+        handler('register', registry.get(RegisterEndpoint))
 
         /**
-         * The login page.
+         * Auth pages
          */
         get('login') {
             render groovyMarkupTemplate('login.gtpl',
@@ -320,7 +341,19 @@ ratpack {
                     action: '/pac4j-callback',
                     method: 'post',
                     buttonText: 'Login',
-                    error: request.queryParams.error ?: '')
+                    error: request.queryParams.error ?: '',
+                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+        }
+        handler('login-twitter', registry.get(TwitterLoginEndpoint))
+
+        get('logout') {
+            request.get(SessionStorage).clear()
+
+            if (request.queryParams.error) {
+                redirect("/?error=${request.queryParams.error}")
+            } else {
+                redirect('/')
+            }
         }
 
         get('forgot-password') {}
