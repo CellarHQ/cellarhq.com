@@ -12,9 +12,12 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Transient
+import javax.persistence.UniqueConstraint
 import javax.validation.constraints.NotNull
 
-@Entity(name = 'account_email')
+@Entity(name = 'account_email', uniqueConstraints = [
+        @UniqueConstraint(name = 'unq_account_email_email', columnNames = ['email'])
+])
 class EmailAccount extends AbstractEntity {
 
     @Id

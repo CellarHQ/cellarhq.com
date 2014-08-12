@@ -11,12 +11,19 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
+import javax.persistence.UniqueConstraint
+
 import java.time.LocalDateTime
 
-@Entity(name = 'organization')
+@Entity(name = 'organization', uniqueConstraints = [
+        @UniqueConstraint(name = 'unq_organization_slug', columnNames = ['slug'])
+], indexes = [
+        @Index(name = 'gist_idx_organization_name', columnList = 'name')
+])
 class Organization extends AbstractEntity {
 
     @Id

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="initial-schema" author="rzienert" dbms="postgresql">
+
+        <createTable tableName="photo">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_url" type="varchar(500)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="unq_photo_original_url"/>
+            </column>
+            <column name="thumb_url" type="varchar(500)"/>
+            <column name="thumb_width" type="int2"/>
+            <column name="thumb_height" type="int2"/>
+            <column name="large_url" type="varchar(500)"/>
+            <column name="large_width" type="int2"/>
+            <column name="large_height" type="int2"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cellar">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photo_id" type="bigint"/>
+            <column name="screen_name" type="varchar(64)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="unq_cellar_screen_name"/>
+            </column>
+            <column name="display_name" type="varchar(60)"/>
+            <column name="location" type="varchar(100)"/>
+            <column name="website" type="varchar(100)"/>
+            <column name="bio" type="text"/>
+            <column name="update_from_network" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_email" type="varchar(255)"/>
+            <column name="private" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_login" type="timestamp"/>
+            <column name="last_login_ip" type="cidr"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="glassware">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="searchable" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brewery_db_id" type="varchar(64)"/>
+            <column name="brewery_db_last_updated" type="timestamp"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="organization">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photo_id" type="bigint"/>
+            <column name="type" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slug" type="varchar(100)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="unq_organization_slug"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="established" type="date"/>
+            <column name="phone" type="varchar(20)"/>
+            <column name="website" type="varchar(100)"/>
+            <column name="address" type="varchar(100)"/>
+            <column name="address2" type="varchar(100)"/>
+            <column name="locality" type="varchar(100)"/>
+            <column name="postal_code" type="varchar(20)"/>
+            <column name="country" type="varchar(100)"/>
+            <column name="searchable" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brewery_db_id" type="varchar(64)"/>
+            <column name="brewery_db_last_updated" type="timestamp"/>
+            <column name="locked" type="boolean"/>
+            <column name="needs_moderation" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="category">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="searchable" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brewery_db_id" type="varchar(64)"/>
+            <column name="brewery_db_last_updated" type="timestamp"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="style">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="searchable" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brewery_db_id" type="varchar(64)"/>
+            <column name="brewery_db_last_updated" type="timestamp"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="drink">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photo_id" type="bigint"/>
+            <column name="organization_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="style_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="glassware_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="drink_type" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slug" type="varchar(100)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="unq_drink_slug"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="srm" type="int4"/>
+            <column name="ibu" type="int4"/>
+            <column name="abv" type="decimal(3,3)"/>
+            <column name="availability" type="varchar(20)"/>
+            <column name="searchable" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brewery_db_id" type="varchar(64)"/>
+            <column name="brewery_db_last_updated" type="timestamp"/>
+            <column name="locked" type="boolean"/>
+            <column name="needs_moderation" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cellared_drink">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cellar_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="drink_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="style_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bottle_date" type="date"/>
+            <column name="size" type="varchar(30)"/>
+            <column name="quantity" type="int4" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notes" type="text"/>
+            <column name="drink_by_date" type="date"/>
+            <column name="private" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cellar_role">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cellar_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="account_email">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cellar_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="unq_account_email_email"/>
+            </column>
+            <column name="password" type="char(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="account_oauth">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cellar_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="activity">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="int4" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cellar_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="private" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="json"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="cellar" baseColumnNames="photo_id" constraintName="fk_cellar_photo_id"
+                                 referencedTableName="photo"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="organization" baseColumnNames="photo_id"
+                                 constraintName="fk_organization_photo_id"
+                                 referencedTableName="photo"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="style" baseColumnNames="category_id"
+                                 constraintName="fk_style_category_id"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="drink" baseColumnNames="photo_id" constraintName="fk_drink_photo_id"
+                                 referencedTableName="photo"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="drink" baseColumnNames="organization_id"
+                                 constraintName="fk_drink_organization_id"
+                                 referencedTableName="organization"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="drink" baseColumnNames="style_id" constraintName="fk_drink_style_id"
+                                 referencedTableName="style"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="drink" baseColumnNames="glassware_id"
+                                 constraintName="fk_drink_glassware_id"
+                                 referencedTableName="glassware"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="cellared_drink" baseColumnNames="cellar_id"
+                                 constraintName="fk_cellared_drink_cellar_id"
+                                 referencedTableName="cellar"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="cellared_drink" baseColumnNames="drink_id"
+                                 constraintName="fk_cellared_drink_drink_id"
+                                 referencedTableName="drink"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="cellared_drink" baseColumnNames="style_id"
+                                 constraintName="fk_cellared_drink_style_id"
+                                 referencedTableName="style"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="cellar_role" baseColumnNames="cellar_id"
+                                 constraintName="fk_cellar_role_cellar_id"
+                                 referencedTableName="cellar"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="account_email" baseColumnNames="cellar_id"
+                                 constraintName="fk_account_email_cellar_id"
+                                 referencedTableName="cellar"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="account_oauth" baseColumnNames="cellar_id"
+                                 constraintName="fk_account_oauth_cellar_id"
+                                 referencedTableName="cellar"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="activity" baseColumnNames="cellar_id"
+                                 constraintName="fk_activity_cellar_id"
+                                 referencedTableName="cellar"
+                                 referencedColumnNames="id"/>
+
+        <createIndex tableName="cellared_drink" indexName="idx_cellared_drink_drink_by_date">
+            <column name="drink_by_date"/>
+        </createIndex>
+        <createIndex tableName="cellar_role" indexName="idx_cellar_role_role">
+            <column name="role"/>
+        </createIndex>
+        <createIndex tableName="drink" indexName="idx_drink_brewery_db_id">
+            <column name="brewery_db_id"/>
+        </createIndex>
+        <createIndex tableName="drink" indexName="idx_drink_needs_moderation">
+            <column name="needs_moderation"/>
+        </createIndex>
+        <createIndex tableName="category" indexName="idx_category_brewery_db_id">
+            <column name="brewery_db_id"/>
+        </createIndex>
+        <createIndex tableName="account_email" indexName="idx_account_email_email">
+            <column name="email"/>
+        </createIndex>
+        <createIndex tableName="glassware" indexName="idx_glassware_brewery_db_id">
+            <column name="brewery_db_id"/>
+        </createIndex>
+        <addUniqueConstraint tableName="account_oauth" columnNames="client,username"/>
+        <createIndex tableName="style" indexName="idx_style_brewery_db_id">
+            <column name="brewery_db_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
