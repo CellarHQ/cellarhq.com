@@ -1,5 +1,8 @@
 package com.cellarhq.ratpack.hibernate
 
+import com.github.marschall.threeten.jpa.LocalDateConverter
+import com.github.marschall.threeten.jpa.LocalDateTimeConverter
+import com.github.marschall.threeten.jpa.LocalTimeConverter
 import com.google.common.collect.Sets
 import com.google.inject.Inject
 import com.google.inject.Provider
@@ -73,6 +76,10 @@ class SessionFactoryProvider implements Provider<SessionFactory> {
             } else {
                 setProperty('hibernate.dialect', 'org.hibernate.dialect.PostgreSQL9Dialect')
             }
+
+            addAnnotatedClass(LocalTimeConverter)
+            addAnnotatedClass(LocalDateConverter)
+            addAnnotatedClass(LocalDateTimeConverter)
         }
 
         addAnnotatedClasses(configuration, annotatedEntities.entities)

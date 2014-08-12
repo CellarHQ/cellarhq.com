@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
+import java.time.LocalDateTime
 
 @Entity(name = 'drink')
 class Drink extends AbstractEntity {
@@ -71,7 +72,7 @@ class Drink extends AbstractEntity {
     String breweryDbId
 
     @Column(name = 'brewery_db_last_updated', nullable = true)
-    Date breweryDbLastUpdated
+    LocalDateTime breweryDbLastUpdated
 
     @Column(nullable = false)
     boolean locked = false
