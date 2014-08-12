@@ -5,6 +5,8 @@ import com.cellarhq.domain.Cellar
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 
+import java.time.LocalDateTime
+
 @CompileStatic
 class CellarService {
 
@@ -28,7 +30,7 @@ class CellarService {
     }
 
     void updateLoginStats(Cellar cellar) {
-        cellar.lastLogin = new Date()
+        cellar.lastLogin = LocalDateTime.now()
 //        cellar.lastLoginIp // TODO  Ratpack remote address support
         cellarDAO.save(cellar)
     }
