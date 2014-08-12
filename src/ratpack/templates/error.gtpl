@@ -1,6 +1,7 @@
 layout 'layout.gtpl',
 title: title,
 msg: msg,
+pageId: 'server.error',
 bodyContents: contents {
     h1('An Exception Occurred')
     div(class: 'alert alert-danger', style: 'white-space: pre') {

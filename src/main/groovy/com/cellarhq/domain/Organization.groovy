@@ -1,6 +1,7 @@
 package com.cellarhq.domain
 
 import com.cellarhq.ratpack.hibernate.Entity
+import com.github.slugify.Slugify
 
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -30,8 +31,8 @@ class Organization extends AbstractEntity {
     @JoinColumn(name = 'photo_id')
     Photo photo
 
-    @Column(name = 'url_name', length = 100, nullable = false, unique = true)
-    String urlName
+    @Column(name = 'slug', length = 100, nullable = false, unique = true)
+    String slug
 
     @Column(length = 100, nullable = false)
     String name
@@ -80,4 +81,8 @@ class Organization extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'organization', fetch = FetchType.LAZY)
     Set<Drink> drinks = []
+
+    void setSlug(String slug) {
+        this.slug = new Slugify().slugify(slug)
+    }
 }

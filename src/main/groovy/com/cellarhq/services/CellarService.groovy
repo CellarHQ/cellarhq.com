@@ -27,4 +27,10 @@ class CellarService {
         cellarDAO.findAll()
     }
 
+    void updateLoginStats(Cellar cellar) {
+        cellar.lastLogin = new Date()
+//        cellar.lastLoginIp // TODO  Ratpack remote address support
+        cellarDAO.save(cellar)
+    }
+
 }
