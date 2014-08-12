@@ -73,7 +73,7 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
 
         then:
         page.twitterLoginLink.displayed
-        page.twitterLoginLink.@href.endsWith('/login-twitter')
+        page.twitterLoginLink.@href.endsWith('/auth-twitter')
     }
 
     def 'accessing twitter login endpoint logs a user in and sends them to Your Cellar'() {

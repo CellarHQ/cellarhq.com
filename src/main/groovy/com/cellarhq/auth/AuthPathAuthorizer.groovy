@@ -28,7 +28,8 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'forgot-password',
             /styles\/.*/,
             /images\/.*/,
-            /pac4j.*/
+            /pac4j.*/,
+            /favicon\.ico/
     ]
 
     @Override

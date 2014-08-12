@@ -3,23 +3,23 @@ import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
 import com.cellarhq.CellarHQModule
-import com.cellarhq.auth.AuthPathAuthorizer
 import com.cellarhq.ErrorHandler
+import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.*
 import com.cellarhq.endpoints.RegisterEndpoint
 import com.cellarhq.endpoints.TwitterLoginEndpoint
+import com.cellarhq.endpoints.YourCellarEndpoint
 import com.cellarhq.ratpack.hibernate.HibernateModule
 import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
 import com.cellarhq.services.*
 import com.cellarhq.util.SessionUtil
 import org.pac4j.core.profile.CommonProfile
-import org.pac4j.oauth.client.TwitterClient
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler
 import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 import ratpack.hikari.HikariModule
-import ratpack.pac4j.Pac4jModule
 import ratpack.pac4j.internal.Pac4jCallbackHandler
+import ratpack.pac4j.internal.SessionConstants
 import ratpack.remote.RemoteControlModule
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
@@ -51,10 +51,7 @@ ratpack {
 
         add new SessionModule()
         add new MapSessionsModule(10, 5)
-        add new Pac4jModule<>(
-//                new FormClient('/login', new SimpleTestUsernamePasswordAuthenticator()),
-                new TwitterClient('jnvxx2qjluMFdJN5dt4xRw', 'IPRGbYPFlEqfSHFdaNxQtOc755HnGVIGrqpOHWXmI'),
-                new AuthPathAuthorizer())
+        add new SecurityModule()
 
         add new MarkupTemplatingModule()
 
@@ -69,6 +66,7 @@ ratpack {
                GlasswareService glasswareService,
                DrinkCategoryService drinkCategoryService,
                OrganizationService organizationService ->
+
         get {
             transaction(context, {
                 DrinkCategory drinkCategory = drinkCategoryService.save(
@@ -274,13 +272,7 @@ ratpack {
         /**
          * Alias to /cellars/:id, auto-loads authenticated user.
          */
-        get('yourcellar') {
-            CommonProfile profile = request.get(CommonProfile)
-            render groovyMarkupTemplate('yourcellar.gtpl',
-                    username: profile.username,
-                    title: 'Your Cellar',
-                    loggedIn: true)
-        }
+        get('yourcellar', registry.get(YourCellarEndpoint))
 
         handler('account') {
             byMethod {
@@ -335,6 +327,9 @@ ratpack {
         /**
          * Auth pages
          */
+
+        handler('auth-twitter', registry.get(TwitterLoginEndpoint))
+
         get('login') {
             render groovyMarkupTemplate('login.gtpl',
                     title: 'Login',
@@ -344,10 +339,10 @@ ratpack {
                     error: request.queryParams.error ?: '',
                     loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
         }
-        handler('login-twitter', registry.get(TwitterLoginEndpoint))
 
         get('logout') {
-            request.get(SessionStorage).clear()
+            // TODO Accessing pac4j internals...
+            request.get(SessionStorage).remove(SessionConstants.USER_PROFILE)
 
             if (request.queryParams.error) {
                 redirect("/?error=${request.queryParams.error}")

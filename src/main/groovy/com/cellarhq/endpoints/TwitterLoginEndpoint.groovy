@@ -16,6 +16,8 @@ import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
 
+import java.time.LocalDateTime
+
 /**
  * Endpoint for the Twitter login.
  *
@@ -56,7 +58,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
                                 location = twitterProfile.location
                                 website = twitterProfile.profileUrl
                                 bio = twitterProfile.description
-                                lastLogin = new Date()
+                                lastLogin = LocalDateTime.now()
 
                                 // TODO Photo
 
