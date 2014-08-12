@@ -19,6 +19,8 @@ import ratpack.pac4j.Pac4jModule
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 
+import java.time.LocalDateTime
+
 ratpack {
     bindings {
         bind SessionFactoryHealthCheck
@@ -97,7 +99,7 @@ ratpack {
                         needsModeration: false,
                         searchable: true,
                         breweryDbId: 'dsfasdgdgdfvc',
-                        breweryDbLastUpdated: new Date()
+                        breweryDbLastUpdated: LocalDateTime.now()
                     ))
 
                 [cellarService.save(new Cellar(screenName: 'someone'))]

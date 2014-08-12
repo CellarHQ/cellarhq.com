@@ -11,6 +11,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
+import java.time.LocalDateTime
 
 @Entity(name = 'account')
 class Cellar extends AbstractEntity {
@@ -48,9 +49,8 @@ class Cellar extends AbstractEntity {
     @Column(nullable = false)
     boolean _private = false
 
-    // TODO Java8 / Joda?
     @Column(name = 'last_login', nullable = true)
-    Date lastLogin
+    LocalDateTime lastLogin
 
     @Column(name = 'last_login_ip', nullable = true)
     String lastLoginIp

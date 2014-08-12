@@ -9,6 +9,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import java.time.LocalDateTime
 
 @Entity(name = 'cellared_drink')
 class CellaredDrink extends AbstractEntity {
@@ -42,7 +43,7 @@ class CellaredDrink extends AbstractEntity {
     String notes
 
     @Column(name = 'drink_by_date', nullable = true)
-    Date drinkByDate
+    LocalDateTime drinkByDate
 
     @SuppressWarnings('PropertyName')
     @Column(name = 'private', nullable = false)

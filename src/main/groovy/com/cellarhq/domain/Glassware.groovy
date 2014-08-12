@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.OneToMany
+import java.time.LocalDateTime
 
 @Entity(name = 'glassware')
 class Glassware extends AbstractEntity {
@@ -30,7 +31,7 @@ class Glassware extends AbstractEntity {
     String breweryDbId
 
     @Column(name = 'brewery_db_last_updated', nullable = true)
-    Date breweryDbLastUpdated
+    LocalDateTime breweryDbLastUpdated
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'glassware', fetch = FetchType.LAZY)
     Set<Drink> drinks = []

@@ -11,6 +11,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import java.time.LocalDateTime
 
 @Entity(name = 'style')
 class Style extends AbstractEntity {
@@ -36,7 +37,7 @@ class Style extends AbstractEntity {
     String breweryDbId
 
     @Column(name = 'brewery_db_last_updated', nullable = true)
-    Date breweryDbLastUpdated
+    LocalDateTime breweryDbLastUpdated
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'style', fetch = FetchType.LAZY)
     Set<Drink> drinks = []
