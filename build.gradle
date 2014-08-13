@@ -37,6 +37,7 @@ dependencies {
     compile ratpack.dependency('h2')
     compile ratpack.dependency('hikari')
     compile ratpack.dependency('pac4j')
+    compile ratpack.dependency('remote')
     compile 'org.pac4j:pac4j-http:1.5.1'
     compile 'org.pac4j:pac4j-oauth:1.5.1'
 

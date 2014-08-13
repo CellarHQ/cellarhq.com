@@ -6,7 +6,7 @@ if (error) {
 }
 
 div {
-    a(href: '/login-twitter', id: 'twitter-login-btn') {
+    a(href: '/auth-twitter', id: 'twitter-login-btn') {
         img(src: '/images/sign-in-with-twitter-gray.png', alt: 'Sign in with Twitter'){}
     }
 }
