@@ -1,4 +1,5 @@
 import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
+import static org.jooq.impl.DSL.val
 import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
@@ -9,10 +10,24 @@ import com.cellarhq.domain.*
 import com.cellarhq.endpoints.RegisterEndpoint
 import com.cellarhq.endpoints.TwitterLoginEndpoint
 import com.cellarhq.endpoints.YourCellarEndpoint
+import com.cellarhq.generated.Sequences
+import com.cellarhq.generated.Tables
+import com.cellarhq.generated.tables.records.CategoryRecord
+import com.cellarhq.generated.tables.records.CellarRecord
+import com.cellarhq.generated.tables.records.DrinkRecord
+import com.cellarhq.generated.tables.records.GlasswareRecord
+import com.cellarhq.generated.tables.records.OrganizationRecord
+import com.cellarhq.generated.tables.records.StyleRecord
 import com.cellarhq.ratpack.hibernate.HibernateModule
 import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
 import com.cellarhq.services.*
 import com.cellarhq.util.SessionUtil
+import org.jooq.DSLContext
+import org.jooq.Result
+import org.jooq.SQLDialect
+import org.jooq.exception.DataAccessException
+import org.jooq.impl.DSL
+import org.jooq.tools.jdbc.JDBCUtils
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler
@@ -25,28 +40,28 @@ import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
 
+import javax.sql.DataSource
+import java.sql.Connection
 import java.time.LocalDateTime
 
 ratpack {
     bindings {
-        bind SessionFactoryHealthCheck
+//        bind SessionFactoryHealthCheck
         bind Pac4jCallbackHandler
 
         add new CodaHaleMetricsModule().healthChecks()
-        add new HikariModule([URL: 'jdbc:h2:mem:;INIT=CREATE SCHEMA IF NOT EXISTS cellarhq'], 'org.h2.jdbcx.JdbcDataSource')
-        add new HibernateModule(
-                Activity,
-                Drink,
-                Organization,
-                DrinkCategory,
-                Cellar,
-                CellaredDrink,
-                CellarRole,
-                EmailAccount,
-                Glassware,
-                OAuthAccount,
-                Photo,
-                Style)
+        // TODO: Functional tests may have to use an actual PG database, since sequences aren't compatible with H2. The
+        //       alternative is we can have jOOQ mock the connection. Not pretty:
+        //       http://www.jooq.org/doc/3.2/manual-single-page/#jdbc-mocking
+        //       We may need to take a further look at this, but we don't have many functional tests, so it may not be
+        //       a big deal...
+        add new HikariModule(
+                serverName: 'localhost',
+                portNumber: '15432',
+                databaseName: 'cellarhq',
+                user: 'cellarhq',
+                password: 'cellarhq',
+                'org.postgresql.ds.PGSimpleDataSource')
         add new RemoteControlModule()
 
         add new SessionModule()
@@ -60,62 +75,32 @@ ratpack {
         bind ServerErrorHandler, ErrorHandler
     }
 
-    handlers { CellarService cellarService, 
-               DrinkService drinkService, 
-               StyleService styleService, 
-               GlasswareService glasswareService,
-               DrinkCategoryService drinkCategoryService,
-               OrganizationService organizationService ->
+    handlers { DataSource dataSource ->
 
         get {
-            transaction(context, {
-                DrinkCategory drinkCategory = drinkCategoryService.save(
-                    new DrinkCategory(
-                        name: 'North American Origin Ales'
-                        ))
-                Style style = styleService.save(new Style(
-                        category: drinkCategory, 
-                        name: 'IPA',
-                        searchable: true))
+            blocking {
+                Connection conn = dataSource.connection
+                DSLContext create = DSL.using(conn, SQLDialect.POSTGRES)
 
-                Glassware glassware = glasswareService.save(new Glassware(
-                        name: 'Pint',
-                        searchable: true
-                    ))
+                // I'm thinking we could use the DSL directly from services and avoid the use of DAO classes.
+                try {
+                    create.insertInto(Tables.CELLAR, Tables.CELLAR.ID,
+                                                     Tables.CELLAR.SCREEN_NAME,
+                                                     Tables.CELLAR.DISPLAY_NAME)
+                            .values(Sequences.CELLAR_ID_SEQ.nextval(), val('someone'), val('Someone'))
+                            .execute()
+                } catch (DataAccessException e) {
+                    // Already created 'someone', just going to ignore for the purposes of this example.
+                }
 
-                Organization org = organizationService.save(new Organization(
-                        type: OrganizationType.BREWERY,
-                        slug: 'http://',
-                        name: 'Surly'
-                    ))
-
-
-                Drink drink = drinkService.save(new Drink(
-                        type: DrinkType.BEER,
-                        photo: null,
-                        style: style,
-                        glassware: glassware,
-                        organization: org,
-                        name: 'Furious',
-                        description: 'A tempest on the tongue, or a moment of pure hop bliss? Brewed with a dazzling blend of American hops and Scottish malt, this crimson-hued ale delivers waves of citrus, pine and caramel-toffee. For those who favor flavor, Furious has the hop-fire your taste buds have been screeching for.',
-                        slug: 'http://kyleboon.com',
-                        srm: 27,
-                        ibu: 65,
-                        abv: 6.5,
-                        availability: Availability.YEAR_ROUND,
-                        locked: true,
-                        needsModeration: false,
-                        searchable: true,
-                        breweryDbId: 'dsfasdgdgdfvc',
-                        breweryDbLastUpdated: LocalDateTime.now()
-                    ))
-
-                [cellarService.save(new Cellar(screenName: 'someone'))]
-            }).then { List<Cellar> cellarList ->
+                // TODO: I'm sure there's a better way... although fetchLazy is what we'd probably use for Rx.
+                create.selectFrom(Tables.CELLAR).fetchMap().collect { it.value }
+            } then { List<CellarRecord> cellarList ->
                 render groovyMarkupTemplate(
                         'index.gtpl',
                         cellars: cellarList,
-                        loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                        loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))
+                )
             }
         }
 
@@ -197,17 +182,17 @@ ratpack {
                  * Get an individual beer
                  */
                 get {
-                    transaction(context, {
-                         drinkService.get(pathTokens["id"].toLong())
-                    }).then { Drink drink ->
-                        if (drink) {
-                            render groovyMarkupTemplate('beers/show.gtpl',
-                                    drink: drink,
-                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
-                        } else {
-                            clientError(404)
-                        }
-                    }
+//                    transaction(context, {
+//                         drinkService.get(pathTokens["id"].toLong())
+//                    }).then { Drink drink ->
+//                        if (drink) {
+//                            render groovyMarkupTemplate('beers/show.gtpl',
+//                                    drink: drink,
+//                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+//                        } else {
+//                            clientError(404)
+//                        }
+//                    }
                 }
 
                 /**
@@ -322,34 +307,34 @@ ratpack {
 
         get('about') {}
 
-        handler('register', registry.get(RegisterEndpoint))
+//        handler('register', registry.get(RegisterEndpoint))
 
         /**
          * Auth pages
          */
 
-        handler('auth-twitter', registry.get(TwitterLoginEndpoint))
+//        handler('auth-twitter', registry.get(TwitterLoginEndpoint))
 
-        get('login') {
-            render groovyMarkupTemplate('login.gtpl',
-                    title: 'Login',
-                    action: '/pac4j-callback',
-                    method: 'post',
-                    buttonText: 'Login',
-                    error: request.queryParams.error ?: '',
-                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
-        }
-
-        get('logout') {
-            // TODO Accessing pac4j internals...
-            request.get(SessionStorage).remove(SessionConstants.USER_PROFILE)
-
-            if (request.queryParams.error) {
-                redirect("/?error=${request.queryParams.error}")
-            } else {
-                redirect('/')
-            }
-        }
+//        get('login') {
+//            render groovyMarkupTemplate('login.gtpl',
+//                    title: 'Login',
+//                    action: '/pac4j-callback',
+//                    method: 'post',
+//                    buttonText: 'Login',
+//                    error: request.queryParams.error ?: '',
+//                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+//        }
+//
+//        get('logout') {
+//            // TODO Accessing pac4j internals...
+//            request.get(SessionStorage).remove(SessionConstants.USER_PROFILE)
+//
+//            if (request.queryParams.error) {
+//                redirect("/?error=${request.queryParams.error}")
+//            } else {
+//                redirect('/')
+//            }
+//        }
 
         get('forgot-password') {}
 

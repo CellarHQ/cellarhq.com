@@ -16,4 +16,5 @@ build
 *.iml
 *.ipr
 *.iws
+.vagrant
 

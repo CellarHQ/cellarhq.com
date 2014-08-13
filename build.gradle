@@ -9,7 +9,6 @@ buildscript {
         classpath databaseDriver
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.0.2'
         classpath 'se.transmode.gradle:gradle-docker:1.2'
-
     }
 }
 
@@ -20,7 +19,6 @@ apply plugin: 'docker'
 apply from: "${rootDir}/gradle/codenarc.gradle"
 
 group = 'com.cellarhq'
-
 
 repositories {
     jcenter()
@@ -44,6 +42,10 @@ dependencies {
     compile databaseDriver
     compile 'org.hibernate:hibernate-core:4.3.5.Final'
     compile 'com.github.marschall:threeten-jpa:1.0.1'
+
+    compile "org.jooq:jooq:${jooqVersion}"
+    compile "org.jooq:jooq-meta:${jooqVersion}"
+    compile "org.jooq:jooq-codegen:${jooqVersion}"
 
     compile 'org.mindrot:jbcrypt:0.3m'
     compile 'com.github.slugify:slugify:2.1.2'
@@ -92,3 +94,9 @@ task cellarHqDocker(type: Docker) {
 }
 
 build.dependsOn cellarHqDocker
+
+task generateJooq(type: JavaExec, dependsOn: 'classes') {
+    main = 'org.jooq.util.GenerationTool'
+    classpath = sourceSets.main.runtimeClasspath
+    args 'jooq.xml'
+}
