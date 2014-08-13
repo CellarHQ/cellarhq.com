@@ -8,12 +8,15 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import java.time.LocalDateTime
 
-@Entity(name = 'style')
+@Entity(name = 'style', indexes = [
+        @Index(name = 'idx_style_brewery_db_id', columnList = 'brewery_db_id')
+])
 class Style extends AbstractEntity {
 
     @Id

@@ -7,11 +7,14 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import java.time.LocalDateTime
 
-@Entity(name = 'cellared_drink')
+@Entity(name = 'cellared_drink', indexes = [
+        @Index(name = 'idx_cellared_drink_drink_by_date', columnList = 'drink_by_date')
+])
 class CellaredDrink extends AbstractEntity {
 
     @Id

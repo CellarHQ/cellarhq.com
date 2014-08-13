@@ -48,7 +48,7 @@ class Cellar extends AbstractEntity {
     String bio
 
     @Column(name = 'update_from_network', nullable = false)
-    boolean updateFromNetwork = false
+    boolean updateFromNetwork = true
 
     @Column(name = 'contact_email', nullable = true)
     String contactEmail

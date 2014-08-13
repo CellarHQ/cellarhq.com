@@ -7,8 +7,11 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.OneToOne
+import javax.persistence.UniqueConstraint
 
-@Entity(name = 'photo')
+@Entity(name = 'photo', uniqueConstraints = [
+        @UniqueConstraint(name = 'unq_photo_original_url', columnNames = ['original_url'])
+])
 class Photo extends AbstractEntity {
 
     @Id

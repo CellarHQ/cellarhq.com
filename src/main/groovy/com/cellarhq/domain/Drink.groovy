@@ -11,13 +11,21 @@ import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
+import javax.persistence.UniqueConstraint
+
 import java.time.LocalDateTime
 
-@Entity(name = 'drink')
+@Entity(name = 'drink', uniqueConstraints = [
+        @UniqueConstraint(name = 'unq_drink_slug', columnNames = ['slug'])
+], indexes = [
+        @Index(name = 'idx_drink_brewery_db_id', columnList = 'brewery_db_id'),
+        @Index(name = 'idx_drink_needs_moderation', columnList = 'needs_moderation')
+])
 class Drink extends AbstractEntity {
 
     @Id
