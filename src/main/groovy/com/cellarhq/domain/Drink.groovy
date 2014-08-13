@@ -18,8 +18,6 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.UniqueConstraint
 
-import java.time.LocalDateTime
-
 @Entity(name = 'drink', uniqueConstraints = [
         @UniqueConstraint(name = 'unq_drink_slug', columnNames = ['slug'])
 ], indexes = [
@@ -81,7 +79,7 @@ class Drink extends AbstractEntity {
     String breweryDbId
 
     @Column(name = 'brewery_db_last_updated', nullable = true)
-    LocalDateTime breweryDbLastUpdated
+    Date breweryDbLastUpdated
 
     @Column(nullable = false)
     boolean locked = false

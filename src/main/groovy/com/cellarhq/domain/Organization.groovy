@@ -16,8 +16,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.UniqueConstraint
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Entity(name = 'organization', uniqueConstraints = [
         @UniqueConstraint(name = 'unq_organization_slug', columnNames = ['slug'])
@@ -48,7 +46,7 @@ class Organization extends AbstractEntity {
     String description
 
     @Column(nullable = true)
-    LocalDate established
+    Date established
 
     @Column(length = 20, nullable = true)
     String phone
@@ -78,7 +76,7 @@ class Organization extends AbstractEntity {
     String breweryDbId
 
     @Column(name = 'brewery_db_last_updated', nullable = true)
-    LocalDateTime breweryDbLastUpdated
+    Date breweryDbLastUpdated
 
     @Column(nullable = false)
     boolean locked = false

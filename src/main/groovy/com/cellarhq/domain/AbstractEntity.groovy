@@ -5,7 +5,6 @@ import groovy.transform.CompileStatic
 import javax.persistence.Column
 import javax.persistence.MappedSuperclass
 import javax.persistence.Version
-import java.time.LocalDateTime
 
 /**
  * Base Entity from which most of the entities will extend.
@@ -18,8 +17,8 @@ abstract class AbstractEntity {
     Long version
 
     @Column(name = 'created_date', nullable = false)
-    LocalDateTime createdDate = LocalDateTime.now()
+    Date createdDate = new Date()
 
     @Column(name = 'modified_date', nullable = false)
-    LocalDateTime modifiedDate = LocalDateTime.now()
+    Date modifiedDate = new Date()
 }

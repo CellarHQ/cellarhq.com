@@ -9,7 +9,6 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import java.time.LocalDateTime
 
 @Entity
 class Activity {
@@ -37,7 +36,7 @@ class Activity {
     String data
 
     @Column(nullable = false)
-    LocalDateTime createdDate = LocalDateTime.now()
+    Date createdDate = new Date()
 
     boolean isPrivate() {
         return _private

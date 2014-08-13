@@ -1,5 +1,6 @@
 package com.cellarhq.functional.pages.thirdparty
 
+import com.cellarhq.functional.pages.YourCellarPage
 import geb.Page
 
 /**
@@ -14,7 +15,7 @@ class TwitterOAuthPage extends Page {
     static content = {
         username(wait: true) { $('input#username_or_email') }
         password(wait: true) { $('input#password') }
-        submitButton(wait: true) { $('input#allow') }
+        submitButton(wait: true, to: [TwitterAuthorizePage, YourCellarPage]) { $('input#allow') }
     }
 
     void login() {

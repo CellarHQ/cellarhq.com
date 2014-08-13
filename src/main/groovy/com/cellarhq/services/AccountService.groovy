@@ -23,11 +23,19 @@ class AccountService {
     }
 
     EmailAccount findByCredentials(String username, String password) {
-        return emailAccountDAO.findByEmailAndPassword(username, password)
+        EmailAccount emailAccount = emailAccountDAO.findByEmail(username)
+        if (emailAccount && BCrypt.checkpw(password, emailAccount.password)) {
+            return emailAccount
+        }
+        return null
     }
 
     OAuthAccount findByCredentials(String username, OAuthAccount.Client client = OAuthAccount.Client.TWITTER) {
         return oAuthAccountDAO.findByClientAndUsername(client, username)
+    }
+
+    EmailAccount findByEmail(String email) {
+        return emailAccountDAO.findByEmail(email)
     }
 
     EmailAccount create(EmailAccount emailAccount) {
