@@ -43,7 +43,6 @@ dependencies {
 
     compile databaseDriver
     compile 'org.hibernate:hibernate-core:4.3.5.Final'
-    compile 'org.liquibase:liquibase-core:3.2.2'
     compile 'com.github.marschall:threeten-jpa:1.0.1'
 
     compile 'org.mindrot:jbcrypt:0.3m'

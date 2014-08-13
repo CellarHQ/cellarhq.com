@@ -18,13 +18,14 @@ import ratpack.handling.Context
 class ErrorHandler implements ServerErrorHandler {
 
     @Override
-    void error(Context context, Exception exception) throws Exception {
-        log.error('Caught error', exception)
+    void error(Context context, Throwable throwable) throws Throwable {
+        log.error('Caught error', throwable)
         context.with {
             render groovyMarkupTemplate('error.gtpl',
                     title: 'Exception',
-                    exception: exception,
-                    sanitizedException: StackTraceUtils.deepSanitize(exception))
+                    exception: throwable,
+                    sanitizedException: StackTraceUtils.deepSanitize(throwable))
         }
+
     }
 }
