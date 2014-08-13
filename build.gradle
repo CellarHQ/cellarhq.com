@@ -36,6 +36,7 @@ dependencies {
     compile ratpack.dependency('codahale-metrics')
     compile ratpack.dependency('h2')
     compile ratpack.dependency('hikari')
+    compile ratpack.dependency('handlebars')
     compile ratpack.dependency('pac4j')
     compile ratpack.dependency('remote')
     compile 'org.pac4j:pac4j-http:1.5.1'

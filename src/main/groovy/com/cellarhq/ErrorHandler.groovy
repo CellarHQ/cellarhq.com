@@ -21,8 +21,9 @@ class ErrorHandler implements ServerErrorHandler {
     void error(Context context, Throwable throwable) throws Throwable {
         log.error('Caught error', throwable)
         context.with {
-            render groovyMarkupTemplate('error.gtpl',
+            render groovyMarkupTemplate('error.html',
                     title: 'Exception',
+                    pageId: 'server.error',
                     exception: throwable,
                     sanitizedException: StackTraceUtils.deepSanitize(throwable))
         }
