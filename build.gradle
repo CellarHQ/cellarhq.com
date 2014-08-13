@@ -43,7 +43,7 @@ dependencies {
 
     compile databaseDriver
     compile 'org.hibernate:hibernate-core:4.3.5.Final'
-    compile 'com.github.marschall:threeten-jpa:1.0.1'
+    compile 'org.jadira.usertype:usertype.extended:3.2.0.GA'
 
     compile 'org.mindrot:jbcrypt:0.3m'
     compile 'com.github.slugify:slugify:2.1.2'

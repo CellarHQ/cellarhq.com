@@ -16,7 +16,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.UniqueConstraint
-
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity(name = 'organization', uniqueConstraints = [
@@ -48,7 +48,7 @@ class Organization extends AbstractEntity {
     String description
 
     @Column(nullable = true)
-    Date established
+    LocalDate established
 
     @Column(length = 20, nullable = true)
     String phone
