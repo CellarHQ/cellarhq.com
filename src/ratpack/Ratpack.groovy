@@ -1,5 +1,4 @@
 import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
-import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
 import com.cellarhq.CellarHQModule
