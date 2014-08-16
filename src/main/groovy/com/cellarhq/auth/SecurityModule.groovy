@@ -8,7 +8,6 @@ import com.google.inject.TypeLiteral
 import groovy.transform.CompileStatic
 import org.pac4j.core.client.Client
 import org.pac4j.http.client.FormClient
-import org.pac4j.http.credentials.SimpleTestUsernamePasswordAuthenticator
 import org.pac4j.http.credentials.UsernamePasswordAuthenticator
 import org.pac4j.http.credentials.UsernamePasswordCredentials
 import org.pac4j.http.profile.HttpProfile
@@ -30,7 +29,7 @@ class SecurityModule extends AbstractModule implements HandlerDecoratingModule {
 
     @Override
     protected void configure() {
-        bind(UsernamePasswordAuthenticator).to(SimpleTestUsernamePasswordAuthenticator)
+        bind(UsernamePasswordAuthenticator).to(CellarHQUsernamePasswordAuthenticator)
         bind(Authorizer).to(AuthPathAuthorizer)
         bind(new TypeLiteral<Client<UsernamePasswordCredentials, HttpProfile>>() {}).to(FormClient)
         bind(new TypeLiteral<Client<OAuthCredentials, TwitterProfile>>() {}).to(TwitterClient)

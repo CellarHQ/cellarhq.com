@@ -12,7 +12,6 @@ import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
-import java.time.LocalDateTime
 
 @Entity(name = 'style', indexes = [
         @Index(name = 'idx_style_brewery_db_id', columnList = 'brewery_db_id')
@@ -40,7 +39,7 @@ class Style extends AbstractEntity {
     String breweryDbId
 
     @Column(name = 'brewery_db_last_updated', nullable = true)
-    LocalDateTime breweryDbLastUpdated
+    Date breweryDbLastUpdated
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = 'style', fetch = FetchType.LAZY)
     Set<Drink> drinks = []

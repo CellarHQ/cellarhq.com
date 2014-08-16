@@ -1,4 +1,4 @@
-package com.cellarhq.endpoints
+package com.cellarhq.endpoints.auth
 
 import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
 import static ratpack.handlebars.Template.handlebarsTemplate
@@ -48,6 +48,8 @@ class RegisterEndpoint extends GroovyHandler {
                             action: '/register',
                             method: 'post',
                             error: request.queryParams.error ?: '',
+                            errorMessages: SessionUtil.getFlashMessages(request).collect { [message: it] },
+                            pageId: 'register',
                             loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
                 }
 
@@ -62,6 +64,7 @@ class RegisterEndpoint extends GroovyHandler {
 
                     Cellar cellar = new Cellar().with { Cellar self ->
                         screenName = form.screenName
+                        displayName = screenName
                         contactEmail = form.email
                         lastLogin = new Date()
                         addRole(Role.MEMBER)
@@ -78,7 +81,11 @@ class RegisterEndpoint extends GroovyHandler {
                     Validator validator = validatorFactory.validator
                     Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(emailAccount.cellar)
                     Set<ConstraintViolation<EmailAccount>> accountViolations = validator.validate(emailAccount)
-                    if (cellarViolations.size() == 0 && accountViolations.size() == 0) {
+
+                    // A lot easier than creating a custom annotation...
+                    boolean passwordsMatch = emailAccount.password == emailAccount.passwordConfirm
+
+                    if (cellarViolations.size() == 0 && accountViolations.size() == 0 && passwordsMatch) {
                         // Rx would actually work pretty well here...
                         transaction(context) {
                             accountService.create(emailAccount)
@@ -87,6 +94,7 @@ class RegisterEndpoint extends GroovyHandler {
                                     exception: e.toString()
                             ]))
 
+                            // TODO... if we get a conflict on username, it isn't unexpected.
                             redirect(500, '/register?error=' + Messages.UNEXPECTED_SERVER_ERROR)
                         } then {
                             // TODO Is there a way to do this without calling into ratpack's internals?
@@ -99,14 +107,18 @@ class RegisterEndpoint extends GroovyHandler {
                             redirect('/yourcellar')
                         }
                     } else {
-                        // TODO Definitely add flash message support.
-                        String messages = new StringBuilder('Could not register_')
-                                .append(cellarViolations.collect { "${it.propertyPath} ${it.message}" }.join('_'))
-                                .append('_')
-                                .append(accountViolations.collect { "${it.propertyPath} ${it.message}" }.join('_'))
-                                .toString()
+                        // TODO Create a little helper class to do this instead of using a static method. Should be able
+                        //      to take in constraint violations and convert them properly.
+                        List<String> messages = []
+                        cellarViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
+                        accountViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
+                        if (!passwordsMatch) {
+                            messages << 'passwords do not match'
+                        }
 
-                        redirect(422, '/register?error=' + messages)
+                        SessionUtil.setFlashMessages(request, messages)
+
+                        redirect('/register?error=' + Messages.FORM_VALIDATION_ERROR)
                     }
                 }
             }

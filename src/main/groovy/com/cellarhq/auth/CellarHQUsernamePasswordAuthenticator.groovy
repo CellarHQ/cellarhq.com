@@ -1,9 +1,12 @@
 package com.cellarhq.auth
 
+import com.cellarhq.ratpack.hibernate.HibernateDSL
 import com.cellarhq.services.AccountService
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.hibernate.SessionFactory
+import org.pac4j.core.exception.CredentialsException
 import org.pac4j.http.credentials.UsernamePasswordAuthenticator
 import org.pac4j.http.credentials.UsernamePasswordCredentials
 
@@ -11,18 +14,29 @@ import org.pac4j.http.credentials.UsernamePasswordCredentials
 @CompileStatic
 class CellarHQUsernamePasswordAuthenticator implements UsernamePasswordAuthenticator {
 
-    AccountService accountService
+    private final AccountService accountService
+    private final SessionFactory sessionFactory
 
     @Inject
-    CellarHQUsernamePasswordAuthenticator(AccountService accountService) {
+    CellarHQUsernamePasswordAuthenticator(AccountService accountService, SessionFactory sessionFactory) {
         this.accountService = accountService
+        this.sessionFactory = sessionFactory
     }
 
     @Override
     void validate(UsernamePasswordCredentials credentials) {
-        // GOOD NEWS: We're in a blocking thread here... we just need to inject the AccountService to verify the user
-        // actually exists.
-        log.info('Hello this is validate')
-        accountService.findByCredentials(credentials.username, credentials.password)
+        if (credentials == null) {
+            throwsException('No credentials')
+        }
+
+        HibernateDSL.transaction(sessionFactory) {
+            if (!accountService.findByCredentials(credentials.username, credentials.password)) {
+                throwsException('Email and/or password did not match')
+            }
+        }
+    }
+
+    protected void throwsException(final String message) {
+        throw new CredentialsException(message)
     }
 }

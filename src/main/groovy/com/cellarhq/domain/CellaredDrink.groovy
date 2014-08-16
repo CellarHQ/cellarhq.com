@@ -10,8 +10,6 @@ import javax.persistence.Id
 import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Entity(name = 'cellared_drink', indexes = [
         @Index(name = 'idx_cellared_drink_drink_by_date', columnList = 'drink_by_date')
@@ -35,7 +33,7 @@ class CellaredDrink extends AbstractEntity {
     Style style
 
     @Column(name = 'bottle_date', nullable = true)
-    LocalDate bottleDate
+    Date bottleDate
 
     @Column(nullable = true)
     String size
@@ -47,7 +45,7 @@ class CellaredDrink extends AbstractEntity {
     String notes
 
     @Column(name = 'drink_by_date', nullable = true)
-    LocalDateTime drinkByDate
+    Date drinkByDate
 
     @SuppressWarnings('PropertyName')
     @Column(name = 'private', nullable = false)

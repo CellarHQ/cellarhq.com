@@ -17,6 +17,7 @@ class YourCellarEndpoint extends GroovyHandler {
                     render handlebarsTemplate('yourcellar.html',
                             username: profile.username,
                             title: 'Your Cellar',
+                            pageId: 'yourcellar',
                             loggedIn: true)
                 }
             }

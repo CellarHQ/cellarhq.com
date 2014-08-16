@@ -20,11 +20,8 @@ class EmailAccountDAO extends AbstractDAO<EmailAccount> {
         return persist(account)
     }
 
-    EmailAccount findByEmailAndPassword(String email, String password) {
-        DetachedCriteria criteria = criteria()
-                .add(Restrictions.eq('email', email))
-                .add(Restrictions.eq('password', password))
-
+    EmailAccount findByEmail(String email) {
+        DetachedCriteria criteria = criteria().add(Restrictions.eq('email', email))
         return uniqueResult(criteria)
     }
 }

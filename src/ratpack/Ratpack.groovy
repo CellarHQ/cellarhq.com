@@ -5,8 +5,9 @@ import com.cellarhq.CellarHQModule
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.*
-import com.cellarhq.endpoints.RegisterEndpoint
-import com.cellarhq.endpoints.TwitterLoginEndpoint
+import com.cellarhq.endpoints.auth.FormLoginEndpoint
+import com.cellarhq.endpoints.auth.RegisterEndpoint
+import com.cellarhq.endpoints.auth.TwitterLoginEndpoint
 import com.cellarhq.endpoints.YourCellarEndpoint
 import com.cellarhq.ratpack.hibernate.HibernateModule
 import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
@@ -109,14 +110,15 @@ ratpack {
                         needsModeration: false,
                         searchable: true,
                         breweryDbId: 'dsfasdgdgdfvc',
-                        breweryDbLastUpdated: LocalDateTime.now()
+                        breweryDbLastUpdated: new Date()
                     ))
 
                 [cellarService.save(new Cellar(screenName: 'someone'))]
             }).then { List<Cellar> cellarList ->
                 render handlebarsTemplate('index.html', 
                     [cellars: cellarList, 
-                    title: 'CellarHQ', 
+                    title: 'CellarHQ',
+                    pageId: 'home',
                     loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
             }
         }
@@ -205,7 +207,8 @@ ratpack {
                         if (drink) {
                             render handlebarsTemplate('beers/show.html', 
                                 [
-                                    drink: drink, 
+                                    drink: drink,
+                                    pageId: 'beers-single',
                                     loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))
                                 ])
                         } else {
@@ -326,14 +329,13 @@ ratpack {
 
         get('about') {}
 
-        handler('register', registry.get(RegisterEndpoint))
-
         /**
          * Auth pages
          */
 
+        handler('register', registry.get(RegisterEndpoint))
         handler('auth-twitter', registry.get(TwitterLoginEndpoint))
-
+        handler('auth-form', registry.get(FormLoginEndpoint))
         get('login') {
             render handlebarsTemplate('login.html',
                     title: 'Login',
@@ -341,6 +343,7 @@ ratpack {
                     method: 'post',
                     buttonText: 'Login',
                     error: request.queryParams.error ?: '',
+                    pageId: 'login',
                     loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
         }
 

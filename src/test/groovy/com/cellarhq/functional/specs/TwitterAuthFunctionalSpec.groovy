@@ -8,12 +8,12 @@ import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.functional.pages.HomePage
 import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.YourCellarPage
+import com.cellarhq.functional.pages.thirdparty.TwitterAuthorizePage
 import com.cellarhq.functional.pages.thirdparty.TwitterOAuthPage
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import org.hibernate.SessionFactory
 import ratpack.groovy.test.LocalScriptApplicationUnderTest
-import ratpack.handling.Context
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
 import spock.lang.IgnoreIf
@@ -88,6 +88,12 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
 
         then:
         twitter.login()
+
+        // Twitter occasionally asks us to authorize the app. Seems to happen when the test runner is on a new IP.
+        if (isAt(TwitterAuthorizePage)) {
+            ((TwitterAuthorizePage) browser.page).authorize()
+        }
+
         waitFor 30, { at YourCellarPage }
 
         when:

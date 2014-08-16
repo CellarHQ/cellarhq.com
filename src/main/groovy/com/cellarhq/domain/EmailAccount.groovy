@@ -2,6 +2,8 @@ package com.cellarhq.domain
 
 import com.cellarhq.ratpack.hibernate.Entity
 import org.hibernate.validator.constraints.Email
+import org.hibernate.validator.constraints.Length
+import org.hibernate.validator.constraints.NotEmpty
 
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -13,7 +15,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Transient
 import javax.persistence.UniqueConstraint
-import javax.validation.constraints.NotNull
 
 @Entity(name = 'account_email', uniqueConstraints = [
         @UniqueConstraint(name = 'unq_account_email_email', columnNames = ['email'])
@@ -29,15 +30,15 @@ class EmailAccount extends AbstractEntity {
     Cellar cellar
 
     @Email
-    @NotNull
+    @NotEmpty
     @Column(nullable = false, unique = true)
     String email
 
-    @NotNull
+    @Length(min = 4)
+    @NotEmpty
     @Column(length = 64, nullable = false)
     String password
 
-    // TODO Add cross-field validation.
     @Transient
     String passwordConfirm
 }

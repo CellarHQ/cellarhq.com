@@ -14,9 +14,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.UniqueConstraint
-import javax.validation.constraints.NotNull
-
-import java.time.LocalDateTime
+import javax.validation.constraints.Pattern
 
 @Entity(name = 'cellar', uniqueConstraints = [
         @UniqueConstraint(name = 'unq_cellar_screen_name', columnNames = ['screen_name'])
@@ -31,7 +29,10 @@ class Cellar extends AbstractEntity {
     @JoinColumn(name = 'photo_id')
     Photo photo
 
-    @NotNull
+    /**
+     * Screen name must support 1-letter screen names because of Twitter integration.
+     */
+    @Pattern(regexp = /[a-zA-Z0-9_-]{1,20}/)
     @Column(name = 'screen_name', nullable = false, updatable = false)
     String screenName
 
@@ -58,7 +59,7 @@ class Cellar extends AbstractEntity {
     boolean _private = false
 
     @Column(name = 'last_login', nullable = true)
-    LocalDateTime lastLogin
+    Date lastLogin
 
     // TODO Ratpack doesn't expose the remote IP yet.
     @Column(name = 'last_login_ip', nullable = true)
