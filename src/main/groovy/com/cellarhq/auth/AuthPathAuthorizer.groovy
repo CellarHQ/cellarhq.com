@@ -29,6 +29,7 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'register',
             'login',
             'forgot-password',
+            /forgot-password\/.*/,
             /styles\/.*/,
             /images\/.*/,
             /pac4j.*/,

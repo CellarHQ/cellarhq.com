@@ -1,7 +1,7 @@
 {{# partial "content" }}
     <h1>Register</h1>
 
-    {{>common/error}}
+    {{>common/messages}}
     
     <div>
       <a href='/auth-twitter' id='twitter-login-btn'>
@@ -31,7 +31,7 @@
           Password
         </label>
         <div class='col-sm-10'>
-          <input class='form-control' type='text' id='password' name='password'/>
+          <input class='form-control' type='password' id='password' name='password'/>
         </div>
       </div>
       <div class='form-group'>
@@ -39,7 +39,7 @@
           Confirm Password
         </label>
         <div class='col-sm-10'>
-          <input class='form-control' type='text' id='passwordConfirm' name='passwordConfirm'/>
+          <input class='form-control' type='password' id='passwordConfirm' name='passwordConfirm'/>
         </div>
       </div>
       <div class='form-group'>

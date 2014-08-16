@@ -1,48 +1,27 @@
-Ratpack project template
------------------------------
+CellarHQ
+========
 
-You have just created a basic Groovy Ratpack application. It doesn't do much
-at this point, but we have set you up with a standard project structure, a
-simple home page, and Spock for writing tests (because you'd be mad not to
-use it).
+This is the repository for the CellarHQ.com v2 website.
 
-In this project you get:
+Development
+-----------
 
-* A Gradle build file with pre-built Gradle wrapper
-* A tiny home page at src/ratpack/templates/index.html (it's a template)
-* A routing file at src/ratpack/ratpack.groovy
-* Reloading enabled in build.gradle
-* A standard project structure:
+Requirements:
 
-    <proj>
-      |
-      +- src
-          |
-          +- ratpack
-          |     |
-          |     +- ratpack.groovy
-          |     +- ratpack.properties
-          |     +- public          // Static assets in here
-          |          |
-          |          +- images
-          |          +- lib
-          |          +- scripts
-          |          +- styles
-          |
-          +- main
-          |   |
-          |   +- groovy
-                   |
-                   +- // App classes in here!
-          |
-          +- test
-              |
-              +- groovy
-                   |
-                   +- // Spock tests in here!
+* Java 8
+* Gradle 2.0
+* Vagrant
 
-That's it! You can start the basic app with
+In order to get started, you will need to run `vagrant up` in the root directory of this project. This vagrant image
+will bring up the development PostgreSQL database. After that has been provisioned, you will need to run 
+`gradle update` to run the Liquibase migrations.
 
-    ./gradlew run
+Deployments
+-----------
 
-but it's up to you to add the bells, whistles, and meat of the application.
+The application relies on passing in environment variables for configuration. The current env vars are:
+
+* `deploymentEnv`: Either `production` or `development`. If no value is provided, `development` will be selected as 
+  the default. This configuration item is used for injecting different classes in Guice (ex: AmazonEmailService vs. 
+  LogEmailService).
+

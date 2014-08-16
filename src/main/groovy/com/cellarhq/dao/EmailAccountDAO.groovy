@@ -1,6 +1,7 @@
 package com.cellarhq.dao
 
 import com.cellarhq.domain.EmailAccount
+import com.cellarhq.domain.PasswordChangeRequest
 import com.cellarhq.ratpack.hibernate.AbstractDAO
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
