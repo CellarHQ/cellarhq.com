@@ -1,0 +1,8 @@
+{{# partial "content" }}
+	<h1>An Exception Occurred</h1>
+	<div class="alert alert-danger" style="white-spac:pre">
+		{{sanitizedException.stackTrace}}
+	</div>
+{{/partial}}
+
+{{> layout.html}}

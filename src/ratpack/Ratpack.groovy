@@ -1,5 +1,4 @@
 import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
-import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 
 import com.cellarhq.CellarHQModule
@@ -17,6 +16,8 @@ import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler
 import ratpack.groovy.markuptemplates.MarkupTemplatingModule
+import ratpack.handlebars.HandlebarsModule
+import static ratpack.handlebars.Template.handlebarsTemplate
 import ratpack.hikari.HikariModule
 import ratpack.pac4j.internal.Pac4jCallbackHandler
 import ratpack.pac4j.internal.SessionConstants
@@ -54,6 +55,7 @@ ratpack {
         add new SecurityModule()
 
         add new MarkupTemplatingModule()
+        add new HandlebarsModule()
 
         add new CellarHQModule()
 
@@ -112,10 +114,10 @@ ratpack {
 
                 [cellarService.save(new Cellar(screenName: 'someone'))]
             }).then { List<Cellar> cellarList ->
-                render groovyMarkupTemplate(
-                        'index.gtpl',
-                        cellars: cellarList,
-                        loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                render handlebarsTemplate('index.html', 
+                    [cellars: cellarList, 
+                    title: 'CellarHQ', 
+                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
             }
         }
 
@@ -201,9 +203,11 @@ ratpack {
                          drinkService.get(pathTokens["id"].toLong())
                     }).then { Drink drink ->
                         if (drink) {
-                            render groovyMarkupTemplate('beers/show.gtpl',
-                                    drink: drink,
-                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                            render handlebarsTemplate('beers/show.html', 
+                                [
+                                    drink: drink, 
+                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))
+                                ])
                         } else {
                             clientError(404)
                         }
@@ -331,7 +335,7 @@ ratpack {
         handler('auth-twitter', registry.get(TwitterLoginEndpoint))
 
         get('login') {
-            render groovyMarkupTemplate('login.gtpl',
+            render handlebarsTemplate('login.html',
                     title: 'Login',
                     action: '/pac4j-callback',
                     method: 'post',

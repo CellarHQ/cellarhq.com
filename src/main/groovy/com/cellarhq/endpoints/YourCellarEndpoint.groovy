@@ -1,6 +1,6 @@
 package com.cellarhq.endpoints
 
-import static ratpack.groovy.Groovy.groovyMarkupTemplate
+import static ratpack.handlebars.Template.handlebarsTemplate
 
 import org.pac4j.core.profile.UserProfile
 import ratpack.groovy.handling.GroovyContext
@@ -14,7 +14,7 @@ class YourCellarEndpoint extends GroovyHandler {
             byMethod {
                 get {
                     UserProfile profile = request.get(UserProfile)
-                    render groovyMarkupTemplate('yourcellar.gtpl',
+                    render handlebarsTemplate('yourcellar.html',
                             username: profile.username,
                             title: 'Your Cellar',
                             loggedIn: true)

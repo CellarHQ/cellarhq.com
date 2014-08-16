@@ -1,7 +1,7 @@
 package com.cellarhq.endpoints
 
 import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
-import static ratpack.groovy.Groovy.groovyMarkupTemplate
+import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
 import com.cellarhq.auth.Role
@@ -43,7 +43,7 @@ class RegisterEndpoint extends GroovyHandler {
         context.with {
             byMethod {
                 get {
-                    render groovyMarkupTemplate('register.gtpl',
+                    render handlebarsTemplate('register.html',
                             title: 'Register',
                             action: '/register',
                             method: 'post',

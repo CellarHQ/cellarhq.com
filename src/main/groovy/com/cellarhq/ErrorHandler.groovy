@@ -1,6 +1,7 @@
 package com.cellarhq
 
-import static ratpack.groovy.Groovy.groovyMarkupTemplate
+import static ratpack.handlebars.Template.handlebarsTemplate
+
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -21,8 +22,9 @@ class ErrorHandler implements ServerErrorHandler {
     void error(Context context, Throwable throwable) throws Throwable {
         log.error('Caught error', throwable)
         context.with {
-            render groovyMarkupTemplate('error.gtpl',
+            render handlebarsTemplate('error.html',
                     title: 'Exception',
+                    pageId: 'server.error',
                     exception: throwable,
                     sanitizedException: StackTraceUtils.deepSanitize(throwable))
         }
