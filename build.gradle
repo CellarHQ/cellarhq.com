@@ -43,8 +43,11 @@ dependencies {
     compile 'org.pac4j:pac4j-oauth:1.5.1'
 
     compile databaseDriver
-    compile 'org.hibernate:hibernate-core:4.3.5.Final'
-    compile 'org.jadira.usertype:usertype.extended:3.2.0.GA'
+    compile 'org.hibernate:hibernate-core:4.3.5.Final' // Delete me
+    compile 'org.jadira.usertype:usertype.extended:3.2.0.GA' // Delete me
+    compile "org.jooq:jooq:${jooqVersion}"
+    compile "org.jooq:jooq-meta:${jooqVersion}"
+    compile "org.jooq:jooq-codegen:${jooqVersion}"
 
     compile 'org.mindrot:jbcrypt:0.3m'
     compile 'com.github.slugify:slugify:2.1.2'
@@ -93,3 +96,9 @@ task cellarHqDocker(type: Docker) {
 }
 
 build.dependsOn cellarHqDocker
+
+task generateJooq(type: JavaExec, dependsOn: 'classes') {
+    main = 'org.jooq.util.GenerationTool'
+    classpath = sourceSets.main.runtimeClasspath
+    args 'jooq.xml'
+}
