@@ -1,5 +1,6 @@
 package com.cellarhq.auth
 
+import org.pac4j.core.profile.UserProfile
 import ratpack.handling.Context
 import ratpack.http.Request
 import spock.lang.Specification
@@ -36,5 +37,47 @@ class AuthPathAuthorizerSpec extends Specification {
         'styles/cellarhq.css'                          | false
 
         expectation = expected ? 'should require' : 'should not require'
+    }
+
+    @Unroll("The path '#path' accessed by user with roles '#roles' #description")
+    def 'verify role-based authorization'() {
+        given:
+        AuthPathAuthorizer authorizer = new AuthPathAuthorizer()
+
+        and:
+        Context context = Mock(Context) {
+            getRequest() >> {
+                Stub(Request) {
+                    getPath() >> path
+                }
+            }
+        }
+
+        and:
+        UserProfile userProfile = Stub(UserProfile) {
+            getRoles() >> roles.collect { it.toString() }
+        }
+
+        when:
+        authorizer.handleAuthorization(context, userProfile)
+
+        then:
+        if (shouldRedirect) {
+            1 * context.redirect(_)
+            0 * context.next()
+        } else {
+            0 * context.redirect(_)
+            1 * context.next()
+        }
+
+        where:
+        path            | roles                     | shouldRedirect
+        'public/page'   | []                        | false
+        'public/page'   | [Role.MEMBER]             | false
+        'admin/secrets' | [Role.MEMBER]             | true
+        'admin/secrets' | [Role.ADMIN]              | false
+        'admin/secrets' | [Role.MEMBER, Role.ADMIN] | false
+
+        description = shouldRedirect ? 'should redirect to login' : 'should grant access'
     }
 }
