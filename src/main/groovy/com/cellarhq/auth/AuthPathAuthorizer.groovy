@@ -1,8 +1,11 @@
 package com.cellarhq.auth
 
+import com.cellarhq.Messages
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.pac4j.core.profile.UserProfile
 import ratpack.handling.Context
+import ratpack.http.Request
 import ratpack.pac4j.AbstractAuthorizer
 
 /**
@@ -32,10 +35,33 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             /favicon\.ico/
     ]
 
+    final static List<String> ADMIN_ROLE_REQUIRED = [
+            /admin\/.*/
+    ]
+
     @Override
     boolean isAuthenticationRequired(Context context) {
-        return !ANONYMOUS_WHITELIST.any { String regex ->
-            context.request.path.matches("^${regex}/?\$")
+        return !matchesAnyPath(context.request.path, ANONYMOUS_WHITELIST)
+    }
+
+    @Override
+    void handleAuthorization(Context context, UserProfile userProfile) throws Exception {
+        if (matchesAnyPath(context.request.path, ADMIN_ROLE_REQUIRED) && !userHasRole(userProfile, Role.ADMIN)) {
+            context.redirect('/login?error=' + Messages.UNAUTHORIZED_ERROR)
+            return
         }
+        context.next()
+    }
+
+    private boolean matchesAnyPath(String subject, List<String> patterns) {
+        return matchesAny(subject, patterns.collect { String pattern -> (String) "^${pattern}/?\$"})
+    }
+
+    private boolean matchesAny(String subject, List<String> patterns) {
+        return patterns.any { String pattern -> subject.matches(pattern) }
+    }
+
+    private boolean userHasRole(UserProfile userProfile, Role role) {
+        return userProfile.roles.contains(role.toString())
     }
 }
