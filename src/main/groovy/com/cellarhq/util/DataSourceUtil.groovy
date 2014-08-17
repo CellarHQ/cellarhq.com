@@ -7,6 +7,7 @@ import org.jooq.tools.jdbc.JDBCUtils
 import javax.sql.DataSource
 import java.sql.Connection
 
+@SuppressWarnings('JdbcConnectionReference')
 @CompileStatic
 abstract class DataSourceUtil {
 

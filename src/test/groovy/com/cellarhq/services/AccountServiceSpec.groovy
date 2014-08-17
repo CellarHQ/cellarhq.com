@@ -12,7 +12,7 @@ class AccountServiceSpec extends Specification {
         EmailAccountDAO emailAccountDAO = Mock()
 
         and:
-        AccountService accountService = new AccountService(emailAccountDAO, null)
+        AccountService accountService = new AccountService(emailAccountDAO, null, null)
 
         and:
         EmailAccount emailAccount = new EmailAccount(

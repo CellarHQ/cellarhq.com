@@ -6,11 +6,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <!-- initial release -->
-    <include file="migrations/releases/initial-schema.xml"/>
-    <include file="migrations/releases/forgot-password-support.xml"/>
-    <include file="migrations/releases/pg-persistence-fixes.xml"/>
-
-    <!-- next: -->
-
+    <changeSet id="pg-persistence-fixes" author="rzienert" dbms="postgresql">
+        <modifyDataType tableName="drink" columnName="abv" newDataType="decimal(6,3)"/>
+        <modifyDataType tableName="cellar" columnName="last_login_ip" newDataType="varchar(30)"/>
+        <modifyDataType tableName="account_email" columnName="password" newDataType="varchar(64)"/>
+    </changeSet>
 </databaseChangeLog>

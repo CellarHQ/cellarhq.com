@@ -21,7 +21,7 @@ class PasswordChangeRequestDAO extends AbstractDAO<PasswordChangeRequest> {
     }
 
     PasswordChangeRequest find(Serializable id) {
-        Calendar calendar = Calendar.getInstance()
+        Calendar calendar = Calendar.instance
         calendar.add(Calendar.HOUR_OF_DAY, -24)
 
         DetachedCriteria criteria = criteria()

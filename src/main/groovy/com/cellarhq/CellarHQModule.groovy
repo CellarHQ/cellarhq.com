@@ -17,6 +17,7 @@ import javax.validation.ValidatorFactory
 /**
  * The main Guice module for CellarHQ.
  */
+@SuppressWarnings('AbcMetric')
 @CompileStatic
 class CellarHQModule extends AbstractModule {
 

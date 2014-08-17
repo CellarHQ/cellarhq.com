@@ -3,7 +3,6 @@ package com.cellarhq.services
 import com.cellarhq.dao.PasswordChangeRequestDAO
 import com.cellarhq.dao.EmailAccountDAO
 import com.cellarhq.dao.OAuthAccountDAO
-import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.domain.PasswordChangeRequest
@@ -57,7 +56,7 @@ class AccountService {
     }
 
     String startPasswordRecovery(EmailAccount emailAccount) {
-        String uuid = UUID.randomUUID()
+        String uuid = UUID.randomUUID().toString().replaceAll(/\W/, '')
         passwordChangeRequestDAO.save(new PasswordChangeRequest(
                 id: uuid,
                 emailAccount: emailAccount
