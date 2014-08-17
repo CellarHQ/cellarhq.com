@@ -6,6 +6,8 @@ APP_DB_PASS=cellarhq
 
 # Edit the following to change the name of the database that is created (defaults to the user name)
 APP_DB_NAME=$APP_DB_USER
+APP_DB_TESTING_NAME=_testing
+APP_DB_TESTING_NAME=$APP_DB_NAME$APP_DB_TESTING_NAME
 
 # Edit the following to change the version of PostgreSQL that is installed
 PG_VERSION=9.3
@@ -84,6 +86,8 @@ CREATE USER $APP_DB_USER WITH PASSWORD '$APP_DB_PASS';
 
 -- Create the database:
 CREATE DATABASE $APP_DB_NAME WITH OWNER $APP_DB_USER ENCODING 'UTF8' LC_COLLATE='en_US.utf8' LC_CTYPE='en_US.utf8' TEMPLATE=template0;
+
+CREATE DATABASE $APP_DB_TESTING_NAME WITH OWNER $APP_DB_USER ENCODING 'UTF8' LC_COLLATE='en_US.utf8' LC_CTYPE='en_US.utf8' TEMPLATE=template0;
 EOF
 
 # Tag the provision time:

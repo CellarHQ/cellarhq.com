@@ -5,7 +5,6 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.UserProfile
 import ratpack.handling.Context
-import ratpack.http.Request
 import ratpack.pac4j.AbstractAuthorizer
 
 /**

@@ -74,6 +74,15 @@ dependencies {
 
 }
 
+test {
+    // Maybe a better way, but I only want to change the runList if we're actually running tests.
+    if (project.gradle.startParameter.taskNames.contains('test')
+            || project.gradle.startParameter.taskNames.contains('check')) {
+        System.setProperty('liquibaseRunList', 'testing')
+    }
+}
+test.dependsOn 'dropAll', 'update'
+
 liquibase {
     activities {
         development {
@@ -82,8 +91,17 @@ liquibase {
             username 'cellarhq'
             password 'cellarhq'
         }
+        testing {
+            changeLogFile 'migrations/migrations.xml'
+            url 'jdbc:postgresql://localhost:15432/cellarhq_testing'
+            username 'cellarhq'
+            password 'cellarhq'
+        }
 //        production {}
     }
+
+    // Do not include production as a default: We don't want to accidentally run prod migrations.
+    runList = System.getProperty('liquibaseRunList', 'development,testing')
 }
 
 task cellarHqDocker(type: Docker) {

@@ -36,7 +36,7 @@ class Cellar extends AbstractEntity {
     @Column(name = 'screen_name', nullable = false, updatable = false)
     String screenName
 
-    @Column(length = 60, nullable = true)
+    @Column(name = 'display_name', length = 60, nullable = true)
     String displayName
 
     @Column(length = 100, nullable = true)
@@ -55,7 +55,7 @@ class Cellar extends AbstractEntity {
     String contactEmail
 
     @SuppressWarnings('PropertyName')
-    @Column(nullable = false)
+    @Column(name = 'private', nullable = false)
     boolean _private = false
 
     @Column(name = 'last_login', nullable = true)

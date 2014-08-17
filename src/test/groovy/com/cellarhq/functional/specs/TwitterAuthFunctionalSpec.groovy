@@ -27,7 +27,9 @@ import javax.sql.DataSource
 class TwitterAuthFunctionalSpec extends GebReportingSpec {
 
     @Shared
-    ApplicationUnderTest aut = new LocalScriptApplicationUnderTest('other.remoteControl.enabled': 'true')
+    ApplicationUnderTest aut = new LocalScriptApplicationUnderTest(
+            'other.remoteControl.enabled': 'true',
+            'other.hikari.dataSourceProperties.databaseName': 'cellarhq_testing')
 
     @Shared
     RemoteControl remote = new RemoteControl(aut)

@@ -22,6 +22,7 @@ import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 import ratpack.handlebars.HandlebarsModule
 import static ratpack.handlebars.Template.handlebarsTemplate
 import ratpack.hikari.HikariModule
+import ratpack.launch.LaunchConfig
 import ratpack.pac4j.internal.Pac4jCallbackHandler
 import ratpack.pac4j.internal.SessionConstants
 import ratpack.remote.RemoteControlModule
@@ -29,7 +30,19 @@ import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
 
-import java.time.LocalDateTime
+String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
+    String value = System.getenv(key)
+    if (value == null) {
+        if (System.hasProperty(key)) {
+            value = System.getProperty(key)
+        } else {
+            value = defaultValue
+        }
+        value = launchConfig.getOther(key, value)
+    }
+
+    return value
+}
 
 ratpack {
     bindings {
@@ -37,7 +50,14 @@ ratpack {
         bind Pac4jCallbackHandler
 
         add new CodaHaleMetricsModule().healthChecks()
-        add new HikariModule([URL: 'jdbc:h2:mem:;INIT=CREATE SCHEMA IF NOT EXISTS cellarhq'], 'org.h2.jdbcx.JdbcDataSource')
+        add new HikariModule(
+                serverName: getConfig(launchConfig, 'other.hikari.dataSourceProperties.serverName', 'localhost'),
+                portNumber: getConfig(launchConfig, 'other.hikari.dataSourceProperties.portNumber', '15432'),
+                databaseName: getConfig(launchConfig, 'other.hikari.dataSourceProperties.databaseName', 'cellarhq'),
+                user: getConfig(launchConfig, 'other.hikari.dataSourceProperties.user', 'cellarhq'),
+                password: getConfig(launchConfig, 'other.hikari.dataSourceProperties.password', 'cellarhq'),
+                getConfig(launchConfig, 'other.hikari.dataSourceClassName', 'org.postgresql.ds.PGSimpleDataSource')
+        )
         add new HibernateModule(
                 Activity,
                 Drink,

@@ -222,7 +222,7 @@
             <column name="description" type="text"/>
             <column name="srm" type="int4"/>
             <column name="ibu" type="int4"/>
-            <column name="abv" type="decimal(3,3)"/>
+            <column name="abv" type="decimal(6,3)"/>
             <column name="availability" type="varchar(20)"/>
             <column name="searchable" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false"/>

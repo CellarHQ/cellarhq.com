@@ -30,7 +30,7 @@ class Drink extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id
 
-    @Column(nullable = false)
+    @Column(name = 'drink_type', nullable = false)
     @Enumerated(value = EnumType.STRING)
     DrinkType type
 
