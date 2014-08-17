@@ -48,7 +48,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
                     transaction(context) {
                         OAuthAccount account = accountService.findByCredentials(twitterProfile.username)
                         if (account) {
-                            cellarService.updateLoginStats(account.cellar)
+                            cellarService.updateLoginStats(account.cellar, twitterProfile)
                         } else {
                             Cellar cellar = new Cellar().with { Cellar self ->
                                 screenName = twitterProfile.username

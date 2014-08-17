@@ -4,6 +4,7 @@ import com.cellarhq.dao.CellarDAO
 import com.cellarhq.domain.Cellar
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
+import org.pac4j.oauth.profile.twitter.TwitterProfile
 
 @CompileStatic
 class CellarService {
@@ -27,9 +28,19 @@ class CellarService {
         cellarDAO.findAll()
     }
 
-    void updateLoginStats(Cellar cellar) {
+    void updateLoginStats(Cellar cellar, TwitterProfile twitterProfile) {
         cellar.lastLogin = new Date()
 //        cellar.lastLoginIp // TODO  Ratpack remote address support
+
+        if (cellar.updateFromNetwork) {
+            cellar.with {
+                displayName = twitterProfile.displayName
+                location = twitterProfile.location
+                website = twitterProfile.profileUrl
+                bio = twitterProfile.description
+            }
+        }
+
         cellarDAO.save(cellar)
     }
 
