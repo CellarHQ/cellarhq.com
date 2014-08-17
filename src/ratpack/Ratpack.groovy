@@ -5,6 +5,8 @@ import com.cellarhq.CellarHQModule
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.*
+import com.cellarhq.endpoints.auth.ChangePasswordEndpoint
+import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
 import com.cellarhq.endpoints.auth.FormLoginEndpoint
 import com.cellarhq.endpoints.auth.RegisterEndpoint
 import com.cellarhq.endpoints.auth.TwitterLoginEndpoint
@@ -47,6 +49,7 @@ ratpack {
                 EmailAccount,
                 Glassware,
                 OAuthAccount,
+                PasswordChangeRequest,
                 Photo,
                 Style)
         add new RemoteControlModule()
@@ -116,10 +119,11 @@ ratpack {
                 [cellarService.save(new Cellar(screenName: 'someone'))]
             }).then { List<Cellar> cellarList ->
                 render handlebarsTemplate('index.html', 
-                    [cellars: cellarList, 
-                    title: 'CellarHQ',
-                    pageId: 'home',
-                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
+                        cellars: cellarList,
+                        title: 'CellarHQ',
+                        pageId: 'home',
+                        success: request.queryParams.success ?: '',
+                        loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
             }
         }
 
@@ -342,6 +346,7 @@ ratpack {
                     action: '/pac4j-callback',
                     method: 'post',
                     buttonText: 'Login',
+                    info: request.queryParams.info ?: '',
                     error: request.queryParams.error ?: '',
                     pageId: 'login',
                     loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
@@ -358,7 +363,8 @@ ratpack {
             }
         }
 
-        get('forgot-password') {}
+        handler('forgot-password', registry.get(ForgotPasswordEndpoint))
+        handler('forgot-password/:id', registry.get(ChangePasswordEndpoint))
 
         /**
          * Backwards compatibility endpoints:

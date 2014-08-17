@@ -12,5 +12,10 @@ abstract class BasePage extends Page {
 
         authenticatedMenu(required: false) { $('#authenticated-menu') }
         unauthenticatedMenu(required: false) { $('#unauthenticated-menu') }
+
+        errorMessages(required: false) { $('.alert.alert-danger') }
+        warningMessages(required: false) { $('.alert.alert-warning') }
+        infoMessages(required: false) { $('.alert.alert-info') }
+        successMessages(required: false) { $('.alert.alert-success') }
     }
 }

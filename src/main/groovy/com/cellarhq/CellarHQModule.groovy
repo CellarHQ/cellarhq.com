@@ -1,7 +1,12 @@
 package com.cellarhq
 
+import com.amazonaws.auth.AWSCredentials
+import com.amazonaws.auth.BasicAWSCredentials
 import com.cellarhq.dao.*
 import com.cellarhq.services.*
+import com.cellarhq.services.email.AmazonEmailService
+import com.cellarhq.services.email.EmailService
+import com.cellarhq.services.email.LogEmailService
 import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import groovy.transform.CompileStatic
@@ -14,6 +19,9 @@ import javax.validation.ValidatorFactory
  */
 @CompileStatic
 class CellarHQModule extends AbstractModule {
+
+    final static String ENV_DEPLOYMENT = 'deploymentEnv'
+    final static String ENV_DEPLOYMENT_PRODUCTION = 'production'
 
     @Override
     protected void configure() {
@@ -32,6 +40,18 @@ class CellarHQModule extends AbstractModule {
         bind(GlasswareService).in(Scopes.SINGLETON)
         bind(DrinkCategoryDAO).in(Scopes.SINGLETON)
         bind(DrinkCategoryService).in(Scopes.SINGLETON)
+        bind(PasswordChangeRequestDAO).in(Scopes.SINGLETON)
+
+        if (System.getenv(ENV_DEPLOYMENT) == ENV_DEPLOYMENT_PRODUCTION) {
+            // TODO: This should get put into the ratpack configuration file...
+            bind(AWSCredentials).toInstance(new BasicAWSCredentials(
+                    'AKIAIXBP2ORLESIX5CIQ',
+                    'DHinN9Eg3uz/Nbo3hQIvVXxK9hImzxdE04I3dHz3'
+            ))
+            bind(EmailService).to(AmazonEmailService).in(Scopes.SINGLETON)
+        } else {
+            bind(EmailService).to(LogEmailService).in(Scopes.SINGLETON)
+        }
 
         bind(ValidatorFactory).toInstance(Validation.buildDefaultValidatorFactory())
     }
