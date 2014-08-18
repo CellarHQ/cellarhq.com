@@ -1,0 +1,79 @@
+{{#partial "content"}}
+<h1>Settings</h1>
+    {{>common/messages}}
+    <h2>Profile</h2>
+    <form id="settings-form" class="form-horizontal" role="form" method="post" action="{{action}}">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Account Type</label>
+        <div class="col-sm-10">
+          <p class="text-muted">
+            {{#if isOauthAccount}}
+              Twitter
+            {{else}}
+              Email
+            {{/if}}
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Screen Name</label>
+        <div class="col-sm-10">
+          <p class="text-muted">{{cellar.screenName}}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="displayName">Name</label>
+        <div class="col-sm-10">
+          <input type="text" name="displayName" class="form-control" id="displayName" value="{{cellar.displayName}}"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="location">Location</label>
+        <div class="col-sm-10">
+          <input type="text" name="location" class="form-control" id="location" value="{{cellar.location}}"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="website">Website</label>
+        <div class="col-sm-10">
+          <input type="text" name="website" class="form-control" id="website" value="{{cellar.website}}"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="bio">Bio</label>
+        <div class="col-sm-10">
+          <input type="text" name="bio" class="form-control" id="bio" value="{{cellar.bio}}"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="xxx">Picture</label>
+        <div class="col-sm-10">
+          <input type="text" name="xxx" class="form-control" id="xxx" value="xxx"/>
+        </div>
+      </div>
+      <h2>Settings</h2>
+      {{#if isOauthAccount}}
+        <div class="checkbox col-sm-offset-2">
+          <label>
+            <input type="checkbox" name="updateFromNetwork" id="updateFromNetwork" value="{{cellar.updateFromNetwork}}"/> Update from Network
+          </label>
+          <p class="help-block">Your name, location, website and bio will update when you login using Twitter.</p>
+        </div>
+      {{/if}}
+      <div class="checkbox col-sm-offset-2">
+        <label>
+          <input type="checkbox" name="private" id="private" value="{{cellar.private}}"/> Private
+        </label>
+        <p class="help-block">Your cellar will not be searchable.
+          This is not retroactive: Only future actions will change.</p>
+      </div>
+      <div class="form-group" style="margin-top: 30px">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <a href="/settings" class="btn btn-link">cancel</a>
+        </div>
+      </div>
+    </form>
+{{/partial}}
+
+{{> layout.html}}

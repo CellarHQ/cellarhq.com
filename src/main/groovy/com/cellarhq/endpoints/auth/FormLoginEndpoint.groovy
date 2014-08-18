@@ -13,6 +13,8 @@ import org.pac4j.core.exception.TechnicalException
 import org.pac4j.http.profile.HttpProfile
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
+import ratpack.pac4j.internal.SessionConstants
+import ratpack.session.store.SessionStorage
 
 @Slf4j
 class FormLoginEndpoint extends GroovyHandler {
@@ -45,7 +47,10 @@ class FormLoginEndpoint extends GroovyHandler {
                                 exception: e.toString()
                         ]))
                         redirect(500, "/logout?error=${Messages.UNEXPECTED_SERVER_ERROR}")
-                    } then {
+                    } then { EmailAccount emailAccount ->
+                        httpProfile.id = emailAccount.cellar.id
+                        request.get(SessionStorage).put(SessionConstants.USER_PROFILE, httpProfile)
+
                         redirect('/yourcellar')
                     }
                 }

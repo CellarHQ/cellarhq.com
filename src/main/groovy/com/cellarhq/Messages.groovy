@@ -16,4 +16,6 @@ abstract class Messages {
     final static String FORGOT_PASSWORD_EMAIL_SENT_NOTICE = "Check your email! We've sent you a link to change your password"
     final static String FORGOT_PASSWORD_UNKNOWN_REQUEST = "Hmm. We couldn't find your password recovery request. Did it expire - you only have 24 hours; try again or let us know."
     final static String FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD = "Lookin' good. You can now login with your new password."
+
+    final static String SETTINGS_SAVED = "Lookin' good. We've updated your profile."
 }
