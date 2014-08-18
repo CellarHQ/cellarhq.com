@@ -5,6 +5,7 @@ import com.cellarhq.CellarHQModule
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.*
+import com.cellarhq.endpoints.SettingsEndpoint
 import com.cellarhq.endpoints.auth.ChangePasswordEndpoint
 import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
 import com.cellarhq.endpoints.auth.FormLoginEndpoint
@@ -111,7 +112,7 @@ ratpack {
 
                 Organization org = organizationService.save(new Organization(
                         type: OrganizationType.BREWERY,
-                        slug: 'http://',
+                        slug: 'surly',
                         name: 'Surly'
                     ))
 
@@ -385,6 +386,7 @@ ratpack {
 
         handler('forgot-password', registry.get(ForgotPasswordEndpoint))
         handler('forgot-password/:id', registry.get(ChangePasswordEndpoint))
+        handler('settings', registry.get(SettingsEndpoint))
 
         /**
          * Backwards compatibility endpoints:

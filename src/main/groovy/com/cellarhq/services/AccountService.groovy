@@ -11,6 +11,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.mindrot.jbcrypt.BCrypt
 
+@Deprecated
 @Slf4j
 @CompileStatic
 class AccountService {

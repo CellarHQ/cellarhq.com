@@ -14,6 +14,8 @@ import groovy.util.logging.Slf4j
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
+import ratpack.pac4j.internal.SessionConstants
+import ratpack.session.store.SessionStorage
 
 /**
  * Endpoint for the Twitter login.
@@ -76,7 +78,10 @@ class TwitterLoginEndpoint extends GroovyHandler {
                                 exception: e.toString()
                         ]))
                         redirect(500, "/logout?error=${Messages.UNEXPECTED_SERVER_ERROR}")
-                    } then {
+                    } then { OAuthAccount oAuthAccount ->
+                        twitterProfile.id = oAuthAccount.cellar.id
+                        request.get(SessionStorage).put(SessionConstants.USER_PROFILE, twitterProfile)
+
                         redirect('/yourcellar')
                     }
                 }

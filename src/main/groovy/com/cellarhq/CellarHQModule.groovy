@@ -43,6 +43,8 @@ class CellarHQModule extends AbstractModule {
         bind(DrinkCategoryService).in(Scopes.SINGLETON)
         bind(PasswordChangeRequestDAO).in(Scopes.SINGLETON)
 
+        bind(JooqCellarService).in(Scopes.SINGLETON)
+
         if (System.getenv(ENV_DEPLOYMENT) == ENV_DEPLOYMENT_PRODUCTION) {
             // TODO: This should get put into the ratpack configuration file...
             bind(AWSCredentials).toInstance(new BasicAWSCredentials(

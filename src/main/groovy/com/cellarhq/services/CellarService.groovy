@@ -6,6 +6,7 @@ import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 
+@Deprecated
 @CompileStatic
 class CellarService {
 
