@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+
+        <title>AppUI - Bootstrap Admin Web App Template</title>
+
+        <meta name="description" content="AppUI is a Bootstrap Admin Web App Template created by pixelcave and published on Themeforest">
+        <meta name="author" content="pixelcave">
+        <meta name="robots" content="noindex, nofollow">
+
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <link rel="apple-touch-icon" href="img/icon57.png" sizes="57x57">
+        <link rel="apple-touch-icon" href="img/icon72.png" sizes="72x72">
+        <link rel="apple-touch-icon" href="img/icon76.png" sizes="76x76">
+        <link rel="apple-touch-icon" href="img/icon114.png" sizes="114x114">
+        <link rel="apple-touch-icon" href="img/icon120.png" sizes="120x120">
+        <link rel="apple-touch-icon" href="img/icon144.png" sizes="144x144">
+        <link rel="apple-touch-icon" href="img/icon152.png" sizes="152x152">
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+        <!-- Bootstrap is included in its original form, unaltered -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+        <!-- Related styles of various icon packs and plugins -->
+        <link rel="stylesheet" href="css/plugins.css">
+
+        <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+        <link rel="stylesheet" href="css/main.css">
+
+        <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
+
+        <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+        <link rel="stylesheet" href="css/themes.css">
+        <!-- END Stylesheets -->
+
+        <!-- Modernizr (browser feature detection library) -->
+        <script src="js/vendor/modernizr-2.8.3.js"></script>
+    </head>
+    <body>
+        <!-- Page Wrapper -->
+        <!-- In the PHP version you can set the following options from inc/config file -->
+        <!--
+            Available classes:
+
+            'page-loading'      enables page preloader
+        -->
+        <div id="page-wrapper" class="page-loading">
+            <!-- Preloader -->
+            <!-- Preloader functionality (initialized in js/app.js) - pageLoading() -->
+            <!-- Used only if page preloader enabled from inc/config (PHP version) or the class 'page-loading' is added in body element (HTML version) -->
+            <div class="preloader">
+                <div class="inner">
+                    <!-- Animation spinner for all modern browsers -->
+                    <div class="preloader-spinner themed-background hidden-lt-ie10"></div>
+
+                    <!-- Text for IE9 -->
+                    <h3 class="text-primary visible-lt-ie10"><strong>Loading..</strong></h3>
+                </div>
+            </div>
+            <!-- END Preloader -->
+
+            <!-- Page Container -->
+            <!-- In the PHP version you can set the following options from inc/config file -->
+            <!--
+                Available #page-container classes:
+
+                'sidebar-visible-lg-mini'                       main sidebar condensed - Mini Navigation (> 991px)
+                'sidebar-visible-lg-full'                       main sidebar full - Full Navigation (> 991px)
+
+                'sidebar-alt-visible-lg'                        alternative sidebar visible by default (> 991px) (You can add it along with another class)
+
+                'header-fixed-top'                              has to be added only if the class 'navbar-fixed-top' was added on header.navbar
+                'header-fixed-bottom'                           has to be added only if the class 'navbar-fixed-bottom' was added on header.navbar
+            -->
+            <div id="page-container" class="header-fixed-top sidebar-visible-lg-full">
+                <!-- Alternative Sidebar -->
+                <div id="sidebar-alt" tabindex="-1" aria-hidden="true">
+                    <!-- Toggle Alternative Sidebar Button (visible only in static layout) -->
+                    <a href="javascript:void(0)" id="sidebar-alt-close" onclick="App.sidebar('toggle-sidebar-alt');"><i class="fa fa-times"></i></a>
+
+                    <!-- Wrapper for scrolling functionality -->
+                    <div id="sidebar-scroll-alt">
+                        <!-- Sidebar Content -->
+                        <div class="sidebar-content">
+                            <!-- Color Themes -->
+                            <!-- Preview a theme on a page functionality can be found in js/app.js - colorThemePreview() -->
+                            <div class="sidebar-section">
+                                <h2 class="text-light">Colors</h2>
+                                <ul class="sidebar-themes clearfix">
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-default" data-theme="default" data-theme-navbar="navbar-inverse"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-social" data-theme="css/themes/social.css" data-theme-navbar="navbar-inverse"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-flat" data-theme="css/themes/flat.css" data-theme-navbar="navbar-inverse"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-amethyst" data-theme="css/themes/amethyst.css" data-theme-navbar="navbar-inverse"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-creme" data-theme="css/themes/creme.css" data-theme-navbar="navbar-inverse"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-passion" data-theme="css/themes/passion.css" data-theme-navbar="navbar-inverse"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-default themed-navbar-light" data-theme="default" data-theme-navbar="navbar-default"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-social themed-navbar-light" data-theme="css/themes/social.css" data-theme-navbar="navbar-default"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-flat themed-navbar-light" data-theme="css/themes/flat.css" data-theme-navbar="navbar-default"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-amethyst themed-navbar-light" data-theme="css/themes/amethyst.css" data-theme-navbar="navbar-default"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-creme themed-navbar-light" data-theme="css/themes/creme.css" data-theme-navbar="navbar-default"></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="themed-background-passion themed-navbar-light" data-theme="css/themes/passion.css" data-theme-navbar="navbar-default"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- END Color Themes -->
+
+                            <!-- Profile -->
+                            <div class="sidebar-section">
+                                <h2 class="text-light">Profile</h2>
+                                <form action="index.html" method="post" class="form-control-borderless" onsubmit="return false;">
+                                    <div class="form-group">
+                                        <label for="side-profile-name">Name</label>
+                                        <input type="text" id="side-profile-name" name="side-profile-name" class="form-control" value="John Doe">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="side-profile-email">Email</label>
+                                        <input type="email" id="side-profile-email" name="side-profile-email" class="form-control" value="john.doe@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="side-profile-password">New Password</label>
+                                        <input type="password" id="side-profile-password" name="side-profile-password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="side-profile-password-confirm">Confirm New Password</label>
+                                        <input type="password" id="side-profile-password-confirm" name="side-profile-password-confirm" class="form-control">
+                                    </div>
+                                    <div class="form-group remove-margin">
+                                        <button type="submit" class="btn btn-effect-ripple btn-primary" onclick="App.sidebar('close-sidebar-alt');">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- END Profile -->
+
+                            <!-- Settings -->
+                            <div class="sidebar-section">
+                                <h2 class="text-light">Settings</h2>
+                                <form action="index.html" method="post" class="form-horizontal form-control-borderless" onsubmit="return false;">
+                                    <div class="form-group">
+                                        <label class="col-xs-7 control-label-fixed">Notifications</label>
+                                        <div class="col-xs-5">
+                                            <label class="switch switch-success"><input type="checkbox" checked><span></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-7 control-label-fixed">Public Profile</label>
+                                        <div class="col-xs-5">
+                                            <label class="switch switch-success"><input type="checkbox" checked><span></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-7 control-label-fixed">Enable API</label>
+                                        <div class="col-xs-5">
+                                            <label class="switch switch-success"><input type="checkbox"><span></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group remove-margin">
+                                        <button type="submit" class="btn btn-effect-ripple btn-primary" onclick="App.sidebar('close-sidebar-alt');">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- END Settings -->
+                        </div>
+                        <!-- END Sidebar Content -->
+                    </div>
+                    <!-- END Wrapper for scrolling functionality -->
+                </div>
+                <!-- END Alternative Sidebar -->
+
+                <!-- Main Sidebar -->
+                <div id="sidebar">
+                    <!-- Sidebar Brand -->
+                    <div id="sidebar-brand" class="themed-background">
+                        <a href="index.html" class="sidebar-title">
+                            <i class="fa fa-cube"></i> <span class="sidebar-nav-mini-hide">App<strong>UI</strong></span>
+                        </a>
+                    </div>
+                    <!-- END Sidebar Brand -->
+
+                    <!-- Wrapper for scrolling functionality -->
+                    <div id="sidebar-scroll">
+                        <!-- Sidebar Content -->
+                        <div class="sidebar-content">
+                            <!-- Sidebar Navigation -->
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="index.html"><i class="gi gi-compass sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Dashboard</span></a>
+                                </li>
+                                <li class="sidebar-separator">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </li>
+                                <li class="active">
+                                    <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="fa fa-rocket sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">User Interface</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="page_ui_widgets.html">Widgets</a>
+                                        </li>
+                                        <li class="active">
+                                            <a href="#" class="sidebar-nav-submenu"><i class="fa fa-chevron-left sidebar-nav-indicator"></i>Elements</a>
+                                            <ul>
+                                                <li>
+                                                    <a href="page_ui_blocks_grid.html">Blocks &amp; Grid</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_ui_typography.html">Typography</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_ui_buttons_dropdowns.html">Buttons &amp; Dropdowns</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_ui_navigation_more.html" class="active">Navigation &amp; More</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_ui_progress_loading.html">Progress &amp; Loading</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_ui_tables.html">Tables</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-nav-submenu"><i class="fa fa-chevron-left sidebar-nav-indicator"></i>Forms</a>
+                                            <ul>
+                                                <li>
+                                                    <a href="page_forms_components.html">Components</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_forms_wizard.html">Wizard</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_forms_validation.html">Validation</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-nav-submenu"><i class="fa fa-chevron-left sidebar-nav-indicator"></i>Icon Packs</a>
+                                            <ul>
+                                                <li>
+                                                    <a href="page_ui_icons_fontawesome.html">Font Awesome</a>
+                                                </li>
+                                                <li>
+                                                    <a href="page_ui_icons_glyphicons_pro.html">Glyphicons Pro</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-airplane sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Components</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="page_comp_gallery.html">Gallery</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_comp_maps.html">Google Maps</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_comp_calendar.html">Calendar</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_comp_charts.html">Charts</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_comp_animations.html">CSS3 Animations</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-more_items sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">UI Layouts</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="page_layout_static.html">Static</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_layout_fixed_top.html">Top Header (Fixed)</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_layout_fixed_bottom.html">Bottom Header (Fixed)</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_layout_static_sidebar_mini.html">Sidebar Mini (Static)</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_layout_fixed_sidebar_mini.html">Sidebar Mini (Fixed)</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_layout_alternative_sidebar_visible.html">Visible Alternative Sidebar</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="sidebar-nav-menu"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="fa fa-gift sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Extra Pages</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="page_ready_error.html">Error Page</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_blank.html">Blank</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_invoice.html">Invoice</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_search_results.html">Search Results</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_pricing_tables.html">Pricing Tables</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_faq.html">FAQ</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_login.html">Login</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_reminder.html">Password Reminder</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_register.html">Register</a>
+                                        </li>
+                                        <li>
+                                            <a href="page_ready_lock_screen.html">Lock Screen</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-separator">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </li>
+                                <li>
+                                    <a href="page_app_email.html"><i class="gi gi-inbox sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Email Center</span></a>
+                                </li>
+                                <li>
+                                    <a href="page_app_social.html"><i class="fa fa-share-alt sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Social Net</span></a>
+                                </li>
+                                <li>
+                                    <a href="page_app_media.html"><i class="gi gi-picture sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Media Box</span></a>
+                                </li>
+                            </ul>
+                            <!-- END Sidebar Navigation -->
+                        </div>
+                        <!-- END Sidebar Content -->
+                    </div>
+                    <!-- END Wrapper for scrolling functionality -->
+
+                    <!-- Sidebar Extra Info -->
+                    <div id="sidebar-extra-info" class="sidebar-content sidebar-nav-mini-hide">
+                        <div class="push-bit">
+                            <span class="pull-right">
+                                <a href="javascript:void(0)" class="text-light"><i class="fa fa-plus"></i></a>
+                            </span>
+                            <small><strong class="text-light">78 GB</strong> / 100 GB</small>
+                        </div>
+                        <div class="progress progress-mini push-bit">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%"></div>
+                        </div>
+                        <div class="text-center">
+                            <small>Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://goo.gl/vNS3I" target="_blank">pixelcave</a></small><br>
+                            <small><span id="year-copy"></span> &copy; <a href="javascript:void(0)" target="_blank">AppUI 1.0</a></small>
+                        </div>
+                    </div>
+                    <!-- END Sidebar Extra Info -->
+                </div>
+                <!-- END Main Sidebar -->
+
+                <!-- Main Container -->
+                <div id="main-container">
+                    <!-- Header -->
+                    <!-- In the PHP version you can set the following options from inc/config file -->
+                    <!--
+                        Available header.navbar classes:
+
+                        'navbar-default'            for the default light header
+                        'navbar-inverse'            for an alternative dark header
+
+                        'navbar-fixed-top'          for a top fixed header (fixed sidebars with scroll will be auto initialized, functionality can be found in js/app.js - handleSidebar())
+                            'header-fixed-top'      has to be added on #page-container only if the class 'navbar-fixed-top' was added
+
+                        'navbar-fixed-bottom'       for a bottom fixed header (fixed sidebars with scroll will be auto initialized, functionality can be found in js/app.js - handleSidebar()))
+                            'header-fixed-bottom'   has to be added on #page-container only if the class 'navbar-fixed-bottom' was added
+                    -->
+                    <header class="navbar navbar-inverse navbar-fixed-top">
+                        <!-- Left Header Navigation -->
+                        <ul class="nav navbar-nav-custom">
+                            <!-- Main Sidebar Toggle Button -->
+                            <li>
+                                <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');">
+                                    <i class="fa fa-ellipsis-v fa-fw animation-fadeInRight" id="sidebar-toggle-mini"></i>
+                                    <i class="fa fa-bars fa-fw animation-fadeInRight" id="sidebar-toggle-full"></i>
+                                </a>
+                            </li>
+                            <!-- END Main Sidebar Toggle Button -->
+
+                            <!-- Header Link -->
+                            <li class="hidden-xs animation-fadeInQuick">
+                                <a href=""><strong>UI ELEMENTS</strong></a>
+                            </li>
+                            <!-- END Header Link -->
+                        </ul>
+                        <!-- END Left Header Navigation -->
+
+                        <!-- Right Header Navigation -->
+                        <ul class="nav navbar-nav-custom pull-right">
+                            <!-- Search Form -->
+                            <li>
+                                <form action="page_ready_search_results.html" method="post" class="navbar-form-custom" role="search">
+                                    <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
+                                </form>
+                            </li>
+                            <!-- END Search Form -->
+
+                            <!-- Alternative Sidebar Toggle Button -->
+                            <li>
+                                <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt');">
+                                    <i class="gi gi-settings"></i>
+                                </a>
+                            </li>
+                            <!-- END Alternative Sidebar Toggle Button -->
+
+                            <!-- User Dropdown -->
+                            <li class="dropdown">
+                                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="img/placeholders/avatars/avatar9.jpg" alt="avatar">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li class="dropdown-header">
+                                        <strong>ADMINISTRATOR</strong>
+                                    </li>
+                                    <li>
+                                        <a href="page_app_email.html">
+                                            <i class="fa fa-inbox fa-fw pull-right"></i>
+                                            Inbox
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_app_social.html">
+                                            <i class="fa fa-pencil-square fa-fw pull-right"></i>
+                                            Profile
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_app_media.html">
+                                            <i class="fa fa-picture-o fa-fw pull-right"></i>
+                                            Media Manager
+                                        </a>
+                                    </li>
+                                    <li class="divider"><li>
+                                    <li>
+                                        <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt');">
+                                            <i class="gi gi-settings fa-fw pull-right"></i>
+                                            Settings
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_ready_lock_screen.html">
+                                            <i class="gi gi-lock fa-fw pull-right"></i>
+                                            Lock Account
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_ready_login.html">
+                                            <i class="fa fa-power-off fa-fw pull-right"></i>
+                                            Log out
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END User Dropdown -->
+                        </ul>
+                        <!-- END Right Header Navigation -->
+                    </header>
+                    <!-- END Header -->
+
+                    <!-- Page content -->
+                    <div id="page-content">
+                        <!-- Navigation - Extras Header -->
+                        <div class="content-header">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="header-section">
+                                        <h1>Navigation &amp; More</h1>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 hidden-xs">
+                                    <div class="header-section">
+                                        <ul class="breadcrumb breadcrumb-top">
+                                            <li>User Interface</li>
+                                            <li>Elements</li>
+                                            <li><a href="">Navigation &amp; More</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Navigation - Extras Header -->
+
+                        <!-- Sidebars Row -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- Main Sidebar Block -->
+                                <div class="block full">
+                                    <!-- Main Sidebar Title -->
+                                    <div class="block-title">
+                                        <h2>Main Sidebar</h2>
+                                    </div>
+                                    <!-- END Main Sidebar Title -->
+
+                                    <!-- Main Sidebar Content -->
+                                    <button class="btn btn-effect-ripple btn-success" onclick="App.sidebar('open-sidebar');">Open</button>
+                                    <button class="btn btn-effect-ripple btn-danger" onclick="App.sidebar('close-sidebar');">Close</button>
+                                    <button class="btn btn-effect-ripple btn-primary" onclick="App.sidebar('toggle-sidebar');">Toggle</button>
+                                    <!-- END Main Sidebar Content -->
+                                </div>
+                                <!-- END Main Sidebar Block -->
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Alternative Sidebar Block -->
+                                <div class="block full">
+                                    <!-- Alternative Sidebar Title -->
+                                    <div class="block-title">
+                                        <h2>Alternative Sidebar</h2>
+                                    </div>
+                                    <!-- END Alternative Sidebar Title -->
+
+                                    <!-- Alternative Sidebar Content -->
+                                    <button class="btn btn-effect-ripple btn-success" onclick="App.sidebar('open-sidebar-alt');">Open</button>
+                                    <button class="btn btn-effect-ripple btn-danger" onclick="App.sidebar('close-sidebar-alt');">Close</button>
+                                    <button class="btn btn-effect-ripple btn-primary" onclick="App.sidebar('toggle-sidebar-alt');">Toggle</button>
+                                    <!-- END Alternative Sidebar Content -->
+                                </div>
+                                <!-- END Alternative Sidebar Block -->
+                            </div>
+                        </div>
+                        <!-- END Sidebars Row -->
+
+                        <!-- Various Carousels Row -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <!-- Info Carousel Block -->
+                                <div class="block">
+                                    <!-- Info Carousel Title -->
+                                    <div class="block-title">
+                                        <h2>Info</h2>
+                                    </div>
+                                    <!-- END Info Carousel Title -->
+
+                                    <!-- Info Carousel Content -->
+                                    <div class="block-content-full">
+                                        <div id="info-carousel" class="carousel slide remove-margin">
+                                            <!-- Indicators -->
+                                            <ol class="carousel-indicators">
+                                                <li data-target="#info-carousel" data-slide-to="0" class="active"></li>
+                                                <li data-target="#info-carousel" data-slide-to="1"></li>
+                                                <li data-target="#info-carousel" data-slide-to="2"></li>
+                                                <li data-target="#info-carousel" data-slide-to="3"></li>
+                                            </ol>
+                                            <!-- END Indicators -->
+
+                                            <!-- Wrapper for slides -->
+                                            <div class="carousel-inner">
+                                                <div class="item active">
+                                                    <img src="img/placeholders/photos/photo8.jpg" alt="image">
+                                                    <div class="carousel-caption">
+                                                        <h3><strong>City by Night</strong></h3>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo7.jpg" alt="image">
+                                                    <div class="carousel-caption">
+                                                        <h3><strong>Lonely Road</strong></h3>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo11.jpg" alt="image">
+                                                    <div class="carousel-caption">
+                                                        <h3><strong>Yummy Pizza</strong></h3>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo10.jpg" alt="image">
+                                                    <div class="carousel-caption">
+                                                        <h3><strong>City in the Clouds</strong></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- END Wrapper for slides -->
+
+                                            <!-- Controls -->
+                                            <a class="left carousel-control" href="#info-carousel" data-slide="prev">
+                                                <span><i class="fa fa-chevron-left"></i></span>
+                                            </a>
+                                            <a class="right carousel-control" href="#info-carousel" data-slide="next">
+                                                <span><i class="fa fa-chevron-right"></i></span>
+                                            </a>
+                                            <!-- END Controls -->
+                                        </div>
+                                    </div>
+                                    <!-- END Info Carousel Content -->
+                                </div>
+                                <!-- END Info Carousel Block -->
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- Simple Carousel Block -->
+                                <div class="block">
+                                    <!-- Simple Carousel Title -->
+                                    <div class="block-title">
+                                        <h2>Simple</h2>
+                                    </div>
+                                    <!-- END Simple Carousel Title -->
+
+                                    <!-- Simple Carousel Content -->
+                                    <div class="block-content-full">
+                                        <div id="simple-carousel" class="carousel remove-margin">
+                                            <!-- Wrapper for slides -->
+                                            <div class="carousel-inner">
+                                                <div class="item active">
+                                                    <img src="img/placeholders/photos/photo11.jpg" alt="image">
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo14.jpg" alt="image">
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo2.jpg" alt="image">
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo15.jpg" alt="image">
+                                                </div>
+                                            </div>
+                                            <!-- END Wrapper for slides -->
+
+                                            <!-- Controls -->
+                                            <a class="left carousel-control" href="#simple-carousel" data-slide="prev">
+                                                <span><i class="fa fa-chevron-left"></i></span>
+                                            </a>
+                                            <a class="right carousel-control" href="#simple-carousel" data-slide="next">
+                                                <span><i class="fa fa-chevron-right"></i></span>
+                                            </a>
+                                            <!-- END Controls -->
+                                        </div>
+                                    </div>
+                                    <!-- END Simple Carousel Content -->
+                                </div>
+                                <!-- END Simple Carousel Block -->
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- Animation and Auto Slide Carousel Block -->
+                                <div class="block">
+                                    <!-- Animation and Auto Slide Carousel Title -->
+                                    <div class="block-title">
+                                        <h2>Animation &amp; Auto Slide</h2>
+                                    </div>
+                                    <!-- END Animation and Auto Slide Carousel Title -->
+
+                                    <!-- Animation and Auto Slide Carousel Content -->
+                                    <div class="block-content-full">
+                                        <div id="animation-carousel" class="carousel slide remove-margin" data-ride="carousel" data-interval="1500">
+                                            <!-- Wrapper for slides -->
+                                            <div class="carousel-inner">
+                                                <div class="item active">
+                                                    <img src="img/placeholders/photos/photo18.jpg" alt="image">
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo19.jpg" alt="image">
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo21.jpg" alt="image">
+                                                </div>
+                                                <div class="item">
+                                                    <img src="img/placeholders/photos/photo7.jpg" alt="image">
+                                                </div>
+                                            </div>
+                                            <!-- END Wrapper for slides -->
+
+                                            <!-- Controls -->
+                                            <a class="left carousel-control" href="#animation-carousel" data-slide="prev">
+                                                <span><i class="fa fa-chevron-left"></i></span>
+                                            </a>
+                                            <a class="right carousel-control" href="#animation-carousel" data-slide="next">
+                                                <span><i class="fa fa-chevron-right"></i></span>
+                                            </a>
+                                            <!-- END Controls -->
+                                        </div>
+                                    </div>
+                                    <!-- END Animation and Auto Slide Carousel Content -->
+                                </div>
+                                <!-- END Animation and Auto Slide Carousel Block -->
+                            </div>
+                        </div>
+                        <!-- END Various Carousels Row -->
+
+                        <!-- Nav Row -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- List Groups Block -->
+                                <div class="block">
+                                    <!-- List Groups Title -->
+                                    <div class="block-title">
+                                        <h2>List Groups</h2>
+                                    </div>
+                                    <!-- END List Groups Title -->
+
+                                    <!-- List Groups Content -->
+                                    <div class="list-group">
+                                        <a href="javascript:void(0)" class="list-group-item active">
+                                            <span class="badge"><i class="fa fa-fw fa-inbox"></i></span>
+                                            <h4 class="list-group-item-heading"><strong>Inbox</strong></h4>
+                                            <p class="list-group-item-text">Your new messages</p>
+                                        </a>
+                                        <a href="javascript:void(0)" class="list-group-item">
+                                            <span class="badge"><i class="fa fa-fw fa-send"></i></span>
+                                            <h4 class="list-group-item-heading"><strong>Sent</strong></h4>
+                                            <p class="list-group-item-text">Everything you've sent it's here</p>
+                                        </a>
+                                        <a href="javascript:void(0)" class="list-group-item">
+                                            <span class="badge"><i class="fa fa-fw fa-archive"></i></span>
+                                            <h4 class="list-group-item-heading"><strong>Archive</strong></h4>
+                                            <p class="list-group-item-text">All your archived messages</p>
+                                        </a>
+                                        <a href="javascript:void(0)" class="list-group-item">
+                                            <span class="badge"><i class="fa fa-fw fa-trash-o"></i></span>
+                                            <h4 class="list-group-item-heading"><strong>Trash</strong></h4>
+                                            <p class="list-group-item-text">All your deleted messages</p>
+                                        </a>
+                                    </div>
+                                    <div class="list-group">
+                                        <a href="javascript:void(0)" class="list-group-item active">
+                                            <span class="badge">9</span>
+                                            <h4 class="list-group-item-heading"><strong>Inbox</strong></h4>
+                                        </a>
+                                        <a href="javascript:void(0)" class="list-group-item">
+                                            <span class="badge">2.5k</span>
+                                            <h4 class="list-group-item-heading"><strong>Sent</strong></h4>
+                                        </a>
+                                        <a href="javascript:void(0)" class="list-group-item">
+                                            <span class="badge">3k</span>
+                                            <h4 class="list-group-item-heading"><strong>Archive</strong></h4>
+                                        </a>
+                                        <a href="javascript:void(0)" class="list-group-item">
+                                            <span class="badge">150</span>
+                                            <h4 class="list-group-item-heading"><strong>Trash</strong></h4>
+                                        </a>
+                                    </div>
+                                    <!-- END List Groups Content -->
+                                </div>
+                                <!-- END List Groups Block -->
+
+                                <!-- Pagination Block -->
+                                <div class="block">
+                                    <!-- Pagination Title -->
+                                    <div class="block-title">
+                                        <h2>Pagination</h2>
+                                    </div>
+                                    <!-- END Pagination Title -->
+
+                                    <!-- Default Pagination and States -->
+                                    <ul class="pagination">
+                                        <li class="disabled"><a href="javascript:void(0)">Prev</a></li>
+                                        <li class="active"><a href="javascript:void(0)">1</a></li>
+                                        <li><a href="javascript:void(0)">2</a></li>
+                                        <li><a href="javascript:void(0)">3</a></li>
+                                        <li><a href="javascript:void(0)">Next</a></li>
+                                    </ul>
+                                    <!-- END Default Pagination and States -->
+
+                                    <!-- Pagination Sizes -->
+                                    <h4 class="sub-header">Sizes</h4>
+                                    <div>
+                                        <ul class="pagination pagination-sm">
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+                                            <li><a href="javascript:void(0)">1</a></li>
+                                            <li class="active"><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="pagination">
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+                                            <li><a href="javascript:void(0)">1</a></li>
+                                            <li class="active"><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="pagination pagination-lg">
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+                                            <li><a href="javascript:void(0)">1</a></li>
+                                            <li class="active"><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END Pagination Sizes -->
+
+                                    <!-- Pagination Alignment -->
+                                    <h4 class="sub-header">Alignments</h4>
+                                    <div>
+                                        <ul class="pagination">
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+                                            <li><a href="javascript:void(0)">1</a></li>
+                                            <li class="active"><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-center">
+                                        <ul class="pagination">
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+                                            <li><a href="javascript:void(0)">1</a></li>
+                                            <li class="active"><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-right">
+                                        <ul class="pagination">
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-left"></i></a></li>
+                                            <li><a href="javascript:void(0)">1</a></li>
+                                            <li class="active"><a href="javascript:void(0)">2</a></li>
+                                            <li><a href="javascript:void(0)">3</a></li>
+                                            <li><a href="javascript:void(0)"><i class="fa fa-chevron-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END Pagination Alignment -->
+                                </div>
+                                <!-- END Pagination Block -->
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Popovers, Tooltips and Modals Block -->
+                                <div class="block">
+                                    <!-- Popovers, Tooltips and Modals Title -->
+                                    <div class="block-title">
+                                        <h2>Popovers, Tooltips &amp; Modals</h2>
+                                    </div>
+                                    <!-- END Popovers, Tooltips and Modals Title -->
+
+                                    <!-- Popovers, you can also use the class 'enable-popover' instead of data-toggle attribute -->
+                                    <div class="block-section">
+                                        <button class="btn btn-effect-ripple btn-default" data-toggle="popover" data-content="Content.." title="Title">Popover</button>
+                                        <button class="btn btn-effect-ripple btn-primary" data-toggle="popover" data-content="Content.." data-placement="top" title="Title"><i class="fa fa-chevron-up fa-fw"></i></button>
+                                        <button class="btn btn-effect-ripple btn-primary" data-toggle="popover" data-content="Content.." data-placement="right" title="Title"><i class="fa fa-chevron-right fa-fw"></i></button>
+                                        <button class="btn btn-effect-ripple btn-primary" data-toggle="popover" data-content="Content.." data-placement="bottom" title="Title"><i class="fa fa-chevron-down fa-fw"></i></button>
+                                        <button class="btn btn-effect-ripple btn-primary" data-toggle="popover" data-content="Content.." data-placement="left" title="Title"><i class="fa fa-chevron-left fa-fw"></i></button>
+                                    </div>
+                                    <!-- END Popovers -->
+
+                                    <!-- Tooltips, you can also use the class 'enable-tooltip' instead of data-toggle attribute -->
+                                    <div class="block-section">
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default" data-toggle="tooltip" title="Tooltip">Tooltip</a>
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="top" title="Top Tooltip"><i class="fa fa-chevron-up fa-fw"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="right" title="Right Tooltip"><i class="fa fa-chevron-right fa-fw"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="bottom" title="Bottom Tooltip"><i class="fa fa-chevron-down fa-fw"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Left Tooltip"><i class="fa fa-chevron-left fa-fw"></i></a>
+                                    </div>
+                                    <!-- END Tooltips -->
+
+                                    <!-- Modals -->
+                                    <!-- For advanced modal usage you can check out http://getbootstrap.com/javascript/#modals -->
+                                    <div class="block-section">
+                                        <!-- Modal links -->
+                                        <a href="#modal-regular" class="btn btn-effect-ripple btn-default" data-toggle="modal">Modal</a>
+                                        <a href="#modal-small" class="btn btn-effect-ripple btn-primary" data-toggle="modal">Small</a>
+                                        <a href="#modal-large" class="btn btn-effect-ripple btn-primary" data-toggle="modal">Large</a>
+                                        <a href="#modal-fade" class="btn btn-effect-ripple btn-danger" data-toggle="modal">Fade In</a>
+                                        <a href="#modal-tabs" class="btn btn-effect-ripple btn-warning" data-toggle="modal">Tabs</a>
+                                    </div>
+                                    <!-- END Modals -->
+
+                                    <!-- Regular Modal -->
+                                    <div id="modal-regular" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h3 class="modal-title"><strong>Modal</strong></h3>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Content..
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-effect-ripple btn-primary">Save</button>
+                                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Regular Modal -->
+
+                                    <!-- Small Modal -->
+                                    <div id="modal-small" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h3 class="modal-title"><strong>Small Modal</strong></h3>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Content..
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-effect-ripple btn-primary">Save</button>
+                                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Small Modal -->
+
+                                    <!-- Large Modal -->
+                                    <div id="modal-large" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h3 class="modal-title"><strong>Large Modal</strong></h3>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Content..
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-effect-ripple btn-primary">Save</button>
+                                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Large Modal -->
+
+                                    <!-- Regular Fade -->
+                                    <div id="modal-fade" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h3 class="modal-title"><strong>Modal</strong></h3>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Content..
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-effect-ripple btn-primary">Save</button>
+                                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Regular Fade -->
+
+                                    <!-- Regular Tabs -->
+                                    <div id="modal-tabs" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <ul class="nav nav-tabs" data-toggle="tabs">
+                                                        <li class="active"><a href="#modal-tabs-home"><i class="fa fa-home"></i> Home</a></li>
+                                                        <li><a href="#modal-tabs-settings" data-toggle="tooltip" title="Settings"><i class="gi gi-settings"></i> Settings</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="modal-tabs-home">Home..</div>
+                                                        <div class="tab-pane" id="modal-tabs-settings">Settings..</div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-effect-ripple btn-primary">Save</button>
+                                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Regular Tabs -->
+                                </div>
+                                <!-- END Popovers, Tooltips and Modals Block -->
+
+                                <!-- Block Tabs -->
+                                <div class="block full">
+                                    <!-- Block Tabs Title -->
+                                    <div class="block-title">
+                                        <div class="block-options pull-right">
+                                            <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default" data-toggle="tooltip" title="Settings"><i class="fa fa-cog"></i></a>
+                                        </div>
+                                        <ul class="nav nav-tabs" data-toggle="tabs">
+                                            <li class="active"><a href="#block-tabss-home">Home</a></li>
+                                            <li><a href="#block-tabss-profile">Profile</a></li>
+                                            <li><a href="#block-tabss-settings" data-toggle="tooltip" title="Settings"><i class="gi gi-settings"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END Block Tabs Title -->
+
+                                    <!-- Tabs Content -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="block-tabss-home">Block Tabs..</div>
+                                        <div class="tab-pane" id="block-tabss-profile">Profile..</div>
+                                        <div class="tab-pane" id="block-tabss-settings">Settings..</div>
+                                    </div>
+                                    <!-- END Tabs Content -->
+                                </div>
+                                <!-- END Block Tabs -->
+
+                                <!-- Navs Block -->
+                                <div class="block">
+                                    <!-- Navs Title -->
+                                    <div class="block-title">
+                                        <h2>Navigation Elements</h2>
+                                    </div>
+                                    <!-- END Navs Title -->
+
+                                    <!-- Breadcrumb -->
+                                    <div class="block-section">
+                                        <h4 class="sub-header">Breadcrumb</h4>
+                                        <ol class="breadcrumb">
+                                            <li><a href="javascript:void(0)"><i class="fa fa-home"></i></a></li>
+                                            <li><a href="javascript:void(0)">Profile</a></li>
+                                            <li><a href="javascript:void(0)">Settings</a></li>
+                                        </ol>
+                                    </div>
+                                    <!-- END Breadcrumb -->
+
+                                    <!-- Tabs -->
+                                    <div class="block-section">
+                                        <h4 class="sub-header">Tabs</h4>
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="javascript:void(0)">Home</a></li>
+                                            <li><a href="javascript:void(0)">News</a></li>
+                                            <li><a href="javascript:void(0)"><i class="gi gi-settings"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END Tabs -->
+
+                                    <!-- Pills -->
+                                    <div class="block-section">
+                                        <h4 class="sub-header">Pills</h4>
+                                        <ul class="nav nav-pills">
+                                            <li class="active"><a href="javascript:void(0)">Home</a></li>
+                                            <li><a href="javascript:void(0)">News</a></li>
+                                            <li class="disabled"><a href="javascript:void(0)">Disabled</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END Pills -->
+
+                                    <!-- Stacked Pills -->
+                                    <div class="block-section">
+                                        <h4 class="sub-header">Stacked Pills</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <ul class="nav nav-pills nav-stacked">
+                                                    <li class="active">
+                                                        <a href="javascript:void(0)"><span class="badge pull-right">3</span><i class="fa fa-fw fa-home icon-push"></i> Home</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)"><span class="badge pull-right">9</span><i class="fa fa-fw fa-tasks icon-push"></i> Notifications</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)"><span class="badge pull-right">5</span><i class="fa fa-fw fa-asterisk icon-push"></i> News</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="nav nav-pills nav-stacked">
+                                                    <li class="active">
+                                                        <a href="javascript:void(0)"><span class="badge pull-right">1</span>Home</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)"><span class="badge pull-right">3</span>News</a>
+                                                    </li>
+                                                    <li class="disabled">
+                                                        <a href="javascript:void(0)">Disabled</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Stacked Pills -->
+
+                                    <!-- Pager -->
+                                    <div class="block-section">
+                                        <h4 class="sub-header">Pager</h4>
+                                        <div class="block full">
+                                            <ul class="pager">
+                                                <li class="previous"><a href="javascript:void(0)">Previous</a></li>
+                                                <li class="next disabled"><a href="javascript:void(0)">Next</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="block full">
+                                            <ul class="pager">
+                                                <li class="previous"><a href="javascript:void(0)"><i class="fa fa-arrow-left"></i></a></li>
+                                                <li class="next"><a href="javascript:void(0)"><i class="fa fa-arrow-right"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- END Pager -->
+                                </div>
+                                <!-- END Navs Block -->
+                            </div>
+                        </div>
+                        <!-- END Nav Row -->
+                    </div>
+                    <!-- END Page Content -->
+                </div>
+                <!-- END Main Container -->
+            </div>
+            <!-- END Page Container -->
+        </div>
+        <!-- END Page Wrapper -->
+
+        <!-- Include Jquery library from Google's CDN but if something goes wrong get Jquery from local file (Remove 'http:' if you have SSL) -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>!window.jQuery && document.write(decodeURI('%3Cscript src="js/vendor/jquery-2.1.1.min.js"%3E%3C/script%3E'));</script>
+
+        <!-- Bootstrap.js, Jquery plugins and Custom JS code -->
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
