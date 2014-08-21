@@ -1,0 +1,362 @@
+/*
+ *  Document   : flat.css
+ *  Author     : pixelcave
+ *  Description: THEME FLAT
+ *
+ */
+
+/* Dark Colors */
+body,
+.navbar-default .navbar-nav > li > a,
+.nav.navbar-nav-custom > li > a,
+.sidebar-nav a.active,
+.block-options .btn,
+.text-dark,
+.text-dark:hover,
+a.text-dark,
+a.text-dark:hover,
+a.text-dark:focus,
+.form-control,
+.nav-pills > li > a,
+.nav-tabs > li > a,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus,
+.nav-users a,
+li.dropdown-header,
+.chosen-container-single .chosen-single {
+    color: #374249;
+}
+
+.themed-color-dark {
+    color: #374249 !important;
+}
+
+body,
+#page-container,
+#sidebar,
+.sidebar-nav ul .active > ul,
+.sidebar-nav ul .open + ul {
+    background-color: #374249;
+}
+
+.themed-background-dark {
+    background-color: #374249 !important;
+}
+
+.sidebar-nav ul a {
+    border-left-color: #374249;
+}
+
+#sidebar-alt,
+#sidebar-alt-close {
+    background: rgba(55, 66, 73, .9);
+}
+
+@media screen and (min-width: 992px) {
+
+    #page-container.sidebar-visible-lg-mini #sidebar .sidebar-nav .sidebar-nav-menu + ul {
+        background-color: #2b343a;
+    }
+}
+
+/* Light Colors */
+.sidebar-content,
+.sidebar-nav a {
+    color: #acb8bf;
+}
+
+#page-content,
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th,
+li.dropdown-header,
+thead th.fc-widget-header,
+.slider-track {
+    background-color: #ebeff2;
+}
+
+.table thead > tr > th,
+.table tbody > tr > th,
+.table tfoot > tr > th,
+.table thead > tr > td,
+.table tbody > tr > td,
+.table tfoot > tr > td,
+.table tbody + tbody,
+.table-bordered,
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td,
+.list-group-item,
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus,
+.pager > li > a,
+.pager > li > span,
+.pager > li.disabled > a:hover,
+.dropzone,
+.dataTables_wrapper > div {
+    border-color: #ebeff2;
+}
+
+fieldset legend,
+.form-bordered .form-group {
+    border-bottom-color: #ebeff2;
+}
+
+.block-title .nav-tabs > li.active > a,
+.block-title .nav-tabs > li.active > a:hover,
+.block-title .nav-tabs > li.active > a:focus,
+.switch-default input:checked + span,
+.csscheckbox-default input:checked + span:after {
+    background-color: #dae2e8;
+}
+
+.block .block,
+.form-control,
+.input-group-addon,
+.csscheckbox span,
+.dropdown-menu,
+.fc-widget-header,
+.fc-widget-content,
+.chosen-container-single .chosen-single,
+.chosen-container-single .chosen-search input[type="text"],
+.chosen-container-multi .chosen-choices,
+div.tagsinput {
+    border-color: #dae2e8;
+}
+
+#page-content-sidebar,
+.content-header,
+.block-title,
+.navbar.navbar-default,
+.navbar.navbar-default.navbar-glass:hover,
+thead th.fc-widget-header {
+    border-bottom-color: #dae2e8;
+}
+
+.block {
+    -webkit-box-shadow: 0 2px 0 rgba(218, 226, 232, .5);
+    box-shadow: 0 2px 0 rgba(218, 226, 232, .5);
+}
+
+.block-title {
+    background: rgba(218, 226, 232, .15);
+}
+
+@media screen and (min-width: 768px) {
+
+    #page-content.inner-sidebar-left #page-content-sidebar {
+        border-right-color: #dae2e8;
+    }
+
+    #page-content.inner-sidebar-right #page-content-sidebar {
+        border-left-color: #dae2e8;
+    }
+}
+
+/* Highlight Colors */
+.text-primary,
+.text-primary:hover,
+a,
+a:hover,
+a:focus,
+a.text-primary,
+a.text-primary:hover,
+a.text-primary:focus,
+.nav-pills > .active > a > .badge,
+.pagination > li > a,
+.pagination > li > span,
+.btn-link,
+.btn-link:hover,
+.btn-link:focus {
+    color: #45a7b9;
+}
+
+.themed-color {
+    color: #45a7b9 !important;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus,
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus,
+.nav.navbar-nav-custom > li.open > a,
+.nav.navbar-nav-custom > li > a:hover,
+.nav.navbar-nav-custom > li > a:focus,
+.sidebar-title,
+.navbar.navbar-inverse,
+.navbar.navbar-inverse.navbar-glass:hover,
+.switch-primary input:checked + span,
+.csscheckbox-primary input:checked + span:after,
+.table.table-pricing th,
+a.list-group-item.active,
+a.list-group-item.active:hover,
+a.list-group-item.active:focus,
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus,
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus,
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus,
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus,
+.pager > li > a:hover,
+.pagination > li > a:hover,
+.label-primary,
+.label-primary[href]:hover,
+.label-primary[href]:focus,
+.fc-event,
+.chosen-container .chosen-results li.highlighted,
+.chosen-container-multi .chosen-choices li.search-choice,
+.datepicker table tr td.active,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.active:hover:hover,
+.datepicker table tr td.active.disabled:hover,
+.datepicker table tr td.active.disabled:hover:hover,
+.datepicker table tr td.active:active,
+.datepicker table tr td.active:hover:active,
+.datepicker table tr td.active.disabled:active,
+.datepicker table tr td.active.disabled:hover:active,
+.datepicker table tr td.active.active,
+.datepicker table tr td.active:hover.active,
+.datepicker table tr td.active.disabled.active,
+.datepicker table tr td.active.disabled:hover.active,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active:hover.disabled,
+.datepicker table tr td.active.disabled.disabled,
+.datepicker table tr td.active.disabled:hover.disabled,
+.datepicker table tr td.active[disabled],
+.datepicker table tr td.active:hover[disabled],
+.datepicker table tr td.active.disabled[disabled],
+.datepicker table tr td.active.disabled:hover[disabled],
+.datepicker table tr td span.active:hover,
+.datepicker table tr td span.active:hover:hover,
+.datepicker table tr td span.active.disabled:hover,
+.datepicker table tr td span.active.disabled:hover:hover,
+.datepicker table tr td span.active:active,
+.datepicker table tr td span.active:hover:active,
+.datepicker table tr td span.active.disabled:active,
+.datepicker table tr td span.active.disabled:hover:active,
+.datepicker table tr td span.active.active,
+.datepicker table tr td span.active:hover.active,
+.datepicker table tr td span.active.disabled.active,
+.datepicker table tr td span.active.disabled:hover.active,
+.datepicker table tr td span.active.disabled,
+.datepicker table tr td span.active:hover.disabled,
+.datepicker table tr td span.active.disabled.disabled,
+.datepicker table tr td span.active.disabled:hover.disabled,
+.datepicker table tr td span.active[disabled],
+.datepicker table tr td span.active:hover[disabled],
+.datepicker table tr td span.active.disabled[disabled],
+.datepicker table tr td span.active.disabled:hover[disabled],
+.bootstrap-timepicker-widget table td a:hover,
+div.tagsinput span.tag,
+.slider-selection,
+.progress-bar-primary {
+    background-color: #45a7b9;
+}
+
+.themed-background {
+    background-color: #45a7b9 !important;
+}
+
+.form-control:focus,
+.table.table-pricing.table-featured,
+.table.table-pricing:hover,
+a.list-group-item.active,
+a.list-group-item.active:hover,
+a.list-group-item.active:focus,
+.pager > li > a:hover,
+.pagination > li > a:hover,
+.fc-event,
+.chosen-container .chosen-drop,
+.chosen-container-multi .chosen-choices li.search-choice,
+.chosen-container-active .chosen-single,
+.chosen-container-active.chosen-with-drop .chosen-single,
+.chosen-container-active .chosen-choices,
+div.tagsinput span.tag {
+    border-color: #45a7b9;
+}
+
+.sidebar-nav a.active {
+    border-right-color: #45a7b9;
+}
+
+.nav .caret,
+.nav a:hover .caret,
+.nav a:focus .caret {
+    border-top-color: #45a7b9;
+    border-bottom-color: #45a7b9;
+}
+
+.btn-primary,
+.fc-state-default {
+    background-color: #45a7b9;
+    border-color: #45a7b9;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .btn-primary.dropdown-toggle,
+.fc-state-hover,
+.fc-state-down,
+.fc-state-active,
+.fc-state-disabled {
+    background-color: #0088a1;
+    border-color: #0088a1;
+}
+
+.btn-primary.disabled,
+.btn-primary.disabled:hover,
+.btn-primary.disabled:focus,
+.btn-primary.disabled:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled]:hover,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary:active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #45a7b9;
+    border-color: #45a7b9;
+}
+
+.sidebar-nav-ripple {
+    background: rgba(69, 167, 185, .3);
+}
+
+.navbar.navbar-inverse.navbar-glass {
+    background: rgba(69, 167, 185, .9);
+}
