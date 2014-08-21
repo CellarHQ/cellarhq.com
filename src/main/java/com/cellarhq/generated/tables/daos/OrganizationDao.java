@@ -99,7 +99,7 @@ public class OrganizationDao extends org.jooq.impl.DAOImpl<com.cellarhq.generate
 	/**
 	 * Fetch records that have <code>established IN (values)</code>
 	 */
-	public java.util.List<com.cellarhq.generated.tables.pojos.Organization> fetchByEstablished(java.time.LocalDate... values) {
+	public java.util.List<com.cellarhq.generated.tables.pojos.Organization> fetchByEstablished(java.lang.Short... values) {
 		return fetch(com.cellarhq.generated.tables.Organization.ORGANIZATION.ESTABLISHED, values);
 	}
 
@@ -199,5 +199,12 @@ public class OrganizationDao extends org.jooq.impl.DAOImpl<com.cellarhq.generate
 	 */
 	public java.util.List<com.cellarhq.generated.tables.pojos.Organization> fetchByModifiedDate(java.sql.Timestamp... values) {
 		return fetch(com.cellarhq.generated.tables.Organization.ORGANIZATION.MODIFIED_DATE, values);
+	}
+
+	/**
+	 * Fetch records that have <code>data IN (values)</code>
+	 */
+	public java.util.List<com.cellarhq.generated.tables.pojos.Organization> fetchByData(java.lang.Object... values) {
+		return fetch(com.cellarhq.generated.tables.Organization.ORGANIZATION.DATA, values);
 	}
 }

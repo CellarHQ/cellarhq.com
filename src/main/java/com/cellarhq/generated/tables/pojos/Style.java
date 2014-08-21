@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "style", schema = "public")
 public class Style implements java.io.Serializable {
 
-	private static final long serialVersionUID = 580512430;
+	private static final long serialVersionUID = -423138051;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -25,6 +25,7 @@ public class Style implements java.io.Serializable {
 	private java.sql.Timestamp breweryDbLastUpdated;
 	private java.sql.Timestamp createdDate;
 	private java.sql.Timestamp modifiedDate;
+	private java.lang.Object   data;
 
 	public Style() {}
 
@@ -38,7 +39,8 @@ public class Style implements java.io.Serializable {
 		java.lang.String   breweryDbId,
 		java.sql.Timestamp breweryDbLastUpdated,
 		java.sql.Timestamp createdDate,
-		java.sql.Timestamp modifiedDate
+		java.sql.Timestamp modifiedDate,
+		java.lang.Object   data
 	) {
 		this.id = id;
 		this.version = version;
@@ -50,6 +52,7 @@ public class Style implements java.io.Serializable {
 		this.breweryDbLastUpdated = breweryDbLastUpdated;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
+		this.data = data;
 	}
 
 	@javax.persistence.Id
@@ -150,5 +153,14 @@ public class Style implements java.io.Serializable {
 
 	public void setModifiedDate(java.sql.Timestamp modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@javax.persistence.Column(name = "data")
+	public java.lang.Object getData() {
+		return this.data;
+	}
+
+	public void setData(java.lang.Object data) {
+		this.data = data;
 	}
 }

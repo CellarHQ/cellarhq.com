@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Glassware extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.GlasswareRecord> {
 
-	private static final long serialVersionUID = 1625170613;
+	private static final long serialVersionUID = -1269597983;
 
 	/**
 	 * The singleton instance of <code>public.glassware</code>
@@ -70,6 +70,11 @@ public class Glassware extends org.jooq.impl.TableImpl<com.cellarhq.generated.ta
 	 * The column <code>public.glassware.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.GlasswareRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.glassware.data</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.GlasswareRecord, java.lang.Object> DATA = createField("data", org.jooq.impl.SQLDataType.OTHER, this, "");
 
 	/**
 	 * Create a <code>public.glassware</code> table reference

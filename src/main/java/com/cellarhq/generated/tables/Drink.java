@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.DrinkRecord> {
 
-	private static final long serialVersionUID = -1306318865;
+	private static final long serialVersionUID = -1041179678;
 
 	/**
 	 * The singleton instance of <code>public.drink</code>
@@ -89,7 +89,7 @@ public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables
 	/**
 	 * The column <code>public.drink.abv</code>.
 	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.math.BigDecimal> ABV = createField("abv", org.jooq.impl.SQLDataType.NUMERIC.precision(3, 3), this, "");
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.math.BigDecimal> ABV = createField("abv", org.jooq.impl.SQLDataType.NUMERIC.precision(6, 3), this, "");
 
 	/**
 	 * The column <code>public.drink.availability</code>.
@@ -130,6 +130,11 @@ public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables
 	 * The column <code>public.drink.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.drink.data</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Object> DATA = createField("data", org.jooq.impl.SQLDataType.OTHER, this, "");
 
 	/**
 	 * Create a <code>public.drink</code> table reference

@@ -13,56 +13,58 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = -725411340;
+	private static final long serialVersionUID = 112606425;
 
-	private java.lang.Long      id;
-	private java.lang.Integer   version;
-	private java.lang.Long      photoId;
-	private java.lang.String    type;
-	private java.lang.String    slug;
-	private java.lang.String    name;
-	private java.lang.String    description;
-	private java.time.LocalDate established;
-	private java.lang.String    phone;
-	private java.lang.String    website;
-	private java.lang.String    address;
-	private java.lang.String    address2;
-	private java.lang.String    locality;
-	private java.lang.String    postalCode;
-	private java.lang.String    country;
-	private java.lang.Boolean   searchable;
-	private java.lang.String    breweryDbId;
-	private java.sql.Timestamp  breweryDbLastUpdated;
-	private java.lang.Boolean   locked;
-	private java.lang.Boolean   needsModeration;
-	private java.sql.Timestamp  createdDate;
-	private java.sql.Timestamp  modifiedDate;
+	private java.lang.Long     id;
+	private java.lang.Integer  version;
+	private java.lang.Long     photoId;
+	private java.lang.String   type;
+	private java.lang.String   slug;
+	private java.lang.String   name;
+	private java.lang.String   description;
+	private java.lang.Short    established;
+	private java.lang.String   phone;
+	private java.lang.String   website;
+	private java.lang.String   address;
+	private java.lang.String   address2;
+	private java.lang.String   locality;
+	private java.lang.String   postalCode;
+	private java.lang.String   country;
+	private java.lang.Boolean  searchable;
+	private java.lang.String   breweryDbId;
+	private java.sql.Timestamp breweryDbLastUpdated;
+	private java.lang.Boolean  locked;
+	private java.lang.Boolean  needsModeration;
+	private java.sql.Timestamp createdDate;
+	private java.sql.Timestamp modifiedDate;
+	private java.lang.Object   data;
 
 	public Organization() {}
 
 	public Organization(
-		java.lang.Long      id,
-		java.lang.Integer   version,
-		java.lang.Long      photoId,
-		java.lang.String    type,
-		java.lang.String    slug,
-		java.lang.String    name,
-		java.lang.String    description,
-		java.time.LocalDate established,
-		java.lang.String    phone,
-		java.lang.String    website,
-		java.lang.String    address,
-		java.lang.String    address2,
-		java.lang.String    locality,
-		java.lang.String    postalCode,
-		java.lang.String    country,
-		java.lang.Boolean   searchable,
-		java.lang.String    breweryDbId,
-		java.sql.Timestamp  breweryDbLastUpdated,
-		java.lang.Boolean   locked,
-		java.lang.Boolean   needsModeration,
-		java.sql.Timestamp  createdDate,
-		java.sql.Timestamp  modifiedDate
+		java.lang.Long     id,
+		java.lang.Integer  version,
+		java.lang.Long     photoId,
+		java.lang.String   type,
+		java.lang.String   slug,
+		java.lang.String   name,
+		java.lang.String   description,
+		java.lang.Short    established,
+		java.lang.String   phone,
+		java.lang.String   website,
+		java.lang.String   address,
+		java.lang.String   address2,
+		java.lang.String   locality,
+		java.lang.String   postalCode,
+		java.lang.String   country,
+		java.lang.Boolean  searchable,
+		java.lang.String   breweryDbId,
+		java.sql.Timestamp breweryDbLastUpdated,
+		java.lang.Boolean  locked,
+		java.lang.Boolean  needsModeration,
+		java.sql.Timestamp createdDate,
+		java.sql.Timestamp modifiedDate,
+		java.lang.Object   data
 	) {
 		this.id = id;
 		this.version = version;
@@ -86,6 +88,7 @@ public class Organization implements java.io.Serializable {
 		this.needsModeration = needsModeration;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
+		this.data = data;
 	}
 
 	@javax.persistence.Id
@@ -160,12 +163,12 @@ public class Organization implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@javax.persistence.Column(name = "established")
-	public java.time.LocalDate getEstablished() {
+	@javax.persistence.Column(name = "established", precision = 16)
+	public java.lang.Short getEstablished() {
 		return this.established;
 	}
 
-	public void setEstablished(java.time.LocalDate established) {
+	public void setEstablished(java.lang.Short established) {
 		this.established = established;
 	}
 
@@ -305,5 +308,14 @@ public class Organization implements java.io.Serializable {
 
 	public void setModifiedDate(java.sql.Timestamp modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@javax.persistence.Column(name = "data")
+	public java.lang.Object getData() {
+		return this.data;
+	}
+
+	public void setData(java.lang.Object data) {
+		this.data = data;
 	}
 }

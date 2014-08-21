@@ -134,7 +134,7 @@ public class CellarDao extends org.jooq.impl.DAOImpl<com.cellarhq.generated.tabl
 	/**
 	 * Fetch records that have <code>last_login_ip IN (values)</code>
 	 */
-	public java.util.List<com.cellarhq.generated.tables.pojos.Cellar> fetchByLastLoginIp(java.lang.Object... values) {
+	public java.util.List<com.cellarhq.generated.tables.pojos.Cellar> fetchByLastLoginIp(java.lang.String... values) {
 		return fetch(com.cellarhq.generated.tables.Cellar.CELLAR.LAST_LOGIN_IP, values);
 	}
 

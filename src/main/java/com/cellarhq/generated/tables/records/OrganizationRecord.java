@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "organization", schema = "public")
-public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> implements org.jooq.Record22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.time.LocalDate, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> {
+public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = -1887347814;
+	private static final long serialVersionUID = 1305224239;
 
 	/**
 	 * Setter for <code>public.organization.id</code>.
@@ -132,16 +132,16 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Setter for <code>public.organization.established</code>.
 	 */
-	public void setEstablished(java.time.LocalDate value) {
+	public void setEstablished(java.lang.Short value) {
 		setValue(7, value);
 	}
 
 	/**
 	 * Getter for <code>public.organization.established</code>.
 	 */
-	@javax.persistence.Column(name = "established")
-	public java.time.LocalDate getEstablished() {
-		return (java.time.LocalDate) getValue(7);
+	@javax.persistence.Column(name = "established", precision = 16)
+	public java.lang.Short getEstablished() {
+		return (java.lang.Short) getValue(7);
 	}
 
 	/**
@@ -366,6 +366,21 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		return (java.sql.Timestamp) getValue(21);
 	}
 
+	/**
+	 * Setter for <code>public.organization.data</code>.
+	 */
+	public void setData(java.lang.Object value) {
+		setValue(22, value);
+	}
+
+	/**
+	 * Getter for <code>public.organization.data</code>.
+	 */
+	@javax.persistence.Column(name = "data")
+	public java.lang.Object getData() {
+		return (java.lang.Object) getValue(22);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -376,584 +391,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	@Override
 	public org.jooq.Record1<java.lang.Long> key() {
 		return (org.jooq.Record1) super.key();
-	}
-
-	// -------------------------------------------------------------------------
-	// Record22 type implementation
-	// -------------------------------------------------------------------------
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Row22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.time.LocalDate, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
-		return (org.jooq.Row22) super.fieldsRow();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Row22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.time.LocalDate, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
-		return (org.jooq.Row22) super.valuesRow();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Long> field1() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.ID;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.VERSION;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Long> field3() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.PHOTO_ID;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field4() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.TYPE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field5() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.SLUG;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field6() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.NAME;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field7() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.DESCRIPTION;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.time.LocalDate> field8() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.ESTABLISHED;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field9() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.PHONE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field10() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.WEBSITE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field11() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.ADDRESS;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field12() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.ADDRESS2;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field13() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.LOCALITY;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field14() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.POSTAL_CODE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field15() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.COUNTRY;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Boolean> field16() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.SEARCHABLE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field17() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.BREWERY_DB_ID;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.sql.Timestamp> field18() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.BREWERY_DB_LAST_UPDATED;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Boolean> field19() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.LOCKED;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Boolean> field20() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.NEEDS_MODERATION;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.sql.Timestamp> field21() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.CREATED_DATE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.sql.Timestamp> field22() {
-		return com.cellarhq.generated.tables.Organization.ORGANIZATION.MODIFIED_DATE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Long value1() {
-		return getId();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Integer value2() {
-		return getVersion();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Long value3() {
-		return getPhotoId();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value4() {
-		return getType();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value5() {
-		return getSlug();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value6() {
-		return getName();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value7() {
-		return getDescription();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.time.LocalDate value8() {
-		return getEstablished();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value9() {
-		return getPhone();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value10() {
-		return getWebsite();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value11() {
-		return getAddress();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value12() {
-		return getAddress2();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value13() {
-		return getLocality();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value14() {
-		return getPostalCode();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value15() {
-		return getCountry();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Boolean value16() {
-		return getSearchable();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value17() {
-		return getBreweryDbId();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.sql.Timestamp value18() {
-		return getBreweryDbLastUpdated();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Boolean value19() {
-		return getLocked();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Boolean value20() {
-		return getNeedsModeration();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.sql.Timestamp value21() {
-		return getCreatedDate();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.sql.Timestamp value22() {
-		return getModifiedDate();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value1(java.lang.Long value) {
-		setId(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value2(java.lang.Integer value) {
-		setVersion(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value3(java.lang.Long value) {
-		setPhotoId(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value4(java.lang.String value) {
-		setType(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value5(java.lang.String value) {
-		setSlug(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value6(java.lang.String value) {
-		setName(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value7(java.lang.String value) {
-		setDescription(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value8(java.time.LocalDate value) {
-		setEstablished(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value9(java.lang.String value) {
-		setPhone(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value10(java.lang.String value) {
-		setWebsite(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value11(java.lang.String value) {
-		setAddress(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value12(java.lang.String value) {
-		setAddress2(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value13(java.lang.String value) {
-		setLocality(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value14(java.lang.String value) {
-		setPostalCode(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value15(java.lang.String value) {
-		setCountry(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value16(java.lang.Boolean value) {
-		setSearchable(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value17(java.lang.String value) {
-		setBreweryDbId(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value18(java.sql.Timestamp value) {
-		setBreweryDbLastUpdated(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value19(java.lang.Boolean value) {
-		setLocked(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value20(java.lang.Boolean value) {
-		setNeedsModeration(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value21(java.sql.Timestamp value) {
-		setCreatedDate(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord value22(java.sql.Timestamp value) {
-		setModifiedDate(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OrganizationRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.lang.String value6, java.lang.String value7, java.time.LocalDate value8, java.lang.String value9, java.lang.String value10, java.lang.String value11, java.lang.String value12, java.lang.String value13, java.lang.String value14, java.lang.String value15, java.lang.Boolean value16, java.lang.String value17, java.sql.Timestamp value18, java.lang.Boolean value19, java.lang.Boolean value20, java.sql.Timestamp value21, java.sql.Timestamp value22) {
-		return this;
 	}
 
 	// -------------------------------------------------------------------------
@@ -970,7 +407,7 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Create a detached, initialised OrganizationRecord
 	 */
-	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.time.LocalDate established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data) {
 		super(com.cellarhq.generated.tables.Organization.ORGANIZATION);
 
 		setValue(0, id);
@@ -995,5 +432,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		setValue(19, needsModeration);
 		setValue(20, createdDate);
 		setValue(21, modifiedDate);
+		setValue(22, data);
 	}
 }

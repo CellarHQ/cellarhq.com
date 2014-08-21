@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.CellarRecord> {
 
-	private static final long serialVersionUID = 2135487930;
+	private static final long serialVersionUID = -1071337358;
 
 	/**
 	 * The singleton instance of <code>public.cellar</code>
@@ -89,7 +89,7 @@ public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.table
 	/**
 	 * The column <code>public.cellar.last_login_ip</code>.
 	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.Object> LAST_LOGIN_IP = createField("last_login_ip", org.jooq.impl.DefaultDataType.getDefaultDataType("cidr"), this, "");
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> LAST_LOGIN_IP = createField("last_login_ip", org.jooq.impl.SQLDataType.VARCHAR.length(30), this, "");
 
 	/**
 	 * The column <code>public.cellar.created_date</code>.

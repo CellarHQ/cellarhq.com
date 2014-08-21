@@ -102,4 +102,11 @@ public class CategoryDao extends org.jooq.impl.DAOImpl<com.cellarhq.generated.ta
 	public java.util.List<com.cellarhq.generated.tables.pojos.Category> fetchByModifiedDate(java.sql.Timestamp... values) {
 		return fetch(com.cellarhq.generated.tables.Category.CATEGORY.MODIFIED_DATE, values);
 	}
+
+	/**
+	 * Fetch records that have <code>data IN (values)</code>
+	 */
+	public java.util.List<com.cellarhq.generated.tables.pojos.Category> fetchByData(java.lang.Object... values) {
+		return fetch(com.cellarhq.generated.tables.Category.CATEGORY.DATA, values);
+	}
 }

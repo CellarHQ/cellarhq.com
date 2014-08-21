@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "style", schema = "public")
-public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.StyleRecord> implements org.jooq.Record10<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp> {
+public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.StyleRecord> implements org.jooq.Record11<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> {
 
-	private static final long serialVersionUID = 29947895;
+	private static final long serialVersionUID = 121456326;
 
 	/**
 	 * Setter for <code>public.style.id</code>.
@@ -175,6 +175,21 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 		return (java.sql.Timestamp) getValue(9);
 	}
 
+	/**
+	 * Setter for <code>public.style.data</code>.
+	 */
+	public void setData(java.lang.Object value) {
+		setValue(10, value);
+	}
+
+	/**
+	 * Getter for <code>public.style.data</code>.
+	 */
+	@javax.persistence.Column(name = "data")
+	public java.lang.Object getData() {
+		return (java.lang.Object) getValue(10);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -188,23 +203,23 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	}
 
 	// -------------------------------------------------------------------------
-	// Record10 type implementation
+	// Record11 type implementation
 	// -------------------------------------------------------------------------
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row10<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
-		return (org.jooq.Row10) super.fieldsRow();
+	public org.jooq.Row11<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> fieldsRow() {
+		return (org.jooq.Row11) super.fieldsRow();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row10<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
-		return (org.jooq.Row10) super.valuesRow();
+	public org.jooq.Row11<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> valuesRow() {
+		return (org.jooq.Row11) super.valuesRow();
 	}
 
 	/**
@@ -291,6 +306,14 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * {@inheritDoc}
 	 */
 	@Override
+	public org.jooq.Field<java.lang.Object> field11() {
+		return com.cellarhq.generated.tables.Style.STYLE.DATA;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public java.lang.Long value1() {
 		return getId();
 	}
@@ -365,6 +388,14 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	@Override
 	public java.sql.Timestamp value10() {
 		return getModifiedDate();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.lang.Object value11() {
+		return getData();
 	}
 
 	/**
@@ -461,7 +492,16 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * {@inheritDoc}
 	 */
 	@Override
-	public StyleRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.lang.Boolean value6, java.lang.String value7, java.sql.Timestamp value8, java.sql.Timestamp value9, java.sql.Timestamp value10) {
+	public StyleRecord value11(java.lang.Object value) {
+		setData(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StyleRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.lang.Boolean value6, java.lang.String value7, java.sql.Timestamp value8, java.sql.Timestamp value9, java.sql.Timestamp value10, java.lang.Object value11) {
 		return this;
 	}
 
@@ -479,7 +519,7 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Create a detached, initialised StyleRecord
 	 */
-	public StyleRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long categoryId, java.lang.String name, java.lang.String description, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public StyleRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long categoryId, java.lang.String name, java.lang.String description, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data) {
 		super(com.cellarhq.generated.tables.Style.STYLE);
 
 		setValue(0, id);
@@ -492,5 +532,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 		setValue(7, breweryDbLastUpdated);
 		setValue(8, createdDate);
 		setValue(9, modifiedDate);
+		setValue(10, data);
 	}
 }

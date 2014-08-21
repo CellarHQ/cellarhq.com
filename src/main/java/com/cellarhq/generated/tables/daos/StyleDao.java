@@ -109,4 +109,11 @@ public class StyleDao extends org.jooq.impl.DAOImpl<com.cellarhq.generated.table
 	public java.util.List<com.cellarhq.generated.tables.pojos.Style> fetchByModifiedDate(java.sql.Timestamp... values) {
 		return fetch(com.cellarhq.generated.tables.Style.STYLE.MODIFIED_DATE, values);
 	}
+
+	/**
+	 * Fetch records that have <code>data IN (values)</code>
+	 */
+	public java.util.List<com.cellarhq.generated.tables.pojos.Style> fetchByData(java.lang.Object... values) {
+		return fetch(com.cellarhq.generated.tables.Style.STYLE.DATA, values);
+	}
 }

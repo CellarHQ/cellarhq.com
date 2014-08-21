@@ -193,4 +193,11 @@ public class DrinkDao extends org.jooq.impl.DAOImpl<com.cellarhq.generated.table
 	public java.util.List<com.cellarhq.generated.tables.pojos.Drink> fetchByModifiedDate(java.sql.Timestamp... values) {
 		return fetch(com.cellarhq.generated.tables.Drink.DRINK.MODIFIED_DATE, values);
 	}
+
+	/**
+	 * Fetch records that have <code>data IN (values)</code>
+	 */
+	public java.util.List<com.cellarhq.generated.tables.pojos.Drink> fetchByData(java.lang.Object... values) {
+		return fetch(com.cellarhq.generated.tables.Drink.DRINK.DATA, values);
+	}
 }
