@@ -39,10 +39,6 @@ class Drink extends AbstractEntity {
     Photo photo
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = 'organization_id', nullable = false, updatable = false)
-    Organization organization
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = 'style_id', nullable = false, updatable = false)
     Style style
 

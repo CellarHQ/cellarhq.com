@@ -103,8 +103,6 @@ public String buildDescription(List<Attribute> attributes) {
         desc += ' ' + getAttribute(attributes, attrDescription4)
     }
 
-
-
     return desc
 }
 

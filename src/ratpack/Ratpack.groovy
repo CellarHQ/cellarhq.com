@@ -1,3 +1,7 @@
+import com.cellarhq.domain.jooq.Organization
+import ratpack.jackson.JacksonModule
+import ratpack.rx.RxRatpack
+
 import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
 import static ratpack.groovy.Groovy.ratpack
 
@@ -5,6 +9,7 @@ import com.cellarhq.CellarHQModule
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.*
+import com.cellarhq.endpoints.OrganizationEndpoint
 import com.cellarhq.endpoints.SettingsEndpoint
 import com.cellarhq.endpoints.auth.ChangePasswordEndpoint
 import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
@@ -19,7 +24,6 @@ import com.cellarhq.util.SessionUtil
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler
-import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 import ratpack.handlebars.HandlebarsModule
 import static ratpack.handlebars.Template.handlebarsTemplate
 import ratpack.hikari.HikariModule
@@ -30,6 +34,8 @@ import ratpack.remote.RemoteControlModule
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
+
+import static ratpack.jackson.Jackson.json
 
 String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
     String value = System.getenv(key)
@@ -59,6 +65,7 @@ ratpack {
                 password: getConfig(launchConfig, 'other.hikari.dataSourceProperties.password', 'cellarhq'),
                 getConfig(launchConfig, 'other.hikari.dataSourceClassName', 'org.postgresql.ds.PGSimpleDataSource')
         )
+        add new JacksonModule()
         add new HibernateModule(
                 Activity,
                 Drink,
@@ -79,12 +86,15 @@ ratpack {
         add new MapSessionsModule(10, 5)
         add new SecurityModule()
 
-        add new MarkupTemplatingModule()
         add new HandlebarsModule()
 
         add new CellarHQModule()
 
         bind ServerErrorHandler, ErrorHandler
+
+        init {
+            RxRatpack.initialize()
+        }
     }
 
     handlers { CellarService cellarService, 
@@ -96,47 +106,6 @@ ratpack {
 
         get {
             transaction(context, {
-                DrinkCategory drinkCategory = drinkCategoryService.save(
-                    new DrinkCategory(
-                        name: 'North American Origin Ales'
-                        ))
-                Style style = styleService.save(new Style(
-                        category: drinkCategory, 
-                        name: 'IPA',
-                        searchable: true))
-
-                Glassware glassware = glasswareService.save(new Glassware(
-                        name: 'Pint',
-                        searchable: true
-                    ))
-
-                Organization org = organizationService.save(new Organization(
-                        type: OrganizationType.BREWERY,
-                        slug: 'surly',
-                        name: 'Surly'
-                    ))
-
-
-                Drink drink = drinkService.save(new Drink(
-                        type: DrinkType.BEER,
-                        photo: null,
-                        style: style,
-                        glassware: glassware,
-                        organization: org,
-                        name: 'Furious',
-                        description: 'A tempest on the tongue, or a moment of pure hop bliss? Brewed with a dazzling blend of American hops and Scottish malt, this crimson-hued ale delivers waves of citrus, pine and caramel-toffee. For those who favor flavor, Furious has the hop-fire your taste buds have been screeching for.',
-                        slug: 'http://kyleboon.com',
-                        srm: 27,
-                        ibu: 65,
-                        abv: 6.5,
-                        availability: Availability.YEAR_ROUND,
-                        locked: true,
-                        needsModeration: false,
-                        searchable: true,
-                        breweryDbId: 'dsfasdgdgdfvc',
-                        breweryDbLastUpdated: new Date()
-                    ))
-
                 [cellarService.save(new Cellar(screenName: 'someone'))]
             }).then { List<Cellar> cellarList ->
                 render handlebarsTemplate('index.html', 
@@ -277,7 +246,7 @@ ratpack {
          */
         get('breweries/add') {}
 
-        handler('breweries/:id') {
+        handler('breweries/:slug') {
             byMethod {
                 /**
                  * Get an existing brewery.
@@ -399,6 +368,20 @@ ratpack {
         }
         handler('forgotpassword') {
             redirect(301, '/forgot-password')
+        }
+
+        /**************************************************************************************************************
+         * API
+         */
+
+        prefix("api") {
+            get("organizations") {
+                organizationService.all().toList().subscribe { List<Organization> organizations ->
+                    render json(organizations)
+                }
+            }
+
+            handler("organizations/:slug?", registry.get(OrganizationEndpoint))
         }
 
         assets "public"
