@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "password_change_request", schema = "public")
 public class PasswordChangeRequestRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.PasswordChangeRequestRecord> implements org.jooq.Record3<java.lang.String, java.lang.Long, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = -1254767377;
+	private static final long serialVersionUID = 1441542431;
 
 	/**
 	 * Setter for <code>public.password_change_request.id</code>.
@@ -27,8 +27,6 @@ public class PasswordChangeRequestRecord extends org.jooq.impl.UpdatableRecordIm
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, length = 32)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 32)
 	public java.lang.String getId() {
 		return (java.lang.String) getValue(0);
 	}
@@ -44,7 +42,6 @@ public class PasswordChangeRequestRecord extends org.jooq.impl.UpdatableRecordIm
 	 * Getter for <code>public.password_change_request.account_email_id</code>.
 	 */
 	@javax.persistence.Column(name = "account_email_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getAccountEmailId() {
 		return (java.lang.Long) getValue(1);
 	}
@@ -60,7 +57,6 @@ public class PasswordChangeRequestRecord extends org.jooq.impl.UpdatableRecordIm
 	 * Getter for <code>public.password_change_request.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(2);
 	}

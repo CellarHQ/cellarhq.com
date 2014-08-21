@@ -1,22 +1,17 @@
-import com.cellarhq.domain.jooq.Organization
-import ratpack.jackson.JacksonModule
-import ratpack.rx.RxRatpack
-
 import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
 import static ratpack.groovy.Groovy.ratpack
+import static ratpack.handlebars.Template.handlebarsTemplate
+import static ratpack.jackson.Jackson.json
 
 import com.cellarhq.CellarHQModule
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.*
+import com.cellarhq.domain.jooq.Organization
 import com.cellarhq.endpoints.OrganizationEndpoint
 import com.cellarhq.endpoints.SettingsEndpoint
-import com.cellarhq.endpoints.auth.ChangePasswordEndpoint
-import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
-import com.cellarhq.endpoints.auth.FormLoginEndpoint
-import com.cellarhq.endpoints.auth.RegisterEndpoint
-import com.cellarhq.endpoints.auth.TwitterLoginEndpoint
 import com.cellarhq.endpoints.YourCellarEndpoint
+import com.cellarhq.endpoints.auth.*
 import com.cellarhq.ratpack.hibernate.HibernateModule
 import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
 import com.cellarhq.services.*
@@ -25,17 +20,16 @@ import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
-import static ratpack.handlebars.Template.handlebarsTemplate
 import ratpack.hikari.HikariModule
+import ratpack.jackson.JacksonModule
 import ratpack.launch.LaunchConfig
 import ratpack.pac4j.internal.Pac4jCallbackHandler
 import ratpack.pac4j.internal.SessionConstants
 import ratpack.remote.RemoteControlModule
+import ratpack.rx.RxRatpack
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
-
-import static ratpack.jackson.Jackson.json
 
 String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
     String value = System.getenv(key)
@@ -97,24 +91,19 @@ ratpack {
         }
     }
 
-    handlers { CellarService cellarService, 
-               DrinkService drinkService, 
+    handlers { DrinkService drinkService,
                StyleService styleService, 
                GlasswareService glasswareService,
                DrinkCategoryService drinkCategoryService,
                OrganizationService organizationService ->
 
         get {
-            transaction(context, {
-                [cellarService.save(new Cellar(screenName: 'someone'))]
-            }).then { List<Cellar> cellarList ->
-                render handlebarsTemplate('index.html', 
-                        cellars: cellarList,
-                        title: 'CellarHQ',
-                        pageId: 'home',
-                        success: request.queryParams.success ?: '',
-                        loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
-            }
+            render handlebarsTemplate('index.html',
+                    cellars: [],
+                    title: 'CellarHQ',
+                    pageId: 'home',
+                    success: request.queryParams.success ?: '',
+                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
         }
 
         handler('cellars') {
@@ -195,20 +184,20 @@ ratpack {
                  * Get an individual beer
                  */
                 get {
-                    transaction(context, {
-                         drinkService.get(pathTokens["id"].toLong())
-                    }).then { Drink drink ->
-                        if (drink) {
-                            render handlebarsTemplate('beers/show.html', 
-                                [
-                                    drink: drink,
-                                    pageId: 'beers-single',
-                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))
-                                ])
-                        } else {
-                            clientError(404)
-                        }
-                    }
+//                    transaction(context, {
+//                         drinkService.get(pathTokens["id"].toLong())
+//                    }).then { Drink drink ->
+//                        if (drink) {
+//                            render handlebarsTemplate('beers/show.html',
+//                                [
+//                                    drink: drink,
+//                                    pageId: 'beers-single',
+//                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))
+//                                ])
+//                        } else {
+//                            clientError(404)
+//                        }
+//                    }
                 }
 
                 /**

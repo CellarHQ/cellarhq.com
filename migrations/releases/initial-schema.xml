@@ -50,7 +50,7 @@
                              unique="true"
                              uniqueConstraintName="unq_cellar_screen_name"/>
             </column>
-            <column name="display_name" type="varchar(60)"/>
+            <column name="display_name" type="varchar(64)"/>
             <column name="location" type="varchar(100)"/>
             <column name="website" type="varchar(100)"/>
             <column name="bio" type="text"/>
@@ -62,7 +62,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="last_login" type="timestamp"/>
-            <column name="last_login_ip" type="cidr"/>
+            <column name="last_login_ip" type="varchar(30)"/>
             <column name="created_date" type="timestamp" defaultValueDate="now()">
                 <constraints nullable="false"/>
             </column>
@@ -305,7 +305,7 @@
                              unique="true"
                              uniqueConstraintName="unq_account_email_email"/>
             </column>
-            <column name="password" type="char(64)">
+            <column name="password" type="char(60)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_date" type="timestamp" defaultValueDate="now()">

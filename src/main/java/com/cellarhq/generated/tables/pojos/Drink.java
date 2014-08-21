@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class Drink implements java.io.Serializable {
 
-	private static final long serialVersionUID = -284199206;
+	private static final long serialVersionUID = -601175358;
 
 	private java.lang.Long       id;
 	private java.lang.Integer    version;
@@ -90,7 +90,6 @@ public class Drink implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -100,7 +99,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -119,7 +117,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "organization_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getOrganizationId() {
 		return this.organizationId;
 	}
@@ -129,7 +126,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "style_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getStyleId() {
 		return this.styleId;
 	}
@@ -139,7 +135,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "glassware_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getGlasswareId() {
 		return this.glasswareId;
 	}
@@ -149,8 +144,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "drink_type", nullable = false, length = 10)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 10)
 	public java.lang.String getDrinkType() {
 		return this.drinkType;
 	}
@@ -160,8 +153,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getSlug() {
 		return this.slug;
 	}
@@ -171,8 +162,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "name", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -218,7 +207,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "availability", length = 20)
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getAvailability() {
 		return this.availability;
 	}
@@ -228,7 +216,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "searchable", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getSearchable() {
 		return this.searchable;
 	}
@@ -238,7 +225,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getBreweryDbId() {
 		return this.breweryDbId;
 	}
@@ -266,7 +252,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "needs_moderation", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getNeedsModeration() {
 		return this.needsModeration;
 	}
@@ -276,7 +261,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -286,7 +270,6 @@ public class Drink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}

@@ -1,38 +1,36 @@
 package com.cellarhq.services
 
-import static com.cellarhq.util.DataSourceUtil.withDslContext
-
 import com.cellarhq.domain.jooq.Cellar
 import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.CellarRecord
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import org.jooq.DSLContext
+import org.pac4j.oauth.profile.twitter.TwitterProfile
 
 import javax.sql.DataSource
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @CompileStatic
-class JooqCellarService {
-
-    private final DataSource dataSource
+class JooqCellarService extends BaseJooqService {
 
     @Inject
     JooqCellarService(DataSource dataSource) {
-        this.dataSource = dataSource
+        super(dataSource)
     }
 
     Cellar get(Long id) {
-        withDslContext(dataSource) { DSLContext create ->
+        (Cellar) jooq { DSLContext create ->
             create.select()
                     .from(Tables.CELLAR)
                     .where(Tables.CELLAR.ID.eq(id))
-                    .fetchOne()
-                    .into(Cellar)
+                    .fetchOneInto(Cellar)
         }
     }
 
     Cellar save(Cellar cellar) {
-        withDslContext(dataSource) { DSLContext create ->
+        jooq { DSLContext create ->
             CellarRecord cellarRecord = create.newRecord(Tables.CELLAR, cellar)
             if (cellar.id) {
                 create.executeUpdate(cellarRecord)
@@ -41,5 +39,18 @@ class JooqCellarService {
             }
             cellarRecord.into(Cellar)
         }
+    }
+
+    void updateLoginStats(Cellar cellar, TwitterProfile twitterProfile = null) {
+        cellar.lastLogin = Timestamp.valueOf(LocalDateTime.now())
+        if (cellar.updateFromNetwork && twitterProfile) {
+            cellar.with {
+                displayName = twitterProfile.displayName
+                location = twitterProfile.location
+                website = twitterProfile.profileUrl
+                bio = twitterProfile.description
+            }
+        }
+        save(cellar)
     }
 }

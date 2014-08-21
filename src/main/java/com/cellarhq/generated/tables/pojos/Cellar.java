@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellar", schema = "public")
 public class Cellar implements java.io.Serializable {
 
-	private static final long serialVersionUID = -137943640;
+	private static final long serialVersionUID = -122457961;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -69,7 +69,6 @@ public class Cellar implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -79,7 +78,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -98,8 +96,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "screen_name", unique = true, nullable = false, length = 64)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getScreenName() {
 		return this.screenName;
 	}
@@ -108,8 +104,7 @@ public class Cellar implements java.io.Serializable {
 		this.screenName = screenName;
 	}
 
-	@javax.persistence.Column(name = "display_name", length = 60)
-	@javax.validation.constraints.Size(max = 60)
+	@javax.persistence.Column(name = "display_name", length = 64)
 	public java.lang.String getDisplayName() {
 		return this.displayName;
 	}
@@ -119,7 +114,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "location", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getLocation() {
 		return this.location;
 	}
@@ -129,7 +123,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "website", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getWebsite() {
 		return this.website;
 	}
@@ -148,7 +141,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "update_from_network", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getUpdateFromNetwork() {
 		return this.updateFromNetwork;
 	}
@@ -158,7 +150,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "contact_email", length = 255)
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getContactEmail() {
 		return this.contactEmail;
 	}
@@ -168,7 +159,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "private", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getPrivate() {
 		return this.private_;
 	}
@@ -187,7 +177,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "last_login_ip", length = 30)
-	@javax.validation.constraints.Size(max = 30)
 	public java.lang.String getLastLoginIp() {
 		return this.lastLoginIp;
 	}
@@ -197,7 +186,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -207,7 +195,6 @@ public class Cellar implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}

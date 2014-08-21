@@ -15,7 +15,7 @@ package com.cellarhq.generated.tables.pojos;
 })
 public class AccountOauth implements java.io.Serializable {
 
-	private static final long serialVersionUID = 668519261;
+	private static final long serialVersionUID = 515390888;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -47,7 +47,6 @@ public class AccountOauth implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -57,7 +56,6 @@ public class AccountOauth implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -67,7 +65,6 @@ public class AccountOauth implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return this.cellarId;
 	}
@@ -77,8 +74,6 @@ public class AccountOauth implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "client", nullable = false, length = 20)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getClient() {
 		return this.client;
 	}
@@ -88,8 +83,6 @@ public class AccountOauth implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "username", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getUsername() {
 		return this.username;
 	}
@@ -99,7 +92,6 @@ public class AccountOauth implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -109,7 +101,6 @@ public class AccountOauth implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}

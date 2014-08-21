@@ -9,7 +9,6 @@
     <!-- initial release -->
     <include file="migrations/releases/initial-schema.xml"/>
     <include file="migrations/releases/forgot-password-support.xml"/>
-    <include file="migrations/releases/pg-persistence-fixes.xml"/>
     <include file="migrations/releases/add-data-columns-for-brewerydb.xml"/>
     <include file="migrations/releases/add-base-data.xml"/>
 

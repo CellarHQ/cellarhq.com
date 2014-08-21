@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = 1305224239;
+	private static final long serialVersionUID = 1285923246;
 
 	/**
 	 * Setter for <code>public.organization.id</code>.
@@ -27,7 +27,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -74,8 +72,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.type</code>.
 	 */
 	@javax.persistence.Column(name = "type", nullable = false, length = 16)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 16)
 	public java.lang.String getType() {
 		return (java.lang.String) getValue(3);
 	}
@@ -91,8 +87,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.slug</code>.
 	 */
 	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getSlug() {
 		return (java.lang.String) getValue(4);
 	}
@@ -108,8 +102,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.name</code>.
 	 */
 	@javax.persistence.Column(name = "name", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getName() {
 		return (java.lang.String) getValue(5);
 	}
@@ -155,7 +147,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.phone</code>.
 	 */
 	@javax.persistence.Column(name = "phone", length = 20)
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getPhone() {
 		return (java.lang.String) getValue(8);
 	}
@@ -171,7 +162,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.website</code>.
 	 */
 	@javax.persistence.Column(name = "website", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getWebsite() {
 		return (java.lang.String) getValue(9);
 	}
@@ -187,7 +177,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.address</code>.
 	 */
 	@javax.persistence.Column(name = "address", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getAddress() {
 		return (java.lang.String) getValue(10);
 	}
@@ -203,7 +192,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.address2</code>.
 	 */
 	@javax.persistence.Column(name = "address2", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getAddress2() {
 		return (java.lang.String) getValue(11);
 	}
@@ -219,7 +207,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.locality</code>.
 	 */
 	@javax.persistence.Column(name = "locality", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getLocality() {
 		return (java.lang.String) getValue(12);
 	}
@@ -235,7 +222,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.postal_code</code>.
 	 */
 	@javax.persistence.Column(name = "postal_code", length = 20)
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getPostalCode() {
 		return (java.lang.String) getValue(13);
 	}
@@ -251,7 +237,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.country</code>.
 	 */
 	@javax.persistence.Column(name = "country", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getCountry() {
 		return (java.lang.String) getValue(14);
 	}
@@ -267,7 +252,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.searchable</code>.
 	 */
 	@javax.persistence.Column(name = "searchable", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getSearchable() {
 		return (java.lang.Boolean) getValue(15);
 	}
@@ -283,7 +267,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.brewery_db_id</code>.
 	 */
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getBreweryDbId() {
 		return (java.lang.String) getValue(16);
 	}
@@ -329,7 +312,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.needs_moderation</code>.
 	 */
 	@javax.persistence.Column(name = "needs_moderation", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getNeedsModeration() {
 		return (java.lang.Boolean) getValue(19);
 	}
@@ -345,7 +327,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(20);
 	}
@@ -361,7 +342,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.organization.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(21);
 	}

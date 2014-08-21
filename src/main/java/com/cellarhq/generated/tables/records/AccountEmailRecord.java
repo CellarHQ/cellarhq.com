@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "account_email", schema = "public")
 public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.AccountEmailRecord> implements org.jooq.Record7<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = 1858747559;
+	private static final long serialVersionUID = -1766536517;
 
 	/**
 	 * Setter for <code>public.account_email.id</code>.
@@ -27,7 +27,6 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_email.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -59,7 +57,6 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_email.cellar_id</code>.
 	 */
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return (java.lang.Long) getValue(2);
 	}
@@ -75,8 +72,6 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_email.email</code>.
 	 */
 	@javax.persistence.Column(name = "email", unique = true, nullable = false, length = 255)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getEmail() {
 		return (java.lang.String) getValue(3);
 	}
@@ -91,9 +86,7 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Getter for <code>public.account_email.password</code>.
 	 */
-	@javax.persistence.Column(name = "password", nullable = false, length = 64)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 64)
+	@javax.persistence.Column(name = "password", nullable = false, length = 60)
 	public java.lang.String getPassword() {
 		return (java.lang.String) getValue(4);
 	}
@@ -109,7 +102,6 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_email.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(5);
 	}
@@ -125,7 +117,6 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_email.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(6);
 	}

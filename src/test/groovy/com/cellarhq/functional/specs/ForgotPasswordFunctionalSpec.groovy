@@ -1,22 +1,20 @@
 package com.cellarhq.functional.specs
 
-import static com.cellarhq.HibernateDSL.transaction
-
 import com.cellarhq.SpecFlags
-import com.cellarhq.domain.Cellar
-import com.cellarhq.domain.EmailAccount
+import com.cellarhq.domain.jooq.Cellar
+import com.cellarhq.domain.jooq.EmailAccount
 import com.cellarhq.functional.pages.BasePage
 import com.cellarhq.functional.pages.ChangePasswordPage
 import com.cellarhq.functional.pages.ForgotPasswordPage
 import com.cellarhq.functional.pages.HomePage
 import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.YourCellarPage
-import com.cellarhq.services.AccountService
+import com.cellarhq.services.JooqAccountService
+import geb.Page
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException
-import org.hibernate.SessionFactory
 import ratpack.groovy.test.LocalScriptApplicationUnderTest
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
@@ -49,6 +47,7 @@ class ForgotPasswordFunctionalSpec extends GebReportingSpec {
                 Sql sql = new Sql(get(DataSource))
                 sql.execute('delete from password_change_request where 1=1')
                 sql.execute('delete from account_email where 1=1')
+                sql.execute('delete from cellar_role where 1=1')
                 sql.execute('delete from cellar where 1=1')
                 sql.close()
             } catch (JdbcSQLException e) {
@@ -72,12 +71,10 @@ class ForgotPasswordFunctionalSpec extends GebReportingSpec {
 
         when: 'setup tests with user'
         remote.exec {
-            transaction(get(SessionFactory)) {
-                Cellar cellar = new Cellar(screenName: 'someone', displayName: 'Someone')
-                EmailAccount emailAccount = new EmailAccount(email: 'test@example.com', password: 'password1')
-                emailAccount.cellar = cellar
-                get(AccountService).create(emailAccount)
-            }
+            Cellar cellar = new Cellar(screenName: 'someone', displayName: 'Someone')
+            EmailAccount emailAccount = new EmailAccount(email: 'test@example.com', password: 'password1')
+            emailAccount.cellar = cellar
+            get(JooqAccountService).create(emailAccount)
             return null
         }
 

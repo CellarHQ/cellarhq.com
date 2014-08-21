@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AccountEmail extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.AccountEmailRecord> {
 
-	private static final long serialVersionUID = 1906686832;
+	private static final long serialVersionUID = -180746421;
 
 	/**
 	 * The singleton instance of <code>public.account_email</code>
@@ -49,7 +49,7 @@ public class AccountEmail extends org.jooq.impl.TableImpl<com.cellarhq.generated
 	/**
 	 * The column <code>public.account_email.password</code>.
 	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.AccountEmailRecord, java.lang.String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR.length(64).nullable(false), this, "");
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.AccountEmailRecord, java.lang.String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.CHAR.length(60).nullable(false), this, "");
 
 	/**
 	 * The column <code>public.account_email.created_date</code>.

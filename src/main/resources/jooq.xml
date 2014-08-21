@@ -64,8 +64,6 @@
 
         <generate>
             <pojos>true</pojos>
-            <daos>true</daos>
-            <validationAnnotations>true</validationAnnotations>
             <jpaAnnotations>true</jpaAnnotations>
         </generate>
 

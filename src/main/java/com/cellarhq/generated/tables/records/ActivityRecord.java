@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "activity", schema = "public")
 public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.ActivityRecord> implements org.jooq.Record8<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Object, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = 1921121132;
+	private static final long serialVersionUID = 915742252;
 
 	/**
 	 * Setter for <code>public.activity.id</code>.
@@ -27,7 +27,6 @@ public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.activity.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -59,7 +57,6 @@ public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.activity.cellar_id</code>.
 	 */
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return (java.lang.Long) getValue(2);
 	}
@@ -75,8 +72,6 @@ public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.activity.subject</code>.
 	 */
 	@javax.persistence.Column(name = "subject", nullable = false, length = 255)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getSubject() {
 		return (java.lang.String) getValue(3);
 	}
@@ -92,8 +87,6 @@ public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.activity.action</code>.
 	 */
 	@javax.persistence.Column(name = "action", nullable = false, length = 255)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getAction() {
 		return (java.lang.String) getValue(4);
 	}
@@ -109,7 +102,6 @@ public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.activity.private</code>.
 	 */
 	@javax.persistence.Column(name = "private", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getPrivate() {
 		return (java.lang.Boolean) getValue(5);
 	}
@@ -140,7 +132,6 @@ public class ActivityRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.activity.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(7);
 	}

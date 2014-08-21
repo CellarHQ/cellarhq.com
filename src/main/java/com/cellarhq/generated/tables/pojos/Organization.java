@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = 112606425;
+	private static final long serialVersionUID = -406207036;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -93,7 +93,6 @@ public class Organization implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -103,7 +102,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -122,8 +120,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "type", nullable = false, length = 16)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 16)
 	public java.lang.String getType() {
 		return this.type;
 	}
@@ -133,8 +129,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getSlug() {
 		return this.slug;
 	}
@@ -144,8 +138,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "name", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -173,7 +165,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "phone", length = 20)
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getPhone() {
 		return this.phone;
 	}
@@ -183,7 +174,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "website", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getWebsite() {
 		return this.website;
 	}
@@ -193,7 +183,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "address", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getAddress() {
 		return this.address;
 	}
@@ -203,7 +192,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "address2", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getAddress2() {
 		return this.address2;
 	}
@@ -213,7 +201,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "locality", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getLocality() {
 		return this.locality;
 	}
@@ -223,7 +210,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "postal_code", length = 20)
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getPostalCode() {
 		return this.postalCode;
 	}
@@ -233,7 +219,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "country", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getCountry() {
 		return this.country;
 	}
@@ -243,7 +228,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "searchable", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getSearchable() {
 		return this.searchable;
 	}
@@ -253,7 +237,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getBreweryDbId() {
 		return this.breweryDbId;
 	}
@@ -281,7 +264,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "needs_moderation", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getNeedsModeration() {
 		return this.needsModeration;
 	}
@@ -291,7 +273,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -301,7 +282,6 @@ public class Organization implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}

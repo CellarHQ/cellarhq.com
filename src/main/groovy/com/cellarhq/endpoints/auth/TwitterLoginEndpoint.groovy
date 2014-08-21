@@ -1,13 +1,11 @@
 package com.cellarhq.endpoints.auth
 
-import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
-
 import com.cellarhq.Messages
 import com.cellarhq.auth.Role
-import com.cellarhq.domain.Cellar
-import com.cellarhq.domain.OAuthAccount
-import com.cellarhq.services.AccountService
-import com.cellarhq.services.CellarService
+import com.cellarhq.domain.jooq.Cellar
+import com.cellarhq.domain.jooq.OAuthAccount
+import com.cellarhq.services.JooqCellarService
+import com.cellarhq.services.JooqAccountService
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
@@ -16,6 +14,9 @@ import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
 import ratpack.pac4j.internal.SessionConstants
 import ratpack.session.store.SessionStorage
+
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 /**
  * Endpoint for the Twitter login.
@@ -30,11 +31,11 @@ import ratpack.session.store.SessionStorage
 @Slf4j
 class TwitterLoginEndpoint extends GroovyHandler {
 
-    private final AccountService accountService
-    private final CellarService cellarService
+    private final JooqAccountService accountService
+    private final JooqCellarService cellarService
 
     @Inject
-    TwitterLoginEndpoint(AccountService accountService, CellarService cellarService) {
+    TwitterLoginEndpoint(JooqAccountService accountService, JooqCellarService cellarService) {
         this.accountService = accountService
         this.cellarService = cellarService
     }
@@ -47,7 +48,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
                 get {
                     TwitterProfile twitterProfile = request.get(TwitterProfile)
 
-                    transaction(context) {
+                    blocking {
                         OAuthAccount account = accountService.findByCredentials(twitterProfile.username)
                         if (account) {
                             cellarService.updateLoginStats(account.cellar, twitterProfile)
@@ -58,7 +59,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
                                 location = twitterProfile.location
                                 website = twitterProfile.profileUrl
                                 bio = twitterProfile.description
-                                lastLogin = new Date()
+                                lastLogin = Timestamp.valueOf(LocalDateTime.now())
 
                                 // TODO Photo
 
@@ -74,9 +75,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
 
                         account
                     } onError { Throwable e ->
-                        log.error(LogUtil.toLog('TwitterLoginEndpoint', [
-                                exception: e.toString()
-                        ]))
+                        log.error(LogUtil.toLog('TwitterLoginEndpoint'), e)
                         redirect(500, "/logout?error=${Messages.UNEXPECTED_SERVER_ERROR}")
                     } then { OAuthAccount oAuthAccount ->
                         twitterProfile.id = oAuthAccount.cellar.id

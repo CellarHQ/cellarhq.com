@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellared_drink", schema = "public")
 public class CellaredDrink implements java.io.Serializable {
 
-	private static final long serialVersionUID = -372724802;
+	private static final long serialVersionUID = 653895368;
 
 	private java.lang.Long      id;
 	private java.lang.Integer   version;
@@ -63,7 +63,6 @@ public class CellaredDrink implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -73,7 +72,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -83,7 +81,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return this.cellarId;
 	}
@@ -93,7 +90,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "drink_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getDrinkId() {
 		return this.drinkId;
 	}
@@ -103,7 +99,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "style_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getStyleId() {
 		return this.styleId;
 	}
@@ -122,7 +117,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "size", length = 30)
-	@javax.validation.constraints.Size(max = 30)
 	public java.lang.String getSize() {
 		return this.size;
 	}
@@ -132,7 +126,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "quantity", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getQuantity() {
 		return this.quantity;
 	}
@@ -160,7 +153,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "private", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getPrivate() {
 		return this.private_;
 	}
@@ -170,7 +162,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -180,7 +171,6 @@ public class CellaredDrink implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}
