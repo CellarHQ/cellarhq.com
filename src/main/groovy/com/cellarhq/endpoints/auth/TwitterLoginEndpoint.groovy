@@ -2,10 +2,10 @@ package com.cellarhq.endpoints.auth
 
 import com.cellarhq.Messages
 import com.cellarhq.auth.Role
-import com.cellarhq.domain.jooq.Cellar
-import com.cellarhq.domain.jooq.OAuthAccount
-import com.cellarhq.services.JooqCellarService
-import com.cellarhq.services.JooqAccountService
+import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.OAuthAccount
+import com.cellarhq.services.CellarService
+import com.cellarhq.services.AccountService
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
@@ -31,11 +31,11 @@ import java.time.LocalDateTime
 @Slf4j
 class TwitterLoginEndpoint extends GroovyHandler {
 
-    private final JooqAccountService accountService
-    private final JooqCellarService cellarService
+    private final AccountService accountService
+    private final CellarService cellarService
 
     @Inject
-    TwitterLoginEndpoint(JooqAccountService accountService, JooqCellarService cellarService) {
+    TwitterLoginEndpoint(AccountService accountService, CellarService cellarService) {
         this.accountService = accountService
         this.cellarService = cellarService
     }

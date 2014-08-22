@@ -1,44 +1,13 @@
 package com.cellarhq.domain
 
-import com.cellarhq.ratpack.hibernate.Entity
+import groovy.transform.CompileStatic
+import groovy.transform.InheritConstructors
 
-import javax.persistence.Column
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+@CompileStatic
+@InheritConstructors
+class Activity extends com.cellarhq.generated.tables.pojos.Activity {
 
-@Entity
-class Activity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = 'cellar_id', nullable = false)
-    Cellar cellar
-
-    @Column(nullable = false)
-    String subject
-
-    @Column(nullable = false)
-    String action
-
-    @SuppressWarnings('PropertyName')
-    @Column(name = 'private', nullable = false)
-    boolean _private = false
-
-    // TODO JSON usertype
-    @Column(nullable = true)
-    String data
-
-    @Column(nullable = false)
-    Date createdDate = new Date()
-
-    boolean isPrivate() {
-        return _private
+    Activity() {
+        setPrivate(false)
     }
 }

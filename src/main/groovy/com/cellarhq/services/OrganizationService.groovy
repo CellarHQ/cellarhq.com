@@ -1,6 +1,6 @@
 package com.cellarhq.services
 
-import com.cellarhq.domain.jooq.Organization
+import com.cellarhq.domain.Organization
 import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.OrganizationRecord
 import com.google.inject.Inject

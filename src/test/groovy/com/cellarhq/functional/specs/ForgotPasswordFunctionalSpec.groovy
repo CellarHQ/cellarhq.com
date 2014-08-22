@@ -1,16 +1,15 @@
 package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
-import com.cellarhq.domain.jooq.Cellar
-import com.cellarhq.domain.jooq.EmailAccount
+import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.EmailAccount
 import com.cellarhq.functional.pages.BasePage
 import com.cellarhq.functional.pages.ChangePasswordPage
 import com.cellarhq.functional.pages.ForgotPasswordPage
 import com.cellarhq.functional.pages.HomePage
 import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.YourCellarPage
-import com.cellarhq.services.JooqAccountService
-import geb.Page
+import com.cellarhq.services.AccountService
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
@@ -74,7 +73,7 @@ class ForgotPasswordFunctionalSpec extends GebReportingSpec {
             Cellar cellar = new Cellar(screenName: 'someone', displayName: 'Someone')
             EmailAccount emailAccount = new EmailAccount(email: 'test@example.com', password: 'password1')
             emailAccount.cellar = cellar
-            get(JooqAccountService).create(emailAccount)
+            get(AccountService).create(emailAccount)
             return null
         }
 

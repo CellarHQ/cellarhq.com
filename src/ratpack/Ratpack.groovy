@@ -1,4 +1,3 @@
-import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
@@ -6,15 +5,12 @@ import static ratpack.jackson.Jackson.json
 import com.cellarhq.CellarHQModule
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
-import com.cellarhq.domain.*
-import com.cellarhq.domain.jooq.Organization
+import com.cellarhq.domain.Organization
 import com.cellarhq.endpoints.OrganizationEndpoint
 import com.cellarhq.endpoints.SettingsEndpoint
 import com.cellarhq.endpoints.YourCellarEndpoint
 import com.cellarhq.endpoints.auth.*
-import com.cellarhq.ratpack.hibernate.HibernateModule
-import com.cellarhq.ratpack.hibernate.SessionFactoryHealthCheck
-import com.cellarhq.services.*
+import com.cellarhq.services.OrganizationService
 import com.cellarhq.util.SessionUtil
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
@@ -47,7 +43,6 @@ String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
 
 ratpack {
     bindings {
-        bind SessionFactoryHealthCheck
         bind Pac4jCallbackHandler
 
         add new CodaHaleMetricsModule().healthChecks()
@@ -60,20 +55,6 @@ ratpack {
                 getConfig(launchConfig, 'other.hikari.dataSourceClassName', 'org.postgresql.ds.PGSimpleDataSource')
         )
         add new JacksonModule()
-        add new HibernateModule(
-                Activity,
-                Drink,
-                Organization,
-                DrinkCategory,
-                Cellar,
-                CellaredDrink,
-                CellarRole,
-                EmailAccount,
-                Glassware,
-                OAuthAccount,
-                PasswordChangeRequest,
-                Photo,
-                Style)
         add new RemoteControlModule()
 
         add new SessionModule()
@@ -91,12 +72,7 @@ ratpack {
         }
     }
 
-    handlers { DrinkService drinkService,
-               StyleService styleService, 
-               GlasswareService glasswareService,
-               DrinkCategoryService drinkCategoryService,
-               OrganizationService organizationService ->
-
+    handlers {
         get {
             render handlebarsTemplate('index.html',
                     cellars: [],
@@ -364,7 +340,7 @@ ratpack {
          */
 
         prefix("api") {
-            get("organizations") {
+            get("organizations") { OrganizationService organizationService ->
                 organizationService.all().toList().subscribe { List<Organization> organizations ->
                     render json(organizations)
                 }

@@ -1,4 +1,4 @@
-package com.cellarhq.ratpack.hibernate
+package com.cellarhq.annotations
 
 import groovy.transform.AnnotationCollector
 import groovy.transform.CompileStatic

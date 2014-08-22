@@ -1,94 +1,65 @@
 package com.cellarhq.domain
 
 import com.cellarhq.auth.Role
-import com.cellarhq.ratpack.hibernate.Entity
 import com.github.slugify.Slugify
+import groovy.transform.CompileStatic
+import groovy.transform.InheritConstructors
+import org.hibernate.validator.constraints.Length
+import org.hibernate.validator.constraints.NotEmpty
 
-import javax.persistence.CascadeType
 import javax.persistence.Column
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.OneToMany
-import javax.persistence.OneToOne
-import javax.persistence.UniqueConstraint
 import javax.validation.constraints.Pattern
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
-@Entity(name = 'cellar', uniqueConstraints = [
-        @UniqueConstraint(name = 'unq_cellar_screen_name', columnNames = ['screen_name'])
-])
-class Cellar extends AbstractEntity {
+@CompileStatic
+@InheritConstructors
+class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id
+    Set<Role> roles = []
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = 'photo_id')
-    Photo photo
+    Cellar() {
+        setPrivate(false)
+        updateFromNetwork = false
+        createdDate = Timestamp.valueOf(LocalDateTime.now())
+        modifiedDate = createdDate
+    }
 
-    /**
-     * Screen name must support 1-letter screen names because of Twitter integration.
-     */
+    @Override
+    @NotEmpty
+    @Length(min = 1, max = 64)
+    @Column(name = 'display_name')
+    String getDisplayName() {
+        super.displayName
+    }
+
+    @Override
+    @NotEmpty
+    @Length(min = 1, max = 64)
     @Pattern(regexp = /[a-zA-Z0-9_-]{1,20}/)
-    @Column(name = 'screen_name', nullable = false, updatable = false)
-    String screenName
+    @Column(name = 'screen_name')
+    String getScreenName() {
+        return super.screenName
+    }
 
-    @Column(name = 'display_name', length = 60, nullable = true)
-    String displayName
+    @Override
+    void setScreenName(String screenName) {
+        super.screenName = new Slugify().slugify(screenName)
+    }
 
-    @Column(length = 100, nullable = true)
-    String location
+    @Override
+    void setUpdateFromNetwork(Boolean updateFromNetwork) {
+        super.updateFromNetwork = updateFromNetwork ?: false
+    }
 
-    @Column(length = 100, nullable = true)
-    String website
-
-    @Column(length = 1000, nullable = true)
-    String bio
-
-    @Column(name = 'update_from_network', nullable = false)
-    boolean updateFromNetwork = true
-
-    @Column(name = 'contact_email', nullable = true)
-    String contactEmail
-
-    @SuppressWarnings('PropertyName')
-    @Column(name = 'private', nullable = false)
-    boolean _private = false
-
-    @Column(name = 'last_login', nullable = true)
-    Date lastLogin
-
-    // TODO Ratpack doesn't expose the remote IP yet.
-    @Column(name = 'last_login_ip', nullable = true)
-    String lastLoginIp
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
-    Set<CellarRole> roles = []
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
-    Set<Activity> activities = []
-
-    @OneToOne(optional = true, mappedBy = 'cellar', cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    OAuthAccount openIdAccount
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
-    Set<EmailAccount> emailAccounts  = []
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'cellar', fetch = FetchType.LAZY)
-    Set<CellaredDrink> drinks = []
-
-    boolean isPrivate() {
-        return _private
+    @Override
+    @SuppressWarnings('ParameterName')
+    void setPrivate(Boolean private_) {
+        super.private = private_ ?: false
     }
 
     void addRole(Role role) {
-        roles << new CellarRole(cellar: this, role: role)
+        roles << role
     }
 
-    void setScreenName(String screenName) {
-        this.screenName = new Slugify().slugify(screenName)
-    }
 }

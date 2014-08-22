@@ -1,9 +1,9 @@
 package com.cellarhq.endpoints.auth
 
 import com.cellarhq.Messages
-import com.cellarhq.domain.jooq.EmailAccount
-import com.cellarhq.services.JooqAccountService
-import com.cellarhq.services.JooqCellarService
+import com.cellarhq.domain.EmailAccount
+import com.cellarhq.services.AccountService
+import com.cellarhq.services.CellarService
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
@@ -17,11 +17,11 @@ import ratpack.session.store.SessionStorage
 @Slf4j
 class FormLoginEndpoint extends GroovyHandler {
 
-    private final JooqAccountService accountService
-    private final JooqCellarService cellarService
+    private final AccountService accountService
+    private final CellarService cellarService
 
     @Inject
-    FormLoginEndpoint(JooqAccountService accountService, JooqCellarService cellarService) {
+    FormLoginEndpoint(AccountService accountService, CellarService cellarService) {
         this.accountService = accountService
         this.cellarService = cellarService
     }
