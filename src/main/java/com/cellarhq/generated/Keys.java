@@ -50,6 +50,7 @@ public class Keys {
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.GlasswareRecord> PK_GLASSWARE = UniqueKeys0.PK_GLASSWARE;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> PK_ORGANIZATION = UniqueKeys0.PK_ORGANIZATION;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> UNQ_ORGANIZATION_SLUG = UniqueKeys0.UNQ_ORGANIZATION_SLUG;
+	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.PasswordChangeRequestRecord> PK_PASSWORD_CHANGE_REQUEST = UniqueKeys0.PK_PASSWORD_CHANGE_REQUEST;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.PhotoRecord> PK_PHOTO = UniqueKeys0.PK_PHOTO;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.PhotoRecord> UNQ_PHOTO_ORIGINAL_URL = UniqueKeys0.UNQ_PHOTO_ORIGINAL_URL;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.StyleRecord> PK_STYLE = UniqueKeys0.PK_STYLE;
@@ -71,6 +72,7 @@ public class Keys {
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.DrinkRecord, com.cellarhq.generated.tables.records.StyleRecord> DRINK__FK_DRINK_STYLE_ID = ForeignKeys0.DRINK__FK_DRINK_STYLE_ID;
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.DrinkRecord, com.cellarhq.generated.tables.records.GlasswareRecord> DRINK__FK_DRINK_GLASSWARE_ID = ForeignKeys0.DRINK__FK_DRINK_GLASSWARE_ID;
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.OrganizationRecord, com.cellarhq.generated.tables.records.PhotoRecord> ORGANIZATION__FK_ORGANIZATION_PHOTO_ID = ForeignKeys0.ORGANIZATION__FK_ORGANIZATION_PHOTO_ID;
+	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.PasswordChangeRequestRecord, com.cellarhq.generated.tables.records.AccountEmailRecord> PASSWORD_CHANGE_REQUEST__FK_PASSWORD_CHANGE_REQUEST_ACCOUNT_EMAIL_ID = ForeignKeys0.PASSWORD_CHANGE_REQUEST__FK_PASSWORD_CHANGE_REQUEST_ACCOUNT_EMAIL_ID;
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.StyleRecord, com.cellarhq.generated.tables.records.CategoryRecord> STYLE__FK_STYLE_CATEGORY_ID = ForeignKeys0.STYLE__FK_STYLE_CATEGORY_ID;
 
 	// -------------------------------------------------------------------------
@@ -108,6 +110,7 @@ public class Keys {
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.GlasswareRecord> PK_GLASSWARE = createUniqueKey(com.cellarhq.generated.tables.Glassware.GLASSWARE, com.cellarhq.generated.tables.Glassware.GLASSWARE.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> PK_ORGANIZATION = createUniqueKey(com.cellarhq.generated.tables.Organization.ORGANIZATION, com.cellarhq.generated.tables.Organization.ORGANIZATION.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> UNQ_ORGANIZATION_SLUG = createUniqueKey(com.cellarhq.generated.tables.Organization.ORGANIZATION, com.cellarhq.generated.tables.Organization.ORGANIZATION.SLUG);
+		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.PasswordChangeRequestRecord> PK_PASSWORD_CHANGE_REQUEST = createUniqueKey(com.cellarhq.generated.tables.PasswordChangeRequest.PASSWORD_CHANGE_REQUEST, com.cellarhq.generated.tables.PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.PhotoRecord> PK_PHOTO = createUniqueKey(com.cellarhq.generated.tables.Photo.PHOTO, com.cellarhq.generated.tables.Photo.PHOTO.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.PhotoRecord> UNQ_PHOTO_ORIGINAL_URL = createUniqueKey(com.cellarhq.generated.tables.Photo.PHOTO, com.cellarhq.generated.tables.Photo.PHOTO.ORIGINAL_URL);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.StyleRecord> PK_STYLE = createUniqueKey(com.cellarhq.generated.tables.Style.STYLE, com.cellarhq.generated.tables.Style.STYLE.ID);
@@ -127,6 +130,7 @@ public class Keys {
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.DrinkRecord, com.cellarhq.generated.tables.records.StyleRecord> DRINK__FK_DRINK_STYLE_ID = createForeignKey(com.cellarhq.generated.Keys.PK_STYLE, com.cellarhq.generated.tables.Drink.DRINK, com.cellarhq.generated.tables.Drink.DRINK.STYLE_ID);
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.DrinkRecord, com.cellarhq.generated.tables.records.GlasswareRecord> DRINK__FK_DRINK_GLASSWARE_ID = createForeignKey(com.cellarhq.generated.Keys.PK_GLASSWARE, com.cellarhq.generated.tables.Drink.DRINK, com.cellarhq.generated.tables.Drink.DRINK.GLASSWARE_ID);
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.OrganizationRecord, com.cellarhq.generated.tables.records.PhotoRecord> ORGANIZATION__FK_ORGANIZATION_PHOTO_ID = createForeignKey(com.cellarhq.generated.Keys.PK_PHOTO, com.cellarhq.generated.tables.Organization.ORGANIZATION, com.cellarhq.generated.tables.Organization.ORGANIZATION.PHOTO_ID);
+		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.PasswordChangeRequestRecord, com.cellarhq.generated.tables.records.AccountEmailRecord> PASSWORD_CHANGE_REQUEST__FK_PASSWORD_CHANGE_REQUEST_ACCOUNT_EMAIL_ID = createForeignKey(com.cellarhq.generated.Keys.PK_ACCOUNT_EMAIL, com.cellarhq.generated.tables.PasswordChangeRequest.PASSWORD_CHANGE_REQUEST, com.cellarhq.generated.tables.PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.ACCOUNT_EMAIL_ID);
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.StyleRecord, com.cellarhq.generated.tables.records.CategoryRecord> STYLE__FK_STYLE_CATEGORY_ID = createForeignKey(com.cellarhq.generated.Keys.PK_CATEGORY, com.cellarhq.generated.tables.Style.STYLE, com.cellarhq.generated.tables.Style.STYLE.CATEGORY_ID);
 	}
 }

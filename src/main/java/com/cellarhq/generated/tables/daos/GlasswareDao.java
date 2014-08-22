@@ -102,4 +102,11 @@ public class GlasswareDao extends org.jooq.impl.DAOImpl<com.cellarhq.generated.t
 	public java.util.List<com.cellarhq.generated.tables.pojos.Glassware> fetchByModifiedDate(java.sql.Timestamp... values) {
 		return fetch(com.cellarhq.generated.tables.Glassware.GLASSWARE.MODIFIED_DATE, values);
 	}
+
+	/**
+	 * Fetch records that have <code>data IN (values)</code>
+	 */
+	public java.util.List<com.cellarhq.generated.tables.pojos.Glassware> fetchByData(java.lang.Object... values) {
+		return fetch(com.cellarhq.generated.tables.Glassware.GLASSWARE.DATA, values);
+	}
 }

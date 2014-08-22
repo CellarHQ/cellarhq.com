@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Category extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.CategoryRecord> {
 
-	private static final long serialVersionUID = -444207894;
+	private static final long serialVersionUID = -1515406880;
 
 	/**
 	 * The singleton instance of <code>public.category</code>
@@ -70,6 +70,11 @@ public class Category extends org.jooq.impl.TableImpl<com.cellarhq.generated.tab
 	 * The column <code>public.category.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CategoryRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.category.data</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CategoryRecord, java.lang.Object> DATA = createField("data", org.jooq.impl.SQLDataType.OTHER, this, "");
 
 	/**
 	 * Create a <code>public.category</code> table reference

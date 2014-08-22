@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "drink", schema = "public")
-public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.DrinkRecord> implements org.jooq.Record21<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> {
+public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.DrinkRecord> implements org.jooq.Record22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> {
 
-	private static final long serialVersionUID = 755276674;
+	private static final long serialVersionUID = -819219893;
 
 	/**
 	 * Setter for <code>public.drink.id</code>.
@@ -217,7 +217,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Getter for <code>public.drink.abv</code>.
 	 */
-	@javax.persistence.Column(name = "abv", precision = 3, scale = 3)
+	@javax.persistence.Column(name = "abv", precision = 6, scale = 3)
 	public java.math.BigDecimal getAbv() {
 		return (java.math.BigDecimal) getValue(12);
 	}
@@ -348,6 +348,21 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 		return (java.sql.Timestamp) getValue(20);
 	}
 
+	/**
+	 * Setter for <code>public.drink.data</code>.
+	 */
+	public void setData(java.lang.Object value) {
+		setValue(21, value);
+	}
+
+	/**
+	 * Getter for <code>public.drink.data</code>.
+	 */
+	@javax.persistence.Column(name = "data")
+	public java.lang.Object getData() {
+		return (java.lang.Object) getValue(21);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -361,23 +376,23 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	}
 
 	// -------------------------------------------------------------------------
-	// Record21 type implementation
+	// Record22 type implementation
 	// -------------------------------------------------------------------------
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row21<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
-		return (org.jooq.Row21) super.fieldsRow();
+	public org.jooq.Row22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> fieldsRow() {
+		return (org.jooq.Row22) super.fieldsRow();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row21<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
-		return (org.jooq.Row21) super.valuesRow();
+	public org.jooq.Row22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> valuesRow() {
+		return (org.jooq.Row22) super.valuesRow();
 	}
 
 	/**
@@ -552,6 +567,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * {@inheritDoc}
 	 */
 	@Override
+	public org.jooq.Field<java.lang.Object> field22() {
+		return com.cellarhq.generated.tables.Drink.DRINK.DATA;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public java.lang.Long value1() {
 		return getId();
 	}
@@ -714,6 +737,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	@Override
 	public java.sql.Timestamp value21() {
 		return getModifiedDate();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.lang.Object value22() {
+		return getData();
 	}
 
 	/**
@@ -909,7 +940,16 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DrinkRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.Long value4, java.lang.Long value5, java.lang.Long value6, java.lang.String value7, java.lang.String value8, java.lang.String value9, java.lang.String value10, java.lang.Integer value11, java.lang.Integer value12, java.math.BigDecimal value13, java.lang.String value14, java.lang.Boolean value15, java.lang.String value16, java.sql.Timestamp value17, java.lang.Boolean value18, java.lang.Boolean value19, java.sql.Timestamp value20, java.sql.Timestamp value21) {
+	public DrinkRecord value22(java.lang.Object value) {
+		setData(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public DrinkRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.Long value4, java.lang.Long value5, java.lang.Long value6, java.lang.String value7, java.lang.String value8, java.lang.String value9, java.lang.String value10, java.lang.Integer value11, java.lang.Integer value12, java.math.BigDecimal value13, java.lang.String value14, java.lang.Boolean value15, java.lang.String value16, java.sql.Timestamp value17, java.lang.Boolean value18, java.lang.Boolean value19, java.sql.Timestamp value20, java.sql.Timestamp value21, java.lang.Object value22) {
 		return this;
 	}
 
@@ -927,7 +967,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Create a detached, initialised DrinkRecord
 	 */
-	public DrinkRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.Long organizationId, java.lang.Long styleId, java.lang.Long glasswareId, java.lang.String drinkType, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Integer srm, java.lang.Integer ibu, java.math.BigDecimal abv, java.lang.String availability, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public DrinkRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.Long organizationId, java.lang.Long styleId, java.lang.Long glasswareId, java.lang.String drinkType, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Integer srm, java.lang.Integer ibu, java.math.BigDecimal abv, java.lang.String availability, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data) {
 		super(com.cellarhq.generated.tables.Drink.DRINK);
 
 		setValue(0, id);
@@ -951,5 +991,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 		setValue(18, needsModeration);
 		setValue(19, createdDate);
 		setValue(20, modifiedDate);
+		setValue(21, data);
 	}
 }

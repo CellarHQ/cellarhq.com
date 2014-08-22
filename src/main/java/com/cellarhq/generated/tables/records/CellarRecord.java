@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "cellar", schema = "public")
-public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellarRecord> implements org.jooq.Record15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.Object, java.sql.Timestamp, java.sql.Timestamp> {
+public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellarRecord> implements org.jooq.Record15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = -172688467;
+	private static final long serialVersionUID = -347902509;
 
 	/**
 	 * Setter for <code>public.cellar.id</code>.
@@ -209,16 +209,17 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	/**
 	 * Setter for <code>public.cellar.last_login_ip</code>.
 	 */
-	public void setLastLoginIp(java.lang.Object value) {
+	public void setLastLoginIp(java.lang.String value) {
 		setValue(12, value);
 	}
 
 	/**
 	 * Getter for <code>public.cellar.last_login_ip</code>.
 	 */
-	@javax.persistence.Column(name = "last_login_ip")
-	public java.lang.Object getLastLoginIp() {
-		return (java.lang.Object) getValue(12);
+	@javax.persistence.Column(name = "last_login_ip", length = 30)
+	@javax.validation.constraints.Size(max = 30)
+	public java.lang.String getLastLoginIp() {
+		return (java.lang.String) getValue(12);
 	}
 
 	/**
@@ -273,7 +274,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.Object, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
+	public org.jooq.Row15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
 		return (org.jooq.Row15) super.fieldsRow();
 	}
 
@@ -281,7 +282,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.Object, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
+	public org.jooq.Row15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
 		return (org.jooq.Row15) super.valuesRow();
 	}
 
@@ -385,7 +386,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Field<java.lang.Object> field13() {
+	public org.jooq.Field<java.lang.String> field13() {
 		return com.cellarhq.generated.tables.Cellar.CELLAR.LAST_LOGIN_IP;
 	}
 
@@ -505,7 +506,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * {@inheritDoc}
 	 */
 	@Override
-	public java.lang.Object value13() {
+	public java.lang.String value13() {
 		return getLastLoginIp();
 	}
 
@@ -637,7 +638,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CellarRecord value13(java.lang.Object value) {
+	public CellarRecord value13(java.lang.String value) {
 		setLastLoginIp(value);
 		return this;
 	}
@@ -664,7 +665,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CellarRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.lang.String value6, java.lang.String value7, java.lang.String value8, java.lang.Boolean value9, java.lang.String value10, java.lang.Boolean value11, java.sql.Timestamp value12, java.lang.Object value13, java.sql.Timestamp value14, java.sql.Timestamp value15) {
+	public CellarRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.lang.String value6, java.lang.String value7, java.lang.String value8, java.lang.Boolean value9, java.lang.String value10, java.lang.Boolean value11, java.sql.Timestamp value12, java.lang.String value13, java.sql.Timestamp value14, java.sql.Timestamp value15) {
 		return this;
 	}
 
@@ -682,7 +683,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	/**
 	 * Create a detached, initialised CellarRecord
 	 */
-	public CellarRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String screenName, java.lang.String displayName, java.lang.String location, java.lang.String website, java.lang.String bio, java.lang.Boolean updateFromNetwork, java.lang.String contactEmail, java.lang.Boolean private_, java.sql.Timestamp lastLogin, java.lang.Object lastLoginIp, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public CellarRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String screenName, java.lang.String displayName, java.lang.String location, java.lang.String website, java.lang.String bio, java.lang.Boolean updateFromNetwork, java.lang.String contactEmail, java.lang.Boolean private_, java.sql.Timestamp lastLogin, java.lang.String lastLoginIp, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
 		super(com.cellarhq.generated.tables.Cellar.CELLAR);
 
 		setValue(0, id);

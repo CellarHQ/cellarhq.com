@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Style extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.StyleRecord> {
 
-	private static final long serialVersionUID = 1065408604;
+	private static final long serialVersionUID = -1111793472;
 
 	/**
 	 * The singleton instance of <code>public.style</code>
@@ -75,6 +75,11 @@ public class Style extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables
 	 * The column <code>public.style.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.StyleRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.style.data</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.StyleRecord, java.lang.Object> DATA = createField("data", org.jooq.impl.SQLDataType.OTHER, this, "");
 
 	/**
 	 * Create a <code>public.style</code> table reference

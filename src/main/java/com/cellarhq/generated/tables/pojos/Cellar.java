@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellar", schema = "public")
 public class Cellar implements java.io.Serializable {
 
-	private static final long serialVersionUID = 470741520;
+	private static final long serialVersionUID = -137943640;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -27,7 +27,7 @@ public class Cellar implements java.io.Serializable {
 	private java.lang.String   contactEmail;
 	private java.lang.Boolean  private_;
 	private java.sql.Timestamp lastLogin;
-	private java.lang.Object   lastLoginIp;
+	private java.lang.String   lastLoginIp;
 	private java.sql.Timestamp createdDate;
 	private java.sql.Timestamp modifiedDate;
 
@@ -46,7 +46,7 @@ public class Cellar implements java.io.Serializable {
 		java.lang.String   contactEmail,
 		java.lang.Boolean  private_,
 		java.sql.Timestamp lastLogin,
-		java.lang.Object   lastLoginIp,
+		java.lang.String   lastLoginIp,
 		java.sql.Timestamp createdDate,
 		java.sql.Timestamp modifiedDate
 	) {
@@ -186,12 +186,13 @@ public class Cellar implements java.io.Serializable {
 		this.lastLogin = lastLogin;
 	}
 
-	@javax.persistence.Column(name = "last_login_ip")
-	public java.lang.Object getLastLoginIp() {
+	@javax.persistence.Column(name = "last_login_ip", length = 30)
+	@javax.validation.constraints.Size(max = 30)
+	public java.lang.String getLastLoginIp() {
 		return this.lastLoginIp;
 	}
 
-	public void setLastLoginIp(java.lang.Object lastLoginIp) {
+	public void setLastLoginIp(java.lang.String lastLoginIp) {
 		this.lastLoginIp = lastLoginIp;
 	}
 

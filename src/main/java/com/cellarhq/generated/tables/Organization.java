@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = -1375245031;
+	private static final long serialVersionUID = 1099682971;
 
 	/**
 	 * The singleton instance of <code>public.organization</code>
@@ -64,7 +64,7 @@ public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated
 	/**
 	 * The column <code>public.organization.established</code>.
 	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.time.LocalDate> ESTABLISHED = createField("established", org.jooq.impl.SQLDataType.DATE, this, "", new com.cellarhq.jooq.LocalDateConverter());
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.Short> ESTABLISHED = createField("established", org.jooq.impl.SQLDataType.SMALLINT, this, "");
 
 	/**
 	 * The column <code>public.organization.phone</code>.
@@ -135,6 +135,11 @@ public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated
 	 * The column <code>public.organization.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.organization.data</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.Object> DATA = createField("data", org.jooq.impl.SQLDataType.OTHER, this, "");
 
 	/**
 	 * Create a <code>public.organization</code> table reference

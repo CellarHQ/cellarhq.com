@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "category", schema = "public")
-public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CategoryRecord> implements org.jooq.Record9<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp> {
+public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CategoryRecord> implements org.jooq.Record10<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> {
 
-	private static final long serialVersionUID = -1633609538;
+	private static final long serialVersionUID = 1290294500;
 
 	/**
 	 * Setter for <code>public.category.id</code>.
@@ -159,6 +159,21 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 		return (java.sql.Timestamp) getValue(8);
 	}
 
+	/**
+	 * Setter for <code>public.category.data</code>.
+	 */
+	public void setData(java.lang.Object value) {
+		setValue(9, value);
+	}
+
+	/**
+	 * Getter for <code>public.category.data</code>.
+	 */
+	@javax.persistence.Column(name = "data")
+	public java.lang.Object getData() {
+		return (java.lang.Object) getValue(9);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -172,23 +187,23 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	}
 
 	// -------------------------------------------------------------------------
-	// Record9 type implementation
+	// Record10 type implementation
 	// -------------------------------------------------------------------------
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row9<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
-		return (org.jooq.Row9) super.fieldsRow();
+	public org.jooq.Row10<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> fieldsRow() {
+		return (org.jooq.Row10) super.fieldsRow();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row9<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
-		return (org.jooq.Row9) super.valuesRow();
+	public org.jooq.Row10<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> valuesRow() {
+		return (org.jooq.Row10) super.valuesRow();
 	}
 
 	/**
@@ -267,6 +282,14 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * {@inheritDoc}
 	 */
 	@Override
+	public org.jooq.Field<java.lang.Object> field10() {
+		return com.cellarhq.generated.tables.Category.CATEGORY.DATA;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public java.lang.Long value1() {
 		return getId();
 	}
@@ -333,6 +356,14 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	@Override
 	public java.sql.Timestamp value9() {
 		return getModifiedDate();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.lang.Object value10() {
+		return getData();
 	}
 
 	/**
@@ -420,7 +451,16 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CategoryRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.String value3, java.lang.String value4, java.lang.Boolean value5, java.lang.String value6, java.sql.Timestamp value7, java.sql.Timestamp value8, java.sql.Timestamp value9) {
+	public CategoryRecord value10(java.lang.Object value) {
+		setData(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public CategoryRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.String value3, java.lang.String value4, java.lang.Boolean value5, java.lang.String value6, java.sql.Timestamp value7, java.sql.Timestamp value8, java.sql.Timestamp value9, java.lang.Object value10) {
 		return this;
 	}
 
@@ -438,7 +478,7 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	/**
 	 * Create a detached, initialised CategoryRecord
 	 */
-	public CategoryRecord(java.lang.Long id, java.lang.Integer version, java.lang.String name, java.lang.String description, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public CategoryRecord(java.lang.Long id, java.lang.Integer version, java.lang.String name, java.lang.String description, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data) {
 		super(com.cellarhq.generated.tables.Category.CATEGORY);
 
 		setValue(0, id);
@@ -450,5 +490,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 		setValue(6, breweryDbLastUpdated);
 		setValue(7, createdDate);
 		setValue(8, modifiedDate);
+		setValue(9, data);
 	}
 }

@@ -17,10 +17,13 @@ apply plugin: "io.ratpack.ratpack-groovy"
 apply plugin: 'liquibase'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'docker'
+apply plugin: 'idea'
 apply from: "${rootDir}/gradle/codenarc.gradle"
 
 group = 'com.cellarhq'
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     jcenter()
@@ -37,8 +40,10 @@ dependencies {
     compile ratpack.dependency('h2')
     compile ratpack.dependency('hikari')
     compile ratpack.dependency('handlebars')
+    compile ratpack.dependency('jackson')
     compile ratpack.dependency('pac4j')
     compile ratpack.dependency('remote')
+    compile ratpack.dependency("rx")
     compile 'org.pac4j:pac4j-http:1.5.1'
     compile 'org.pac4j:pac4j-oauth:1.5.1'
 
@@ -111,7 +116,7 @@ task cellarHqDocker(type: Docker) {
     dockerfile = project.file('Dockerfile')
 
     doFirst {
-        addFile project.shadowJar.outputs.files.singleFile
+        addFile project.tasks.shadowJar.archivePath
     }
 }
 

@@ -115,7 +115,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="text"/>
-            <column name="established" type="date"/>
+            <column name="established" type="smallint"/>
             <column name="phone" type="varchar(20)"/>
             <column name="website" type="varchar(100)"/>
             <column name="address" type="varchar(100)"/>

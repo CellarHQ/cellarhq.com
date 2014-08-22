@@ -33,7 +33,6 @@ class CellarHQModule extends AbstractModule {
         bind(CellarService).in(Scopes.SINGLETON)
         bind(DrinkDAO).in(Scopes.SINGLETON)
         bind(DrinkService).in(Scopes.SINGLETON)
-        bind(OrganizationDAO).in(Scopes.SINGLETON)
         bind(OrganizationService).in(Scopes.SINGLETON)
         bind(StyleDAO).in(Scopes.SINGLETON)
         bind(StyleService).in(Scopes.SINGLETON)

@@ -64,6 +64,11 @@ public class Tables {
 	public static final com.cellarhq.generated.tables.Organization ORGANIZATION = com.cellarhq.generated.tables.Organization.ORGANIZATION;
 
 	/**
+	 * The table public.password_change_request
+	 */
+	public static final com.cellarhq.generated.tables.PasswordChangeRequest PASSWORD_CHANGE_REQUEST = com.cellarhq.generated.tables.PasswordChangeRequest.PASSWORD_CHANGE_REQUEST;
+
+	/**
 	 * The table public.photo
 	 */
 	public static final com.cellarhq.generated.tables.Photo PHOTO = com.cellarhq.generated.tables.Photo.PHOTO;
