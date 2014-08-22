@@ -25,7 +25,9 @@ ruleset {
         'SpaceAfterClosingBrace' enabled: false
     }
     ruleset('rulesets/generic.xml')
-    ruleset('rulesets/groovyism.xml')
+    ruleset('rulesets/groovyism.xml') {
+        'ExplicitCallToAndMethod' enabled: false // jOOQ where "and" query creation
+    }
     ruleset('rulesets/imports.xml') {
         'MisorderedStaticImports' enabled: false
     }

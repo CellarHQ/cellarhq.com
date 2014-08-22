@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "style", schema = "public")
 public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.StyleRecord> implements org.jooq.Record11<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> {
 
-	private static final long serialVersionUID = 121456326;
+	private static final long serialVersionUID = 1845027603;
 
 	/**
 	 * Setter for <code>public.style.id</code>.
@@ -27,7 +27,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.style.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -59,7 +57,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.style.category_id</code>.
 	 */
 	@javax.persistence.Column(name = "category_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCategoryId() {
 		return (java.lang.Long) getValue(2);
 	}
@@ -75,8 +72,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.style.name</code>.
 	 */
 	@javax.persistence.Column(name = "name", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getName() {
 		return (java.lang.String) getValue(3);
 	}
@@ -107,7 +102,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.style.searchable</code>.
 	 */
 	@javax.persistence.Column(name = "searchable", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getSearchable() {
 		return (java.lang.Boolean) getValue(5);
 	}
@@ -123,7 +117,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.style.brewery_db_id</code>.
 	 */
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getBreweryDbId() {
 		return (java.lang.String) getValue(6);
 	}
@@ -154,7 +147,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.style.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(8);
 	}
@@ -170,7 +162,6 @@ public class StyleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.style.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(9);
 	}

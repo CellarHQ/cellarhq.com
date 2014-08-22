@@ -1,11 +1,9 @@
 package com.cellarhq.endpoints.auth
 
-import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
-
 import com.cellarhq.Messages
-import com.cellarhq.domain.EmailAccount
-import com.cellarhq.services.AccountService
-import com.cellarhq.services.CellarService
+import com.cellarhq.domain.jooq.EmailAccount
+import com.cellarhq.services.JooqAccountService
+import com.cellarhq.services.JooqCellarService
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
@@ -19,11 +17,11 @@ import ratpack.session.store.SessionStorage
 @Slf4j
 class FormLoginEndpoint extends GroovyHandler {
 
-    private final AccountService accountService
-    private final CellarService cellarService
+    private final JooqAccountService accountService
+    private final JooqCellarService cellarService
 
     @Inject
-    FormLoginEndpoint(AccountService accountService, CellarService cellarService) {
+    FormLoginEndpoint(JooqAccountService accountService, JooqCellarService cellarService) {
         this.accountService = accountService
         this.cellarService = cellarService
     }
@@ -34,8 +32,8 @@ class FormLoginEndpoint extends GroovyHandler {
             byMethod {
                 get {
                     HttpProfile httpProfile = request.get(HttpProfile)
-                    transaction(context) {
-                        EmailAccount account = accountService.findByEmail(httpProfile.username)
+                    blocking {
+                        EmailAccount account = accountService.findByEmailWithCellar(httpProfile.username)
                         if (!account) {
                             throw new TechnicalException(
                                     "Session User found '${httpProfile.username}' without matching account")
@@ -45,7 +43,7 @@ class FormLoginEndpoint extends GroovyHandler {
                     } onError { Throwable e ->
                         log.error(LogUtil.toLog('LoginFormEndpoint', [
                                 exception: e.toString()
-                        ]))
+                        ]), e)
                         redirect(500, "/logout?error=${Messages.UNEXPECTED_SERVER_ERROR}")
                     } then { EmailAccount emailAccount ->
                         httpProfile.id = emailAccount.cellar.id

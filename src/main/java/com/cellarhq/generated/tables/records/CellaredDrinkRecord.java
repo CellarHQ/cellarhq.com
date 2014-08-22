@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "cellared_drink", schema = "public")
 public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellaredDrinkRecord> implements org.jooq.Record13<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.time.LocalDate, java.lang.String, java.lang.Integer, java.lang.String, java.time.LocalDate, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = 817703068;
+	private static final long serialVersionUID = -1888288764;
 
 	/**
 	 * Setter for <code>public.cellared_drink.id</code>.
@@ -27,7 +27,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -59,7 +57,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.cellar_id</code>.
 	 */
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return (java.lang.Long) getValue(2);
 	}
@@ -75,7 +72,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.drink_id</code>.
 	 */
 	@javax.persistence.Column(name = "drink_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getDrinkId() {
 		return (java.lang.Long) getValue(3);
 	}
@@ -91,7 +87,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.style_id</code>.
 	 */
 	@javax.persistence.Column(name = "style_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getStyleId() {
 		return (java.lang.Long) getValue(4);
 	}
@@ -122,7 +117,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.size</code>.
 	 */
 	@javax.persistence.Column(name = "size", length = 30)
-	@javax.validation.constraints.Size(max = 30)
 	public java.lang.String getSize() {
 		return (java.lang.String) getValue(6);
 	}
@@ -138,7 +132,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.quantity</code>.
 	 */
 	@javax.persistence.Column(name = "quantity", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getQuantity() {
 		return (java.lang.Integer) getValue(7);
 	}
@@ -184,7 +177,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.private</code>.
 	 */
 	@javax.persistence.Column(name = "private", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getPrivate() {
 		return (java.lang.Boolean) getValue(10);
 	}
@@ -200,7 +192,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(11);
 	}
@@ -216,7 +207,6 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * Getter for <code>public.cellared_drink.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(12);
 	}

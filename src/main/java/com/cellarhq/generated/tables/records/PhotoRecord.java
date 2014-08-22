@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "photo", schema = "public")
 public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.PhotoRecord> implements org.jooq.Record12<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.Short, java.lang.Short, java.lang.String, java.lang.Short, java.lang.Short, java.sql.Timestamp, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = -1706227537;
+	private static final long serialVersionUID = 415941633;
 
 	/**
 	 * Setter for <code>public.photo.id</code>.
@@ -27,7 +27,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.photo.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -59,7 +57,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.photo.description</code>.
 	 */
 	@javax.persistence.Column(name = "description", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.String getDescription() {
 		return (java.lang.String) getValue(2);
 	}
@@ -75,8 +72,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.photo.original_url</code>.
 	 */
 	@javax.persistence.Column(name = "original_url", unique = true, nullable = false, length = 500)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 500)
 	public java.lang.String getOriginalUrl() {
 		return (java.lang.String) getValue(3);
 	}
@@ -92,7 +87,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.photo.thumb_url</code>.
 	 */
 	@javax.persistence.Column(name = "thumb_url", length = 500)
-	@javax.validation.constraints.Size(max = 500)
 	public java.lang.String getThumbUrl() {
 		return (java.lang.String) getValue(4);
 	}
@@ -138,7 +132,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.photo.large_url</code>.
 	 */
 	@javax.persistence.Column(name = "large_url", length = 500)
-	@javax.validation.constraints.Size(max = 500)
 	public java.lang.String getLargeUrl() {
 		return (java.lang.String) getValue(7);
 	}
@@ -184,7 +177,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.photo.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(10);
 	}
@@ -200,7 +192,6 @@ public class PhotoRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.photo.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(11);
 	}

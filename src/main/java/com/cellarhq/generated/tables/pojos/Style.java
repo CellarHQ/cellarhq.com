@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "style", schema = "public")
 public class Style implements java.io.Serializable {
 
-	private static final long serialVersionUID = -423138051;
+	private static final long serialVersionUID = 64254236;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -57,7 +57,6 @@ public class Style implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -67,7 +66,6 @@ public class Style implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -77,7 +75,6 @@ public class Style implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "category_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCategoryId() {
 		return this.categoryId;
 	}
@@ -87,8 +84,6 @@ public class Style implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "name", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -107,7 +102,6 @@ public class Style implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "searchable", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getSearchable() {
 		return this.searchable;
 	}
@@ -117,7 +111,6 @@ public class Style implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getBreweryDbId() {
 		return this.breweryDbId;
 	}
@@ -136,7 +129,6 @@ public class Style implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -146,7 +138,6 @@ public class Style implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}

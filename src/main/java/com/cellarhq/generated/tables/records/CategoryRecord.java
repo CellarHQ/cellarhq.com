@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "category", schema = "public")
 public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CategoryRecord> implements org.jooq.Record10<java.lang.Long, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> {
 
-	private static final long serialVersionUID = 1290294500;
+	private static final long serialVersionUID = -700173891;
 
 	/**
 	 * Setter for <code>public.category.id</code>.
@@ -27,7 +27,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.category.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -59,8 +57,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.category.name</code>.
 	 */
 	@javax.persistence.Column(name = "name", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getName() {
 		return (java.lang.String) getValue(2);
 	}
@@ -91,7 +87,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.category.searchable</code>.
 	 */
 	@javax.persistence.Column(name = "searchable", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getSearchable() {
 		return (java.lang.Boolean) getValue(4);
 	}
@@ -107,7 +102,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.category.brewery_db_id</code>.
 	 */
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getBreweryDbId() {
 		return (java.lang.String) getValue(5);
 	}
@@ -138,7 +132,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.category.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(7);
 	}
@@ -154,7 +147,6 @@ public class CategoryRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellar
 	 * Getter for <code>public.category.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(8);
 	}

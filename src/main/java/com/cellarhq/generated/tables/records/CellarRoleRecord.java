@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "cellar_role", schema = "public")
 public class CellarRoleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellarRoleRecord> implements org.jooq.Record4<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String> {
 
-	private static final long serialVersionUID = -1586910954;
+	private static final long serialVersionUID = 1717978971;
 
 	/**
 	 * Setter for <code>public.cellar_role.id</code>.
@@ -27,7 +27,6 @@ public class CellarRoleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cell
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class CellarRoleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cell
 	 * Getter for <code>public.cellar_role.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -59,7 +57,6 @@ public class CellarRoleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cell
 	 * Getter for <code>public.cellar_role.cellar_id</code>.
 	 */
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return (java.lang.Long) getValue(2);
 	}
@@ -75,8 +72,6 @@ public class CellarRoleRecord extends org.jooq.impl.UpdatableRecordImpl<com.cell
 	 * Getter for <code>public.cellar_role.role</code>.
 	 */
 	@javax.persistence.Column(name = "role", nullable = false, length = 20)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getRole() {
 		return (java.lang.String) getValue(3);
 	}

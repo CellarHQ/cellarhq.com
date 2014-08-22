@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "password_change_request", schema = "public")
 public class PasswordChangeRequest implements java.io.Serializable {
 
-	private static final long serialVersionUID = -647339596;
+	private static final long serialVersionUID = -1990902254;
 
 	private java.lang.String   id;
 	private java.lang.Long     accountEmailId;
@@ -33,8 +33,6 @@ public class PasswordChangeRequest implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, length = 32)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 32)
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -44,7 +42,6 @@ public class PasswordChangeRequest implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "account_email_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getAccountEmailId() {
 		return this.accountEmailId;
 	}
@@ -54,7 +51,6 @@ public class PasswordChangeRequest implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}

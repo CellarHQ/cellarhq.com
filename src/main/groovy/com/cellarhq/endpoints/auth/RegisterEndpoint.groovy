@@ -1,13 +1,12 @@
 package com.cellarhq.endpoints.auth
 
-import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
 import com.cellarhq.auth.Role
-import com.cellarhq.domain.Cellar
-import com.cellarhq.domain.EmailAccount
-import com.cellarhq.services.AccountService
+import com.cellarhq.domain.jooq.Cellar
+import com.cellarhq.domain.jooq.EmailAccount
+import com.cellarhq.services.JooqAccountService
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -24,15 +23,17 @@ import ratpack.session.store.SessionStorage
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Slf4j
 class RegisterEndpoint extends GroovyHandler {
 
-    private final AccountService accountService
+    private final JooqAccountService accountService
     private final ValidatorFactory validatorFactory
 
     @Inject
-    RegisterEndpoint(AccountService accountService, ValidatorFactory validatorFactory) {
+    RegisterEndpoint(JooqAccountService accountService, ValidatorFactory validatorFactory) {
         this.accountService = accountService
         this.validatorFactory = validatorFactory
     }
@@ -66,7 +67,7 @@ class RegisterEndpoint extends GroovyHandler {
                         screenName = form.screenName
                         displayName = screenName
                         contactEmail = form.email
-                        lastLogin = new Date()
+                        lastLogin = Timestamp.valueOf(LocalDateTime.now())
                         addRole(Role.MEMBER)
                         return self
                     }
@@ -87,12 +88,10 @@ class RegisterEndpoint extends GroovyHandler {
 
                     if (cellarViolations.size() == 0 && accountViolations.size() == 0 && passwordsMatch) {
                         // Rx would actually work pretty well here...
-                        transaction(context) {
+                        blocking {
                             accountService.create(emailAccount)
                         }.onError { Throwable e ->
-                            log.error(LogUtil.toLog('RegistrationFailure', [
-                                    exception: e.toString()
-                            ]))
+                            log.error(LogUtil.toLog('RegistrationFailure'), e)
 
                             // TODO... if we get a conflict on username, it isn't unexpected.
                             redirect(500, '/register?error=' + Messages.UNEXPECTED_SERVER_ERROR)

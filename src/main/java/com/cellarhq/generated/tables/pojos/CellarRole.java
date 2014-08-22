@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellar_role", schema = "public")
 public class CellarRole implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1250604786;
+	private static final long serialVersionUID = -1616961275;
 
 	private java.lang.Long    id;
 	private java.lang.Integer version;
@@ -36,7 +36,6 @@ public class CellarRole implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -46,7 +45,6 @@ public class CellarRole implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -56,7 +54,6 @@ public class CellarRole implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return this.cellarId;
 	}
@@ -66,8 +63,6 @@ public class CellarRole implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "role", nullable = false, length = 20)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getRole() {
 		return this.role;
 	}

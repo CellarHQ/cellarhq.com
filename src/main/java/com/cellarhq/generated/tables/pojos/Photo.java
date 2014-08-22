@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "photo", schema = "public")
 public class Photo implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1839005648;
+	private static final long serialVersionUID = 46406322;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -60,7 +60,6 @@ public class Photo implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -70,7 +69,6 @@ public class Photo implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -80,7 +78,6 @@ public class Photo implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "description", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.String getDescription() {
 		return this.description;
 	}
@@ -90,8 +87,6 @@ public class Photo implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "original_url", unique = true, nullable = false, length = 500)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 500)
 	public java.lang.String getOriginalUrl() {
 		return this.originalUrl;
 	}
@@ -101,7 +96,6 @@ public class Photo implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "thumb_url", length = 500)
-	@javax.validation.constraints.Size(max = 500)
 	public java.lang.String getThumbUrl() {
 		return this.thumbUrl;
 	}
@@ -129,7 +123,6 @@ public class Photo implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "large_url", length = 500)
-	@javax.validation.constraints.Size(max = 500)
 	public java.lang.String getLargeUrl() {
 		return this.largeUrl;
 	}
@@ -157,7 +150,6 @@ public class Photo implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -167,7 +159,6 @@ public class Photo implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}

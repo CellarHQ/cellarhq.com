@@ -1,11 +1,10 @@
 package com.cellarhq.endpoints.auth
 
-import static com.cellarhq.ratpack.hibernate.HibernateDSL.transaction
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
-import com.cellarhq.domain.EmailAccount
-import com.cellarhq.services.AccountService
+import com.cellarhq.domain.jooq.EmailAccount
+import com.cellarhq.services.JooqAccountService
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -22,11 +21,11 @@ import javax.validation.ValidatorFactory
 @Slf4j
 class ChangePasswordEndpoint extends GroovyHandler {
 
-    private final AccountService accountService
+    private final JooqAccountService accountService
     private final ValidatorFactory validatorFactory
 
     @Inject
-    ChangePasswordEndpoint(AccountService accountService, ValidatorFactory validatorFactory) {
+    ChangePasswordEndpoint(JooqAccountService accountService, ValidatorFactory validatorFactory) {
         this.accountService = accountService
         this.validatorFactory = validatorFactory
     }
@@ -36,12 +35,12 @@ class ChangePasswordEndpoint extends GroovyHandler {
         context.with {
             byMethod {
                 get {
-                    transaction(context) {
+                    blocking {
                         accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
                     } onError { Throwable t ->
                         log.error(LogUtil.toLog('ForgotPasswordFailure', [
                                 exception: t.toString()
-                        ]))
+                        ]), t)
 
                         redirect(500, '/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
                     } then { EmailAccount emailAccount ->
@@ -62,7 +61,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                 post {
                     Form form = parse(Form)
 
-                    transaction(context) {
+                    blocking {
                         Map result = [
                                 success: false,
                                 message: ''
@@ -77,7 +76,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                             Set<ConstraintViolation<EmailAccount>> accountViolations = validator.validate(account)
                             boolean passwordsMatch = account.password == account.passwordConfirm
                             if (accountViolations.size() == 0 && passwordsMatch) {
-                                accountService.changePassword(account)
+                                accountService.changePassword(account, context.pathTokens['id'])
                                 result.success = true
                             }  else {
                                 List<String> messages = []

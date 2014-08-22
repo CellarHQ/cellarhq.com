@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "activity", schema = "public")
 public class Activity implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1213610000;
+	private static final long serialVersionUID = -1775482120;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -48,7 +48,6 @@ public class Activity implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -58,7 +57,6 @@ public class Activity implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -68,7 +66,6 @@ public class Activity implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return this.cellarId;
 	}
@@ -78,8 +75,6 @@ public class Activity implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "subject", nullable = false, length = 255)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getSubject() {
 		return this.subject;
 	}
@@ -89,8 +84,6 @@ public class Activity implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "action", nullable = false, length = 255)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getAction() {
 		return this.action;
 	}
@@ -100,7 +93,6 @@ public class Activity implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "private", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getPrivate() {
 		return this.private_;
 	}
@@ -119,7 +111,6 @@ public class Activity implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}

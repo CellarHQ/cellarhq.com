@@ -15,7 +15,7 @@ package com.cellarhq.generated.tables.records;
 })
 public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.AccountOauthRecord> implements org.jooq.Record7<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = 1415710701;
+	private static final long serialVersionUID = 236116488;
 
 	/**
 	 * Setter for <code>public.account_oauth.id</code>.
@@ -29,7 +29,6 @@ public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -45,7 +44,6 @@ public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_oauth.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -61,7 +59,6 @@ public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_oauth.cellar_id</code>.
 	 */
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return (java.lang.Long) getValue(2);
 	}
@@ -77,8 +74,6 @@ public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_oauth.client</code>.
 	 */
 	@javax.persistence.Column(name = "client", nullable = false, length = 20)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getClient() {
 		return (java.lang.String) getValue(3);
 	}
@@ -94,8 +89,6 @@ public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_oauth.username</code>.
 	 */
 	@javax.persistence.Column(name = "username", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getUsername() {
 		return (java.lang.String) getValue(4);
 	}
@@ -111,7 +104,6 @@ public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_oauth.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(5);
 	}
@@ -127,7 +119,6 @@ public class AccountOauthRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * Getter for <code>public.account_oauth.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(6);
 	}

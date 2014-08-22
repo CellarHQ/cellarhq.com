@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.DrinkRecord> implements org.jooq.Record22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> {
 
-	private static final long serialVersionUID = -819219893;
+	private static final long serialVersionUID = -38541357;
 
 	/**
 	 * Setter for <code>public.drink.id</code>.
@@ -27,7 +27,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -74,7 +72,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.organization_id</code>.
 	 */
 	@javax.persistence.Column(name = "organization_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getOrganizationId() {
 		return (java.lang.Long) getValue(3);
 	}
@@ -90,7 +87,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.style_id</code>.
 	 */
 	@javax.persistence.Column(name = "style_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getStyleId() {
 		return (java.lang.Long) getValue(4);
 	}
@@ -106,7 +102,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.glassware_id</code>.
 	 */
 	@javax.persistence.Column(name = "glassware_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getGlasswareId() {
 		return (java.lang.Long) getValue(5);
 	}
@@ -122,8 +117,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.drink_type</code>.
 	 */
 	@javax.persistence.Column(name = "drink_type", nullable = false, length = 10)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 10)
 	public java.lang.String getDrinkType() {
 		return (java.lang.String) getValue(6);
 	}
@@ -139,8 +132,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.slug</code>.
 	 */
 	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getSlug() {
 		return (java.lang.String) getValue(7);
 	}
@@ -156,8 +147,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.name</code>.
 	 */
 	@javax.persistence.Column(name = "name", nullable = false, length = 100)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getName() {
 		return (java.lang.String) getValue(8);
 	}
@@ -233,7 +222,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.availability</code>.
 	 */
 	@javax.persistence.Column(name = "availability", length = 20)
-	@javax.validation.constraints.Size(max = 20)
 	public java.lang.String getAvailability() {
 		return (java.lang.String) getValue(13);
 	}
@@ -249,7 +237,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.searchable</code>.
 	 */
 	@javax.persistence.Column(name = "searchable", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getSearchable() {
 		return (java.lang.Boolean) getValue(14);
 	}
@@ -265,7 +252,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.brewery_db_id</code>.
 	 */
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getBreweryDbId() {
 		return (java.lang.String) getValue(15);
 	}
@@ -311,7 +297,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.needs_moderation</code>.
 	 */
 	@javax.persistence.Column(name = "needs_moderation", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getNeedsModeration() {
 		return (java.lang.Boolean) getValue(18);
 	}
@@ -327,7 +312,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(19);
 	}
@@ -343,7 +327,6 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 * Getter for <code>public.drink.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(20);
 	}

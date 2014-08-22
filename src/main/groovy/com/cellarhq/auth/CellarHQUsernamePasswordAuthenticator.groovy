@@ -1,11 +1,9 @@
 package com.cellarhq.auth
 
-import com.cellarhq.ratpack.hibernate.HibernateDSL
-import com.cellarhq.services.AccountService
+import com.cellarhq.services.JooqAccountService
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.hibernate.SessionFactory
 import org.pac4j.core.exception.CredentialsException
 import org.pac4j.http.credentials.UsernamePasswordAuthenticator
 import org.pac4j.http.credentials.UsernamePasswordCredentials
@@ -14,13 +12,11 @@ import org.pac4j.http.credentials.UsernamePasswordCredentials
 @CompileStatic
 class CellarHQUsernamePasswordAuthenticator implements UsernamePasswordAuthenticator {
 
-    private final AccountService accountService
-    private final SessionFactory sessionFactory
+    private final JooqAccountService accountService
 
     @Inject
-    CellarHQUsernamePasswordAuthenticator(AccountService accountService, SessionFactory sessionFactory) {
+    CellarHQUsernamePasswordAuthenticator(JooqAccountService accountService) {
         this.accountService = accountService
-        this.sessionFactory = sessionFactory
     }
 
     @Override
@@ -29,10 +25,8 @@ class CellarHQUsernamePasswordAuthenticator implements UsernamePasswordAuthentic
             throwsException('No credentials')
         }
 
-        HibernateDSL.transaction(sessionFactory) {
-            if (!accountService.findByCredentials(credentials.username, credentials.password)) {
-                throwsException('Email and/or password did not match')
-            }
+        if (!accountService.findByCredentials(credentials.username, credentials.password)) {
+            throwsException('Email and/or password did not match')
         }
     }
 

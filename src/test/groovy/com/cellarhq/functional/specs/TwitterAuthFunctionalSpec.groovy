@@ -1,18 +1,19 @@
 package com.cellarhq.functional.specs
 
-import static com.cellarhq.HibernateDSL.transaction
 
 import com.cellarhq.SpecFlags
-import com.cellarhq.dao.OAuthAccountDAO
-import com.cellarhq.domain.OAuthAccount
+import com.cellarhq.domain.OAuthClient
+import com.cellarhq.domain.jooq.Cellar
+import com.cellarhq.domain.jooq.OAuthAccount
 import com.cellarhq.functional.pages.HomePage
 import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.YourCellarPage
 import com.cellarhq.functional.pages.thirdparty.TwitterAuthorizePage
 import com.cellarhq.functional.pages.thirdparty.TwitterOAuthPage
+import com.cellarhq.services.JooqAccountService
+import com.cellarhq.services.JooqCellarService
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
-import org.hibernate.SessionFactory
 import ratpack.groovy.test.LocalScriptApplicationUnderTest
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
@@ -51,9 +52,10 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
     def 'verify no oauth accounts exist'() {
         when:
         long oauthAccounts = (long) remote.exec {
-            transaction(get(SessionFactory)) {
-                get(OAuthAccountDAO).countAll()
-            }
+            Sql sql = new Sql(get(DataSource))
+            long result = sql.firstRow('select count(1) as accounts from account_oauth').accounts
+            sql.close()
+            return result
         }
 
         then:
@@ -110,21 +112,19 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
         when:
         // This is a tad gnarly. Domains aren't serializable.
         Map account = (Map) remote.exec {
-            OAuthAccount oAuthAccount = transaction(get(SessionFactory)) {
-                get(OAuthAccountDAO).findByClientAndUsername(
-                        OAuthAccount.Client.TWITTER,
-                        TwitterOAuthPage.TWITTER_VALID_USERNAME)
-            }
+            OAuthAccount oAuthAccount = get(JooqAccountService)
+                    .findByCredentials(TwitterOAuthPage.TWITTER_VALID_USERNAME, OAuthClient.TWITTER)
+            Cellar cellar = get(JooqCellarService).get(oAuthAccount.cellarId)
 
             return [
                     username: oAuthAccount.username,
                     cellar: [
-                            screenName: oAuthAccount.cellar.screenName,
-                            displayName: oAuthAccount.cellar.displayName,
-                            bio: oAuthAccount.cellar.bio,
-                            website: oAuthAccount.cellar.website,
-                            location: oAuthAccount.cellar.location,
-                            lastLogin: oAuthAccount.cellar.lastLogin?.toString()
+                            screenName: cellar.screenName,
+                            displayName: cellar.displayName,
+                            bio: cellar.bio,
+                            website: cellar.website,
+                            location: cellar.location,
+                            lastLogin: cellar.lastLogin?.toString()
                     ]
             ]
         }

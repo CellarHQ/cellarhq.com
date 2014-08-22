@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "account_email", schema = "public")
 public class AccountEmail implements java.io.Serializable {
 
-	private static final long serialVersionUID = 298332604;
+	private static final long serialVersionUID = -1000582996;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -45,7 +45,6 @@ public class AccountEmail implements java.io.Serializable {
 
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return this.id;
 	}
@@ -55,7 +54,6 @@ public class AccountEmail implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return this.version;
 	}
@@ -65,7 +63,6 @@ public class AccountEmail implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "cellar_id", nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getCellarId() {
 		return this.cellarId;
 	}
@@ -75,8 +72,6 @@ public class AccountEmail implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "email", unique = true, nullable = false, length = 255)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getEmail() {
 		return this.email;
 	}
@@ -85,9 +80,7 @@ public class AccountEmail implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@javax.persistence.Column(name = "password", nullable = false, length = 64)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 64)
+	@javax.persistence.Column(name = "password", nullable = false, length = 60)
 	public java.lang.String getPassword() {
 		return this.password;
 	}
@@ -97,7 +90,6 @@ public class AccountEmail implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
@@ -107,7 +99,6 @@ public class AccountEmail implements java.io.Serializable {
 	}
 
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return this.modifiedDate;
 	}

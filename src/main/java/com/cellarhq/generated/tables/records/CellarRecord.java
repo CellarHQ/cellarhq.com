@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "cellar", schema = "public")
 public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellarRecord> implements org.jooq.Record15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = -347902509;
+	private static final long serialVersionUID = 1304281986;
 
 	/**
 	 * Setter for <code>public.cellar.id</code>.
@@ -27,7 +27,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "id", unique = true, nullable = false, precision = 64)
-	@javax.validation.constraints.NotNull
 	public java.lang.Long getId() {
 		return (java.lang.Long) getValue(0);
 	}
@@ -43,7 +42,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.version</code>.
 	 */
 	@javax.persistence.Column(name = "version", nullable = false, precision = 32)
-	@javax.validation.constraints.NotNull
 	public java.lang.Integer getVersion() {
 		return (java.lang.Integer) getValue(1);
 	}
@@ -74,8 +72,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.screen_name</code>.
 	 */
 	@javax.persistence.Column(name = "screen_name", unique = true, nullable = false, length = 64)
-	@javax.validation.constraints.NotNull
-	@javax.validation.constraints.Size(max = 64)
 	public java.lang.String getScreenName() {
 		return (java.lang.String) getValue(3);
 	}
@@ -90,8 +86,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	/**
 	 * Getter for <code>public.cellar.display_name</code>.
 	 */
-	@javax.persistence.Column(name = "display_name", length = 60)
-	@javax.validation.constraints.Size(max = 60)
+	@javax.persistence.Column(name = "display_name", length = 64)
 	public java.lang.String getDisplayName() {
 		return (java.lang.String) getValue(4);
 	}
@@ -107,7 +102,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.location</code>.
 	 */
 	@javax.persistence.Column(name = "location", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getLocation() {
 		return (java.lang.String) getValue(5);
 	}
@@ -123,7 +117,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.website</code>.
 	 */
 	@javax.persistence.Column(name = "website", length = 100)
-	@javax.validation.constraints.Size(max = 100)
 	public java.lang.String getWebsite() {
 		return (java.lang.String) getValue(6);
 	}
@@ -154,7 +147,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.update_from_network</code>.
 	 */
 	@javax.persistence.Column(name = "update_from_network", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getUpdateFromNetwork() {
 		return (java.lang.Boolean) getValue(8);
 	}
@@ -170,7 +162,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.contact_email</code>.
 	 */
 	@javax.persistence.Column(name = "contact_email", length = 255)
-	@javax.validation.constraints.Size(max = 255)
 	public java.lang.String getContactEmail() {
 		return (java.lang.String) getValue(9);
 	}
@@ -186,7 +177,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.private</code>.
 	 */
 	@javax.persistence.Column(name = "private", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.lang.Boolean getPrivate() {
 		return (java.lang.Boolean) getValue(10);
 	}
@@ -217,7 +207,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.last_login_ip</code>.
 	 */
 	@javax.persistence.Column(name = "last_login_ip", length = 30)
-	@javax.validation.constraints.Size(max = 30)
 	public java.lang.String getLastLoginIp() {
 		return (java.lang.String) getValue(12);
 	}
@@ -233,7 +222,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.created_date</code>.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getCreatedDate() {
 		return (java.sql.Timestamp) getValue(13);
 	}
@@ -249,7 +237,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	 * Getter for <code>public.cellar.modified_date</code>.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
-	@javax.validation.constraints.NotNull
 	public java.sql.Timestamp getModifiedDate() {
 		return (java.sql.Timestamp) getValue(14);
 	}
