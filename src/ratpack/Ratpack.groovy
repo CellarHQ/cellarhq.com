@@ -12,6 +12,7 @@ import com.cellarhq.endpoints.YourCellarEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.util.SessionUtil
+import org.pac4j.core.exception.TechnicalException
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ServerErrorHandler

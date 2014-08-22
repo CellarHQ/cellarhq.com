@@ -1,7 +1,10 @@
 {{# partial "content" }}
-    <h1>An Exception Occurred</h1>
-    <div class="alert alert-danger" style="white-spac:pre">
-        {{sanitizedException.stackTrace}}
+    <h1>Oops!</h1>
+    <div class="alert alert-danger">
+      <p><strong>Something went horribly wrong.</strong> You can either try your request again, or let us know of the
+      problem via <a href="https://twitter.com/cellarhq" title="CellarHQ Twitter">@cellarhq</a>.
+        <small>(Error ID: {{correlationId}})</small>
+      </p>
     </div>
 {{/partial}}
 
