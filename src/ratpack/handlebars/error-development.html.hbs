@@ -1,0 +1,34 @@
+{{# partial "content" }}
+  <h1>Exception at {{request.path}}: {{sanitizedMessage}}</h1>
+
+  <div class="alert alert-danger" style="white-space:pre">
+    {{rootCauseMessage}}
+  </div>
+
+  <h2>Root Cause</h2>
+  <pre>
+    {{rootCauseMessage}}
+    {{#each rootCauseTrace}}
+      {{trace}}
+    {{/each}}
+  </pre>
+
+  <h2>Request</h2>
+  <div>
+    <dl>
+      <dt>Path</dt>
+      <dd>{{request.path}}</dd>
+      <!-- TODO other request data -->
+    </dl>
+  </div>
+
+  <h2>Full Exception</h2>
+  <pre>
+    {{sanitizedMessage}}
+    {{#each sanitizedTrace}}
+      {{trace}}
+    {{/each}}
+  </pre>
+{{/partial}}
+
+{{> layout.html}}

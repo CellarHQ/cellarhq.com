@@ -24,13 +24,17 @@ class CellarHQModule extends AbstractModule {
     final static String ENV_DEPLOYMENT = 'deploymentEnv'
     final static String ENV_DEPLOYMENT_PRODUCTION = 'production'
 
+    static boolean isProductionEnv() {
+        return System.getenv(ENV_DEPLOYMENT) == ENV_DEPLOYMENT_PRODUCTION
+    }
+
     @Override
     protected void configure() {
         bind(AccountService).in(Scopes.SINGLETON)
         bind(CellarService).in(Scopes.SINGLETON)
         bind(OrganizationService).in(Scopes.SINGLETON)
 
-        if (System.getenv(ENV_DEPLOYMENT) == ENV_DEPLOYMENT_PRODUCTION) {
+        if (isProductionEnv()) {
             // TODO: This should get put into the ratpack configuration file...
             bind(AWSCredentials).toInstance(new BasicAWSCredentials(
                     'AKIAIXBP2ORLESIX5CIQ',
