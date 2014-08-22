@@ -3,15 +3,15 @@ package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
 import com.cellarhq.domain.OAuthClient
-import com.cellarhq.domain.jooq.Cellar
-import com.cellarhq.domain.jooq.OAuthAccount
+import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.functional.pages.HomePage
 import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.YourCellarPage
 import com.cellarhq.functional.pages.thirdparty.TwitterAuthorizePage
 import com.cellarhq.functional.pages.thirdparty.TwitterOAuthPage
-import com.cellarhq.services.JooqAccountService
-import com.cellarhq.services.JooqCellarService
+import com.cellarhq.services.AccountService
+import com.cellarhq.services.CellarService
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import ratpack.groovy.test.LocalScriptApplicationUnderTest
@@ -112,9 +112,9 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
         when:
         // This is a tad gnarly. Domains aren't serializable.
         Map account = (Map) remote.exec {
-            OAuthAccount oAuthAccount = get(JooqAccountService)
+            OAuthAccount oAuthAccount = get(AccountService)
                     .findByCredentials(TwitterOAuthPage.TWITTER_VALID_USERNAME, OAuthClient.TWITTER)
-            Cellar cellar = get(JooqCellarService).get(oAuthAccount.cellarId)
+            Cellar cellar = get(CellarService).get(oAuthAccount.cellarId)
 
             return [
                     username: oAuthAccount.username,

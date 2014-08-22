@@ -1,6 +1,6 @@
 package com.cellarhq.auth
 
-import com.cellarhq.services.JooqAccountService
+import com.cellarhq.services.AccountService
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -12,10 +12,10 @@ import org.pac4j.http.credentials.UsernamePasswordCredentials
 @CompileStatic
 class CellarHQUsernamePasswordAuthenticator implements UsernamePasswordAuthenticator {
 
-    private final JooqAccountService accountService
+    private final AccountService accountService
 
     @Inject
-    CellarHQUsernamePasswordAuthenticator(JooqAccountService accountService) {
+    CellarHQUsernamePasswordAuthenticator(AccountService accountService) {
         this.accountService = accountService
     }
 

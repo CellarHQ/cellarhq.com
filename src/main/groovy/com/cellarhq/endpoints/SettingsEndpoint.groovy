@@ -3,8 +3,8 @@ package com.cellarhq.endpoints
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
-import com.cellarhq.domain.jooq.Cellar
-import com.cellarhq.services.JooqCellarService
+import com.cellarhq.domain.Cellar
+import com.cellarhq.services.CellarService
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -23,11 +23,11 @@ import javax.validation.ValidatorFactory
 @Slf4j
 class SettingsEndpoint extends GroovyHandler {
 
-    private final JooqCellarService cellarService
+    private final CellarService cellarService
     private final ValidatorFactory validatorFactory
 
     @Inject
-    SettingsEndpoint(JooqCellarService cellarService, ValidatorFactory validatorFactory) {
+    SettingsEndpoint(CellarService cellarService, ValidatorFactory validatorFactory) {
         this.cellarService = cellarService
         this.validatorFactory = validatorFactory
     }

@@ -1,6 +1,6 @@
 package com.cellarhq.endpoints
 
-import com.cellarhq.domain.jooq.Organization
+import com.cellarhq.domain.Organization
 import com.cellarhq.services.OrganizationService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j

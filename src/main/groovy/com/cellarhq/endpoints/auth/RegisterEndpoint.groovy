@@ -4,9 +4,9 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
 import com.cellarhq.auth.Role
-import com.cellarhq.domain.jooq.Cellar
-import com.cellarhq.domain.jooq.EmailAccount
-import com.cellarhq.services.JooqAccountService
+import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.EmailAccount
+import com.cellarhq.services.AccountService
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -29,11 +29,11 @@ import java.time.LocalDateTime
 @Slf4j
 class RegisterEndpoint extends GroovyHandler {
 
-    private final JooqAccountService accountService
+    private final AccountService accountService
     private final ValidatorFactory validatorFactory
 
     @Inject
-    RegisterEndpoint(JooqAccountService accountService, ValidatorFactory validatorFactory) {
+    RegisterEndpoint(AccountService accountService, ValidatorFactory validatorFactory) {
         this.accountService = accountService
         this.validatorFactory = validatorFactory
     }

@@ -48,8 +48,7 @@ dependencies {
     compile 'org.pac4j:pac4j-oauth:1.5.1'
 
     compile databaseDriver
-    compile 'org.hibernate:hibernate-core:4.3.5.Final' // Delete me
-    compile 'org.jadira.usertype:usertype.extended:3.2.0.GA' // Delete me
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     compile "org.jooq:jooq:${jooqVersion}"
     compile "org.jooq:jooq-meta:${jooqVersion}"
     compile "org.jooq:jooq-codegen:${jooqVersion}"

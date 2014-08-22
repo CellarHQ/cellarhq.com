@@ -1,48 +1,45 @@
 package com.cellarhq.domain
 
-import com.cellarhq.ratpack.hibernate.Entity
+import com.cellarhq.generated.tables.pojos.AccountEmail
+import groovy.transform.CompileStatic
+import groovy.transform.InheritConstructors
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.NotEmpty
 
-import javax.persistence.CascadeType
 import javax.persistence.Column
-import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
 import javax.persistence.Transient
-import javax.persistence.UniqueConstraint
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
-@Entity(name = 'account_email', uniqueConstraints = [
-        @UniqueConstraint(name = 'unq_account_email_email', columnNames = ['email'])
-])
-class EmailAccount extends AbstractEntity {
+@CompileStatic
+@InheritConstructors
+class EmailAccount extends AccountEmail {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = 'cellar_id', nullable = false, updatable = false)
+    @Transient
     Cellar cellar
-
-    @Email
-    @NotEmpty
-    @Column(nullable = false, unique = true)
-    String email
-
-    @Length(min = 4)
-    @NotEmpty
-    @Column(length = 64, nullable = false)
-    String password
 
     @Transient
     String passwordConfirm
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = 'emailAccount', fetch = FetchType.LAZY)
-    Set<PasswordChangeRequest> passwordChangeRequests = []
+    EmailAccount() {
+        createdDate = Timestamp.valueOf(LocalDateTime.now())
+        modifiedDate = createdDate
+    }
+
+    @Override
+    @Email
+    @NotEmpty
+    @Column(name = 'email')
+    String getEmail() {
+        return super.email
+    }
+
+    @Override
+    @NotEmpty
+    @Length(min = 6, max = 64)
+    @Column(name = 'password')
+    String getPassword() {
+        return super.password
+    }
 }

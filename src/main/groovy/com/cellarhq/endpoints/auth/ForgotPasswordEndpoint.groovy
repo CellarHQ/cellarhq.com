@@ -3,8 +3,8 @@ package com.cellarhq.endpoints.auth
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
-import com.cellarhq.domain.jooq.EmailAccount
-import com.cellarhq.services.JooqAccountService
+import com.cellarhq.domain.EmailAccount
+import com.cellarhq.services.AccountService
 import com.cellarhq.services.email.EmailService
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -18,11 +18,11 @@ import ratpack.groovy.handling.GroovyHandler
 @Slf4j
 class ForgotPasswordEndpoint extends GroovyHandler {
 
-    private final JooqAccountService accountService
+    private final AccountService accountService
     private final EmailService emailService
 
     @Inject
-    ForgotPasswordEndpoint(JooqAccountService accountService, EmailService emailService) {
+    ForgotPasswordEndpoint(AccountService accountService, EmailService emailService) {
         this.accountService = accountService
         this.emailService = emailService
     }

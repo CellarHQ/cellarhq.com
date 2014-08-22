@@ -1,7 +1,7 @@
 package com.cellarhq.services
 
-import com.cellarhq.domain.jooq.Cellar
-import com.cellarhq.domain.jooq.EmailAccount
+import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.EmailAccount
 import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.CellarRecord
@@ -26,7 +26,7 @@ class AccountServiceSpec extends JooqSpecification {
         }
 
         and:
-        JooqAccountService accountService = new JooqAccountService(dataSource)
+        AccountService accountService = new AccountService(dataSource)
 
         and:
         EmailAccount emailAccount = new EmailAccount(
