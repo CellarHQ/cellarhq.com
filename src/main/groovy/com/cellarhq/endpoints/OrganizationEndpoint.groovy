@@ -4,25 +4,37 @@ import com.cellarhq.domain.Organization
 import com.cellarhq.services.OrganizationService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import ratpack.groovy.handling.GroovyContext
-import ratpack.groovy.handling.GroovyHandler
+import ratpack.groovy.handling.GroovyChainAction
 
 import static ratpack.jackson.Jackson.fromJson
 import static ratpack.jackson.Jackson.json
 
 @Slf4j
-class OrganizationEndpoint extends GroovyHandler {
+class OrganizationEndpoint extends GroovyChainAction {
 
     OrganizationService organizationService
 
     @Inject
-    public OrganizationEndpoint(OrganizationService organizationService) {
+    OrganizationEndpoint(OrganizationService organizationService) {
         this.organizationService = organizationService
     }
 
     @Override
-    protected void handle(GroovyContext context) {
-        context.with {
+    protected void execute() throws Exception {
+        get('organizations') { OrganizationService organizationService ->
+                organizationService.all().toList().subscribe { List<Organization> organizations ->
+                    render json(organizations)
+                }
+        }
+
+        get('organizations/valid-name') {
+            organizationService.search(request.queryParams.name, 1, 0).toList().subscribe { List<Organization> orgs ->
+                render json(orgs.empty)
+            }
+        }
+
+        handler('organizations/:slug') {
+
             String slug = pathTokens['slug']
 
             byMethod {

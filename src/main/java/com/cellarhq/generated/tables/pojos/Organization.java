@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = -406207036;
+	private static final long serialVersionUID = -151644417;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -38,6 +38,7 @@ public class Organization implements java.io.Serializable {
 	private java.sql.Timestamp createdDate;
 	private java.sql.Timestamp modifiedDate;
 	private java.lang.Object   data;
+	private java.lang.String   region;
 
 	public Organization() {}
 
@@ -64,7 +65,8 @@ public class Organization implements java.io.Serializable {
 		java.lang.Boolean  needsModeration,
 		java.sql.Timestamp createdDate,
 		java.sql.Timestamp modifiedDate,
-		java.lang.Object   data
+		java.lang.Object   data,
+		java.lang.String   region
 	) {
 		this.id = id;
 		this.version = version;
@@ -89,6 +91,7 @@ public class Organization implements java.io.Serializable {
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 		this.data = data;
+		this.region = region;
 	}
 
 	@javax.persistence.Id
@@ -297,5 +300,14 @@ public class Organization implements java.io.Serializable {
 
 	public void setData(java.lang.Object data) {
 		this.data = data;
+	}
+
+	@javax.persistence.Column(name = "region", length = 100)
+	public java.lang.String getRegion() {
+		return this.region;
+	}
+
+	public void setRegion(java.lang.String region) {
+		this.region = region;
 	}
 }

@@ -1,38 +1,30 @@
-import static ratpack.groovy.Groovy.ratpack
-import static ratpack.handlebars.Template.handlebarsTemplate
-import static ratpack.jackson.Jackson.json
-
 import com.cellarhq.CellarHQModule
 import com.cellarhq.ClientErrorHandlerImpl
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
-import com.cellarhq.domain.Organization
+import com.cellarhq.endpoints.BreweryEndpoint
 import com.cellarhq.endpoints.OrganizationEndpoint
 import com.cellarhq.endpoints.SettingsEndpoint
 import com.cellarhq.endpoints.YourCellarEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
-import com.cellarhq.services.OrganizationService
-import com.cellarhq.session.FlashMessage
-import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
-import org.pac4j.core.exception.TechnicalException
-import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
-import ratpack.codahale.metrics.HealthCheckHandler
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
 import ratpack.hikari.HikariModule
 import ratpack.jackson.JacksonModule
 import ratpack.launch.LaunchConfig
-import ratpack.pac4j.internal.Pac4jCallbackHandler
 import ratpack.pac4j.internal.SessionConstants
 import ratpack.remote.RemoteControlModule
 import ratpack.rx.RxRatpack
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
+
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.handlebars.Template.handlebarsTemplate
 
 String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
     String value = System.getenv(key)
@@ -55,6 +47,7 @@ ratpack {
         bind DatabaseHealthcheck
 
         add new CodaHaleMetricsModule().healthChecks()
+        add new CodaHaleMetricsModule().websocket()
         add new HikariModule(
                 serverName: getConfig(launchConfig, 'other.hikari.dataSourceProperties.serverName', 'localhost'),
                 portNumber: getConfig(launchConfig, 'other.hikari.dataSourceProperties.portNumber', '15432'),
@@ -70,9 +63,8 @@ ratpack {
         add new MapSessionsModule(10, 5)
         add new SecurityModule()
 
-        add new HandlebarsModule()
-
         add new CellarHQModule()
+        add new HandlebarsModule()
 
         init {
             RxRatpack.initialize()
@@ -140,105 +132,8 @@ ratpack {
             }
         }
 
-        handler('beers') {  ->
-            byMethod {
-                /**
-                 * Paginated list of beers, has search.
-                 */
-                get {}
+        handler chain(registry.get(BreweryEndpoint))
 
-                /**
-                 * Create a new beer.
-                 */
-                post {}
-            }
-        }
-
-        /**
-         * HTML page for adding a new beer.
-         */
-        get('beers/add') {}
-
-        handler('beers/:id') {  ->
-            byMethod {
-                /**
-                 * Get an individual beer
-                 */
-                get {
-//                    transaction(context, {
-//                         drinkService.get(pathTokens["id"].toLong())
-//                    }).then { Drink drink ->
-//                        if (drink) {
-//                            render handlebarsTemplate('beers/show.html',
-//                                [
-//                                    drink: drink,
-//                                    pageId: 'beers-single',
-//                                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))
-//                                ])
-//                        } else {
-//                            clientError(404)
-//                        }
-//                    }
-                }
-
-                /**
-                 * Update an existing beer
-                 */
-                post {}
-
-                /**
-                 * Delete an existing beer.
-                 */
-                delete {}
-            }
-        }
-        /**
-         * HTML page for editing an existing beer.
-         */
-        get('beers/:id/edit') {}
-
-        handler('breweries') {
-            byMethod {
-                /**
-                 * List all breweries; has search.
-                 */
-                get {}
-
-                /**
-                 * Add a new brewery.
-                 */
-                post {}
-            }
-        }
-
-        /**
-         * HTML page for adding a new brewery.
-         */
-        get('breweries/add') {}
-
-        handler('breweries/:slug') {
-            byMethod {
-                /**
-                 * Get an existing brewery.
-                 */
-                get {}
-
-                /**
-                 * Update an existing brewery
-                 */
-                post {}
-
-                /**
-                 * Delete an existing brewery.
-                 */
-                delete {}
-            }
-        }
-
-        /**
-         * HTML page for editing breweries.
-         */
-        get('breweries/:id/edit') {}
 
         /**
          * Alias to /cellars/:id, auto-loads authenticated user.
@@ -335,13 +230,7 @@ ratpack {
          */
 
         prefix("api") {
-            get("organizations") { OrganizationService organizationService ->
-                organizationService.all().toList().subscribe { List<Organization> organizations ->
-                    render json(organizations)
-                }
-            }
-
-            handler("organizations/:slug?", registry.get(OrganizationEndpoint))
+            handler chain(registry.get(OrganizationEndpoint))
         }
 
         get('health-checks', { HealthCheckRegistry healthCheckRegistry ->

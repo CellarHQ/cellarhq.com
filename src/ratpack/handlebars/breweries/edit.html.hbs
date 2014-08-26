@@ -1,0 +1,37 @@
+{{# partial "content" }}
+    <div class="content-header">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="header-section">
+                    <h1>Brewery Management</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{>common/messages}}
+
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="block">
+                <!-- Form Validation Title -->
+                <div class="block-title">
+                    <h2>Edit {{organization.name}}</h2>
+                </div>
+                <form action="/breweries/{{organization.slug}}" method="post" id="brewery_form" class="form-horizontal form-bordered">
+                    {{>breweries/brewery_form}}
+                </form>
+
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{# partial "extra_includes"}}
+    <script src="/scripts/pages/breweries.js"></script>
+    <script>$(function () {
+        FormsValidation.init();
+    });</script>
+{{/partial}}
+
+{{> layout.html}}

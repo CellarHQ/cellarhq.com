@@ -1,5 +1,7 @@
 package com.cellarhq.endpoints.auth
 
+import com.cellarhq.validation.ValidationErrorMapper
+
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
@@ -103,11 +105,9 @@ class RegisterEndpoint extends GroovyHandler {
                             redirect('/yourcellar')
                         }
                     } else {
-                        // TODO Create a little helper class to do this instead of using a static method. Should be able
-                        //      to take in constraint violations and convert them properly.
-                        List<String> messages = []
-                        cellarViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
-                        accountViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
+                        List<String> messages = new ValidationErrorMapper().
+                                buildMessages(cellarViolations, accountViolations)
+
                         if (!passwordsMatch) {
                             messages << 'passwords do not match'
                         }

@@ -3,6 +3,7 @@ package com.cellarhq
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.BasicAWSCredentials
 import com.cellarhq.handlebars.HandlebarsTemplateRendererImpl
+import com.cellarhq.handlebars.helpers.PaginationHelper
 import com.cellarhq.services.*
 import com.cellarhq.services.email.AmazonEmailService
 import com.cellarhq.services.email.EmailService
@@ -34,6 +35,7 @@ class CellarHQModule extends AbstractModule {
         bind(AccountService).in(Scopes.SINGLETON)
         bind(CellarService).in(Scopes.SINGLETON)
         bind(OrganizationService).in(Scopes.SINGLETON)
+        bind(PaginationHelper).in(Scopes.SINGLETON)
 
         if (isProductionEnv()) {
             // TODO: This should get put into the ratpack configuration file...
