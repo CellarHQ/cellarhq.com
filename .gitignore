@@ -17,3 +17,5 @@ build
 *.ipr
 *.iws
 .vagrant
+.DS_Store
+
