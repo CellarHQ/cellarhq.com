@@ -5,7 +5,7 @@ class ForgotPasswordPage extends BasePage {
     static url = '/forgot-password'
     static at = { pageId ==~ /forgot-password/ }
     static content = {
-        forgotPasswordForm(wait: true) { $('#forgot-password-form') }
+        forgotPasswordForm(wait: true) { $('#form-forgot-password') }
         submitButton(wait: true) { $('button[type=submit]') }
     }
 

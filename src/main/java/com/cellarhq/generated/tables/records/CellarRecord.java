@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "cellar", schema = "public")
-public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellarRecord> implements org.jooq.Record15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> {
+public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellarRecord> {
 
-	private static final long serialVersionUID = 1304281986;
+	private static final long serialVersionUID = -95434204;
 
 	/**
 	 * Setter for <code>public.cellar.id</code>.
@@ -241,6 +241,126 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 		return (java.sql.Timestamp) getValue(14);
 	}
 
+	/**
+	 * Setter for <code>public.cellar.twitter</code>.
+	 */
+	public void setTwitter(java.lang.String value) {
+		setValue(15, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.twitter</code>.
+	 */
+	@javax.persistence.Column(name = "twitter", length = 16)
+	public java.lang.String getTwitter() {
+		return (java.lang.String) getValue(15);
+	}
+
+	/**
+	 * Setter for <code>public.cellar.reddit</code>.
+	 */
+	public void setReddit(java.lang.String value) {
+		setValue(16, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.reddit</code>.
+	 */
+	@javax.persistence.Column(name = "reddit", length = 20)
+	public java.lang.String getReddit() {
+		return (java.lang.String) getValue(16);
+	}
+
+	/**
+	 * Setter for <code>public.cellar.beeradvocate</code>.
+	 */
+	public void setBeeradvocate(java.lang.String value) {
+		setValue(17, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.beeradvocate</code>.
+	 */
+	@javax.persistence.Column(name = "beeradvocate", length = 255)
+	public java.lang.String getBeeradvocate() {
+		return (java.lang.String) getValue(17);
+	}
+
+	/**
+	 * Setter for <code>public.cellar.ratebeer</code>.
+	 */
+	public void setRatebeer(java.lang.String value) {
+		setValue(18, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.ratebeer</code>.
+	 */
+	@javax.persistence.Column(name = "ratebeer", length = 255)
+	public java.lang.String getRatebeer() {
+		return (java.lang.String) getValue(18);
+	}
+
+	/**
+	 * Setter for <code>public.cellar.total_beers</code>.
+	 */
+	public void setTotalBeers(java.lang.Short value) {
+		setValue(19, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.total_beers</code>.
+	 */
+	@javax.persistence.Column(name = "total_beers", nullable = false, precision = 16)
+	public java.lang.Short getTotalBeers() {
+		return (java.lang.Short) getValue(19);
+	}
+
+	/**
+	 * Setter for <code>public.cellar.unique_beers</code>.
+	 */
+	public void setUniqueBeers(java.lang.Short value) {
+		setValue(20, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.unique_beers</code>.
+	 */
+	@javax.persistence.Column(name = "unique_beers", nullable = false, precision = 16)
+	public java.lang.Short getUniqueBeers() {
+		return (java.lang.Short) getValue(20);
+	}
+
+	/**
+	 * Setter for <code>public.cellar.unique_breweries</code>.
+	 */
+	public void setUniqueBreweries(java.lang.Short value) {
+		setValue(21, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.unique_breweries</code>.
+	 */
+	@javax.persistence.Column(name = "unique_breweries", nullable = false, precision = 16)
+	public java.lang.Short getUniqueBreweries() {
+		return (java.lang.Short) getValue(21);
+	}
+
+	/**
+	 * Setter for <code>public.cellar.has_tradeable_beers</code>.
+	 */
+	public void setHasTradeableBeers(java.lang.Boolean value) {
+		setValue(22, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.has_tradeable_beers</code>.
+	 */
+	@javax.persistence.Column(name = "has_tradeable_beers", nullable = false)
+	public java.lang.Boolean getHasTradeableBeers() {
+		return (java.lang.Boolean) getValue(22);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -251,409 +371,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	@Override
 	public org.jooq.Record1<java.lang.Long> key() {
 		return (org.jooq.Record1) super.key();
-	}
-
-	// -------------------------------------------------------------------------
-	// Record15 type implementation
-	// -------------------------------------------------------------------------
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Row15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
-		return (org.jooq.Row15) super.fieldsRow();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Row15<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.String, java.lang.Boolean, java.sql.Timestamp, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
-		return (org.jooq.Row15) super.valuesRow();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Long> field1() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.ID;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.VERSION;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Long> field3() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.PHOTO_ID;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field4() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.SCREEN_NAME;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field5() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.DISPLAY_NAME;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field6() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.LOCATION;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field7() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.WEBSITE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field8() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.BIO;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Boolean> field9() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.UPDATE_FROM_NETWORK;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field10() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.CONTACT_EMAIL;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.Boolean> field11() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.PRIVATE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.sql.Timestamp> field12() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.LAST_LOGIN;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.lang.String> field13() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.LAST_LOGIN_IP;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.sql.Timestamp> field14() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.CREATED_DATE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public org.jooq.Field<java.sql.Timestamp> field15() {
-		return com.cellarhq.generated.tables.Cellar.CELLAR.MODIFIED_DATE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Long value1() {
-		return getId();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Integer value2() {
-		return getVersion();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Long value3() {
-		return getPhotoId();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value4() {
-		return getScreenName();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value5() {
-		return getDisplayName();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value6() {
-		return getLocation();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value7() {
-		return getWebsite();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value8() {
-		return getBio();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Boolean value9() {
-		return getUpdateFromNetwork();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value10() {
-		return getContactEmail();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.Boolean value11() {
-		return getPrivate();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.sql.Timestamp value12() {
-		return getLastLogin();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.lang.String value13() {
-		return getLastLoginIp();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.sql.Timestamp value14() {
-		return getCreatedDate();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.sql.Timestamp value15() {
-		return getModifiedDate();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value1(java.lang.Long value) {
-		setId(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value2(java.lang.Integer value) {
-		setVersion(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value3(java.lang.Long value) {
-		setPhotoId(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value4(java.lang.String value) {
-		setScreenName(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value5(java.lang.String value) {
-		setDisplayName(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value6(java.lang.String value) {
-		setLocation(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value7(java.lang.String value) {
-		setWebsite(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value8(java.lang.String value) {
-		setBio(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value9(java.lang.Boolean value) {
-		setUpdateFromNetwork(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value10(java.lang.String value) {
-		setContactEmail(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value11(java.lang.Boolean value) {
-		setPrivate(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value12(java.sql.Timestamp value) {
-		setLastLogin(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value13(java.lang.String value) {
-		setLastLoginIp(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value14(java.sql.Timestamp value) {
-		setCreatedDate(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord value15(java.sql.Timestamp value) {
-		setModifiedDate(value);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CellarRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.lang.String value6, java.lang.String value7, java.lang.String value8, java.lang.Boolean value9, java.lang.String value10, java.lang.Boolean value11, java.sql.Timestamp value12, java.lang.String value13, java.sql.Timestamp value14, java.sql.Timestamp value15) {
-		return this;
 	}
 
 	// -------------------------------------------------------------------------
@@ -670,7 +387,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	/**
 	 * Create a detached, initialised CellarRecord
 	 */
-	public CellarRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String screenName, java.lang.String displayName, java.lang.String location, java.lang.String website, java.lang.String bio, java.lang.Boolean updateFromNetwork, java.lang.String contactEmail, java.lang.Boolean private_, java.sql.Timestamp lastLogin, java.lang.String lastLoginIp, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public CellarRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String screenName, java.lang.String displayName, java.lang.String location, java.lang.String website, java.lang.String bio, java.lang.Boolean updateFromNetwork, java.lang.String contactEmail, java.lang.Boolean private_, java.sql.Timestamp lastLogin, java.lang.String lastLoginIp, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.String twitter, java.lang.String reddit, java.lang.String beeradvocate, java.lang.String ratebeer, java.lang.Short totalBeers, java.lang.Short uniqueBeers, java.lang.Short uniqueBreweries, java.lang.Boolean hasTradeableBeers) {
 		super(com.cellarhq.generated.tables.Cellar.CELLAR);
 
 		setValue(0, id);
@@ -688,5 +405,13 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 		setValue(12, lastLoginIp);
 		setValue(13, createdDate);
 		setValue(14, modifiedDate);
+		setValue(15, twitter);
+		setValue(16, reddit);
+		setValue(17, beeradvocate);
+		setValue(18, ratebeer);
+		setValue(19, totalBeers);
+		setValue(20, uniqueBeers);
+		setValue(21, uniqueBreweries);
+		setValue(22, hasTradeableBeers);
 	}
 }

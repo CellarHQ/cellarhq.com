@@ -3,6 +3,7 @@ package com.cellarhq.endpoints
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.Messages
+import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.services.CellarService
 import com.cellarhq.session.FlashMessage
@@ -40,7 +41,7 @@ class SettingsEndpoint extends GroovyHandler {
                 get {
                     UserProfile profile = request.get(UserProfile)
                     blocking {
-                        cellarService.get(Long.valueOf(profile.id))
+                        cellarService.getBlocking((Long) profile.getAttribute(SecurityModule.SESSION_CELLAR_ID))
                     } then { Cellar cellar ->
                         render handlebarsTemplate('settings.html',
                                 title: 'Account Settings',
@@ -61,7 +62,8 @@ class SettingsEndpoint extends GroovyHandler {
                                 cellar: (Cellar) null
                         ]
 
-                        Cellar cellar = cellarService.get(Long.valueOf(profile.id))
+                        Cellar cellar = cellarService.getBlocking(
+                                (Long) profile.getAttribute(SecurityModule.SESSION_CELLAR_ID))
                         if (cellar) {
                             cellar.with {
                                 displayName = form.displayName
@@ -70,6 +72,10 @@ class SettingsEndpoint extends GroovyHandler {
                                 bio = form.bio
                                 updateFromNetwork = form.updateFromNetwork
                                 setPrivate((Boolean) form.private)
+                                reddit = form.reddit
+                                twitter = form.twitter
+                                beeradvocate = form.beeradvocate
+                                ratebeer = form.ratebeer
                             }
 
                             // TODO Photo
@@ -84,7 +90,7 @@ class SettingsEndpoint extends GroovyHandler {
                                 )
                                 result.cellar = cellar
                             } else {
-                                cellarService.save(cellar)
+                                cellarService.saveBlocking(cellar)
                                 result.success = true
                             }
                         }

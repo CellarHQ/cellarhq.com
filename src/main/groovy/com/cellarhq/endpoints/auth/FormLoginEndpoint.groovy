@@ -1,6 +1,7 @@
 package com.cellarhq.endpoints.auth
 
 import com.cellarhq.Messages
+import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
 import com.cellarhq.services.CellarService
@@ -49,8 +50,8 @@ class FormLoginEndpoint extends GroovyHandler {
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                         redirect(500, '/logout')
                     } then { EmailAccount emailAccount ->
-                        httpProfile.id = emailAccount.cellar.id
                         request.get(SessionStorage).put(SessionConstants.USER_PROFILE, httpProfile)
+                        request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, emailAccount.cellarId)
 
                         redirect('/yourcellar')
                     }

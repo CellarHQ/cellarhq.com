@@ -18,20 +18,16 @@ import static ratpack.rx.RxRatpack.observeEach
 
 @CompileStatic
 @Slf4j
-class OrganizationService {
-
-    private final DataSource dataSource
-    private final ExecControl execControl
+class OrganizationService extends BaseJooqService {
 
     @Inject
     OrganizationService(DataSource dataSource, ExecControl execControl) {
-        this.dataSource = dataSource
-        this.execControl = execControl
+        super(dataSource, execControl)
     }
 
     Observable<Organization> save(Organization organization) {
         observe(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 OrganizationRecord organizationRecord = create.newRecord(Tables.ORGANIZATION, organization)
 
 
@@ -54,7 +50,7 @@ class OrganizationService {
 
     Observable<Organization> get(Long id) {
         observe(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 create.select()
                         .from(Tables.ORGANIZATION)
                         .where(Tables.ORGANIZATION.ID.eq(id))
@@ -66,7 +62,7 @@ class OrganizationService {
 
     Observable<Organization> findBySlug(String slug) {
         observe(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 create.select()
                         .from(Tables.ORGANIZATION)
                         .where(Tables.ORGANIZATION.SLUG.eq(slug))
@@ -78,7 +74,7 @@ class OrganizationService {
 
     Observable<Organization> all(int numberOfRows=20, int offset=0) {
         observeEach(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 create.select()
                         .from(Tables.ORGANIZATION)
                         .orderBy(Tables.ORGANIZATION.NAME)
@@ -103,7 +99,7 @@ class OrganizationService {
 
     Observable<Void> delete(String slug) {
         observe(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 OrganizationRecord org = create.fetchOne(Tables.ORGANIZATION, Tables.ORGANIZATION.SLUG.equal(slug))
 
                 if (org) {

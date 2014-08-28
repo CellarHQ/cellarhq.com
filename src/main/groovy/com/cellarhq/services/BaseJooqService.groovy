@@ -3,6 +3,7 @@ package com.cellarhq.services
 import static com.cellarhq.util.DataSourceUtil.withDslContext
 
 import groovy.transform.CompileStatic
+import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
 
@@ -10,9 +11,11 @@ import javax.sql.DataSource
 abstract class BaseJooqService {
 
     protected final DataSource dataSource
+    protected final ExecControl execControl
 
-    BaseJooqService(DataSource dataSource) {
+    BaseJooqService(DataSource dataSource, ExecControl execControl) {
         this.dataSource = dataSource
+        this.execControl = execControl
     }
 
     protected <T> T jooq(Closure<T> operation) {

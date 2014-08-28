@@ -7,8 +7,8 @@ class RegisterPage extends BasePage {
 
     static content = {
         twitterLoginLink(wait: true) { $('#twitter-login-btn') }
-        registerForm(wait: true) { $('#register-form') }
-        submitButton(wait: true) { $('#register-form button[type=submit]') }
+        registerForm(wait: true) { $('#form-register') }
+        submitButton(wait: true) { $('button[type=submit]') }
         errorMessages(required: false) { $('.alert.alert-danger') }
     }
 

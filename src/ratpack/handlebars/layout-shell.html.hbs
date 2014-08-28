@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name='pageId' content='{{pageId}}'/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="apple-touch-icon" href="img/icon57.png" sizes="57x57">
   <link rel="apple-touch-icon" href="img/icon72.png" sizes="72x72">
   <link rel="apple-touch-icon" href="img/icon76.png" sizes="76x76">
@@ -18,12 +18,13 @@
   <link rel="stylesheet" href="/styles/plugins.css">
   <link rel="stylesheet" href="/styles/main.css">
   <link rel="stylesheet" href="/styles/themes.css">
+  <link rel="stylesheet" href="/styles/cellarhq.css">
   <script src="/scripts/vendor/modernizr-2.8.3.js"></script>
   {{#block "extra_head"}}{{/block}}
   <title>{{ title }}</title>
 </head>
 
-<body>
+<body class="{{pageIdCssClass}}">
 {{#block "body"}}{{/block}}
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

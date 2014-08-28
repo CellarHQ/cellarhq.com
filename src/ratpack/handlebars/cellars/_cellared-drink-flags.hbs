@@ -1,0 +1,17 @@
+<ul class="cellared-drink-flags">
+{{#if tradeable}}
+  <li><span class="label label-info" data-toggle="tooltip" data-placement="bottom" title="Trading {{numTradeable}} bottles">
+    <i class="fa fa-exchange"></i>
+  </span></li>
+{{/if}}
+{{#if dangerDrinkByDate}}
+    <li><span class="label label-danger animation-pulse" data-toggle="tooltip" data-placement="bottom" title="This beer expires soon!">
+      <i class="fa fa-exclamation-triangle"></i>
+    </span></li>
+{{/if}}
+{{# warnDrinkByDate}}
+  <li><span class="label label-warning animation-pulse" data-toggle="tooltip" data-placement="bottom" title="This beer expires soon!">
+    <i class="fa fa-exclamation-triangle"></i>
+  </span></li>
+{{/warnDrinkByDate}}
+</ul>

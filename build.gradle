@@ -83,7 +83,7 @@ test {
     // Maybe a better way, but I only want to change the runList if we're actually running tests.
     if (project.gradle.startParameter.taskNames.contains('test')
             || project.gradle.startParameter.taskNames.contains('check')) {
-        System.setProperty('runList', 'testing')
+        project.extensions.extraProperties.set('runList', 'testing')
     }
 }
 test.dependsOn 'dropAll', 'update'

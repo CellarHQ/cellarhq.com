@@ -21,13 +21,15 @@ import ratpack.session.store.SessionStorage
 @CompileStatic
 class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
 
-    private final static String DEFAULT_PAGE_ID = 'unknown'
+    private final static String DEFAULT_PAGE_ID = 'generic'
     private final static String DEFAULT_TITLE = 'CellarHQ'
 
     private final static String MODEL_PAGE_ID = 'pageId'
+    private final static String MODEL_PAGE_ID_CSS_CLASS = 'pageIdCssClass'
     private final static String MODEL_TITLE = 'title'
     private final static String MODEL_LOGGED_IN = 'loggedIn'
     private final static String MODEL_PAGE_URI = 'pageUri'
+    private final static String MODEL_REQUEST = 'request'
 
     @Inject
     HandlebarsTemplateRendererImpl(Handlebars handlebars) {
@@ -45,6 +47,7 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
             logMissingVariable(MODEL_PAGE_ID, context.request.uri)
             model[MODEL_PAGE_ID] = DEFAULT_PAGE_ID
         }
+        model[MODEL_PAGE_ID_CSS_CLASS] = ((String) model[MODEL_PAGE_ID]).replaceAll(/\./, '')
 
         if (!model.containsKey(MODEL_TITLE)) {
             logMissingVariable(MODEL_TITLE, context.request.uri)
@@ -57,6 +60,8 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
 
         model[MODEL_LOGGED_IN] = SessionUtil.isLoggedIn(context.request.maybeGet(CommonProfile))
         applyFlashMessages(context.request, model)
+
+        model[MODEL_REQUEST] = context.request
 
         super.render(context, template)
     }

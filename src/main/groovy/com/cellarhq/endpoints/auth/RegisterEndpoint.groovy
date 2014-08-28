@@ -1,5 +1,6 @@
 package com.cellarhq.endpoints.auth
 
+import com.cellarhq.auth.SecurityModule
 import com.cellarhq.validation.ValidationErrorMapper
 
 import static ratpack.handlebars.Template.handlebarsTemplate
@@ -95,6 +96,8 @@ class RegisterEndpoint extends GroovyHandler {
                             SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                             redirect(500, '/register')
                         } then {
+                            request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, emailAccount.cellarId)
+
                             // TODO Is there a way to do this without calling into ratpack's internals?
                             UserProfile userProfile = makeUserProfile(emailAccount)
 

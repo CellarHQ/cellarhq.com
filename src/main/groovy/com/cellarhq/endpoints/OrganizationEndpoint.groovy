@@ -9,6 +9,10 @@ import ratpack.groovy.handling.GroovyChainAction
 import static ratpack.jackson.Jackson.fromJson
 import static ratpack.jackson.Jackson.json
 
+/**
+ * @todo Move to api package.
+ */
+@SuppressWarnings('AbcMetric')
 @Slf4j
 class OrganizationEndpoint extends GroovyChainAction {
 
@@ -30,6 +34,16 @@ class OrganizationEndpoint extends GroovyChainAction {
         get('organizations/valid-name') {
             organizationService.search(request.queryParams.name, 1, 0).toList().subscribe { List<Organization> orgs ->
                 render json(orgs.empty)
+            }
+        }
+        put('organizations/live-search') {
+            organizationService.search(request.queryParams.name, 5, 0).toList().subscribe { List<Organization> orgs ->
+                render json(orgs.collect {
+                    [
+                            id: it.id,
+                            name: it.name
+                    ]
+                })
             }
         }
 

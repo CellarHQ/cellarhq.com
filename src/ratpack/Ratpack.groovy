@@ -1,13 +1,25 @@
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.handlebars.Template.handlebarsTemplate
+import static ratpack.jackson.Jackson.json
+
 import com.cellarhq.CellarHQModule
 import com.cellarhq.ClientErrorHandlerImpl
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
+import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.CellaredDrink
+import com.cellarhq.endpoints.api.DrinkEndpoint
 import com.cellarhq.endpoints.BreweryEndpoint
+import com.cellarhq.endpoints.CellarsEndpoint
 import com.cellarhq.endpoints.OrganizationEndpoint
 import com.cellarhq.endpoints.SettingsEndpoint
 import com.cellarhq.endpoints.YourCellarEndpoint
+import com.cellarhq.endpoints.api.CellarEndpoint
+import com.cellarhq.endpoints.api.CellaredDrinkEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
+import com.cellarhq.services.CellarService
+import com.cellarhq.services.CellaredDrinkService
 import com.codahale.metrics.health.HealthCheckRegistry
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ClientErrorHandler
@@ -22,9 +34,6 @@ import ratpack.rx.RxRatpack
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
-
-import static ratpack.groovy.Groovy.ratpack
-import static ratpack.handlebars.Template.handlebarsTemplate
 
 String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
     String value = System.getenv(key)
@@ -88,80 +97,13 @@ ratpack {
                     pageId: 'home')
         }
 
-        handler('cellars') {
-            byMethod {
-                /**
-                 * Paginated list of all cellars; has basic search
-                 */
-                get {}
-
-                /**
-                 * Create a new cellar.
-                 */
-                post {}
-            }
-        }
-        handler('cellars/:id') {
-            byMethod {
-                /**
-                 * Get an individual cellar - the ID being the username someone selects.
-                 */
-                get {}
-
-                /**
-                 * Update a cellar.
-                 */
-                post {}
-            }
-        }
-        handler('cellars/:id/beers') {
-            byMethod {
-                /**
-                 * Add a new beer to the cellar
-                 */
-                post {}
-
-                /**
-                 * Remove a beer from the cellar.
-                 */
-                delete {}
-            }
-        }
-        handler('cellars/:id/beers/:beerId') {
-            byMethod {
-                /**
-                 * Update a cellared beer.
-                 */
-                post {}
-
-                /**
-                 * Remove a cellared beer.
-                 */
-                delete {}
-            }
-        }
-
         handler chain(registry.get(BreweryEndpoint))
-
+        handler chain(registry.get(CellarsEndpoint))
 
         /**
          * Alias to /cellars/:id, auto-loads authenticated user.
          */
         get('yourcellar', registry.get(YourCellarEndpoint))
-
-        handler('account') {
-            byMethod {
-                /**
-                 * Get the account settings page.
-                 */
-                get {}
-
-                /**
-                 * Update your account settings.
-                 */
-                post {}
-            }
-        }
 
         handler('import') {
             byMethod {
@@ -238,8 +180,23 @@ ratpack {
          * API
          */
 
-        prefix("api") {
+        prefix('api') {
+            handler('cellars/:slug?', registry.get(CellarEndpoint))
+            get('cellars') { CellarService cellarService ->
+                cellarService.all().toList().subscribe { List<Cellar> cellar ->
+                    render json(cellar)
+                }
+            }
+
+            handler('cellars/:cellarSlug/drinks/:id?', registry.get(CellaredDrinkEndpoint))
+            get('cellars/:cellarSlug/drinks') { CellaredDrinkService cellaredDrinkService ->
+                cellaredDrinkService.all(pathTokens['cellarSlug']).toList().subscribe { List<CellaredDrink> cellaredDrinks ->
+                    render json(cellaredDrinks)
+                }
+            }
+
             handler chain(registry.get(OrganizationEndpoint))
+            handler chain(registry.get(DrinkEndpoint))
         }
 
         get('health-checks', { HealthCheckRegistry healthCheckRegistry ->

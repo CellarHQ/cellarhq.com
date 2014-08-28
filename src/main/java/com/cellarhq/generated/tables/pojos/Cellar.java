@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellar", schema = "public")
 public class Cellar implements java.io.Serializable {
 
-	private static final long serialVersionUID = -122457961;
+	private static final long serialVersionUID = -719788346;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -30,6 +30,14 @@ public class Cellar implements java.io.Serializable {
 	private java.lang.String   lastLoginIp;
 	private java.sql.Timestamp createdDate;
 	private java.sql.Timestamp modifiedDate;
+	private java.lang.String   twitter;
+	private java.lang.String   reddit;
+	private java.lang.String   beeradvocate;
+	private java.lang.String   ratebeer;
+	private java.lang.Short    totalBeers;
+	private java.lang.Short    uniqueBeers;
+	private java.lang.Short    uniqueBreweries;
+	private java.lang.Boolean  hasTradeableBeers;
 
 	public Cellar() {}
 
@@ -48,7 +56,15 @@ public class Cellar implements java.io.Serializable {
 		java.sql.Timestamp lastLogin,
 		java.lang.String   lastLoginIp,
 		java.sql.Timestamp createdDate,
-		java.sql.Timestamp modifiedDate
+		java.sql.Timestamp modifiedDate,
+		java.lang.String   twitter,
+		java.lang.String   reddit,
+		java.lang.String   beeradvocate,
+		java.lang.String   ratebeer,
+		java.lang.Short    totalBeers,
+		java.lang.Short    uniqueBeers,
+		java.lang.Short    uniqueBreweries,
+		java.lang.Boolean  hasTradeableBeers
 	) {
 		this.id = id;
 		this.version = version;
@@ -65,6 +81,14 @@ public class Cellar implements java.io.Serializable {
 		this.lastLoginIp = lastLoginIp;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
+		this.twitter = twitter;
+		this.reddit = reddit;
+		this.beeradvocate = beeradvocate;
+		this.ratebeer = ratebeer;
+		this.totalBeers = totalBeers;
+		this.uniqueBeers = uniqueBeers;
+		this.uniqueBreweries = uniqueBreweries;
+		this.hasTradeableBeers = hasTradeableBeers;
 	}
 
 	@javax.persistence.Id
@@ -201,5 +225,77 @@ public class Cellar implements java.io.Serializable {
 
 	public void setModifiedDate(java.sql.Timestamp modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@javax.persistence.Column(name = "twitter", length = 16)
+	public java.lang.String getTwitter() {
+		return this.twitter;
+	}
+
+	public void setTwitter(java.lang.String twitter) {
+		this.twitter = twitter;
+	}
+
+	@javax.persistence.Column(name = "reddit", length = 20)
+	public java.lang.String getReddit() {
+		return this.reddit;
+	}
+
+	public void setReddit(java.lang.String reddit) {
+		this.reddit = reddit;
+	}
+
+	@javax.persistence.Column(name = "beeradvocate", length = 255)
+	public java.lang.String getBeeradvocate() {
+		return this.beeradvocate;
+	}
+
+	public void setBeeradvocate(java.lang.String beeradvocate) {
+		this.beeradvocate = beeradvocate;
+	}
+
+	@javax.persistence.Column(name = "ratebeer", length = 255)
+	public java.lang.String getRatebeer() {
+		return this.ratebeer;
+	}
+
+	public void setRatebeer(java.lang.String ratebeer) {
+		this.ratebeer = ratebeer;
+	}
+
+	@javax.persistence.Column(name = "total_beers", nullable = false, precision = 16)
+	public java.lang.Short getTotalBeers() {
+		return this.totalBeers;
+	}
+
+	public void setTotalBeers(java.lang.Short totalBeers) {
+		this.totalBeers = totalBeers;
+	}
+
+	@javax.persistence.Column(name = "unique_beers", nullable = false, precision = 16)
+	public java.lang.Short getUniqueBeers() {
+		return this.uniqueBeers;
+	}
+
+	public void setUniqueBeers(java.lang.Short uniqueBeers) {
+		this.uniqueBeers = uniqueBeers;
+	}
+
+	@javax.persistence.Column(name = "unique_breweries", nullable = false, precision = 16)
+	public java.lang.Short getUniqueBreweries() {
+		return this.uniqueBreweries;
+	}
+
+	public void setUniqueBreweries(java.lang.Short uniqueBreweries) {
+		this.uniqueBreweries = uniqueBreweries;
+	}
+
+	@javax.persistence.Column(name = "has_tradeable_beers", nullable = false)
+	public java.lang.Boolean getHasTradeableBeers() {
+		return this.hasTradeableBeers;
+	}
+
+	public void setHasTradeableBeers(java.lang.Boolean hasTradeableBeers) {
+		this.hasTradeableBeers = hasTradeableBeers;
 	}
 }

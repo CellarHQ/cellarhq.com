@@ -13,6 +13,7 @@ import org.jooq.tools.jdbc.MockDataProvider
 import org.jooq.tools.jdbc.MockExecuteContext
 import org.jooq.tools.jdbc.MockResult
 import org.mindrot.jbcrypt.BCrypt
+import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
 import java.sql.SQLException
@@ -26,7 +27,7 @@ class AccountServiceSpec extends JooqSpecification {
         }
 
         and:
-        AccountService accountService = new AccountService(dataSource)
+        AccountService accountService = new AccountService(dataSource, Mock(ExecControl))
 
         and:
         EmailAccount emailAccount = new EmailAccount(
