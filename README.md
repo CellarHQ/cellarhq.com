@@ -1,9 +1,10 @@
 CellarHQ
 ========
 
-[![Gitter chat](https://badges.gitter.im/zerocontribution.png)](https://gitter.im/zerocontribution)
+[![Gitter chat](https://badges.gitter.im/zerocontribution.png)](https://gitter.im/zerocontribution) (chat)
 
 This is the repository for the CellarHQ.com v2 website.
+
 
 Development
 -----------
