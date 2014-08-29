@@ -1,10 +1,12 @@
 CellarHQ
 ========
 
-[![Gitter chat](https://badges.gitter.im/zerocontribution.png)](https://gitter.im/zerocontribution) (chat)
-
 This is the repository for the CellarHQ.com v2 website.
 
+Chat
+----
+
+We have a Slack account for talking with each other about things. Ask Rob for an invite.
 
 Development
 -----------
