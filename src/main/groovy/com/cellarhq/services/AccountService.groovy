@@ -1,7 +1,6 @@
 package com.cellarhq.services
 
 import static com.cellarhq.generated.Tables.*
-import static com.cellarhq.util.JooqUtil.fieldsExcept
 
 import com.cellarhq.auth.Role
 import com.cellarhq.domain.OAuthClient
@@ -69,7 +68,7 @@ class AccountService extends BaseJooqService {
 
     EmailAccount findByEmailWithCellar(String email) {
         (EmailAccount) jooq { DSLContext create ->
-            Record result = create.select(fieldsExcept(CELLAR.fields(), [CELLAR.ID], ACCOUNT_EMAIL.fields()))
+            Record result = create.select()
                     .from(ACCOUNT_EMAIL)
                     .join(CELLAR).onKey()
                     .where(ACCOUNT_EMAIL.EMAIL.eq(email))

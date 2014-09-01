@@ -119,7 +119,7 @@ class FormAuthFunctionalSpec extends GebReportingSpec {
         // TODO: Redirection is a little funky right now. Feel it's good enough, though.
         if (shouldLogin) {
             page.authenticatedMenu
-            at HomePage
+            at YourCellarPage
         } else {
             assert isAt(LoginPage) || isAt(HomePage)
             page.errorMessages
