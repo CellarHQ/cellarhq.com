@@ -33,7 +33,8 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             /images\/.*/,
             /pac4j.*/,
             /favicon\.ico/,
-            /api.*/
+            /api.*/,
+            'health-checks'
     ]
 
     final static List<String> ADMIN_ROLE_REQUIRED = [

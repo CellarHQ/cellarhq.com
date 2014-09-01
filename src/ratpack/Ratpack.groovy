@@ -11,11 +11,14 @@ import com.cellarhq.endpoints.OrganizationEndpoint
 import com.cellarhq.endpoints.SettingsEndpoint
 import com.cellarhq.endpoints.YourCellarEndpoint
 import com.cellarhq.endpoints.auth.*
+import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.util.SessionUtil
+import com.codahale.metrics.health.HealthCheckRegistry
 import org.pac4j.core.exception.TechnicalException
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
+import ratpack.codahale.metrics.HealthCheckHandler
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -48,7 +51,7 @@ ratpack {
     bindings {
         bind ServerErrorHandler, ErrorHandler
         bind ClientErrorHandler, ClientErrorHandlerImpl
-        bind Pac4jCallbackHandler
+        bind DatabaseHealthcheck
 
         add new CodaHaleMetricsModule().healthChecks()
         add new HikariModule(
@@ -351,6 +354,10 @@ ratpack {
 
             handler("organizations/:slug?", registry.get(OrganizationEndpoint))
         }
+
+        get('health-checks', { HealthCheckRegistry healthCheckRegistry ->
+            render json(healthCheckRegistry.runHealthChecks())
+        })
 
         assets "public"
     }
