@@ -19,7 +19,6 @@ import ratpack.handling.Handler
 import ratpack.handling.Handlers
 import ratpack.launch.LaunchConfig
 import ratpack.pac4j.Authorizer
-import ratpack.pac4j.internal.Pac4jCallbackHandler
 import ratpack.pac4j.internal.Pac4jClientsHandler
 
 @CompileStatic
@@ -60,7 +59,7 @@ class SecurityModule extends AbstractModule implements HandlerDecoratingModule {
         final TwitterClient twitterClient = injector.getInstance(TwitterClient)
         final FormClient formClient = injector.getInstance(FormClient)
         final Pac4jClientsHandler clientsHandler = new Pac4jClientsHandler(callbackPath, twitterClient, formClient)
-        final Pac4jCallbackHandler callbackHandler = new Pac4jCallbackHandler()
+        final CellarHQCallbackHandler callbackHandler = new CellarHQCallbackHandler()
         final CellarHQAuthenticationHandler authenticationHandler = new CellarHQAuthenticationHandler(authorizer)
 
         return Handlers.chain(clientsHandler,

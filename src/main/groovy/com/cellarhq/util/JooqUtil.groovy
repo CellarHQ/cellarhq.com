@@ -10,9 +10,7 @@ class JooqUtil {
     /**
      * Generates an array of filtered Fields, optionally merging them into another array of Fields.
      *
-     * Useful for excluding fields during join operations that would otherwise collide with each other.
-     *
-     * <pre class="example">
+     *  <pre class="example">
      *     create.select(fieldsExcept(CELLAR.fields(), [CELLAR.ID], ACCOUNT_EMAIL.fields())
      *         .from(ACCOUNT_EMAIL)
      *         .join(CELLAR).onKey()
@@ -25,10 +23,11 @@ class JooqUtil {
      * @return
      */
     static Field[] fieldsExcept(Field[] fields, List<TableField> except, Field[] mergeInto = null) {
-        Field[] filtered = fields.findAll { except.contains(it) }
+        Field[] filtered = fields.findAll { !except.contains(it) }
         if (mergeInto) {
-            mergeInto.toList().addAll(filtered)
-            return mergeInto
+            List<Field> merged = mergeInto.toList()
+            merged.addAll(filtered)
+            return (Field[]) merged.toArray()
         }
         return filtered
     }
