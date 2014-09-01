@@ -19,3 +19,4 @@ build
 .vagrant
 .DS_Store
 
+app.log
