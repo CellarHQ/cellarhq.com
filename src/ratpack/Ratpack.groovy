@@ -3,6 +3,7 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
 
 import com.cellarhq.CellarHQModule
+import com.cellarhq.ClientErrorHandlerImpl
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Organization
@@ -15,6 +16,7 @@ import com.cellarhq.util.SessionUtil
 import org.pac4j.core.exception.TechnicalException
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
+import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
 import ratpack.hikari.HikariModule
@@ -44,6 +46,8 @@ String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
 
 ratpack {
     bindings {
+        bind ServerErrorHandler, ErrorHandler
+        bind ClientErrorHandler, ClientErrorHandlerImpl
         bind Pac4jCallbackHandler
 
         add new CodaHaleMetricsModule().healthChecks()
@@ -65,8 +69,6 @@ ratpack {
         add new HandlebarsModule()
 
         add new CellarHQModule()
-
-        bind ServerErrorHandler, ErrorHandler
 
         init {
             RxRatpack.initialize()
