@@ -6,7 +6,9 @@ import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.AccountService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
+import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.pac4j.oauth.profile.twitter.TwitterProfile
@@ -76,7 +78,8 @@ class TwitterLoginEndpoint extends GroovyHandler {
                         account
                     } onError { Throwable e ->
                         log.error(LogUtil.toLog('TwitterLoginEndpoint'), e)
-                        redirect(500, "/logout?error=${Messages.UNEXPECTED_SERVER_ERROR}")
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                        redirect(500, '/logout')
                     } then { OAuthAccount oAuthAccount ->
                         twitterProfile.id = oAuthAccount.cellar.id
                         request.get(SessionStorage).put(SessionConstants.USER_PROFILE, twitterProfile)

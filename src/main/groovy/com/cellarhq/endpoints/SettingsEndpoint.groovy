@@ -5,6 +5,7 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 import com.cellarhq.Messages
 import com.cellarhq.domain.Cellar
 import com.cellarhq.services.CellarService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -44,10 +45,6 @@ class SettingsEndpoint extends GroovyHandler {
                         render handlebarsTemplate('settings.html',
                                 title: 'Account Settings',
                                 isOauthAccount: profile instanceof TwitterProfile,
-                                loggedIn: true,
-                                error: request.queryParams.error ?: '',
-                                errorMessages: SessionUtil.getFlashMessages(request).collect { [message: it] },
-                                success: request.queryParams.success ?: '',
                                 pageId: 'settings',
                                 cellar: cellar)
                     }
@@ -61,7 +58,6 @@ class SettingsEndpoint extends GroovyHandler {
                     blocking {
                         Map result = [
                                 success: false,
-                                message: '',
                                 cellar: (Cellar) null
                         ]
 
@@ -80,11 +76,13 @@ class SettingsEndpoint extends GroovyHandler {
 
                             Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(cellar)
                             if (cellarViolations.size() > 0) {
-                                result.message = Messages.FORM_VALIDATION_ERROR
+                                SessionUtil.setFlash(
+                                        request,
+                                        FlashMessage.error(Messages.FORM_VALIDATION_ERROR, cellarViolations.collect {
+                                            "${it.propertyPath.toString()} ${it.message}"
+                                        })
+                                )
                                 result.cellar = cellar
-                                result.violations = cellarViolations.collect {
-                                    [message: "${it.propertyPath.toString()} ${it.message}"]
-                                }
                             } else {
                                 cellarService.save(cellar)
                                 result.success = true
@@ -95,15 +93,17 @@ class SettingsEndpoint extends GroovyHandler {
                         log.error(LogUtil.toLog('SaveSettingsFailure', [
                                 exception: t
                         ]))
-                        redirect('/settings?error=' + Messages.UNEXPECTED_SERVER_ERROR)
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                        redirect('/settings')
                     } then { Map result ->
                         if (result.success) {
-                            redirect('/settings?success=' + Messages.SETTINGS_SAVED)
+                            SessionUtil.setFlash(request, FlashMessage.success(Messages.SETTINGS_SAVED))
+                            redirect('/settings')
                         } else {
                             render handlebarsTemplate('settings.html', renderPageSettings([
+                                    title: 'Account Settings',
+                                    pageId: 'settings',
                                     isOauthAccount: profile instanceof TwitterProfile,
-                                    error: result.message,
-                                    errorMessages: result.violations,
                                     cellar: result.cellar
                             ]))
                         }
@@ -111,15 +111,5 @@ class SettingsEndpoint extends GroovyHandler {
                 }
             }
         }
-    }
-
-    private Map renderPageSettings(Map options) {
-        Map settings = [
-                title: 'Account Settings',
-                pageId: 'settings',
-                isLoggedIn: true
-        ]
-        settings.putAll(options)
-        return settings
     }
 }

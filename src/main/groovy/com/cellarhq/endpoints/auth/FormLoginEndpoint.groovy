@@ -4,7 +4,9 @@ import com.cellarhq.Messages
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
 import com.cellarhq.services.CellarService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
+import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.pac4j.core.exception.TechnicalException
@@ -44,7 +46,8 @@ class FormLoginEndpoint extends GroovyHandler {
                         log.error(LogUtil.toLog('LoginFormEndpoint', [
                                 exception: e.toString()
                         ]), e)
-                        redirect(500, "/logout?error=${Messages.UNEXPECTED_SERVER_ERROR}")
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                        redirect(500, '/logout')
                     } then { EmailAccount emailAccount ->
                         httpProfile.id = emailAccount.cellar.id
                         request.get(SessionStorage).put(SessionConstants.USER_PROFILE, httpProfile)
