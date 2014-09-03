@@ -11,6 +11,7 @@
     <include file="migrations/releases/forgot-password-support.xml"/>
     <include file="migrations/releases/add-data-columns-for-brewerydb.xml"/>
     <include file="migrations/releases/add-base-data.xml"/>
+    <include file="migrations/releases/add-region-column.xml"/>
 
     <!-- next: -->
 

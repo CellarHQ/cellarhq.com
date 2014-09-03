@@ -73,14 +73,14 @@ while (nextToken != null) {
 
 public String buildSqlInsert(Item item) {
     """INSERT INTO organization
-     (type, slug, name, description, established, phone, website, address, address2, locality, postal_code, country, brewery_db_id, brewery_db_last_updated, locked)
+     (type, slug, name, description, established, phone, website, address, address2, locality, region, postal_code, country, brewery_db_id, brewery_db_last_updated, locked)
      VALUES ('BREWERY', '${generateSlug(item.attributes)}', '${getAttribute(item.attributes, attrName)}', '${
         buildDescription(item.attributes)
     }', ${getNumberAttribute(item.attributes, attrEstablished)},
       '${getAttribute(item.attributes, attrPhone)}', '${getAttribute(item.attributes, attrWebsite)}', '${
         getAttribute(item.attributes, attrAddress)
     }', '${getAttribute(item.attributes, attrExtendedAddress)}',
-      '${getAttribute(item.attributes, attrLocality)}', '${getAttribute(item.attributes, attrPostalCode)}', '${
+      '${getAttribute(item.attributes, attrLocality)}', '${getAttribute(item.attributes, attrRegion)}', '${getAttribute(item.attributes, attrPostalCode)}', '${
         getAttribute(item.attributes, attrCountry)
     }', '${getAttribute(item.attributes, attrBrewerydbId)}',
         ${buildDateString(item.attributes, attrBrewerydbLastUpdate)}, true);

@@ -1,52 +1,52 @@
 {{#if success}}
-  <div class='alert alert-success alert-dismissible'>
-    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-      {{success}}
-      {{#if successMessages}}
-        <ul>
-            {{#each successMessages}}
-              <li>{{message}}</li>
-            {{/each}}
-        </ul>
-      {{/if}}
-  </div>
+    <div class='alert alert-success alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+        {{success}}
+        {{#if successMessages}}
+            <ul>
+                {{#each successMessages}}
+                    <li>{{message}}</li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>
 {{/if}}
 {{#if info}}
-  <div class='alert alert-info alert-dismissible'>
-    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-      {{info}}
-      {{#if infoMessages}}
-        <ul>
-            {{#each infoMessages}}
-              <li>{{message}}</li>
-            {{/each}}
-        </ul>
-      {{/if}}
-  </div>
+    <div class='alert alert-info alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+        {{info}}
+        {{#if infoMessages}}
+            <ul>
+                {{#each infoMessages}}
+                    <li>{{message}}</li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>
 {{/if}}
 {{#if warning}}
-  <div class='alert alert-warning alert-dismissible'>
-    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-      {{warning}}
-      {{#if warningMessages}}
-        <ul>
-            {{#each warningMessages}}
-              <li>{{message}}</li>
-            {{/each}}
-        </ul>
-      {{/if}}
-  </div>
+    <div class='alert alert-warning alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+        {{warning}}
+        {{#if warningMessages}}
+            <ul>
+                {{#each warningMessages}}
+                    <li>{{message}}</li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>
 {{/if}}
 {{#if error}}
-  <div class='alert alert-danger alert-dismissible'>
-    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-      {{error}}
-      {{#if errorMessages}}
-        <ul>
-            {{#each errorMessages}}
-              <li>{{message}}</li>
-            {{/each}}
-        </ul>
-      {{/if}}
-  </div>
+    <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+        {{error}}
+        {{#if errorMessages}}
+            <ul>
+                {{#each errorMessages}}
+                    <li>{{message}}</li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>
 {{/if}}

@@ -1,0 +1,83 @@
+{{# partial "content" }}
+    <div class="content-header">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="header-section">
+                    <h1>Breweries</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{>common/messages}}
+
+    <div class="block full">
+        <div class="row">
+            <div class="input-group col-md-6">
+                <form action="/breweries" method="get" role="search">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-effect-ripple btn-primary">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </span>
+                <input type="text" id="search" name="search" class="form-control" placeholder="Brewery">
+                </form>
+            </div>
+            {{#if loggedIn}}
+                <a href="/breweries/add" class="btn btn-primary pull-right">Add New Brewery</a>
+            {{/if}}
+        </div>
+
+        <div class="row">
+            <div class="table-responsive">
+
+                <table id="breweries-table" class="table table-striped table-bordered table-condensed table-vcenter">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Established</th>
+                        <th>Website</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {{#each organizations}}
+                        <tr>
+                            <td><a href='/breweries/{{slug}}'>{{name}}</a></td>
+                            <td>{{locality}}{{#if region}}{{#if locality}},{{/if}} {{region}}{{/if}}{{#if country}}
+                                / {{country}}{{/if}} </td>
+                            <td>{{established}}</td>
+                            <td><a target="_blank" href="{{website}}">{{website}}</a></td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                {{#pagination this currentPage totlalPageCount 5}}
+                    <ul class="pagination">
+                        {{#if canGoPrevious}}
+                            <li class="prev"><a href="/breweries?page={{previousIdx}}">Prev</a></li>
+                        {{else}}
+                            <li class="prev disabled"><a href="#">Prev</a></li>
+                        {{/if}}
+
+                        {{#each pages}}
+                            <li {{#if isCurrent}}class="active"{{/if}}><a href="/breweries?page={{page}}">{{page}}</a>
+                            </li>
+                        {{/each}}
+
+                        {{#if canGoNext}}
+                            <li class="next"><a href="/breweries?page={{nextIdx}}">Next</a></li>
+                        {{else}}
+                            <li class="next disabled"><a href="#">Next</a></li>
+                        {{/if}}
+                    </ul>
+                {{/pagination}}
+
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{> layout.html}}

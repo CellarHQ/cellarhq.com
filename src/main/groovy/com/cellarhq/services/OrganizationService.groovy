@@ -76,14 +76,27 @@ class OrganizationService {
 
     }
 
-    Observable<Organization> all() {
+    Observable<Organization> all(int numberOfRows=20, int offset=0) {
         observeEach(execControl.blocking {
             withDslContext(dataSource) { DSLContext create ->
                 create.select()
                         .from(Tables.ORGANIZATION)
+                        .orderBy(Tables.ORGANIZATION.NAME)
+                        .limit(offset, numberOfRows)
                         .fetchInto(Organization)
+            }
+        })
+    }
 
-
+    Observable<Organization> search(String searchTerm, int numberOfRows=20, int offset=0) {
+        observeEach(execControl.blocking {
+            withDslContext(dataSource) { DSLContext create ->
+                create.select()
+                        .from(Tables.ORGANIZATION)
+                        .where(Tables.ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
+                        .orderBy(Tables.ORGANIZATION.NAME)
+                        .limit(offset, numberOfRows)
+                        .fetchInto(Organization)
             }
         })
     }
@@ -98,6 +111,14 @@ class OrganizationService {
                 }
 
                 return Void
+            }
+        })
+    }
+
+    Observable<Integer> count() {
+        observe(execControl.blocking {
+            withDslContext(dataSource) { DSLContext create ->
+                create.selectCount().from(Tables.ORGANIZATION).fetchOneInto(Integer)
             }
         })
     }
