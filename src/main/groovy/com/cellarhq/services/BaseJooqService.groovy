@@ -18,11 +18,11 @@ abstract class BaseJooqService {
         this.execControl = execControl
     }
 
-    protected <T> T jooq(Closure<T> operation) {
+    public <T> T jooq(Closure<T> operation) {
         return withDslContext(dataSource, operation)
     }
 
-    protected <T> T jooq(Closure configger, Closure<T> operation) {
+    public <T> T jooq(Closure configger, Closure<T> operation) {
         return withDslContext(dataSource, configger, operation)
     }
 }

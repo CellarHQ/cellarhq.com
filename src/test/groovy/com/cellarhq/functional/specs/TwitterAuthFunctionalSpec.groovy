@@ -62,15 +62,6 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
         oauthAccounts == 0
     }
 
-    def 'login menu is rendered without session'() {
-        when:
-        HomePage page = to HomePage
-
-        then:
-        page.unauthenticatedMenu
-        !page.authenticatedMenu
-    }
-
     def 'login page renders the twitter login button'() {
         when:
         LoginPage page = to LoginPage
@@ -105,7 +96,6 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
 
         then:
         yourCellarPage.authenticatedMenu
-        !yourCellarPage.unauthenticatedMenu
     }
 
     def 'verify oauth account was created'() {

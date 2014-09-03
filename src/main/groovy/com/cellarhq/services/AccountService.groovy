@@ -7,30 +7,42 @@ import com.cellarhq.domain.OAuthClient
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.domain.OAuthAccount
+import com.cellarhq.domain.Photo
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.AccountOauthRecord
 import com.cellarhq.generated.tables.records.CellarRecord
 import com.cellarhq.generated.tables.records.CellarRoleRecord
 import com.cellarhq.generated.tables.records.PasswordChangeRequestRecord
+import com.cellarhq.generated.tables.records.PhotoRecord
+import com.cellarhq.services.photo.PhotoService
+import com.cellarhq.services.photo.writer.PhotoWriteFailedException
+import com.cellarhq.services.photo.model.ResizeCommand
+import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.mindrot.jbcrypt.BCrypt
 import ratpack.exec.ExecControl
+import ratpack.form.UploadedFile
 
 import javax.sql.DataSource
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
+@Slf4j
 @CompileStatic
 class AccountService extends BaseJooqService {
 
     private final static int BCRYPT_LOG_ROUNDS = 16
 
+    private final PhotoService photoService
+
     @Inject
-    AccountService(DataSource dataSource, ExecControl execControl) {
+    AccountService(DataSource dataSource, ExecControl execControl, PhotoService photoService) {
         super(dataSource, execControl)
+        this.photoService = photoService
     }
 
     EmailAccount findByCredentials(String username, String password) {
@@ -53,8 +65,9 @@ class AccountService extends BaseJooqService {
             if (result) {
                 OAuthAccount oAuthAccount = result.into(OAuthAccount)
                 oAuthAccount.cellar = result.into(Cellar)
-                oAuthAccount
+                return oAuthAccount
             }
+            return null
         }
     }
 
@@ -78,16 +91,27 @@ class AccountService extends BaseJooqService {
             if (result) {
                 EmailAccount emailAccount = result.into(EmailAccount)
                 emailAccount.cellar = result.into(Cellar)
-                emailAccount
+                return emailAccount
             }
+            return null
         }
     }
 
-    EmailAccount create(EmailAccount emailAccount) {
+    EmailAccount create(EmailAccount emailAccount, UploadedFile picture) {
         emailAccount.password = BCrypt.hashpw(emailAccount.password, BCrypt.gensalt(BCRYPT_LOG_ROUNDS))
         (EmailAccount) jooq { DSLContext create ->
             create.transactionResult {
                 CellarRecord cellarRecord = create.newRecord(CELLAR, emailAccount.cellar)
+
+                if (picture) {
+                    PhotoRecord photoRecord = new PhotoRecordBuilder(picture).makePhoto(create)
+                    if (photoRecord) {
+                        photoRecord.description = Photo.DESCRIPTION_SETTINGS_UPLOAD
+                        photoRecord.store()
+                        cellarRecord.photoId = photoRecord.id
+                    }
+                }
+
                 cellarRecord.reset(CELLAR.ID)
                 cellarRecord.store()
                 emailAccount.cellarId = cellarRecord.id
@@ -105,10 +129,20 @@ class AccountService extends BaseJooqService {
         }
     }
 
-    OAuthAccount create(OAuthAccount oAuthAccount) {
+    OAuthAccount create(OAuthAccount oAuthAccount, String pictureUrl) {
         (OAuthAccount) jooq { DSLContext create ->
             create.transactionResult {
                 CellarRecord cellarRecord = create.newRecord(CELLAR, oAuthAccount.cellar)
+
+                if (pictureUrl) {
+                    PhotoRecord photoRecord = new PhotoRecordBuilder(pictureUrl).makePhoto(create)
+                    if (photoRecord) {
+                        photoRecord.description = Photo.DESCRIPTION_TWITTER_UPLOAD
+                        photoRecord.store()
+                        cellarRecord.photoId = photoRecord.id
+                    }
+                }
+
                 cellarRecord.reset(CELLAR.ID)
                 cellarRecord.store()
                 oAuthAccount.cellarId = cellarRecord.id
@@ -166,6 +200,39 @@ class AccountService extends BaseJooqService {
 
                 create.delete(PASSWORD_CHANGE_REQUEST).where(PASSWORD_CHANGE_REQUEST.ID.eq(requestUuid)).execute()
             }
+        }
+    }
+
+    private class PhotoRecordBuilder {
+
+        private final UploadedFile file
+        private final String url
+
+        PhotoRecordBuilder(UploadedFile file) {
+            this.file = file
+            this.url = null
+        }
+
+        PhotoRecordBuilder(String url) {
+            this.url = url
+            this.file = null
+        }
+
+        PhotoRecord makePhoto(DSLContext create) {
+            List<ResizeCommand> resizeCommands = [
+                    new ResizeCommand(Photo.Size.THUMB, 64),
+                    new ResizeCommand(Photo.Size.LARGE, 256)
+            ]
+            try {
+                return file ?
+                        photoService.createPhotoRecord(create, Photo.Type.CELLAR, file, resizeCommands) :
+                        photoService.createPhotoRecord(create, Photo.Type.CELLAR, url, resizeCommands)
+            } catch (PhotoWriteFailedException e) {
+                log.error(LogUtil.toLog('AccountService', [
+                        msg: 'Photo write failed while creating an account'
+                ]))
+            }
+            return null
         }
     }
 }

@@ -63,8 +63,6 @@ class TwitterLoginEndpoint extends GroovyHandler {
                                 bio = twitterProfile.description
                                 lastLogin = Timestamp.valueOf(LocalDateTime.now())
 
-                                // TODO Photo
-
                                 addRole(Role.MEMBER)
                                 return self
                             }
@@ -72,7 +70,9 @@ class TwitterLoginEndpoint extends GroovyHandler {
                                     username: twitterProfile.username,
                                     cellar: cellar
                             )
-                            accountService.create(account)
+
+                            // What a shitty little hack: The original image isn't offered by TwitterProfile.
+                            accountService.create(account, twitterProfile.pictureUrl?.replace('_normal', ''))
                         }
 
                         account

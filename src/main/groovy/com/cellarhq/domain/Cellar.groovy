@@ -18,6 +18,8 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
 
     Set<Role> roles = []
 
+    Photo photo
+
     Cellar() {
         setPrivate(false)
         updateFromNetwork = false

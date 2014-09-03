@@ -77,6 +77,7 @@ class CellarsEndpoint extends GroovyChainAction {
                 } else {
                     render handlebarsTemplate('cellars/show.html',
                             cellar: map.cellar,
+                            photo: map.cellar.photo,
                             cellaredDrinks: map.cellaredDrinks?:[
                                     new CellaredDrinkDetails(
                                             id: 1234,
