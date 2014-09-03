@@ -2,7 +2,7 @@ package com.cellarhq
 
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.BasicAWSCredentials
-import com.cellarhq.dao.*
+import com.cellarhq.handlebars.HandlebarsTemplateRendererImpl
 import com.cellarhq.services.*
 import com.cellarhq.services.email.AmazonEmailService
 import com.cellarhq.services.email.EmailService
@@ -10,6 +10,7 @@ import com.cellarhq.services.email.LogEmailService
 import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import groovy.transform.CompileStatic
+import ratpack.handlebars.internal.HandlebarsTemplateRenderer
 
 import javax.validation.Validation
 import javax.validation.ValidatorFactory
@@ -46,5 +47,6 @@ class CellarHQModule extends AbstractModule {
         }
 
         bind(ValidatorFactory).toInstance(Validation.buildDefaultValidatorFactory())
+        bind(HandlebarsTemplateRenderer).to(HandlebarsTemplateRendererImpl).in(Scopes.SINGLETON)
     }
 }

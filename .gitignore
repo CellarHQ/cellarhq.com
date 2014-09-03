@@ -20,3 +20,4 @@ build
 .DS_Store
 
 app.log
+app*.gz

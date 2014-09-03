@@ -13,6 +13,7 @@ import com.cellarhq.endpoints.YourCellarEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.OrganizationService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
 import org.pac4j.core.exception.TechnicalException
@@ -83,9 +84,7 @@ ratpack {
             render handlebarsTemplate('index.html',
                     cellars: [],
                     title: 'CellarHQ',
-                    pageId: 'home',
-                    success: request.queryParams.success ?: '',
-                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                    pageId: 'home')
         }
 
         handler('cellars') {
@@ -305,23 +304,13 @@ ratpack {
             render handlebarsTemplate('login.html',
                     title: 'Login',
                     action: '/pac4j-callback',
-                    method: 'post',
-                    buttonText: 'Login',
-                    info: request.queryParams.info ?: '',
-                    error: request.queryParams.error ?: '',
-                    pageId: 'login',
-                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                    pageId: 'login')
         }
 
         get('logout') {
             // TODO Accessing pac4j internals...
             request.get(SessionStorage).remove(SessionConstants.USER_PROFILE)
-
-            if (request.queryParams.error) {
-                redirect("/?error=${request.queryParams.error}")
-            } else {
-                redirect('/')
-            }
+            redirect('/')
         }
 
         handler('forgot-password', registry.get(ForgotPasswordEndpoint))

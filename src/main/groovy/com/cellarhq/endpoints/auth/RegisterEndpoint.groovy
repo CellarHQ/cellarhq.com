@@ -7,11 +7,11 @@ import com.cellarhq.auth.Role
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
 import org.pac4j.http.profile.HttpProfile
 import ratpack.form.Form
@@ -47,11 +47,7 @@ class RegisterEndpoint extends GroovyHandler {
                     render handlebarsTemplate('register.html',
                             title: 'Register',
                             action: '/register',
-                            method: 'post',
-                            error: request.queryParams.error ?: '',
-                            errorMessages: SessionUtil.getFlashMessages(request).collect { [message: it] },
-                            pageId: 'register',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                            pageId: 'register')
                 }
 
                 /**
@@ -94,7 +90,8 @@ class RegisterEndpoint extends GroovyHandler {
                             log.error(LogUtil.toLog('RegistrationFailure'), e)
 
                             // TODO... if we get a conflict on username, it isn't unexpected.
-                            redirect(500, '/register?error=' + Messages.UNEXPECTED_SERVER_ERROR)
+                            SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                            redirect(500, '/register')
                         } then {
                             // TODO Is there a way to do this without calling into ratpack's internals?
                             UserProfile userProfile = makeUserProfile(emailAccount)
@@ -115,9 +112,9 @@ class RegisterEndpoint extends GroovyHandler {
                             messages << 'passwords do not match'
                         }
 
-                        SessionUtil.setFlashMessages(request, messages)
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
 
-                        redirect('/register?error=' + Messages.FORM_VALIDATION_ERROR)
+                        redirect('/register')
                     }
                 }
             }

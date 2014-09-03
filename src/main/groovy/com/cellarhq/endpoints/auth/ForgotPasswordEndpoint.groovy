@@ -6,6 +6,7 @@ import com.cellarhq.Messages
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
 import com.cellarhq.services.email.EmailService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -35,11 +36,7 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                     render handlebarsTemplate('forgot-password.html',
                             title: 'Forgot Password',
                             action: '/forgot-password',
-                            method: 'post',
-                            error: request.queryParams.error ?: '',
-                            errorMessages: SessionUtil.getFlashMessages(request).collect { [message: it] },
-                            pageId: 'forgot-password',
-                            loggedIn: false)
+                            pageId: 'forgot-password')
                 }
                 post {
                     Form form = parse(Form)
@@ -56,7 +53,8 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                                 exception: t.toString()
                         ]), t)
 
-                        redirect(500, '/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                        redirect(500, '/forgot-password')
                     } then { String recoveryHash ->
                         if (recoveryHash) {
                             // TODO: We should definitely do HTML emails as well.
@@ -71,9 +69,13 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                                 | Cheers!
                                 | Kyle and Rob
                             """.stripMargin())
-                            redirect('/?success=' + Messages.FORGOT_PASSWORD_EMAIL_SENT_NOTICE)
+                            SessionUtil.setFlash(
+                                    request,
+                                    FlashMessage.success(Messages.FORGOT_PASSWORD_EMAIL_SENT_NOTICE))
+                            redirect('/')
                         } else {
-                            redirect('/forgot-password?error=' + Messages.FORGOT_PASSWORD_ERROR)
+                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORGOT_PASSWORD_ERROR))
+                            redirect('/forgot-password')
                         }
                     }
                 }

@@ -5,6 +5,7 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 import com.cellarhq.Messages
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -42,19 +43,17 @@ class ChangePasswordEndpoint extends GroovyHandler {
                                 exception: t.toString()
                         ]), t)
 
-                        redirect(500, '/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                        redirect(500, '/forgot-password')
                     } then { EmailAccount emailAccount ->
                         if (emailAccount) {
                             render handlebarsTemplate('change-password.html',
                                     title: 'Change Password',
                                     action: "/forgot-password/${context.pathTokens['id']}",
-                                    method: 'post',
-                                    error: request.queryParams.error ?: '',
-                                    errorMessages: SessionUtil.getFlashMessages(request).collect { [message: it] },
-                                    pageId: 'change-password',
-                                    loggedIn: false)
+                                    pageId: 'change-password')
                         } else {
-                            redirect('/forgot-password?error=' + Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST)
+                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
+                            redirect('/forgot-password')
                         }
                     }
                 }
@@ -62,10 +61,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                     Form form = parse(Form)
 
                     blocking {
-                        Map result = [
-                                success: false,
-                                message: ''
-                        ]
+                        boolean result = false
 
                         EmailAccount account = accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
                         if (account) {
@@ -77,7 +73,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                             boolean passwordsMatch = account.password == account.passwordConfirm
                             if (accountViolations.size() == 0 && passwordsMatch) {
                                 accountService.changePassword(account, context.pathTokens['id'])
-                                result.success = true
+                                result = true
                             }  else {
                                 List<String> messages = []
                                 accountViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
@@ -85,12 +81,12 @@ class ChangePasswordEndpoint extends GroovyHandler {
                                     messages << 'passwords do not match'
                                 }
 
-                                SessionUtil.setFlashMessages(request, messages)
-
-                                result.message = Messages.FORM_VALIDATION_ERROR
+                                SessionUtil.setFlash(
+                                        request,
+                                        FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
                             }
                         } else {
-                            result.message = Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST
+                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
                         }
 
                         return result
@@ -100,11 +96,14 @@ class ChangePasswordEndpoint extends GroovyHandler {
                         ]))
 
                         redirect(500, '/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
-                    } then { Map result ->
-                        if (result.success) {
-                            redirect('/login?success=' + Messages.FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD)
+                    } then { boolean result ->
+                        if (result) {
+                            SessionUtil.setFlash(
+                                    request,
+                                    FlashMessage.success(Messages.FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD))
+                            redirect('/login')
                         } else {
-                            redirect("/forgot-password/${context.pathTokens['id']}?error=" + (String) result.message)
+                            redirect("/forgot-password/${context.pathTokens['id']}")
                         }
                     }
                 }
