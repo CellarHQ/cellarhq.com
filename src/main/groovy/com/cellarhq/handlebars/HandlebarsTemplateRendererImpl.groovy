@@ -27,6 +27,7 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
     private final static String MODEL_PAGE_ID = 'pageId'
     private final static String MODEL_TITLE = 'title'
     private final static String MODEL_LOGGED_IN = 'loggedIn'
+    private final static String MODEL_PAGE_URI = 'pageUri'
 
     @Inject
     HandlebarsTemplateRendererImpl(Handlebars handlebars) {
@@ -48,6 +49,10 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
         if (!model.containsKey(MODEL_TITLE)) {
             logMissingVariable(MODEL_TITLE, context.request.uri)
             model[MODEL_TITLE] = DEFAULT_TITLE
+        }
+
+        if (!model.containsKey(MODEL_PAGE_URI)) {
+            model[MODEL_PAGE_URI] = "/${context.request.path}"
         }
 
         model[MODEL_LOGGED_IN] = SessionUtil.isLoggedIn(context.request.maybeGet(CommonProfile))
