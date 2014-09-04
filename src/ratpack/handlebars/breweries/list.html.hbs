@@ -1,16 +1,8 @@
+{{# partial "header" }}
+  <h1>Breweries</h1>
+{{/partial}}
+
 {{# partial "content" }}
-    <div class="content-header">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="header-section">
-                    <h1>Breweries</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{>common/messages}}
-
     <div class="block full">
         <div class="row">
             <div class="input-group col-md-6">
@@ -54,26 +46,7 @@
                     </tbody>
                 </table>
 
-                {{#pagination this currentPage totlalPageCount 5}}
-                    <ul class="pagination">
-                        {{#if canGoPrevious}}
-                            <li class="prev"><a href="/breweries?page={{previousIdx}}">Prev</a></li>
-                        {{else}}
-                            <li class="prev disabled"><a href="#">Prev</a></li>
-                        {{/if}}
-
-                        {{#each pages}}
-                            <li {{#if isCurrent}}class="active"{{/if}}><a href="/breweries?page={{page}}">{{page}}</a>
-                            </li>
-                        {{/each}}
-
-                        {{#if canGoNext}}
-                            <li class="next"><a href="/breweries?page={{nextIdx}}">Next</a></li>
-                        {{else}}
-                            <li class="next disabled"><a href="#">Next</a></li>
-                        {{/if}}
-                    </ul>
-                {{/pagination}}
+                {{>common/pagination}}
 
             </div>
         </div>

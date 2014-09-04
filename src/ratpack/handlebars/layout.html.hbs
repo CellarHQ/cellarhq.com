@@ -96,6 +96,18 @@
             <!-- END Left Header Navigation -->
         </header>
         <div id="page-content">
+          <div class="content-header">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="header-section">
+                  {{#block "header"}}{{/block}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+            {{>common/messages}}
+
             {{#block "content" }}
             {{/block}}
         </div>
