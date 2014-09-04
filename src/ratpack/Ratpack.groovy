@@ -63,8 +63,10 @@ ratpack {
         add new MapSessionsModule(10, 5)
         add new SecurityModule()
 
-        add new CellarHQModule()
         add new HandlebarsModule()
+
+        // IMPORTANT: Our module must be last, so we can override whatever we need to created by the other modules.
+        add new CellarHQModule()
 
         init {
             RxRatpack.initialize()
