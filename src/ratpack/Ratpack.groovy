@@ -48,14 +48,21 @@ ratpack {
 
         add new CodaHaleMetricsModule().healthChecks()
         add new CodaHaleMetricsModule().websocket()
+
+        String serverName = getConfig(launchConfig, 'dataSource.serverName', 'localhost')
+        String portNumber =  getConfig(launchConfig, 'dataSource.portNumber', '15432')
+        String databaseName = getConfig(launchConfig, 'dataSource.databaseName', 'cellarhq')
+        String user = getConfig(launchConfig, 'dataSource.user', 'cellarhq')
+        String password = getConfig(launchConfig, 'dataSource.password', 'cellarhq')
+
         add new HikariModule(
-                serverName: getConfig(launchConfig, 'other.hikari.dataSourceProperties.serverName', 'localhost'),
-                portNumber: getConfig(launchConfig, 'other.hikari.dataSourceProperties.portNumber', '15432'),
-                databaseName: getConfig(launchConfig, 'other.hikari.dataSourceProperties.databaseName', 'cellarhq'),
-                user: getConfig(launchConfig, 'other.hikari.dataSourceProperties.user', 'cellarhq'),
-                password: getConfig(launchConfig, 'other.hikari.dataSourceProperties.password', 'cellarhq'),
-                getConfig(launchConfig, 'other.hikari.dataSourceClassName', 'org.postgresql.ds.PGSimpleDataSource')
-        )
+                serverName: serverName,
+                portNumber: portNumber,
+                databaseName: databaseName,
+                user: user,
+                password: password,
+                'org.postgresql.ds.PGSimpleDataSource')
+
         add new JacksonModule()
         add new RemoteControlModule()
 
