@@ -21,6 +21,6 @@ USER daemon
 # or update this to build/libs/cellarhq.com-all.jar
 ADD cellarhq.com-all.jar /app/build/libs/cellarhq.com-all.jar
 
-CMD ["java", "-jar", "/app/build/libs/cellarhq.com-all.jar"]
+CMD ["java", "-jar", "/app/build/libs/cellarhq.com-all.jar", "-Dratpack.port=80"]
 
-EXPOSE 5050
+EXPOSE 80
