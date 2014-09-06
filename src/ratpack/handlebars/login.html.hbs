@@ -1,38 +1,51 @@
-{{# partial "header" }}
-  <h1>Login</h1>
-{{/partial}}
-{{# partial "content" }}
-    <div>
-      <a href='/auth-twitter' id='twitter-login-btn'>
-        <img src='/images/sign-in-with-twitter-gray.png' alt='Sign in with Twitter'/>
+{{# partial "body" }}
+  <div id="login-container">
+    <h1 class="h2 text-light text-center push-top-bottom animation-slideDown">
+      <strong>Welcome to CellarHQ</strong>
+    </h1>
+
+    <div class="block animation-fadeInQuickInv">
+      <div class="block-title">
+        <div class="block-options pull-right">
+          <a href="/forgot-password" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Forgot your password?"><i class="fa fa-exclamation-circle"></i></a>
+          <a href="/register" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Create new account"><i class="fa fa-plus"></i></a>
+        </div>
+        <h2>Please Login</h2>
+      </div>
+
+      <a class="btn btn-effect-ripple btn-primary" href='/auth-twitter' id='twitter-login-btn'>
+        <i class="fa fa-twitter"></i> Sign in with Twitter
       </a>
+
+      <hr>
+
+      {{>common/messages}}
+
+      <form id="form-login" action="{{action}}" method="post" class="form-horizontal">
+        <div class="form-group">
+          <div class="col-xs-12">
+            <input type="text" id="username" name="username" class="form-control" placeholder="Your email...">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Your password...">
+          </div>
+        </div>
+        <div class="form-group form-actions">
+          <div class="col-xs-6">
+            <button type="submit" class="btn btn-effect-ripple btn-primary"><i class="fa fa-check"></i> Login</button>
+          </div>
+        </div>
+        <input type='hidden' id='client_name' name='client_name' value='FormClient'/>
+      </form>
     </div>
 
-    <form id="login-form" class='form-horizontal' role='form' method='post' action='{{action}}'>
-      <div class='form-group'>
-        <label for='username' class='col-sm-2'>
-          Email
-        </label>
-        <div class='col-sm-10'>
-          <input type='text' name='username' class='form-control' id='username' value=''>
-        </div>
-      </div>
-      <div class='form-group'>
-        <label for='password' class='col-sm-2'>
-          Password
-        </label>
-        <div class='col-sm-10'>
-          <input type='password' name='password' class='form-control' id='password' value=''>
-        </div>
-      </div>
-      <div class='form-group'>
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type='submit' class='btn btn-primary'>Login</button>
-          <a href="/forgot-password" class="btn btn-link">Forgot your password?</a>
-        </div>
-      </div>
-      <input type='hidden' id='client_name' name='client_name' value='FormClient'/>
-    </form>
+    {{>common/footer}}
+  </div>
 {{/partial}}
-
-{{> layout.html}}
+{{#partial "extra_includes"}}
+  <script src="/scripts/pages/login.js"></script>
+  <script>$(function(){ Login.init(); });</script>
+{{/partial}}
+{{> layout-shell.html}}

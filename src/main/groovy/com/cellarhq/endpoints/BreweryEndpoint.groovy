@@ -18,6 +18,7 @@ import javax.validation.ValidatorFactory
 
 import static ratpack.handlebars.Template.handlebarsTemplate
 
+@SuppressWarnings(['AbcMetric', 'NestedBlockDepth', 'MethodSize', 'ClosureAsLastMethodParameter'])
 @Slf4j
 class BreweryEndpoint extends GroovyChainAction {
 
