@@ -35,7 +35,7 @@ can start the container like this:
  docker run -e dataSource.serverName='cellarhq-prod.c7ovcjlune88.us-east-1.rds.amazonaws.com' \
  -e dataSource.port='5432' \
  -e dataSource.password='PASSWORDGOESHERE' \
- -p 80:80 com.cellarhq/cellarhq:0.1
+ -p 5050:5050 com.cellarhq/cellarhq:0.1
 ```
 
 

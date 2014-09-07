@@ -1,0 +1,16 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Authentication": {
+        "Bucket": "cellarhq-configuration",
+        "Key": "dockercfg"
+    },
+    "Image": {
+        "Name": "kyleboon/cellarhq",
+        "Update": "true"
+    },
+    "Ports": [
+        {
+            "ContainerPort": "5050"
+        }
+    ]
+}

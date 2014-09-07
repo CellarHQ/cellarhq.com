@@ -115,18 +115,26 @@ liquibase {
     runList = project.hasProperty('runList') ? project.property('runList') : 'development,testing'
 }
 
-task cellarHqDocker(type: Docker) {
-    dependsOn shadowJar
+docker {
+    apiUsername project.dockerUser
+    apiPassword project.dockerApiPassword
+    apiEmail project.dockerApiEmail
+}
+
+task buildDocker(type: Docker, dependsOn: shadowJar) {
+    registry 'kyleboon'
     applicationName = 'cellarhq'
-    tagVersion = '0.1'
+    tagVersion = 'latest'
     dockerfile = project.file('Dockerfile')
 
     doFirst {
         addFile project.tasks.shadowJar.archivePath
     }
+
+    push =  project.hasProperty('push')
 }
 
-build.dependsOn cellarHqDocker
+build.dependsOn buildDocker
 
 task generateJooq(type: JavaExec, dependsOn: 'classes') {
     main = 'org.jooq.util.GenerationTool'
