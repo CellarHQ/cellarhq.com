@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="add-cellar-social-fields" author="rzienert" dbms="postgresql">
+        <addColumn tableName="cellar">
+            <column name="twitter" type="varchar(16)"/>
+        </addColumn>
+        <addColumn tableName="cellar">
+            <column name="reddit" type="varchar(20)"/>
+        </addColumn>
+        <addColumn tableName="cellar">
+            <column name="beeradvocate" type="varchar(255)"/>
+        </addColumn>
+        <addColumn tableName="cellar">
+            <column name="ratebeer" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

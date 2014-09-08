@@ -4,8 +4,8 @@ class ChangePasswordPage extends BasePage {
 
     static at = { pageId ==~ /change-password/ }
     static content = {
-        changePasswordForm(wait: true) { $('#change-password-form') }
-        submitButton(wait: true) { $('#change-password-form button[type=submit]') }
+        changePasswordForm(wait: true) { $('#form-change-password') }
+        submitButton(wait: true) { $('button[type=submit]') }
     }
 
     void fillForm(String newPassword, String confirmPassword = null) {

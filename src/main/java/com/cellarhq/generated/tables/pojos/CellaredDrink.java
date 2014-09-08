@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellared_drink", schema = "public")
 public class CellaredDrink implements java.io.Serializable {
 
-	private static final long serialVersionUID = 653895368;
+	private static final long serialVersionUID = 1853120121;
 
 	private java.lang.Long      id;
 	private java.lang.Integer   version;
@@ -28,6 +28,10 @@ public class CellaredDrink implements java.io.Serializable {
 	private java.lang.Boolean   private_;
 	private java.sql.Timestamp  createdDate;
 	private java.sql.Timestamp  modifiedDate;
+	private java.lang.String    binIdentifier;
+	private java.lang.Boolean   tradeable;
+	private java.lang.Short     numTradeable;
+	private java.time.LocalDate dateAcquired;
 
 	public CellaredDrink() {}
 
@@ -44,7 +48,11 @@ public class CellaredDrink implements java.io.Serializable {
 		java.time.LocalDate drinkByDate,
 		java.lang.Boolean   private_,
 		java.sql.Timestamp  createdDate,
-		java.sql.Timestamp  modifiedDate
+		java.sql.Timestamp  modifiedDate,
+		java.lang.String    binIdentifier,
+		java.lang.Boolean   tradeable,
+		java.lang.Short     numTradeable,
+		java.time.LocalDate dateAcquired
 	) {
 		this.id = id;
 		this.version = version;
@@ -59,6 +67,10 @@ public class CellaredDrink implements java.io.Serializable {
 		this.private_ = private_;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
+		this.binIdentifier = binIdentifier;
+		this.tradeable = tradeable;
+		this.numTradeable = numTradeable;
+		this.dateAcquired = dateAcquired;
 	}
 
 	@javax.persistence.Id
@@ -177,5 +189,41 @@ public class CellaredDrink implements java.io.Serializable {
 
 	public void setModifiedDate(java.sql.Timestamp modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@javax.persistence.Column(name = "bin_identifier", length = 20)
+	public java.lang.String getBinIdentifier() {
+		return this.binIdentifier;
+	}
+
+	public void setBinIdentifier(java.lang.String binIdentifier) {
+		this.binIdentifier = binIdentifier;
+	}
+
+	@javax.persistence.Column(name = "tradeable", nullable = false)
+	public java.lang.Boolean getTradeable() {
+		return this.tradeable;
+	}
+
+	public void setTradeable(java.lang.Boolean tradeable) {
+		this.tradeable = tradeable;
+	}
+
+	@javax.persistence.Column(name = "num_tradeable", precision = 16)
+	public java.lang.Short getNumTradeable() {
+		return this.numTradeable;
+	}
+
+	public void setNumTradeable(java.lang.Short numTradeable) {
+		this.numTradeable = numTradeable;
+	}
+
+	@javax.persistence.Column(name = "date_acquired")
+	public java.time.LocalDate getDateAcquired() {
+		return this.dateAcquired;
+	}
+
+	public void setDateAcquired(java.time.LocalDate dateAcquired) {
+		this.dateAcquired = dateAcquired;
 	}
 }

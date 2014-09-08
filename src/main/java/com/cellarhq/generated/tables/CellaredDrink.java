@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CellaredDrink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.CellaredDrinkRecord> {
 
-	private static final long serialVersionUID = 1234045899;
+	private static final long serialVersionUID = 909059411;
 
 	/**
 	 * The singleton instance of <code>public.cellared_drink</code>
@@ -90,6 +90,26 @@ public class CellaredDrink extends org.jooq.impl.TableImpl<com.cellarhq.generate
 	 * The column <code>public.cellared_drink.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.cellared_drink.bin_identifier</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.lang.String> BIN_IDENTIFIER = createField("bin_identifier", org.jooq.impl.SQLDataType.VARCHAR.length(20), this, "");
+
+	/**
+	 * The column <code>public.cellared_drink.tradeable</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.lang.Boolean> TRADEABLE = createField("tradeable", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.cellared_drink.num_tradeable</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.lang.Short> NUM_TRADEABLE = createField("num_tradeable", org.jooq.impl.SQLDataType.SMALLINT, this, "");
+
+	/**
+	 * The column <code>public.cellared_drink.date_acquired</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.time.LocalDate> DATE_ACQUIRED = createField("date_acquired", org.jooq.impl.SQLDataType.DATE, this, "", new com.cellarhq.jooq.LocalDateConverter());
 
 	/**
 	 * Create a <code>public.cellared_drink</code> table reference

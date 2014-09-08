@@ -12,6 +12,9 @@
     <include file="migrations/releases/add-data-columns-for-brewerydb.xml"/>
     <include file="migrations/releases/add-base-data.xml"/>
     <include file="migrations/releases/add-region-column.xml"/>
+    <include file="migrations/releases/add-cellar-social-fields.xml"/>
+    <include file="migrations/releases/add-cellar-beer-organizing-fields.xml"/>
+    <include file="migrations/releases/add-cellar-stat-fields.xml"/>
 
     <!-- next: -->
 

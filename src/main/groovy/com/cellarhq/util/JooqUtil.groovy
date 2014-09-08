@@ -31,4 +31,16 @@ class JooqUtil {
         }
         return filtered
     }
+
+    static Field[] andFields(Field[] fields, Field... more) {
+        List<Field> merged = fields.toList()
+        merged.addAll(more)
+        return (Field[]) merged.toArray()
+    }
+
+    static Field[] andFields(Field[] fields, List<Field> more) {
+        List<Field> merged = fields.toList()
+        merged.addAll(more)
+        return (Field[]) merged.toArray()
+    }
 }

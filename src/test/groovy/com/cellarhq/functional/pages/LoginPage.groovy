@@ -7,8 +7,8 @@ class LoginPage extends BasePage {
 
     static content = {
         twitterLoginLink(wait: true) { $('#twitter-login-btn') }
-        loginForm(wait: true) { $('#login-form') }
-        submitButton(wait: true) { $('#login-form button[type=submit]') }
+        loginForm(wait: true) { $('#form-login') }
+        submitButton(wait: true) { $('button[type=submit]') }
         errorMessages(required: false) { $('.alert.alert-danger') }
     }
 

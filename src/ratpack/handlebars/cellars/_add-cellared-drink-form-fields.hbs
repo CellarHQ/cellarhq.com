@@ -1,0 +1,110 @@
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="brewery">Brewery</label>
+    <div class="col-md-9">
+      <input type="text" id="brewery" name="brewery" class="form-control">
+      <span class="help-block">Required</span>
+    </div>
+    <input type="hidden" id="breweryId" name="breweryId">
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="beer">Beer</label>
+    <div class="col-md-9">
+      <input type="text" id="beer" name="beer" class="form-control">
+      <span class="help-block">Required</span>
+    </div>
+    <input type="hidden" id="beerId" name="beerId">
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="size">Size</label>
+    <div class="col-md-6">
+      <select id="size" name="size" class="form-control" size="1">
+        <option></option>
+        <optgroup label="Imperial (American)">
+          <option>7 oz</option>
+          <option>12 oz</option>
+          <option>16 oz</option>
+          <option>22 oz</option>
+          <option>25 oz</option>
+          <option>40 oz</option>
+        </optgroup>
+        <optgroup label="Metric">
+          <option>125 ml</option>
+          <option>187 ml</option>
+          <option>250 ml</option>
+          <option>275 ml</option>
+          <option>330 ml</option>
+          <option>341 ml</option>
+          <option>350 ml</option>
+          <option>355 ml</option>
+          <option>375 ml</option>
+          <option>500 ml</option>
+          <option>550 ml</option>
+          <option>650 ml</option>
+          <option>750 ml</option>
+          <option>1 l</option>
+          <option>1.5 l</option>
+          <option>3 l</option>
+        </optgroup>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="quantity">Quantity</label>
+    <div class="col-md-9">
+      <input type="text" id="quantity" name="quantity" class="form-control">
+      <span class="help-block">1, 2, 10, etc.</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="bottleDate">Bottle Date</label>
+    <div class="col-md-9">
+      <input type="text" id="bottleDate" name="bottleDate" class="form-control">
+      <span class="help-block">YYYY-MM-DD, YYYY-MM or YYYY</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="acquiredDate">Acquired Date</label>
+    <div class="col-md-9">
+      <input type="text" id="acquiredDate" name="acquiredDate" class="form-control">
+      <span class="help-block">YYYY-MM-DD, YYYY-MM or YYYY</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="drinkByDate">Drink-by Date</label>
+    <div class="col-md-9">
+      <input type="text" id="drinkByDate" name="drinkByDate" class="form-control input-datepicker" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
+      <span class="help-block">Beers with a drink-by date will be flagged when they're 30 days from this day and escalated at 14 days.</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="binIdentifier">Bin Identifier</label>
+    <div class="col-md-9">
+      <input type="text" id="binIdentifier" name="binIdentifier" class="form-control">
+      <span class="help-block">An organizational item: What box is this in?</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">Tradeable</label>
+    <div class="col-sm-9">
+      <div class="col-xs-2">
+        <label class="switch switch-primary"><input type="checkbox" id="tradeable" name="tradeable"><span></span></label>
+      </div>
+      <div class="col-xs-10">
+        <input type="text" id="numTradeable" name="numTradeable" class="form-control" placeholder="How many?" disabled>
+        <span class="help-block">If tradeable, how many are tradeable?</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="notes">Notes</label>
+    <div class="col-md-9">
+      <textarea id="notes" name="notes" rows="7" class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="form-group form-actions">
+    <div class="col-md-9 col-md-offset-3">
+      <button type="submit" class="btn btn-effect-ripple btn-primary">Add</button>
+      <button type="reset" class="btn btn-effect-ripple btn-danger">Reset</button>
+    </div>
+  </div>

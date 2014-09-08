@@ -2,6 +2,7 @@ package com.cellarhq.endpoints.auth
 
 import com.cellarhq.Messages
 import com.cellarhq.auth.Role
+import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.services.CellarService
@@ -14,7 +15,6 @@ import groovy.util.logging.Slf4j
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
-import ratpack.pac4j.internal.SessionConstants
 import ratpack.session.store.SessionStorage
 
 import java.sql.Timestamp
@@ -81,9 +81,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                         redirect(500, '/logout')
                     } then { OAuthAccount oAuthAccount ->
-                        twitterProfile.id = oAuthAccount.cellar.id
-                        request.get(SessionStorage).put(SessionConstants.USER_PROFILE, twitterProfile)
-
+                        request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
                         redirect('/yourcellar')
                     }
                 }

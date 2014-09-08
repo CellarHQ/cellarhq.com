@@ -114,7 +114,7 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
         Map account = (Map) remote.exec {
             OAuthAccount oAuthAccount = get(AccountService)
                     .findByCredentials(TwitterOAuthPage.TWITTER_VALID_USERNAME, OAuthClient.TWITTER)
-            Cellar cellar = get(CellarService).get(oAuthAccount.cellarId)
+            Cellar cellar = get(CellarService).getBlocking(oAuthAccount.cellarId)
 
             return [
                     username: oAuthAccount.username,

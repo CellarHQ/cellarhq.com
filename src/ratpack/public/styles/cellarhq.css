@@ -1,19 +1,38 @@
-#footer {
-    height: 44px;
-    font-size: 12px;
-    color: #A2A2A2;
-    border-top: 1px solid #EEE;
-    margin-top: 17px;
-    padding-top: 17px;
+.no-padding {
+    padding: 0;
 }
-
-#footer ul {
-    margin: 0 0 18px 0;
-}
-
-#footer li {
-    float: left;
-    list-style: none;
-    padding: 0 12px;
+.no-margin {
     margin: 0;
+}
+
+ul.cellar-bio {
+    list-style: none;
+}
+
+ul.cellared-drink-flags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.cellared-drink-flags li {
+    display: inline;
+    margin: 3px;
+}
+.cellared-drink-flags li:last-child {
+    margin: 0;
+}
+
+.ui-autocomplete {
+    background-color: #fff;
+    border-right: 1px solid #dae0e8;
+    border-left: 1px solid #dae0e8;
+    border-bottom: 1px solid #dae0e8;
+}
+
+.ui-autocomplete li:hover {
+    background-color: #5CCDDF;
+}
+
+.ui-autocomplete a:hover {
+    color: #fff;
 }

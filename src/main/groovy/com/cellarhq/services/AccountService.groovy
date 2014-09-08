@@ -17,6 +17,7 @@ import groovy.transform.CompileStatic
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.mindrot.jbcrypt.BCrypt
+import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
 import java.sql.Timestamp
@@ -28,8 +29,8 @@ class AccountService extends BaseJooqService {
     private final static int BCRYPT_LOG_ROUNDS = 16
 
     @Inject
-    AccountService(DataSource dataSource) {
-        super(dataSource)
+    AccountService(DataSource dataSource, ExecControl execControl) {
+        super(dataSource, execControl)
     }
 
     EmailAccount findByCredentials(String username, String password) {

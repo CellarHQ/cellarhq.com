@@ -23,6 +23,10 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
         updateFromNetwork = false
         createdDate = Timestamp.valueOf(LocalDateTime.now())
         modifiedDate = createdDate
+        totalBeers = 0
+        uniqueBeers = 0
+        uniqueBreweries = 0
+        hasTradeableBeers = false
     }
 
     @Override
@@ -45,6 +49,10 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
     @Override
     void setScreenName(String screenName) {
         super.screenName = new Slugify().slugify(screenName)
+    }
+
+    String getSlug() {
+        return screenName
     }
 
     @Override

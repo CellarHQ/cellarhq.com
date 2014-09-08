@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.CellarRecord> {
 
-	private static final long serialVersionUID = -705478930;
+	private static final long serialVersionUID = 1052672077;
 
 	/**
 	 * The singleton instance of <code>public.cellar</code>
@@ -100,6 +100,46 @@ public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.table
 	 * The column <code>public.cellar.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.cellar.twitter</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> TWITTER = createField("twitter", org.jooq.impl.SQLDataType.VARCHAR.length(16), this, "");
+
+	/**
+	 * The column <code>public.cellar.reddit</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> REDDIT = createField("reddit", org.jooq.impl.SQLDataType.VARCHAR.length(20), this, "");
+
+	/**
+	 * The column <code>public.cellar.beeradvocate</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> BEERADVOCATE = createField("beeradvocate", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+
+	/**
+	 * The column <code>public.cellar.ratebeer</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> RATEBEER = createField("ratebeer", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+
+	/**
+	 * The column <code>public.cellar.total_beers</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.Short> TOTAL_BEERS = createField("total_beers", org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.cellar.unique_beers</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.Short> UNIQUE_BEERS = createField("unique_beers", org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.cellar.unique_breweries</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.Short> UNIQUE_BREWERIES = createField("unique_breweries", org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.cellar.has_tradeable_beers</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.Boolean> HAS_TRADEABLE_BEERS = createField("has_tradeable_beers", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.cellar</code> table reference

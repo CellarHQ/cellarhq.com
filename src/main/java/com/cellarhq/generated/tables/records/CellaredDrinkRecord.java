@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "cellared_drink", schema = "public")
-public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellaredDrinkRecord> implements org.jooq.Record13<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.time.LocalDate, java.lang.String, java.lang.Integer, java.lang.String, java.time.LocalDate, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> {
+public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellaredDrinkRecord> implements org.jooq.Record17<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.time.LocalDate, java.lang.String, java.lang.Integer, java.lang.String, java.time.LocalDate, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.String, java.lang.Boolean, java.lang.Short, java.time.LocalDate> {
 
-	private static final long serialVersionUID = -1888288764;
+	private static final long serialVersionUID = -2004538769;
 
 	/**
 	 * Setter for <code>public.cellared_drink.id</code>.
@@ -211,6 +211,66 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 		return (java.sql.Timestamp) getValue(12);
 	}
 
+	/**
+	 * Setter for <code>public.cellared_drink.bin_identifier</code>.
+	 */
+	public void setBinIdentifier(java.lang.String value) {
+		setValue(13, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellared_drink.bin_identifier</code>.
+	 */
+	@javax.persistence.Column(name = "bin_identifier", length = 20)
+	public java.lang.String getBinIdentifier() {
+		return (java.lang.String) getValue(13);
+	}
+
+	/**
+	 * Setter for <code>public.cellared_drink.tradeable</code>.
+	 */
+	public void setTradeable(java.lang.Boolean value) {
+		setValue(14, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellared_drink.tradeable</code>.
+	 */
+	@javax.persistence.Column(name = "tradeable", nullable = false)
+	public java.lang.Boolean getTradeable() {
+		return (java.lang.Boolean) getValue(14);
+	}
+
+	/**
+	 * Setter for <code>public.cellared_drink.num_tradeable</code>.
+	 */
+	public void setNumTradeable(java.lang.Short value) {
+		setValue(15, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellared_drink.num_tradeable</code>.
+	 */
+	@javax.persistence.Column(name = "num_tradeable", precision = 16)
+	public java.lang.Short getNumTradeable() {
+		return (java.lang.Short) getValue(15);
+	}
+
+	/**
+	 * Setter for <code>public.cellared_drink.date_acquired</code>.
+	 */
+	public void setDateAcquired(java.time.LocalDate value) {
+		setValue(16, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellared_drink.date_acquired</code>.
+	 */
+	@javax.persistence.Column(name = "date_acquired")
+	public java.time.LocalDate getDateAcquired() {
+		return (java.time.LocalDate) getValue(16);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -224,23 +284,23 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	}
 
 	// -------------------------------------------------------------------------
-	// Record13 type implementation
+	// Record17 type implementation
 	// -------------------------------------------------------------------------
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row13<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.time.LocalDate, java.lang.String, java.lang.Integer, java.lang.String, java.time.LocalDate, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
-		return (org.jooq.Row13) super.fieldsRow();
+	public org.jooq.Row17<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.time.LocalDate, java.lang.String, java.lang.Integer, java.lang.String, java.time.LocalDate, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.String, java.lang.Boolean, java.lang.Short, java.time.LocalDate> fieldsRow() {
+		return (org.jooq.Row17) super.fieldsRow();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row13<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.time.LocalDate, java.lang.String, java.lang.Integer, java.lang.String, java.time.LocalDate, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
-		return (org.jooq.Row13) super.valuesRow();
+	public org.jooq.Row17<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.time.LocalDate, java.lang.String, java.lang.Integer, java.lang.String, java.time.LocalDate, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.String, java.lang.Boolean, java.lang.Short, java.time.LocalDate> valuesRow() {
+		return (org.jooq.Row17) super.valuesRow();
 	}
 
 	/**
@@ -351,6 +411,38 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * {@inheritDoc}
 	 */
 	@Override
+	public org.jooq.Field<java.lang.String> field14() {
+		return com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK.BIN_IDENTIFIER;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Field<java.lang.Boolean> field15() {
+		return com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK.TRADEABLE;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Field<java.lang.Short> field16() {
+		return com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK.NUM_TRADEABLE;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Field<java.time.LocalDate> field17() {
+		return com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK.DATE_ACQUIRED;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public java.lang.Long value1() {
 		return getId();
 	}
@@ -449,6 +541,38 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	@Override
 	public java.sql.Timestamp value13() {
 		return getModifiedDate();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.lang.String value14() {
+		return getBinIdentifier();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.lang.Boolean value15() {
+		return getTradeable();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.lang.Short value16() {
+		return getNumTradeable();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.time.LocalDate value17() {
+		return getDateAcquired();
 	}
 
 	/**
@@ -572,7 +696,43 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CellaredDrinkRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.Long value4, java.lang.Long value5, java.time.LocalDate value6, java.lang.String value7, java.lang.Integer value8, java.lang.String value9, java.time.LocalDate value10, java.lang.Boolean value11, java.sql.Timestamp value12, java.sql.Timestamp value13) {
+	public CellaredDrinkRecord value14(java.lang.String value) {
+		setBinIdentifier(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public CellaredDrinkRecord value15(java.lang.Boolean value) {
+		setTradeable(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public CellaredDrinkRecord value16(java.lang.Short value) {
+		setNumTradeable(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public CellaredDrinkRecord value17(java.time.LocalDate value) {
+		setDateAcquired(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public CellaredDrinkRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.Long value4, java.lang.Long value5, java.time.LocalDate value6, java.lang.String value7, java.lang.Integer value8, java.lang.String value9, java.time.LocalDate value10, java.lang.Boolean value11, java.sql.Timestamp value12, java.sql.Timestamp value13, java.lang.String value14, java.lang.Boolean value15, java.lang.Short value16, java.time.LocalDate value17) {
 		return this;
 	}
 
@@ -590,7 +750,7 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 	/**
 	 * Create a detached, initialised CellaredDrinkRecord
 	 */
-	public CellaredDrinkRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long cellarId, java.lang.Long drinkId, java.lang.Long styleId, java.time.LocalDate bottleDate, java.lang.String size, java.lang.Integer quantity, java.lang.String notes, java.time.LocalDate drinkByDate, java.lang.Boolean private_, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public CellaredDrinkRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long cellarId, java.lang.Long drinkId, java.lang.Long styleId, java.time.LocalDate bottleDate, java.lang.String size, java.lang.Integer quantity, java.lang.String notes, java.time.LocalDate drinkByDate, java.lang.Boolean private_, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.String binIdentifier, java.lang.Boolean tradeable, java.lang.Short numTradeable, java.time.LocalDate dateAcquired) {
 		super(com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK);
 
 		setValue(0, id);
@@ -606,5 +766,9 @@ public class CellaredDrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.c
 		setValue(10, private_);
 		setValue(11, createdDate);
 		setValue(12, modifiedDate);
+		setValue(13, binIdentifier);
+		setValue(14, tradeable);
+		setValue(15, numTradeable);
+		setValue(16, dateAcquired);
 	}
 }
