@@ -118,9 +118,9 @@ liquibase {
 }
 
 docker {
-    apiUsername project.dockerUser
-    apiPassword project.dockerApiPassword
-    apiEmail project.dockerApiEmail
+    apiUsername project.hasProperty('dockerUser') ? project.dockerUser : 'invalid'
+    apiPassword project.hasProperty('dockerApiPassword') ? project.dockerApiPassword : 'invalid'
+    apiEmail project.hasProperty('dockerApiEmail') ? project.dockerApiEmail : 'invalid'
 }
 
 task buildDocker(type: Docker, dependsOn: shadowJar) {
