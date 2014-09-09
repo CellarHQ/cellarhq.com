@@ -30,7 +30,8 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
             render handlebarsTemplate('client-error.html',
                     title: messages.headTitle,
                     statusCode: statusCode,
-                    message: messages.pageTitle)
+                    message: messages.pageTitle,
+                    pageId: 'client.error')
         }
     }
 

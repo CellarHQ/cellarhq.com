@@ -88,7 +88,7 @@ class ForgotPasswordFunctionalSpec extends GebReportingSpec {
         forgotPasswordPage.submit()
 
         then:
-        at HomePage
+        at ForgotPasswordPage
         ((BasePage) page).successMessages
     }
 

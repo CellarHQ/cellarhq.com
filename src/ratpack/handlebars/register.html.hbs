@@ -20,40 +20,7 @@
 
       {{>common/messages}}
 
-      <form id="form-register" action="{{action}}" method="post" class="form-horizontal">
-        <div class="form-group">
-          <div class="col-xs-12">
-            <input type="text" id="screenName" name="screenName" class="form-control" placeholder="Username">
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-xs-12">
-            <input type="text" id="email" name="email" class="form-control" placeholder="Email">
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-xs-12">
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-xs-12">
-            <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" placeholder="Confirm Password">
-          </div>
-        </div>
-        <div class="form-group form-actions">
-          <div class="col-xs-6">
-            <label class="csscheckbox csscheckbox-primary" data-toggle="tooltip" title="Agree to the terms">
-              <input type="checkbox" id="register-terms" name="register-terms">
-              <span></span>
-            </label>
-            <a href="#modal-terms" data-toggle="modal">Terms</a>
-          </div>
-          <div class="col-xs-6 text-right">
-            <button type="submit" class="btn btn-effect-ripple btn-success"><i class="fa fa-plus"></i> Create Account</button>
-          </div>
-        </div>
-      </form>
+      {{>common/register-form}}
     </div>
 
     {{>common/footer}}

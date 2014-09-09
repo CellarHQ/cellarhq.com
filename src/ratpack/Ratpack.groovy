@@ -8,6 +8,7 @@ import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellaredDrink
+import com.cellarhq.domain.views.HomepageStatistics
 import com.cellarhq.endpoints.api.DrinkEndpoint
 import com.cellarhq.endpoints.BreweryEndpoint
 import com.cellarhq.endpoints.CellarsEndpoint
@@ -20,6 +21,7 @@ import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.CellaredDrinkService
+import com.cellarhq.services.StatsService
 import com.codahale.metrics.health.HealthCheckRegistry
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ClientErrorHandler
@@ -90,11 +92,14 @@ ratpack {
     }
 
     handlers {
-        get {
-            render handlebarsTemplate('index.html',
-                    cellars: [],
-                    title: 'CellarHQ',
-                    pageId: 'home')
+        get { StatsService statsService ->
+            statsService.homepageStatistics().single().subscribe { HomepageStatistics stats ->
+                render handlebarsTemplate('index.html',
+                        stats: stats,
+                        action: '/register',
+                        title: 'CellarHQ',
+                        pageId: 'home')
+            }
         }
 
         handler chain(registry.get(BreweryEndpoint))
