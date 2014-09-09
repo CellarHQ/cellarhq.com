@@ -19,6 +19,7 @@ out
 *.iws
 .vagrant
 .DS_Store
+*.ids
 
 app.log
 app*.gz
