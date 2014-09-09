@@ -16,6 +16,7 @@ import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
+import ratpack.session.store.SessionStorage
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
@@ -38,10 +39,11 @@ class SettingsEndpoint extends GroovyHandler {
     protected void handle(GroovyContext context) {
         context.with {
             byMethod {
+                Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+                UserProfile profile = request.get(UserProfile)
                 get {
-                    UserProfile profile = request.get(UserProfile)
                     blocking {
-                        cellarService.getBlocking((Long) profile.getAttribute(SecurityModule.SESSION_CELLAR_ID))
+                        cellarService.getBlocking(cellarId)
                     } then { Cellar cellar ->
                         render handlebarsTemplate('settings.html',
                                 title: 'Account Settings',
@@ -54,7 +56,6 @@ class SettingsEndpoint extends GroovyHandler {
                 post {
                     Form form = parse(Form)
                     Validator validator = validatorFactory.validator
-                    UserProfile profile = request.get(UserProfile)
 
                     blocking {
                         Map result = [
@@ -62,14 +63,14 @@ class SettingsEndpoint extends GroovyHandler {
                                 cellar: (Cellar) null
                         ]
 
-                        Cellar cellar = cellarService.getBlocking(
-                                (Long) profile.getAttribute(SecurityModule.SESSION_CELLAR_ID))
+                        Cellar cellar = cellarService.getBlocking(cellarId)
                         if (cellar) {
                             cellar.with {
                                 displayName = form.displayName
                                 location = form.location
                                 website = form.website
                                 bio = form.bio
+                                contactEmail = form.contactEmail
                                 updateFromNetwork = form.updateFromNetwork
                                 setPrivate((Boolean) form.private)
                                 reddit = form.reddit
@@ -106,12 +107,12 @@ class SettingsEndpoint extends GroovyHandler {
                             SessionUtil.setFlash(request, FlashMessage.success(Messages.SETTINGS_SAVED))
                             redirect('/settings')
                         } else {
-                            render handlebarsTemplate('settings.html', renderPageSettings([
+                            render handlebarsTemplate('settings.html',
                                     title: 'Account Settings',
                                     pageId: 'settings',
                                     isOauthAccount: profile instanceof TwitterProfile,
                                     cellar: result.cellar
-                            ]))
+                            )
                         }
                     }
                 }
