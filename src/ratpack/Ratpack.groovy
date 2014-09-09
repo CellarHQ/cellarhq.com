@@ -137,7 +137,11 @@ ratpack {
             }
         }
 
-        get('about') {}
+        get('about') {
+            render handlebarsTemplate('about.html',
+                    title: 'About',
+                    pageId: 'about')
+        }
 
         /**
          * Auth pages
