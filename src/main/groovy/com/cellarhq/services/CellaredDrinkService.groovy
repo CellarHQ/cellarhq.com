@@ -1,5 +1,7 @@
 package com.cellarhq.services
 
+import com.cellarhq.generated.Keys
+
 import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
@@ -70,17 +72,16 @@ class CellaredDrinkService extends BaseJooqService {
         jooq { DSLContext create ->
             SelectJoinStep step = create.select(JooqUtil.andFields(
                         CELLARED_DRINK.fields(),
-                        STYLE.NAME.as('styleName'),
                         ORGANIZATION.SLUG.as('organizationSlug'),
                         ORGANIZATION.NAME.as('organizationName'),
                         DRINK.SLUG.as('drinkSlug'),
                         DRINK.NAME.as('drinkName')
                     ))
                     .from(CELLARED_DRINK)
-                    .join(CELLAR).onKey()
-                    .join(STYLE).onKey()
-                    .join(DRINK).onKey()
-                    .join(ORGANIZATION).onKey()
+                    .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
+                    .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
+                    .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+
             criteria(step)
                     .and(CELLARED_DRINK.QUANTITY.greaterThan(0))
                     .fetchInto(CellaredDrinkDetails)

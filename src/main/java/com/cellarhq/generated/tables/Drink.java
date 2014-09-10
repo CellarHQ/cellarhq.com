@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.DrinkRecord> {
 
-	private static final long serialVersionUID = -1041179678;
+	private static final long serialVersionUID = -624987134;
 
 	/**
 	 * The singleton instance of <code>public.drink</code>
@@ -49,12 +49,12 @@ public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables
 	/**
 	 * The column <code>public.drink.style_id</code>.
 	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Long> STYLE_ID = createField("style_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Long> STYLE_ID = createField("style_id", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
 	/**
 	 * The column <code>public.drink.glassware_id</code>.
 	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Long> GLASSWARE_ID = createField("glassware_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Long> GLASSWARE_ID = createField("glassware_id", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
 	/**
 	 * The column <code>public.drink.drink_type</code>.
