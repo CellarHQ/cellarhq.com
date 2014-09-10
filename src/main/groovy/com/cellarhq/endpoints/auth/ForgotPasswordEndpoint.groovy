@@ -72,7 +72,7 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                             SessionUtil.setFlash(
                                     request,
                                     FlashMessage.success(Messages.FORGOT_PASSWORD_EMAIL_SENT_NOTICE))
-                            redirect('/')
+                            redirect('/forgot-password')
                         } else {
                             SessionUtil.setFlash(request, FlashMessage.error(Messages.FORGOT_PASSWORD_ERROR))
                             redirect('/forgot-password')

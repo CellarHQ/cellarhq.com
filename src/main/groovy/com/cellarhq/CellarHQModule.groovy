@@ -37,6 +37,7 @@ class CellarHQModule extends AbstractModule {
         bind(CellarService).in(Scopes.SINGLETON)
         bind(CellaredDrinkService).in(Scopes.SINGLETON)
         bind(OrganizationService).in(Scopes.SINGLETON)
+        bind(StatsService).in(Scopes.SINGLETON)
         bind(PaginationHelper).in(Scopes.SINGLETON)
         bind(DataTableSortingHelper).in(Scopes.SINGLETON)
 
