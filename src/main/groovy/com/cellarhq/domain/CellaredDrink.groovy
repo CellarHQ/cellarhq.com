@@ -12,7 +12,6 @@ class CellaredDrink extends com.cellarhq.generated.tables.pojos.CellaredDrink {
 
     CellaredDrink() {
         quantity = 0
-        setPrivate(false)
         tradeable = false
     }
 

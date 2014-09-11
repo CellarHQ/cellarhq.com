@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.DrinkRecord> implements org.jooq.Record22<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.Boolean, java.lang.String, java.sql.Timestamp, java.lang.Boolean, java.lang.Boolean, java.sql.Timestamp, java.sql.Timestamp, java.lang.Object> {
 
-	private static final long serialVersionUID = -38541357;
+	private static final long serialVersionUID = -2007853581;
 
 	/**
 	 * Setter for <code>public.drink.id</code>.
@@ -86,7 +86,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Getter for <code>public.drink.style_id</code>.
 	 */
-	@javax.persistence.Column(name = "style_id", nullable = false, precision = 64)
+	@javax.persistence.Column(name = "style_id", precision = 64)
 	public java.lang.Long getStyleId() {
 		return (java.lang.Long) getValue(4);
 	}
@@ -101,7 +101,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Getter for <code>public.drink.glassware_id</code>.
 	 */
-	@javax.persistence.Column(name = "glassware_id", nullable = false, precision = 64)
+	@javax.persistence.Column(name = "glassware_id", precision = 64)
 	public java.lang.Long getGlasswareId() {
 		return (java.lang.Long) getValue(5);
 	}

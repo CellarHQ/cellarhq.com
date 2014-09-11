@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CellaredDrink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.CellaredDrinkRecord> {
 
-	private static final long serialVersionUID = 909059411;
+	private static final long serialVersionUID = 1157849831;
 
 	/**
 	 * The singleton instance of <code>public.cellared_drink</code>
@@ -47,11 +47,6 @@ public class CellaredDrink extends org.jooq.impl.TableImpl<com.cellarhq.generate
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.lang.Long> DRINK_ID = createField("drink_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
 	/**
-	 * The column <code>public.cellared_drink.style_id</code>.
-	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.lang.Long> STYLE_ID = createField("style_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
-
-	/**
 	 * The column <code>public.cellared_drink.bottle_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.time.LocalDate> BOTTLE_DATE = createField("bottle_date", org.jooq.impl.SQLDataType.DATE, this, "", new com.cellarhq.jooq.LocalDateConverter());
@@ -75,11 +70,6 @@ public class CellaredDrink extends org.jooq.impl.TableImpl<com.cellarhq.generate
 	 * The column <code>public.cellared_drink.drink_by_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.time.LocalDate> DRINK_BY_DATE = createField("drink_by_date", org.jooq.impl.SQLDataType.DATE, this, "", new com.cellarhq.jooq.LocalDateConverter());
-
-	/**
-	 * The column <code>public.cellared_drink.private</code>.
-	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellaredDrinkRecord, java.lang.Boolean> PRIVATE = createField("private", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.cellared_drink.created_date</code>.
@@ -162,7 +152,7 @@ public class CellaredDrink extends org.jooq.impl.TableImpl<com.cellarhq.generate
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<com.cellarhq.generated.tables.records.CellaredDrinkRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<com.cellarhq.generated.tables.records.CellaredDrinkRecord, ?>>asList(com.cellarhq.generated.Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID, com.cellarhq.generated.Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID, com.cellarhq.generated.Keys.CELLARED_DRINK__FK_CELLARED_DRINK_STYLE_ID);
+		return java.util.Arrays.<org.jooq.ForeignKey<com.cellarhq.generated.tables.records.CellaredDrinkRecord, ?>>asList(com.cellarhq.generated.Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID, com.cellarhq.generated.Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID);
 	}
 
 	/**

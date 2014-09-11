@@ -3,19 +3,17 @@
  *
  * groovy scripts/import_breweries.groovy >> brewerys.sql
  *
- * Then run the result sql load. It will generate ~4800 inserts.
- *
- * The brewerydbLastUpdate is failing to insert right now. Need to update
- * the date format. Also still having problems with some UTF8 characters.
+ * Then run the result sql load.
  */
 
 @Grab('com.amazonaws:aws-java-sdk:1.3.6')
+@Grab('com.github.slugify:slugify:2.1.2')
 
-import com.amazonaws.AmazonServiceException
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.services.simpledb.AmazonSimpleDB
 import com.amazonaws.services.simpledb.AmazonSimpleDBClient
 import com.amazonaws.services.simpledb.model.*
+import com.github.slugify.Slugify
 
 String accessKeyId = 'AKIAIXBP2ORLESIX5CIQ'
 String secretKey = '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'
@@ -56,15 +54,17 @@ String nextToken = null
 String selectAllBreweriesQuery = 'select * from cellar_PROD_breweries limit 2500'
 SelectRequest request = new SelectRequest().withSelectExpression(selectAllBreweriesQuery).withNextToken(nextToken)
 SelectResult result = simpleDB.select(request)
+result.items.each {
+    println buildSqlInsert(it)
+}
+
 nextToken = result.nextToken
 
-int total = result.items.size()
 while (nextToken != null) {
     request = new SelectRequest().withSelectExpression(selectAllBreweriesQuery).withNextToken(nextToken)
     result = simpleDB.select(request)
 
     nextToken = result.nextToken
-    total += result.items.size()
 
     result.items.each {
         println buildSqlInsert(it)
@@ -74,16 +74,23 @@ while (nextToken != null) {
 public String buildSqlInsert(Item item) {
     """INSERT INTO organization
      (type, slug, name, description, established, phone, website, address, address2, locality, region, postal_code, country, brewery_db_id, brewery_db_last_updated, locked)
-     VALUES ('BREWERY', '${generateSlug(item.attributes)}', '${getAttribute(item.attributes, attrName)}', '${
-        buildDescription(item.attributes)
-    }', ${getNumberAttribute(item.attributes, attrEstablished)},
-      '${getAttribute(item.attributes, attrPhone)}', '${getAttribute(item.attributes, attrWebsite)}', '${
-        getAttribute(item.attributes, attrAddress)
-    }', '${getAttribute(item.attributes, attrExtendedAddress)}',
-      '${getAttribute(item.attributes, attrLocality)}', '${getAttribute(item.attributes, attrRegion)}', '${getAttribute(item.attributes, attrPostalCode)}', '${
-        getAttribute(item.attributes, attrCountry)
-    }', '${getAttribute(item.attributes, attrBrewerydbId)}',
-        ${buildDateString(item.attributes, attrBrewerydbLastUpdate)}, true);
+     VALUES (
+     'BREWERY',
+     '${generateSlug(item.attributes)}',
+     '${getAttribute(item.attributes, attrName)}',
+     '${buildDescription(item.attributes)}',
+     ${getNumberAttribute(item.attributes, attrEstablished)},
+     '${getAttribute(item.attributes, attrPhone)}',
+     '${getAttribute(item.attributes, attrWebsite)}',
+     '${getAttribute(item.attributes, attrAddress)}',
+     '${getAttribute(item.attributes, attrExtendedAddress)}',
+     '${getAttribute(item.attributes, attrLocality)}',
+     '${getAttribute(item.attributes, attrRegion)}',
+     '${getAttribute(item.attributes, attrPostalCode)}',
+     '${getAttribute(item.attributes, attrCountry)}',
+     '${getAttribute(item.attributes, attrBrewerydbId)}',
+     ${buildDateString(item.attributes, attrBrewerydbLastUpdate)},
+     true);
 """
 
 }
@@ -113,16 +120,9 @@ public String buildDateString(List<Attribute> attributes, String name) {
     return attribute?.value ? "'${attribute?.value}'" : 'null'
 }
 
-/**
- * This probably needs enhanced a bit.
- *
- * @param attributes [description]
- * @return [description]
- */
 public String generateSlug(List<Attribute> attributes) {
-    getAttribute(attributes, attrName).replaceAll('[^A-Za-z0-9\\s]', '')
-            .replaceAll('\\s', '-')
-            .toLowerCase()
+    String name = getAttribute(attributes, attrName)
+    return new Slugify().slugify(name)
 }
 
 public String getAttribute(List<Attribute> attributes, String name) {

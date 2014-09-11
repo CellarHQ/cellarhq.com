@@ -13,19 +13,17 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellared_drink", schema = "public")
 public class CellaredDrink implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1853120121;
+	private static final long serialVersionUID = 291222316;
 
 	private java.lang.Long      id;
 	private java.lang.Integer   version;
 	private java.lang.Long      cellarId;
 	private java.lang.Long      drinkId;
-	private java.lang.Long      styleId;
 	private java.time.LocalDate bottleDate;
 	private java.lang.String    size;
 	private java.lang.Integer   quantity;
 	private java.lang.String    notes;
 	private java.time.LocalDate drinkByDate;
-	private java.lang.Boolean   private_;
 	private java.sql.Timestamp  createdDate;
 	private java.sql.Timestamp  modifiedDate;
 	private java.lang.String    binIdentifier;
@@ -40,13 +38,11 @@ public class CellaredDrink implements java.io.Serializable {
 		java.lang.Integer   version,
 		java.lang.Long      cellarId,
 		java.lang.Long      drinkId,
-		java.lang.Long      styleId,
 		java.time.LocalDate bottleDate,
 		java.lang.String    size,
 		java.lang.Integer   quantity,
 		java.lang.String    notes,
 		java.time.LocalDate drinkByDate,
-		java.lang.Boolean   private_,
 		java.sql.Timestamp  createdDate,
 		java.sql.Timestamp  modifiedDate,
 		java.lang.String    binIdentifier,
@@ -58,13 +54,11 @@ public class CellaredDrink implements java.io.Serializable {
 		this.version = version;
 		this.cellarId = cellarId;
 		this.drinkId = drinkId;
-		this.styleId = styleId;
 		this.bottleDate = bottleDate;
 		this.size = size;
 		this.quantity = quantity;
 		this.notes = notes;
 		this.drinkByDate = drinkByDate;
-		this.private_ = private_;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 		this.binIdentifier = binIdentifier;
@@ -110,15 +104,6 @@ public class CellaredDrink implements java.io.Serializable {
 		this.drinkId = drinkId;
 	}
 
-	@javax.persistence.Column(name = "style_id", nullable = false, precision = 64)
-	public java.lang.Long getStyleId() {
-		return this.styleId;
-	}
-
-	public void setStyleId(java.lang.Long styleId) {
-		this.styleId = styleId;
-	}
-
 	@javax.persistence.Column(name = "bottle_date")
 	public java.time.LocalDate getBottleDate() {
 		return this.bottleDate;
@@ -162,15 +147,6 @@ public class CellaredDrink implements java.io.Serializable {
 
 	public void setDrinkByDate(java.time.LocalDate drinkByDate) {
 		this.drinkByDate = drinkByDate;
-	}
-
-	@javax.persistence.Column(name = "private", nullable = false)
-	public java.lang.Boolean getPrivate() {
-		return this.private_;
-	}
-
-	public void setPrivate(java.lang.Boolean private_) {
-		this.private_ = private_;
 	}
 
 	@javax.persistence.Column(name = "created_date", nullable = false)

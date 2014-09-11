@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = 2078382880;
+	private static final long serialVersionUID = 1573818431;
 
 	/**
 	 * Setter for <code>public.organization.id</code>.
@@ -146,7 +146,7 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Getter for <code>public.organization.phone</code>.
 	 */
-	@javax.persistence.Column(name = "phone", length = 20)
+	@javax.persistence.Column(name = "phone", length = 30)
 	public java.lang.String getPhone() {
 		return (java.lang.String) getValue(8);
 	}

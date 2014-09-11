@@ -9,7 +9,11 @@ public class LocalDateConverter implements Converter<Date, LocalDate> {
 
     @Override
     public LocalDate from(Date databaseObject) {
-        return databaseObject.toLocalDate();
+        if (databaseObject != null) {
+            return databaseObject.toLocalDate();
+        }
+
+        return null;
     }
 
     @Override

@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = -151644417;
+	private static final long serialVersionUID = -1979069730;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -167,7 +167,7 @@ public class Organization implements java.io.Serializable {
 		this.established = established;
 	}
 
-	@javax.persistence.Column(name = "phone", length = 20)
+	@javax.persistence.Column(name = "phone", length = 30)
 	public java.lang.String getPhone() {
 		return this.phone;
 	}

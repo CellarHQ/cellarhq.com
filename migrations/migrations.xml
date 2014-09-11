@@ -16,6 +16,7 @@
     <include file="migrations/releases/add-cellar-beer-organizing-fields.xml"/>
     <include file="migrations/releases/add-cellar-stat-fields.xml"/>
 
+    <include file="migrations/releases/misc_updates_from_importing_data.xml"/>
     <!-- next: -->
 
 </databaseChangeLog>
