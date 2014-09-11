@@ -100,7 +100,6 @@ class FormAuthFunctionalSpec extends GebReportingSpec {
 
         then:
         HomePage page = at HomePage
-        page.unauthenticatedMenu
     }
 
     @Unroll("submitting with email '#email' and password '#password' user should #description")
@@ -121,9 +120,8 @@ class FormAuthFunctionalSpec extends GebReportingSpec {
             page.authenticatedMenu
             at YourCellarPage
         } else {
-            assert isAt(LoginPage) || isAt(HomePage)
+            assert isAt(LoginPage)
             page.errorMessages
-            page.unauthenticatedMenu
         }
 
         where:

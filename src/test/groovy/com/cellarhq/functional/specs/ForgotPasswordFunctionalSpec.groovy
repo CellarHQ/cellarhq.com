@@ -73,7 +73,7 @@ class ForgotPasswordFunctionalSpec extends GebReportingSpec {
             Cellar cellar = new Cellar(screenName: 'someone', displayName: 'Someone')
             EmailAccount emailAccount = new EmailAccount(email: 'test@example.com', password: 'password1')
             emailAccount.cellar = cellar
-            get(AccountService).create(emailAccount)
+            get(AccountService).create(emailAccount, null)
             return null
         }
 
@@ -122,7 +122,7 @@ class ForgotPasswordFunctionalSpec extends GebReportingSpec {
         loginPage.submitForm()
 
         then:
-        isAt(YourCellarPage) || isAt(HomePage)
+        isAt(YourCellarPage)
         ((BasePage) page).authenticatedMenu
     }
 }

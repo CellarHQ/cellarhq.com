@@ -88,7 +88,8 @@ class RegisterEndpoint extends GroovyHandler {
                     if (cellarViolations.size() == 0 && accountViolations.size() == 0 && passwordsMatch) {
                         // Rx would actually work pretty well here...
                         blocking {
-                            accountService.create(emailAccount)
+                            // TODO: Add uploaded file support for settings page
+                            accountService.create(emailAccount, null)
                         }.onError { Throwable e ->
                             log.error(LogUtil.toLog('RegistrationFailure'), e)
 

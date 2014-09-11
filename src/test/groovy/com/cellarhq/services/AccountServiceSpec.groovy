@@ -5,6 +5,7 @@ import com.cellarhq.domain.EmailAccount
 import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.CellarRecord
+import com.cellarhq.services.photo.PhotoService
 import org.jooq.DSLContext
 import org.jooq.Result
 import org.jooq.SQLDialect
@@ -27,7 +28,7 @@ class AccountServiceSpec extends JooqSpecification {
         }
 
         and:
-        AccountService accountService = new AccountService(dataSource, Mock(ExecControl))
+        AccountService accountService = new AccountService(dataSource, Mock(ExecControl), Mock(PhotoService))
 
         and:
         EmailAccount emailAccount = new EmailAccount(
@@ -37,7 +38,7 @@ class AccountServiceSpec extends JooqSpecification {
         )
 
         when:
-        accountService.create(emailAccount)
+        accountService.create(emailAccount, null)
 
         then:
         noExceptionThrown()

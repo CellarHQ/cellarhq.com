@@ -9,8 +9,12 @@ import com.cellarhq.services.*
 import com.cellarhq.services.email.AmazonEmailService
 import com.cellarhq.services.email.EmailService
 import com.cellarhq.services.email.LogEmailService
+import com.cellarhq.services.photo.writer.AmazonPhotoWriteStrategy
+import com.cellarhq.services.photo.writer.PhotoWriteStrategy
 import com.google.inject.AbstractModule
+import com.google.inject.Provides
 import com.google.inject.Scopes
+import com.google.inject.Singleton
 import groovy.transform.CompileStatic
 import ratpack.handlebars.internal.HandlebarsTemplateRenderer
 
@@ -27,6 +31,14 @@ class CellarHQModule extends AbstractModule {
     final static String ENV_DEPLOYMENT = 'deploymentEnv'
     final static String ENV_DEPLOYMENT_PRODUCTION = 'production'
 
+    private final String awsAccessKey
+    private final String awsSecretKey
+
+    CellarHQModule(String awsAccessKey, String awsSecretKey) {
+        this.awsAccessKey = awsAccessKey
+        this.awsSecretKey = awsSecretKey
+    }
+
     static boolean isProductionEnv() {
         return System.getenv(ENV_DEPLOYMENT) == ENV_DEPLOYMENT_PRODUCTION
     }
@@ -41,18 +53,26 @@ class CellarHQModule extends AbstractModule {
         bind(PaginationHelper).in(Scopes.SINGLETON)
         bind(DataTableSortingHelper).in(Scopes.SINGLETON)
 
+        bind(AWSCredentials).toInstance(new BasicAWSCredentials(awsAccessKey, awsSecretKey))
+
         if (isProductionEnv()) {
-            // TODO: This should get put into the ratpack configuration file...
-            bind(AWSCredentials).toInstance(new BasicAWSCredentials(
-                    'AKIAIXBP2ORLESIX5CIQ',
-                    'DHinN9Eg3uz/Nbo3hQIvVXxK9hImzxdE04I3dHz3'
-            ))
             bind(EmailService).to(AmazonEmailService).in(Scopes.SINGLETON)
         } else {
             bind(EmailService).to(LogEmailService).in(Scopes.SINGLETON)
         }
 
+        bind(PhotoWriteStrategy).to(AmazonPhotoWriteStrategy).in(Scopes.SINGLETON)
+
         bind(ValidatorFactory).toInstance(Validation.buildDefaultValidatorFactory())
         bind(HandlebarsTemplateRenderer).to(HandlebarsTemplateRendererImpl).in(Scopes.SINGLETON)
+    }
+
+    @Singleton
+    @Provides
+    S3Service s3Service(AWSCredentials credentials) {
+        if (isProductionEnv()) {
+            return new S3Service(credentials, S3Service.BUCKET_PRODUCTION)
+        }
+        return new S3Service(credentials, S3Service.BUCKET_DEVELOPMENT)
     }
 }

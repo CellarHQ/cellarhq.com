@@ -27,7 +27,7 @@ class StatsService extends BaseJooqService {
         observe(execControl.blocking {
             jooq({ Configuration c ->
                 c.set(new HomepageStatisticsRecordMapperProvider())
-            }, { DSLContext create ->
+            }) { DSLContext create ->
                 Field<Integer> organizations = create.selectCount()
                         .from(ORGANIZATION)
                         .asField('organizations')
@@ -43,7 +43,7 @@ class StatsService extends BaseJooqService {
 
                 create.select(organizations, drinks, cellars, cellaredDrinks)
                         .fetchInto(HomepageStatistics)
-            })
+            }
         }).asObservable()
     }
 }

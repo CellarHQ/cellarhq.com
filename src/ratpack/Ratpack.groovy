@@ -22,7 +22,9 @@ import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.StatsService
+import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
+import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
@@ -84,7 +86,10 @@ ratpack {
         add new HandlebarsModule()
 
         // IMPORTANT: Our module must be last, so we can override whatever we need to created by the other modules.
-        add new CellarHQModule()
+        add new CellarHQModule(
+                getConfig(launchConfig, 'other.aws.accessKey', 'AKIAIXBP2ORLESIX5CIQ'),
+                getConfig(launchConfig, 'other.aws.secretKey', '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')
+        )
 
         init {
             RxRatpack.initialize()
@@ -93,12 +98,16 @@ ratpack {
 
     handlers {
         get { StatsService statsService ->
-            statsService.homepageStatistics().single().subscribe { HomepageStatistics stats ->
-                render handlebarsTemplate('index.html',
-                        stats: stats,
-                        action: '/register',
-                        title: 'CellarHQ',
-                        pageId: 'home')
+            if (SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))) {
+                redirect(302, '/cellars')
+            } else {
+                statsService.homepageStatistics().single().subscribe { HomepageStatistics stats ->
+                    render handlebarsTemplate('index.html',
+                            stats: stats,
+                            action: '/register',
+                            title: 'CellarHQ',
+                            pageId: 'home')
+                }
             }
         }
 

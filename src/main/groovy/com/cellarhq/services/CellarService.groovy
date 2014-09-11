@@ -5,11 +5,14 @@ import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
 import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.Photo
 import com.cellarhq.generated.tables.records.CellarRecord
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
+import org.jooq.JoinType
+import org.jooq.Record
 import org.jooq.SelectJoinStep
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.ExecControl
@@ -58,10 +61,18 @@ class CellarService extends BaseJooqService {
     rx.Observable<Cellar> findBySlug(String slug) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                create.select()
+                Record record = create.select()
                         .from(CELLAR)
+                        .join(PHOTO, JoinType.LEFT_OUTER_JOIN).onKey()
                         .where(CELLAR.SCREEN_NAME.eq(slug))
-                        .fetchOneInto(Cellar)
+                        .fetchOne()
+
+                if (record) {
+                    Cellar cellar = record.into(Cellar)
+                    cellar.photo = record.into(Photo)
+                    return cellar
+                }
+                return (Cellar) null
             }
         }).asObservable()
     }
