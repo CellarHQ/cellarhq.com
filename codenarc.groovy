@@ -27,17 +27,16 @@ ruleset {
     ruleset('rulesets/generic.xml')
     ruleset('rulesets/groovyism.xml') {
         'ExplicitCallToAndMethod' enabled: false // jOOQ where "and" query creation
+        'ClosureAsLastMethodParameter' {
+            doNotApplyToFileNames = '*Endpoint.groovy'
+        }
     }
     ruleset('rulesets/imports.xml') {
         'MisorderedStaticImports' enabled: false
     }
     ruleset('rulesets/jdbc.xml')
     ruleset('rulesets/junit.xml')
-    ruleset('rulesets/logging.xml') {
-        'Println' {
-            doNotApplyToFilesMatching = '.*/grails-app/conf/Config.groovy'
-        }
-    }
+    ruleset('rulesets/logging.xml')
     ruleset('rulesets/naming.xml') {
         'FactoryMethodName' enabled: false
         'FieldName' enabled: false
@@ -48,7 +47,10 @@ ruleset {
     ruleset('rulesets/size.xml') {
         'CrapMetric' enabled: false //This rule requires a coverage results file and isn't really helpful.
         'AbcMetric' {
-            doNotApplyToFileNames = 'Config.groovy,ApplicationResources.groovy,resources.groovy,*-config.groovy'
+            doNotApplyToFileNames = '*Endpoint.groovy'
+        }
+        'NestedBlockDepth' {
+            doNotApplyToFileNames = '*Endpoint.groovy'
         }
     }
     ruleset('rulesets/unnecessary.xml') {

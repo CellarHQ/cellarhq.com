@@ -13,7 +13,6 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 
 import java.time.LocalDate
 
-@SuppressWarnings('ClosureAsLastMethodParameter')
 @Slf4j
 class CellarsEndpoint extends GroovyChainAction {
 

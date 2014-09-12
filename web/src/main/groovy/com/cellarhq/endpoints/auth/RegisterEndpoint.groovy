@@ -41,7 +41,6 @@ class RegisterEndpoint extends GroovyHandler {
         this.validatorFactory = validatorFactory
     }
 
-    @SuppressWarnings('AbcMetric')
     @Override
     protected void handle(GroovyContext context) {
         context.with {

@@ -12,7 +12,6 @@ import static ratpack.jackson.Jackson.json
 /**
  * @todo Move to api package.
  */
-@SuppressWarnings('AbcMetric')
 @Slf4j
 class OrganizationEndpoint extends GroovyChainAction {
 

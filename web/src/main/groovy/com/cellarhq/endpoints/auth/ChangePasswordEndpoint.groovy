@@ -18,7 +18,6 @@ import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
 
-@SuppressWarnings(['AbcMetric', 'NestedBlockDepth'])
 @Slf4j
 class ChangePasswordEndpoint extends GroovyHandler {
 
