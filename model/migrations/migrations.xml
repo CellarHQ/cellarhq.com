@@ -7,16 +7,16 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!-- initial release -->
-    <include file="migrations/releases/initial-schema.xml"/>
-    <include file="migrations/releases/forgot-password-support.xml"/>
-    <include file="migrations/releases/add-data-columns-for-brewerydb.xml"/>
-    <include file="migrations/releases/add-base-data.xml"/>
-    <include file="migrations/releases/add-region-column.xml"/>
-    <include file="migrations/releases/add-cellar-social-fields.xml"/>
-    <include file="migrations/releases/add-cellar-beer-organizing-fields.xml"/>
-    <include file="migrations/releases/add-cellar-stat-fields.xml"/>
+    <include file="releases/initial-schema.xml" relativeToChangelogFile="true"/>
+    <include file="releases/forgot-password-support.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add-data-columns-for-brewerydb.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add-base-data.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add-region-column.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add-cellar-social-fields.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add-cellar-beer-organizing-fields.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add-cellar-stat-fields.xml" relativeToChangelogFile="true"/>
 
-    <include file="migrations/releases/misc_updates_from_importing_data.xml"/>
+    <include file="releases/misc_updates_from_importing_data.xml" relativeToChangelogFile="true"/>
     <!-- next: -->
 
 </databaseChangeLog>

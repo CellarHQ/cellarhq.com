@@ -160,6 +160,28 @@ class AccountService extends BaseJooqService {
         }
     }
 
+    EmailAccount attachEmailAccount(EmailAccount emailAccount, Cellar cellar) {
+        jooq { DSLContext create ->
+            AccountEmailRecord record = create.newRecord(ACCOUNT_EMAIL, emailAccount)
+            record.reset(ACCOUNT_EMAIL.ID)
+            record.cellarId = cellar.id
+            record.store()
+
+            record.into(EmailAccount)
+        }
+    }
+
+    OAuthAccount attachOAuthAccount(OAuthAccount oAuthAccount, Cellar cellar) {
+        jooq { DSLContext create ->
+            AccountOauthRecord record = create.newRecord(ACCOUNT_OAUTH, oAuthAccount)
+            record.reset(ACCOUNT_OAUTH.ID)
+            record.cellarId = cellar.id
+            record.store()
+
+            record.into(OAuthAccount)
+        }
+    }
+
     private void bindRoleToCellar(DSLContext create, Role role, long cellarId) {
         CellarRoleRecord cellarRoleRecord = create.newRecord(CELLAR_ROLE)
         cellarRoleRecord.cellarId = cellarId

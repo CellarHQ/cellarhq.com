@@ -98,3 +98,5 @@ task buildDocker(type: Docker, dependsOn: 'build') {
 task publish(dependsOn: 'buildDocker') {
 
 }
+
+test.dependsOn ':model:dropAll', ':model:update'
