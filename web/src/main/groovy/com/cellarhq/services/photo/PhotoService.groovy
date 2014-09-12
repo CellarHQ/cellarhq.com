@@ -13,7 +13,7 @@ import com.cellarhq.services.photo.model.ResizeCommand
 import com.cellarhq.services.photo.writer.PhotoWriteStrategy
 import com.google.common.io.Files
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
+import io.netty.buffer.ByteBufInputStream
 import org.imgscalr.Scalr
 import org.jooq.DSLContext
 import ratpack.exec.ExecControl
@@ -51,7 +51,6 @@ import java.time.LocalDate
  *
  * @todo If resize is equal to or greater than original image size, do not resize: Only use original image.
  */
-@CompileStatic
 class PhotoService extends BaseJooqService {
 
     private final S3Service s3Service
@@ -135,7 +134,15 @@ class PhotoService extends BaseJooqService {
     }
 
     PhotoDetails resize(InputStream is, String extension, Photo.Type type, List<ResizeCommand> resizeCommands) {
-        BufferedImage image = ImageIO.read(is)
+        ByteArrayInputStream baos
+        if (is instanceof ByteBufInputStream) {
+            // Something is totally fucked up with file uploads in Ratpack. Haven't figured out what yet, but it seems
+            // that either Ratpack or Netty marks the buffer at the last index, so it can never be read from.
+            baos = new ByteArrayInputStream((byte[]) ((ByteBufInputStream) is).buffer.array())
+        } else {
+            baos = new ByteArrayInputStream(is.bytes)
+        }
+        BufferedImage image = ImageIO.read(baos)
 
         return new PhotoDetails(resizeCommands.collect { ResizeCommand command ->
             return resizeAndWrite(generateKey(type, extension), image, command)
