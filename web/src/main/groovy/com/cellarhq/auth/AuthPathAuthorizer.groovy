@@ -25,6 +25,8 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'breweries',
             /breweries\/(?!add$)([a-zA-Z0-9\-_]+)/,
             'about',
+            'terms-of-service',
+            'privacy-policy',
             'register',
             'login',
             'forgot-password',
