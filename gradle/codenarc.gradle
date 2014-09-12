@@ -4,4 +4,3 @@ codenarc {
     configFile = new File("${rootDir}/codenarc.groovy")
     toolVersion = '0.18.1'
 }
-codenarcTest.enabled = false
