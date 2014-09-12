@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "http://oss.jfrog.org/repo" }
+    }
+    dependencies {
+        classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
+        classpath databaseDriver
+    }
+}
+
+apply plugin: 'liquibase'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    jcenter()
+    maven { url "http://repo.springsource.org/repo" } // for springloaded
+    maven { url "http://oss.jfrog.org/repo" }
+}
+
+dependencies {
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    compile "org.jooq:jooq:${jooqVersion}"
+    compile "org.jooq:jooq-meta:${jooqVersion}"
+    compile "org.jooq:jooq-codegen:${jooqVersion}"
+}
+
+liquibase {
+    activities {
+        development {
+            changeLogFile 'migrations/migrations.xml'
+            url 'jdbc:postgresql://localhost:15432/cellarhq'
+            username 'cellarhq'
+            password 'cellarhq'
+        }
+        testing {
+            changeLogFile 'migrations/migrations.xml'
+            url 'jdbc:postgresql://localhost:15432/cellarhq_testing'
+            username 'cellarhq'
+            password 'cellarhq'
+        }
+
+        if (project.hasProperty('cellarhqprodpasswd')) {
+            production {
+                changeLogFile 'migrations/migrations.xml'
+                url 'jdbc:postgresql://cellarhq-prod.c7ovcjlune88.us-east-1.rds.amazonaws.com:5432/cellarhq'
+                username 'cellarhq'
+                password project.cellarhqprodpasswd
+            }
+        }
+    }
+
+    // Do not include production as a default: We don't want to accidentally run prod migrations.
+    runList = project.hasProperty('runList') ? project.property('runList') : 'development'
+}
+
+task generateJooq(type: JavaExec, dependsOn: 'classes, update') {
+    main = 'org.jooq.util.GenerationTool'
+    classpath = sourceSets.main.runtimeClasspath
+    args 'jooq.xml'
+}
