@@ -15,7 +15,6 @@ import ratpack.form.Form
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
 
-@SuppressWarnings('NestedBlockDepth')
 @Slf4j
 class ForgotPasswordEndpoint extends GroovyHandler {
 

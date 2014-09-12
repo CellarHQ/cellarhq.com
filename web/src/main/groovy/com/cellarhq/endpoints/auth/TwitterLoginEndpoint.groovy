@@ -42,7 +42,6 @@ class TwitterLoginEndpoint extends GroovyHandler {
         this.cellarService = cellarService
     }
 
-    @SuppressWarnings('NestedBlockDepth')
     @Override
     protected void handle(GroovyContext context) {
         context.with {
