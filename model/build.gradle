@@ -29,13 +29,13 @@ dependencies {
 liquibase {
     activities {
         development {
-            changeLogFile 'migrations/migrations.xml'
+            changeLogFile "${rootDir}/model/migrations/migrations.xml"
             url 'jdbc:postgresql://localhost:15432/cellarhq'
             username 'cellarhq'
             password 'cellarhq'
         }
         testing {
-            changeLogFile 'migrations/migrations.xml'
+            changeLogFile "${rootDir}/model/migrations/migrations.xml"
             url 'jdbc:postgresql://localhost:15432/cellarhq_testing'
             username 'cellarhq'
             password 'cellarhq'
@@ -43,7 +43,7 @@ liquibase {
 
         if (project.hasProperty('cellarhqprodpasswd')) {
             production {
-                changeLogFile 'migrations/migrations.xml'
+                changeLogFile "${rootDir}/model/migrations/migrations.xml"
                 url 'jdbc:postgresql://cellarhq-prod.c7ovcjlune88.us-east-1.rds.amazonaws.com:5432/cellarhq'
                 username 'cellarhq'
                 password project.cellarhqprodpasswd
@@ -51,8 +51,16 @@ liquibase {
         }
     }
 
-    // Do not include production as a default: We don't want to accidentally run prod migrations.
-    runList = project.hasProperty('runList') ? project.property('runList') : 'development'
+    if (project.hasProperty('runList')) {
+        runList = project.property('runList')
+    } else {
+        if (rootProject.gradle.startParameter.taskNames.contains('test')
+                || rootProject.gradle.startParameter.taskNames.contains('check')) {
+            runList = 'testing'
+        } else {
+            runList = 'development'
+        }
+    }
 }
 
 task generateJooq(type: JavaExec, dependsOn: 'classes, update') {
