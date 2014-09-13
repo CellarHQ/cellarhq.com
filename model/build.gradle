@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    compile databaseDriver
     compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     compile "org.jooq:jooq:${jooqVersion}"
     compile "org.jooq:jooq-meta:${jooqVersion}"
@@ -63,7 +64,7 @@ liquibase {
     }
 }
 
-task generateJooq(type: JavaExec, dependsOn: 'classes, update') {
+task generateJooq(type: JavaExec, dependsOn: ['classes', 'update']) {
     main = 'org.jooq.util.GenerationTool'
     classpath = sourceSets.main.runtimeClasspath
     args 'jooq.xml'
