@@ -30,7 +30,7 @@ class SecurityModule extends AbstractModule implements HandlerDecoratingModule {
 
     @Override
     protected void configure() {
-        bind(UsernamePasswordAuthenticator).to(CellarHQUsernamePasswordAuthenticator)
+        bind(UsernamePasswordAuthenticator).to(UsernamePasswordAuthenticatorImpl)
         bind(Authorizer).to(AuthPathAuthorizer)
         bind(new TypeLiteral<Client<UsernamePasswordCredentials, HttpProfile>>() {}).to(FormClient)
         bind(new TypeLiteral<Client<OAuthCredentials, TwitterProfile>>() {}).to(TwitterClient)

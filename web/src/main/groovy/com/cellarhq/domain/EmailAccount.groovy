@@ -25,6 +25,7 @@ class EmailAccount extends AccountEmail {
     EmailAccount() {
         createdDate = Timestamp.valueOf(LocalDateTime.now())
         modifiedDate = createdDate
+        loginAttemptCounter = 0
     }
 
     @Override

@@ -78,11 +78,9 @@ class TwitterAuthFunctionalSpec extends GebReportingSpec {
         then:
         page.twitterLoginLink.click()
 
-        when:
-        TwitterOAuthPage twitter = at TwitterOAuthPage
-
-        then:
-        twitter.login()
+        if (isAt(TwitterOAuthPage)) {
+            ((TwitterOAuthPage) browser.page).login()
+        }
 
         // Twitter occasionally asks us to authorize the app. Seems to happen when the test runner is on a new IP.
         if (isAt(TwitterAuthorizePage)) {

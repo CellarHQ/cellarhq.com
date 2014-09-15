@@ -1,10 +1,13 @@
-package com.cellarhq.services
+package com.cellarhq.integration.services
 
+import com.cellarhq.JooqSpecification
+import com.cellarhq.auth.PasswordService
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.CellarRecord
+import com.cellarhq.services.AccountService
 import com.cellarhq.services.photo.PhotoService
 import org.jooq.DSLContext
 import org.jooq.Result
@@ -28,7 +31,12 @@ class AccountServiceSpec extends JooqSpecification {
         }
 
         and:
-        AccountService accountService = new AccountService(dataSource, Mock(ExecControl), Mock(PhotoService))
+        AccountService accountService = new AccountService(
+                dataSource,
+                Mock(ExecControl),
+                Mock(PhotoService),
+                new PasswordService()
+        )
 
         and:
         EmailAccount emailAccount = new EmailAccount(
