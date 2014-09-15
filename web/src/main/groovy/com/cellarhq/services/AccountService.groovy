@@ -2,6 +2,7 @@ package com.cellarhq.services
 
 import static com.cellarhq.generated.Tables.*
 
+import com.cellarhq.auth.PasswordService
 import com.cellarhq.auth.Role
 import com.cellarhq.domain.OAuthClient
 import com.cellarhq.domain.Cellar
@@ -23,7 +24,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.Record
-import org.mindrot.jbcrypt.BCrypt
+import org.jooq.impl.DSL
 import ratpack.exec.ExecControl
 import ratpack.form.UploadedFile
 
@@ -35,22 +36,17 @@ import java.time.LocalDateTime
 @CompileStatic
 class AccountService extends BaseJooqService {
 
-    private final static int BCRYPT_LOG_ROUNDS = 16
-
     private final PhotoService photoService
+    private final PasswordService passwordService
 
     @Inject
-    AccountService(DataSource dataSource, ExecControl execControl, PhotoService photoService) {
+    AccountService(DataSource dataSource,
+                   ExecControl execControl,
+                   PhotoService photoService,
+                   PasswordService passwordService) {
         super(dataSource, execControl)
         this.photoService = photoService
-    }
-
-    EmailAccount findByCredentials(String username, String password) {
-        EmailAccount emailAccount = findByEmail(username)
-        if (emailAccount && BCrypt.checkpw(password, emailAccount.password)) {
-            return emailAccount
-        }
-        return null
+        this.passwordService = passwordService
     }
 
     OAuthAccount findByCredentials(String username, OAuthClient client = OAuthClient.TWITTER) {
@@ -98,7 +94,7 @@ class AccountService extends BaseJooqService {
     }
 
     EmailAccount create(EmailAccount emailAccount, UploadedFile picture) {
-        emailAccount.password = BCrypt.hashpw(emailAccount.password, BCrypt.gensalt(BCRYPT_LOG_ROUNDS))
+        emailAccount.password = passwordService.hashPassword(emailAccount.password)
         (EmailAccount) jooq { DSLContext create ->
             create.transactionResult {
                 CellarRecord cellarRecord = create.newRecord(CELLAR, emailAccount.cellar)
@@ -189,6 +185,24 @@ class AccountService extends BaseJooqService {
         cellarRoleRecord.store()
     }
 
+    void trackFailedLoginAttempt(EmailAccount emailAccount) {
+        jooq { DSLContext create ->
+            create.update(ACCOUNT_EMAIL)
+                    .set(ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER, ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER.add(1))
+                    .set(ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT, Timestamp.valueOf(LocalDateTime.now()))
+                    .where(ACCOUNT_EMAIL.ID.eq(emailAccount.id))
+        }
+    }
+
+    void resetFailedLoginAttempts(EmailAccount emailAccount) {
+        jooq { DSLContext create ->
+            create.update(ACCOUNT_EMAIL)
+                    .set(ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER, (short) 0)
+                    .set(ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT, DSL.castNull(ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT))
+                    .where(ACCOUNT_EMAIL.ID.eq(emailAccount.id))
+        }
+    }
+
     String startPasswordRecovery(EmailAccount email) {
         String uuid = UUID.randomUUID().toString().replaceAll(/\W/, '')
         jooq { DSLContext create ->
@@ -212,7 +226,7 @@ class AccountService extends BaseJooqService {
     }
 
     void changePassword(EmailAccount emailAccount, String requestUuid) {
-        String password = BCrypt.hashpw(emailAccount.password, BCrypt.gensalt(BCRYPT_LOG_ROUNDS))
+        String password = passwordService.hashPassword(emailAccount.password)
         jooq { DSLContext create ->
             create.transaction {
                 create.update(ACCOUNT_EMAIL)

@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "account_email", schema = "public")
 public class AccountEmail implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1000582996;
+	private static final long serialVersionUID = -1504461175;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -22,6 +22,8 @@ public class AccountEmail implements java.io.Serializable {
 	private java.lang.String   password;
 	private java.sql.Timestamp createdDate;
 	private java.sql.Timestamp modifiedDate;
+	private java.sql.Timestamp lastLoginAttempt;
+	private java.lang.Short    loginAttemptCounter;
 
 	public AccountEmail() {}
 
@@ -32,7 +34,9 @@ public class AccountEmail implements java.io.Serializable {
 		java.lang.String   email,
 		java.lang.String   password,
 		java.sql.Timestamp createdDate,
-		java.sql.Timestamp modifiedDate
+		java.sql.Timestamp modifiedDate,
+		java.sql.Timestamp lastLoginAttempt,
+		java.lang.Short    loginAttemptCounter
 	) {
 		this.id = id;
 		this.version = version;
@@ -41,6 +45,8 @@ public class AccountEmail implements java.io.Serializable {
 		this.password = password;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
+		this.lastLoginAttempt = lastLoginAttempt;
+		this.loginAttemptCounter = loginAttemptCounter;
 	}
 
 	@javax.persistence.Id
@@ -105,5 +111,23 @@ public class AccountEmail implements java.io.Serializable {
 
 	public void setModifiedDate(java.sql.Timestamp modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@javax.persistence.Column(name = "last_login_attempt")
+	public java.sql.Timestamp getLastLoginAttempt() {
+		return this.lastLoginAttempt;
+	}
+
+	public void setLastLoginAttempt(java.sql.Timestamp lastLoginAttempt) {
+		this.lastLoginAttempt = lastLoginAttempt;
+	}
+
+	@javax.persistence.Column(name = "login_attempt_counter", nullable = false, precision = 16)
+	public java.lang.Short getLoginAttemptCounter() {
+		return this.loginAttemptCounter;
+	}
+
+	public void setLoginAttemptCounter(java.lang.Short loginAttemptCounter) {
+		this.loginAttemptCounter = loginAttemptCounter;
 	}
 }

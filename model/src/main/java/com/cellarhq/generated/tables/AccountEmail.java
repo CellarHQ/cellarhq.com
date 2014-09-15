@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AccountEmail extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.AccountEmailRecord> {
 
-	private static final long serialVersionUID = -180746421;
+	private static final long serialVersionUID = 714862401;
 
 	/**
 	 * The singleton instance of <code>public.account_email</code>
@@ -60,6 +60,16 @@ public class AccountEmail extends org.jooq.impl.TableImpl<com.cellarhq.generated
 	 * The column <code>public.account_email.modified_date</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.AccountEmailRecord, java.sql.Timestamp> MODIFIED_DATE = createField("modified_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.account_email.last_login_attempt</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.AccountEmailRecord, java.sql.Timestamp> LAST_LOGIN_ATTEMPT = createField("last_login_attempt", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+	/**
+	 * The column <code>public.account_email.login_attempt_counter</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.AccountEmailRecord, java.lang.Short> LOGIN_ATTEMPT_COUNTER = createField("login_attempt_counter", org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.account_email</code> table reference

@@ -11,9 +11,9 @@ package com.cellarhq.generated.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @javax.persistence.Entity
 @javax.persistence.Table(name = "account_email", schema = "public")
-public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.AccountEmailRecord> implements org.jooq.Record7<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> {
+public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.AccountEmailRecord> implements org.jooq.Record9<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Short> {
 
-	private static final long serialVersionUID = -1766536517;
+	private static final long serialVersionUID = 591692719;
 
 	/**
 	 * Setter for <code>public.account_email.id</code>.
@@ -121,6 +121,36 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		return (java.sql.Timestamp) getValue(6);
 	}
 
+	/**
+	 * Setter for <code>public.account_email.last_login_attempt</code>.
+	 */
+	public void setLastLoginAttempt(java.sql.Timestamp value) {
+		setValue(7, value);
+	}
+
+	/**
+	 * Getter for <code>public.account_email.last_login_attempt</code>.
+	 */
+	@javax.persistence.Column(name = "last_login_attempt")
+	public java.sql.Timestamp getLastLoginAttempt() {
+		return (java.sql.Timestamp) getValue(7);
+	}
+
+	/**
+	 * Setter for <code>public.account_email.login_attempt_counter</code>.
+	 */
+	public void setLoginAttemptCounter(java.lang.Short value) {
+		setValue(8, value);
+	}
+
+	/**
+	 * Getter for <code>public.account_email.login_attempt_counter</code>.
+	 */
+	@javax.persistence.Column(name = "login_attempt_counter", nullable = false, precision = 16)
+	public java.lang.Short getLoginAttemptCounter() {
+		return (java.lang.Short) getValue(8);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -134,23 +164,23 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	}
 
 	// -------------------------------------------------------------------------
-	// Record7 type implementation
+	// Record9 type implementation
 	// -------------------------------------------------------------------------
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row7<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> fieldsRow() {
-		return (org.jooq.Row7) super.fieldsRow();
+	public org.jooq.Row9<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Short> fieldsRow() {
+		return (org.jooq.Row9) super.fieldsRow();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public org.jooq.Row7<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp> valuesRow() {
-		return (org.jooq.Row7) super.valuesRow();
+	public org.jooq.Row9<java.lang.Long, java.lang.Integer, java.lang.Long, java.lang.String, java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp, java.lang.Short> valuesRow() {
+		return (org.jooq.Row9) super.valuesRow();
 	}
 
 	/**
@@ -213,6 +243,22 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * {@inheritDoc}
 	 */
 	@Override
+	public org.jooq.Field<java.sql.Timestamp> field8() {
+		return com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Field<java.lang.Short> field9() {
+		return com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public java.lang.Long value1() {
 		return getId();
 	}
@@ -263,6 +309,22 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	@Override
 	public java.sql.Timestamp value7() {
 		return getModifiedDate();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.sql.Timestamp value8() {
+		return getLastLoginAttempt();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.lang.Short value9() {
+		return getLoginAttemptCounter();
 	}
 
 	/**
@@ -332,7 +394,25 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 * {@inheritDoc}
 	 */
 	@Override
-	public AccountEmailRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.sql.Timestamp value6, java.sql.Timestamp value7) {
+	public AccountEmailRecord value8(java.sql.Timestamp value) {
+		setLastLoginAttempt(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AccountEmailRecord value9(java.lang.Short value) {
+		setLoginAttemptCounter(value);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AccountEmailRecord values(java.lang.Long value1, java.lang.Integer value2, java.lang.Long value3, java.lang.String value4, java.lang.String value5, java.sql.Timestamp value6, java.sql.Timestamp value7, java.sql.Timestamp value8, java.lang.Short value9) {
 		return this;
 	}
 
@@ -350,7 +430,7 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Create a detached, initialised AccountEmailRecord
 	 */
-	public AccountEmailRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long cellarId, java.lang.String email, java.lang.String password, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate) {
+	public AccountEmailRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long cellarId, java.lang.String email, java.lang.String password, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.sql.Timestamp lastLoginAttempt, java.lang.Short loginAttemptCounter) {
 		super(com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL);
 
 		setValue(0, id);
@@ -360,5 +440,7 @@ public class AccountEmailRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		setValue(4, password);
 		setValue(5, createdDate);
 		setValue(6, modifiedDate);
+		setValue(7, lastLoginAttempt);
+		setValue(8, loginAttemptCounter);
 	}
 }

@@ -1,4 +1,4 @@
-package com.cellarhq.services
+package com.cellarhq
 
 import org.jooq.tools.jdbc.MockConnection
 import org.jooq.tools.jdbc.MockDataProvider
