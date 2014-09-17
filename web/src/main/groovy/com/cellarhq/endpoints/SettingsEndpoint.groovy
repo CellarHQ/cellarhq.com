@@ -5,7 +5,9 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 import com.cellarhq.Messages
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
+import com.cellarhq.domain.Photo
 import com.cellarhq.services.CellarService
+import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -26,12 +28,14 @@ import javax.validation.ValidatorFactory
 class SettingsEndpoint extends GroovyHandler {
 
     private final CellarService cellarService
+    private final PhotoService photoService
     private final ValidatorFactory validatorFactory
 
     @Inject
-    SettingsEndpoint(CellarService cellarService, ValidatorFactory validatorFactory) {
-        this.cellarService = cellarService
+    SettingsEndpoint(ValidatorFactory validatorFactory, CellarService cellarService, PhotoService photoService) {
         this.validatorFactory = validatorFactory
+        this.cellarService = cellarService
+        this.photoService = photoService
     }
 
     @Override
@@ -41,14 +45,21 @@ class SettingsEndpoint extends GroovyHandler {
                 Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
                 UserProfile profile = request.get(UserProfile)
                 get {
-                    blocking {
-                        cellarService.getBlocking(cellarId)
-                    } then { Cellar cellar ->
+                    rx.Observable.zip(
+                            cellarService.find(cellarId),
+                            photoService.findByCellarId(cellarId)
+                    ) { Cellar cellar, Photo photo ->
+                        [
+                                cellar: cellar,
+                                photo: photo
+                        ]
+                    }.subscribe { Map map ->
                         render handlebarsTemplate('settings.html',
                                 title: 'Account Settings',
                                 isOauthAccount: profile instanceof TwitterProfile,
                                 pageId: 'settings',
-                                cellar: cellar)
+                                cellar: map.cellar,
+                                photo: map.photo)
                     }
                 }
 
@@ -78,8 +89,6 @@ class SettingsEndpoint extends GroovyHandler {
                                 ratebeer = form.ratebeer
                             }
 
-                            // TODO Photo
-
                             Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(cellar)
                             if (cellarViolations.size() > 0) {
                                 SessionUtil.setFlash(
@@ -90,7 +99,7 @@ class SettingsEndpoint extends GroovyHandler {
                                 )
                                 result.cellar = cellar
                             } else {
-                                cellarService.saveBlocking(cellar)
+                                cellarService.saveBlocking(cellar, form.file('photo'))
                                 result.success = true
                             }
                         }
@@ -98,7 +107,7 @@ class SettingsEndpoint extends GroovyHandler {
                     } onError { Throwable t ->
                         log.error(LogUtil.toLog('SaveSettingsFailure', [
                                 exception: t
-                        ]))
+                        ]), t)
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                         redirect('/settings')
                     } then { Map result ->

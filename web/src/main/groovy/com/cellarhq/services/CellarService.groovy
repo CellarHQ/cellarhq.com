@@ -7,6 +7,11 @@ import static ratpack.rx.RxRatpack.observeEach
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.Photo
 import com.cellarhq.generated.tables.records.CellarRecord
+import com.cellarhq.generated.tables.records.PhotoRecord
+import com.cellarhq.services.photo.PhotoService
+import com.cellarhq.services.photo.model.ResizeCommand
+import com.cellarhq.services.photo.writer.PhotoWriteFailedException
+import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -16,6 +21,7 @@ import org.jooq.Record
 import org.jooq.SelectJoinStep
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.ExecControl
+import ratpack.form.UploadedFile
 
 import javax.sql.DataSource
 import java.sql.Timestamp
@@ -25,9 +31,12 @@ import java.time.LocalDateTime
 @CompileStatic
 class CellarService extends BaseJooqService {
 
+    private final PhotoService photoService
+
     @Inject
-    CellarService(DataSource dataSource, ExecControl execControl) {
+    CellarService(DataSource dataSource, ExecControl execControl, PhotoService photoService) {
         super(dataSource, execControl)
+        this.photoService = photoService
     }
 
     rx.Observable<Cellar> save(Cellar cellar) {
@@ -124,15 +133,34 @@ class CellarService extends BaseJooqService {
         }
     }
 
-    Cellar saveBlocking(Cellar cellar) {
+    Cellar saveBlocking(Cellar cellar, UploadedFile photo = null) {
         jooq { DSLContext create ->
-            CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
-            if (cellar.id) {
-                create.executeUpdate(cellarRecord)
-            } else {
-                create.executeInsert(cellarRecord)
+            create.transactionResult {
+                CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
+
+                if (photo) {
+                    try {
+                        PhotoRecord photoRecord = photoService.createPhotoRecord(create, Photo.Type.CELLAR, photo, [
+                                new ResizeCommand(Photo.Size.THUMB, 64),
+                                new ResizeCommand(Photo.Size.LARGE, 256)
+                        ])
+                        photoRecord.description = Photo.DESCRIPTION_SETTINGS_UPLOAD
+                        photoRecord.store()
+                        cellarRecord.photoId = photoRecord.id
+                    } catch (PhotoWriteFailedException e) {
+                        log.error(LogUtil.toLog('CellarService', [
+                                msg: 'Photo write failed while saving cellar'
+                        ]), e)
+                    }
+                }
+
+                if (cellar.id) {
+                    create.executeUpdate(cellarRecord)
+                } else {
+                    create.executeInsert(cellarRecord)
+                }
+                cellarRecord.into(Cellar)
             }
-            cellarRecord.into(Cellar)
         }
     }
 
