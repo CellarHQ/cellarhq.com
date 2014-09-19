@@ -59,3 +59,11 @@ ul.cellared-drink-flags {
 .ui-autocomplete a:hover {
     color: #fff;
 }
+
+.servererror pre {
+    background: none;
+}
+
+.servererror pre code {
+    border: none;
+}

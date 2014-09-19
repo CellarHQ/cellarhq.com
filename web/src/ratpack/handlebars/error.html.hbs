@@ -1,11 +1,16 @@
+{{#partial "header"}}
+  <h1>Oops! <small>Error ID: {{correlationId}}</small></h1>
+{{/partial}}
 {{# partial "content" }}
-    <h1>Oops!</h1>
-    <div class="alert alert-danger">
-      <p><strong>Something went horribly wrong.</strong> You can either try your request again, or let us know of the
-      problem via <a href="https://twitter.com/cellarhq" title="CellarHQ Twitter">@cellarhq</a>.
-        <small>(Error ID: {{correlationId}})</small>
-      </p>
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+      <div class="block">
+        <p><strong>Something went horribly wrong.</strong> You can either try your request again, or let us know of the
+          problem via <a href="https://twitter.com/cellarhq" title="CellarHQ Twitter">@cellarhq</a>.
+          <small>(Error ID: {{correlationId}})</small>
+      </div>
     </div>
+  </div>
 {{/partial}}
 
 {{> layout.html}}
