@@ -1,6 +1,17 @@
+{{#partial "header"}}
+    <h1>{{statusCode}}: {{message}}</h1>
+{{/partial}}
 {{# partial "content" }}
-  <h1>{{statusCode}}</h1>
-  <h2>{{message}}</h2>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+      <div class="row">
+        <div class="alert alert-danger">
+          <h2>{{message}}</h2>
+          <p>Oh man. What happened? Let's try going somewhere else.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 {{/partial}}
 
 {{> layout.html}}
