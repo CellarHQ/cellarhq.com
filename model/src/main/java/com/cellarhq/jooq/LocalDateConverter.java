@@ -18,7 +18,11 @@ public class LocalDateConverter implements Converter<Date, LocalDate> {
 
     @Override
     public Date to(LocalDate userObject) {
-        return Date.valueOf(userObject);
+        if (userObject != null) {
+            return Date.valueOf(userObject);
+        }
+
+        return null;
     }
 
     @Override
