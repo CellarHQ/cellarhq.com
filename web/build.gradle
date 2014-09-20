@@ -20,7 +20,6 @@ apply plugin: 'docker'
 apply plugin: 'groovy'
 
 codenarcTest.enabled = false
-sourceCompatibility = '1.8'
 
 repositories {
     jcenter()
