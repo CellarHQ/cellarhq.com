@@ -45,7 +45,7 @@
                                  alt="avatar" class="img-thumbnail">
 
                             <h3 class="widget-heading"><i class="gi gi-beer text-info"></i> <br>
-                                <small>46 Beers</small>
+                                <small>{{drinks.size}}</small>
                             </h3>
                         </div>
                     </div>
@@ -72,138 +72,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/abrasive-ale">Abrasive Ale</a></td>
-                                <td>Imperial IPA</td>
-                                <td>Seasonal</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/bender">Bender</a></td>
-                                <td>American Brown Ale</td>
-                                <td>Year Round</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/bender-beer">Bender Beer</a></td>
-                                <td>American Brown Ale</td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/bitter-brewer">Bitter Brewer</a></td>
-                                <td>Special/Best/Premium Bitter</td>
-                                <td>Seasonal</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/blakkr">Blakkr</a></td>
-                                <td>American Black Ale</td>
-                                <td>One Time</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/coffee-bender">Coffee Bender</a></td>
-                                <td>American Brown Ale</td>
-                                <td>Year Round</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/cynicale">CynicAle</a></td>
-                                <td>Saison</td>
-                                <td>Year Round</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/darkness">Darkness</a></td>
-                                <td>Russian Imperial Stout</td>
-                                <td>Seasonal (Fall)</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/five">Five</a></td>
-                                <td>American Wild Ale</td>
-                                <td>Limited</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/five-beer">Five Beer</a></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/four">Four</a></td>
-                                <td>Sweet Stout</td>
-                                <td>One Time</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/furious">Furious</a></td>
-                                <td>American IPA</td>
-                                <td>Year Round</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/furious-beer">Furious Beer</a></td>
-                                <td>American IPA</td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/hell">Hell</a></td>
-                                <td>Munich Helles</td>
-                                <td>Seasonal (Summer)</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/overrated-west-coast-ipa">Overrated
-                                    West Coast IPA</a></td>
-                                <td>American IPA</td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/pentagram">Pentagram</a></td>
-                                <td>American Wild Ale</td>
-                                <td>Seasonal (Spring)</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/seviin">SeVIIn</a></td>
-                                <td>Belgian Strong Ale</td>
-                                <td>One Time</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/smoke">Smoke</a></td>
-                                <td>Other Smoked Beer</td>
-                                <td>Seasonal (Winter)</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/surly-darkness">Surly Darkness</a></td>
-                                <td>Imperial Stout</td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/surlyfest">Surlyfest</a></td>
-                                <td>American Wheat or Rye Beer</td>
-                                <td>Seasonal (Fall)</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/syx">Syx</a></td>
-                                <td>American Strong Ale</td>
-                                <td>One Time</td>
-                            </tr>
-
-                            <tr>
-                                <td><a href="/brewery/surly-brewing-company/beer/wet">Wet</a></td>
-                                <td>American IPA</td>
-                                <td>Seasonal (Fall)</td>
-                            </tr>
+                            {{#each drinks}}
+                                <tr>
+                                    <td><a href="/beer/{{slug}}">{{drink}}</a></td>
+                                    <td>{{style}}</td>
+                                    <td>{{availability}}</td>
+                                </tr>
+                            {{/each}}
                             </tbody>
                         </table>
                     </div>

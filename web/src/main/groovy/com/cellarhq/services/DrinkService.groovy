@@ -1,5 +1,10 @@
 package com.cellarhq.services
 
+import com.cellarhq.domain.DrinkSearchDisplay
+import com.cellarhq.generated.Keys
+import com.cellarhq.mappers.CustomViewRecordMapperProvider
+import org.jooq.Configuration
+
 import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observeEach
 
@@ -29,6 +34,29 @@ class DrinkService extends BaseJooqService {
                         .orderBy(DRINK.NAME)
                         .limit(offset, numberOfRows)
                         .fetchInto(Drink)
+            }
+        })
+    }
+
+    rx.Observable<DrinkSearchDisplay> findByOrganizationSlug(String slug) {
+        observeEach(execControl.blocking {
+            jooq({ Configuration c ->
+                c.set(new CustomViewRecordMapperProvider([
+                    drink: String,
+                    style: String,
+                ]))
+            }) { DSLContext create ->
+                create.select(
+                        DRINK.SLUG,
+                        DRINK.NAME.as('drink'),
+                        STYLE.NAME.as('style'),
+                        DRINK.AVAILABILITY)
+                    .from(DRINK)
+                    .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+                    .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+                    .where(ORGANIZATION.SLUG.eq(slug))
+                    .orderBy(DRINK.NAME)
+                    .fetchInto(DrinkSearchDisplay)
             }
         })
     }
