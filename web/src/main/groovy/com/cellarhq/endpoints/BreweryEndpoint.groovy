@@ -6,6 +6,7 @@ import com.cellarhq.domain.Organization
 import com.cellarhq.domain.OrganizationType
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
+import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
@@ -93,7 +94,7 @@ class BreweryEndpoint extends GroovyChainAction {
                     } else {
                         List<String> messages = new ValidationErrorMapper().buildMessages(organizationViolations)
 
-                        SessionUtil.setFlash(request, messages)
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
 
                         redirect('/breweries/add?error=' + Messages.FORM_VALIDATION_ERROR)
                     }

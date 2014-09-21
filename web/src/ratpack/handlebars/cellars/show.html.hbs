@@ -51,7 +51,6 @@
             <th>
               {{tableSort request field="beerName" title="Beer"}} / {{tableSort request field='breweryName' title='Brewery'}}
             </th>
-            <th>{{tableSort request field='styleName' title='Style'}}</th>
             <th>{{tableSort request field='size' title='Size'}}</th>
             <th>{{tableSort request field='quantity' title='Quantity'}}</th>
             <th>{{tableSort request field='bottleDate' title='Bottle Date'}}</th>
@@ -63,25 +62,29 @@
           {{#each cellaredDrinks}}
             <tr>
               <td>
-                <a class="btn btn-effect-ripple btn-sm view-cellar-details" data-toggle="collapse" data-target="#details{{id}}"><i class="fa fa-chevron-down"></i></a>
               {{#if self}}
                 <button class="btn btn-effect-ripple btn-sm btn-success drink-cellared-beer" data-cellar="{{slug}}" data-cellaredDrinkId="{{id}}" data-toggle="tooltip" data-placement="bottom" title="Drink one of these beers"><i class="fa fa-beer"></i></button>
                 <a class="btn btn-effect-ripple btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" href="/cellars/{{cellar.slug}}/drinks/{{id}}/edit" title="Edit this beer"><i class="fa fa-pencil"></i></a>
                 <a class="btn btn-effect-ripple btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" href="/cellars/{{cellar.slug}}/drinks/{{id}}/delete" title="Delete this beer"><i class="fa fa-times"></i></a>
               {{/if}}
+              {{#if hasDetails}}
+                <a class="btn btn-effect-ripple btn-sm view-cellar-details" data-toggle="collapse" data-target="#details{{id}}"><i class="fa fa-chevron-down"></i></a>
+              {{/if}}
               </td>
               <td>
-                <h4 class="no-padding no-margin"><strong><a href="/beers/{{drinkSlug}}">{{drinkName}}</a></strong></h4>
+                <h4 class="no-padding no-margin">
+                  <a href="/beers/{{drinkSlug}}">{{drinkName}}</a>
+                </h4>
                 <a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a>
               </td>
-              <td>{{styleName}}</td>
               <td>{{size}}</td>
               <td>{{quantity}}</td>
               <td>{{bottleDate}}</td>
               <td>{{>cellars/_cellared-drink-flags}}</td>
             </tr>
-            <tr id="details{{id}}" class="collapse out">
-              <td colspan="7">
+            {{#if hasDetails}}
+              <tr id="details{{id}}" class="collapse out">
+                <td colspan="7">
                   <div class="row">
                     <div class="col-sm-6 col-lg-6">
                       <h3>Details</h3>
@@ -89,59 +92,60 @@
                           <p><strong>Notes:</strong> {{notes}}</p>
                         {{/if}}
                       <ul>
-                        {{#if binIdentifier}}
-                          <li>Bin Identifier: {{binIdentifier}}</li>
-                        {{/if}}
-                        {{#if dateAcquired}}
-                          <li>Date Acquired: {{dateAcquired}}</li>
-                        {{/if}}
-                        {{#if drinkByDate}}
-                          {{#if dangerDrinkByDate}}
-                            <li class="text-danger">
-                              Drink by Date: {{drinkByDate}}
-                              <span class="label label-danger animation-pulse">
-                                <i class="fa fa-exclamation-triangle"></i>
-                              </span>
-                            </li>
-                          {{else}}
-                              {{#if warnDrinkByDate}}
-                                <li class="text-warning">
+                          {{#if binIdentifier}}
+                            <li>Bin Identifier: {{binIdentifier}}</li>
+                          {{/if}}
+                          {{#if dateAcquired}}
+                            <li>Date Acquired: {{dateAcquired}}</li>
+                          {{/if}}
+                          {{#if drinkByDate}}
+                              {{#if dangerDrinkByDate}}
+                                <li class="text-danger">
                                   Drink by Date: {{drinkByDate}}
                                   <span class="label label-danger animation-pulse">
-                                    <i class="fa fa-exclamation-triangle"></i>
-                                  </span>
+                                <i class="fa fa-exclamation-triangle"></i>
+                              </span>
                                 </li>
                               {{else}}
-                                <li>Drink by Date: {{drinkByDate}}</li>
+                                  {{#if warnDrinkByDate}}
+                                    <li class="text-warning">
+                                      Drink by Date: {{drinkByDate}}
+                                      <span class="label label-danger animation-pulse">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                  </span>
+                                    </li>
+                                  {{else}}
+                                    <li>Drink by Date: {{drinkByDate}}</li>
+                                  {{/if}}
                               {{/if}}
                           {{/if}}
-                        {{/if}}
                       </ul>
                     </div>
-                    {{#if tradeable}}
-                    <div class="col-sm-6 col-lg-6">
-                      <h3 class="text-info"><i class="fa fa-exchange"></i> <strong>{{numTradeable}} Tradeable!</strong></h3>
-                      <p>This beer is available for a trade! You can arrange a trade by contacting this user via:</p>
-                      <ul>
-                          {{#if cellar.twitter}}
-                            <li>Twitter: {{cellar.twitter}}</li>
-                          {{/if}}
-                          {{#if cellar.reddit}}
-                            <li>Reddit: {{cellar.reddit}}</li>
-                          {{/if}}
-                          {{#if cellar.beeradvocate}}
-                            <li>BeerAdvocate: {{cellar.beeradvocate}}</li>
-                          {{/if}}
-                          {{#if cellar.ratebeer}}
-                            <li>RateBeer: {{cellar.ratebeer}}</li>
-                          {{/if}}
-                      </ul>
-                    </div>
-                    {{/if}}
+                      {{#if tradeable}}
+                        <div class="col-sm-6 col-lg-6">
+                          <h3 class="text-info"><i class="fa fa-exchange"></i> <strong>{{numTradeable}} Tradeable!</strong></h3>
+                          <p>This beer is available for a trade! You can arrange a trade by contacting this user via:</p>
+                          <ul>
+                              {{#if cellar.twitter}}
+                                <li>Twitter: {{cellar.twitter}}</li>
+                              {{/if}}
+                              {{#if cellar.reddit}}
+                                <li>Reddit: {{cellar.reddit}}</li>
+                              {{/if}}
+                              {{#if cellar.beeradvocate}}
+                                <li>BeerAdvocate: {{cellar.beeradvocate}}</li>
+                              {{/if}}
+                              {{#if cellar.ratebeer}}
+                                <li>RateBeer: {{cellar.ratebeer}}</li>
+                              {{/if}}
+                          </ul>
+                        </div>
+                      {{/if}}
                   </div>
 
-              </td>
-            </tr>
+                </td>
+              </tr>
+            {{/if}}
           {{/each}}
           </tbody>
         </table>
@@ -160,7 +164,7 @@
             <h4 class="modal-title" id="addBeerModalLabel">Add Beer</h4>
           </div>
           <div class="modal-body">
-            <form id="add-beer-form" action="/cellars/{{slug}}/drinks" method="post" class="form-horizontal form-bordered">
+            <form id="add-beer-form" action="/cellars/{{cellar.slug}}/drinks?next={{request.uri}}" method="post" class="form-horizontal form-bordered">
               {{>cellars/_add-cellared-drink-form-fields}}
             </form>
           </div>

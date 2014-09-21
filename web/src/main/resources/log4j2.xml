@@ -8,8 +8,9 @@
         </Console>
     </Appenders>
     <Loggers>
-        <AsyncRoot level="info" includeLocation="false">
+        <AsyncRoot level="debug" includeLocation="false">
             <AppenderRef ref="STDOUT"/>
         </AsyncRoot>
+
     </Loggers>
 </Configuration>

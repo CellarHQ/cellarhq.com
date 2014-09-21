@@ -131,7 +131,7 @@ var YourCellar = function() {
         },
         source: function(request, response) {
           $.ajax(url, {
-            type: 'PUT',
+            type: 'GET',
             dataType: 'json',
             data: {
               name: request.term

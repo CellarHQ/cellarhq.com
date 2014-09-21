@@ -35,7 +35,7 @@ class OrganizationEndpoint extends GroovyChainAction {
                 render json(orgs.empty)
             }
         }
-        put('organizations/live-search') {
+        get('organizations/live-search') {
             organizationService.search(request.queryParams.name, 5, 0).toList().subscribe { List<Organization> orgs ->
                 render json(orgs.collect {
                     [
