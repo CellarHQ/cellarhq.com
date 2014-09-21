@@ -12,7 +12,6 @@ import rx.Observable
 
 import javax.sql.DataSource
 
-import static com.cellarhq.util.DataSourceUtil.withDslContext
 import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
@@ -86,7 +85,7 @@ class OrganizationService extends BaseJooqService {
 
     Observable<Organization> search(String searchTerm, int numberOfRows=20, int offset=0) {
         observeEach(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 create.select()
                         .from(Tables.ORGANIZATION)
                         .where(Tables.ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
@@ -113,7 +112,7 @@ class OrganizationService extends BaseJooqService {
 
     Observable<Integer> count() {
         observe(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 create.selectCount().from(Tables.ORGANIZATION).fetchOneInto(Integer)
             }
         })
@@ -121,7 +120,7 @@ class OrganizationService extends BaseJooqService {
 
     Observable<Integer> searchCount(String searchTerm) {
         observe(execControl.blocking {
-            withDslContext(dataSource) { DSLContext create ->
+            jooq { DSLContext create ->
                 create.selectCount()
                     .from(Tables.ORGANIZATION)
                     .where(Tables.ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))

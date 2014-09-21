@@ -1,6 +1,8 @@
 package com.cellarhq.domain
 
+import com.cellarhq.annotations.Sanitize
 import com.cellarhq.auth.Role
+import com.cellarhq.generated.tables.records.CellarRecord
 import com.github.slugify.Slugify
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
@@ -12,6 +14,16 @@ import javax.validation.constraints.Pattern
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
+@Sanitize(recordType = CellarRecord, fields = [
+        'displayName',
+        'location',
+        'website',
+        'bio',
+        'twitter',
+        'reddit',
+        'beeradvocate',
+        'ratebeer'
+])
 @CompileStatic
 @InheritConstructors
 class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
