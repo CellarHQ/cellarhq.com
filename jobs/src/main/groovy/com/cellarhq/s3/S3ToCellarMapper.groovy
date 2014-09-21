@@ -94,6 +94,8 @@ class S3ToCellarMapper {
                 self.modifiedDate = new Timestamp(updated.millis)
             }
 
+            self.loginAttemptCounter = 0
+
             self
         }
     }
