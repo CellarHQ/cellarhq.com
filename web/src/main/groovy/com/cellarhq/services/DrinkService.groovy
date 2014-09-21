@@ -1,6 +1,6 @@
 package com.cellarhq.services
 
-import com.cellarhq.domain.DrinkSearchDisplay
+import com.cellarhq.domain.views.DrinkSearchDisplay
 import com.cellarhq.generated.Keys
 import com.cellarhq.mappers.CustomViewRecordMapperProvider
 import org.jooq.Configuration

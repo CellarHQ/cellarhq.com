@@ -6,6 +6,7 @@ import com.cellarhq.auth.PasswordService
 import com.cellarhq.handlebars.HandlebarsTemplateRendererImpl
 import com.cellarhq.handlebars.helpers.DataTableSortingHelper
 import com.cellarhq.handlebars.helpers.PaginationHelper
+import com.cellarhq.handlebars.helpers.SelectedOptionHelper
 import com.cellarhq.services.*
 import com.cellarhq.services.email.AmazonEmailService
 import com.cellarhq.services.email.EmailService
@@ -53,6 +54,7 @@ class CellarHQModule extends AbstractModule {
         bind(StatsService).in(Scopes.SINGLETON)
         bind(PaginationHelper).in(Scopes.SINGLETON)
         bind(DataTableSortingHelper).in(Scopes.SINGLETON)
+        bind(SelectedOptionHelper).in(Scopes.SINGLETON)
         bind(PasswordService).in(Scopes.SINGLETON)
 
         bind(AWSCredentials).toInstance(new BasicAWSCredentials(awsAccessKey, awsSecretKey))

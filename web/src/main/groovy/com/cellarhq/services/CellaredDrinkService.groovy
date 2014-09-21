@@ -49,9 +49,38 @@ class CellaredDrinkService extends BaseJooqService {
     rx.Observable<CellaredDrink> findById(String cellarSlug, Long id) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                return findByCellarAndId(create, cellarSlug, id)
+                create.select()
+                        .from(CELLARED_DRINK)
+                        .join(CELLAR).onKey()
+                        .where(CELLAR.SCREEN_NAME.eq(cellarSlug))
+                            .and(CELLARED_DRINK.ID.eq(id))
+                        .fetchOneInto(CellaredDrink)
             }
         }).asObservable()
+    }
+
+    rx.Observable<CellaredDrinkDetails> findByIdForEdit(String cellarSlug, Long id) {
+        observe(execControl.blocking {
+            jooq({ Configuration c ->
+                c.set(new CustomViewRecordMapperProvider([
+                        organizationName: String,
+                        drinkName: String
+                ]))
+            }) { DSLContext create ->
+                create.select(JooqUtil.andFields(
+                        CELLARED_DRINK.fields(),
+                        ORGANIZATION.NAME.as('organizationName'),
+                        DRINK.NAME.as('drinkName')
+                ))
+                        .from(CELLARED_DRINK)
+                        .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
+                        .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
+                        .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+                        .where(CELLARED_DRINK.ID.eq(id))
+                        .and(CELLAR.SCREEN_NAME.eq(cellarSlug))
+                        .fetchOneInto(CellaredDrinkDetails)
+            }
+        })
     }
 
     rx.Observable<CellaredDrink> all(Long id) {
@@ -100,7 +129,13 @@ class CellaredDrinkService extends BaseJooqService {
     rx.Observable<Void> delete(String cellarSlug, Long id) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                CellaredDrinkRecord drink = findByCellarAndId(create, cellarSlug, id)
+                CellaredDrinkRecord drink = create
+                        .select()
+                        .from(CELLARED_DRINK)
+                        .join(CELLAR).onKey()
+                        .where(CELLAR.SCREEN_NAME.eq(cellarSlug))
+                            .and(CELLARED_DRINK.ID.eq(id))
+                        .fetchOneInto(CellaredDrinkRecord)
 
                 if (drink) {
                     drink.delete()
@@ -109,15 +144,5 @@ class CellaredDrinkService extends BaseJooqService {
                 return Void
             }
         })
-    }
-
-    private static CellaredDrinkRecord findByCellarAndId(DSLContext create, String cellarSlug, Long id) {
-        return create
-                .select()
-                .from(CELLARED_DRINK)
-                .join(CELLAR).onKey()
-                .where(CELLAR.SCREEN_NAME.eq(cellarSlug))
-                    .and(CELLARED_DRINK.ID.eq(id))
-                .fetchOneInto(CellaredDrinkRecord)
     }
 }

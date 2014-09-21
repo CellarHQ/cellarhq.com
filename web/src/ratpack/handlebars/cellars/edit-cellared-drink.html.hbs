@@ -1,0 +1,133 @@
+{{#partial "header"}}
+  <h1>Edit: {{drink.name}}</h1>
+{{/partial}}
+{{#partial "content"}}
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+      <div class="block">
+        <form id="settings-form" class="form-horizontal" role="form" method="post" action="{{action}}">
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="brewery">Brewery</label>
+          <div class="col-md-9">
+            <p class="form-control-static">
+                {{cellaredDrink.organizationName}}
+            </p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="beer">Beer</label>
+          <div class="col-md-9">
+            <p class="form-control-static">
+              {{cellaredDrink.drinkName}}
+            </p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="size">Size</label>
+          <div class="col-md-6">
+            <select id="size" name="size" class="form-control" size="1">
+              <option></option>
+              <optgroup label="Imperial (American)">
+                <option {{selectedOption cellaredDrink "getSize" "7 oz"}}>7 oz</option>
+                <option {{selectedOption cellaredDrink "getSize" "12 oz"}}>12 oz</option>
+                <option {{selectedOption cellaredDrink "getSize" "16 oz"}}>16 oz</option>
+                <option {{selectedOption cellaredDrink "getSize" "22 oz"}}>22 oz</option>
+                <option {{selectedOption cellaredDrink "getSize" "25 oz"}}>25 oz</option>
+                <option {{selectedOption cellaredDrink "getSize" "40 oz"}}>40 oz</option>
+              </optgroup>
+              <optgroup label="Metric">
+                <option {{selectedOption cellaredDrink "getSize" "125 ml"}}>125 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "187 ml"}}>187 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "250 ml"}}>250 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "275 ml"}}>275 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "330 ml"}}>330 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "341 ml"}}>341 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "350 ml"}}>350 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "355 ml"}}>355 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "375 ml"}}>375 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "500 ml"}}>500 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "550 ml"}}>550 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "650 ml"}}>650 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "750 ml"}}>750 ml</option>
+                <option {{selectedOption cellaredDrink "getSize" "1 l"}}>1 l</option>
+                <option {{selectedOption cellaredDrink "getSize" "1.5 l"}}>1.5 l</option>
+                <option {{selectedOption cellaredDrink "getSize" "3 l"}}>3 l</option>
+              </optgroup>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="quantity">Quantity</label>
+          <div class="col-md-9">
+            <input type="text" id="quantity" name="quantity" class="form-control" value="{{cellaredDrink.quantity}}">
+            <span class="help-block">1, 2, 10, etc.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="bottleDate">Bottle Date</label>
+          <div class="col-md-9">
+            <input type="text" id="bottleDate" name="bottleDate" class="form-control input-datepicker" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" value="{{cellaredDrink.bottleDate}}">
+            <span class="help-block">YYYY-MM-DD, YYYY-MM or YYYY</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="dateAcquired">Acquired Date</label>
+          <div class="col-md-9">
+            <input type="text" id="dateAcquired" name="dateAcquired" class="form-control input-datepicker" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" value="{{cellaredDrink.dateAcquired}}">
+            <span class="help-block">YYYY-MM-DD, YYYY-MM or YYYY</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="drinkByDate">Drink-by Date</label>
+          <div class="col-md-9">
+            <input type="text" id="drinkByDate" name="drinkByDate" class="form-control input-datepicker" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" value="{{cellaredDrink.drinkByDate}}">
+            <span class="help-block">Beers with a drink-by date will be flagged when they're 30 days from this day and escalated at 14 days.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="binIdentifier">Bin Identifier</label>
+          <div class="col-md-9">
+            <input type="text" id="binIdentifier" name="binIdentifier" class="form-control" value="{{cellaredDrink.binIdentifier}}">
+            <span class="help-block">An organizational item: What box is this in?</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Tradeable</label>
+          <div class="col-sm-9">
+            <div class="col-xs-2">
+              <label class="switch switch-primary"><input type="checkbox" id="tradeable" name="tradeable" {{#if cellaredDrink.tradeable}}checked="checked"{{/if}}><span></span></label>
+            </div>
+            <div class="col-xs-10">
+              {{#if cellaredDrink.tradeable}}
+                <input type="text" id="numTradeable" name="numTradeable" class="form-control" placeholder="How many?" value="{{cellaredDrink.numTradeable}}">
+              {{else}}
+                <input type="text" id="numTradeable" name="numTradeable" class="form-control" placeholder="How many?" disabled>
+              {{/if}}
+              <span class="help-block">If tradeable, how many are tradeable?</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="notes">Notes</label>
+          <div class="col-md-9">
+            <textarea id="notes" name="notes" rows="7" class="form-control">{{cellaredDrink.notes}}</textarea>
+          </div>
+        </div>
+        <div class="form-group form-actions">
+          <div class="col-md-9 col-md-offset-3">
+            <button type="submit" class="btn btn-effect-ripple btn-primary">Edit</button>
+            <button type="reset" class="btn btn-effect-ripple btn-danger">Reset</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{{/partial}}
+{{#partial "extra_includes"}}
+  <script src="/scripts/pages/settings.js"></script>
+  <script>$(function(){ CellarSettings.init(); });</script>
+{{/partial}}
+
+{{> layout.html}}

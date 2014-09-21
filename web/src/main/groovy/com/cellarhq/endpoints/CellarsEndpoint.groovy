@@ -5,6 +5,7 @@ import com.cellarhq.auth.AccessControlException
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellaredDrink
+import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.session.FlashMessage
@@ -117,35 +118,9 @@ class CellarsEndpoint extends GroovyChainAction {
             }
 
             Form form = parse(Form)
-
-            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern('yyyy-MM-dd')
-            CellaredDrink drink = new CellaredDrink().with { CellaredDrink self ->
+            CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
                 cellarId = (long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
                 drinkId = Long.valueOf(form.beerId)
-                size = form.size
-                quantity = Long.valueOf(form.quantity)
-                notes = form.notes
-                binIdentifier = form.binIdentifier
-                tradeable = Boolean.valueOf(form.tradeable)
-
-                if (form.bottleDate) {
-                    bottleDate = LocalDate.parse(form.bottleDate, dateFormat)
-                }
-
-                if (form.drinkByDate) {
-                    drinkByDate = LocalDate.parse(form.drinkByDate, dateFormat)
-                }
-
-                if (form.numTradeable) {
-                    numTradeable = Short.valueOf(form.numTradeable)
-                } else {
-                    numTradeable = 0
-                }
-
-                if (form.dateAcquired) {
-                    dateAcquired = LocalDate.parse(form.dateAcquired)
-                }
-
                 return self
             }
 
@@ -162,6 +137,94 @@ class CellarsEndpoint extends GroovyChainAction {
                 SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
                 redirect(next)
             }
+        }
+
+        get('cellars/:slug/drinks/:drinkId/edit') {
+            String slug = pathTokens['slug']
+            Long drinkId = Long.valueOf(pathTokens['drinkId'])
+            boolean isSelf = request.maybeGet(UserProfile)?.username == slug
+
+            if (!isSelf) {
+                SessionUtil.setFlash(request, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR))
+                redirect('/yourcellar')
+                return
+            }
+
+            cellaredDrinkService.findByIdForEdit(slug, drinkId).single().subscribe { CellaredDrinkDetails drink ->
+                if (drink) {
+                    render handlebarsTemplate('cellars/edit-cellared-drink.html',
+                            action: request.uri.replace('/edit', ''),
+                            cellaredDrink: drink,
+                            title: 'CellarHQ : Edit Cellared Drink',
+                            pageId: 'cellared-drink.edit')
+                } else {
+                    clientError 404
+                }
+            }
+        }
+
+        post('cellars/:slug/drinks/:drinkId') {
+            String slug = pathTokens['slug']
+            Long drinkId = Long.valueOf(pathTokens['drinkId'])
+            boolean isSelf = request.maybeGet(UserProfile)?.username == slug
+
+            if (!isSelf) {
+                SessionUtil.setFlash(request, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR))
+                redirect('/yourcellar')
+                return
+            }
+
+            cellaredDrinkService.findById(slug, drinkId).single().subscribe { drink ->
+                if (drink) {
+                    CellaredDrink editedDrink = applyForm(drink, parse(Form))
+
+                    Validator validator = validatorFactory.validator
+                    Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(editedDrink)
+                    if (drinkViolations.empty) {
+                        cellaredDrinkService.save(editedDrink).single().subscribe { CellaredDrink savedDrink ->
+                            SessionUtil.setFlash(request, FlashMessage.success(Messages.CELLARED_DRINK_SAVED))
+                            redirect('/yourcellar')
+                        }
+                    } else {
+                        List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
+                        SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                        redirect("${request.uri}/edit")
+                    }
+                } else {
+                    clientError 404
+                }
+            }
+        }
+    }
+
+    private CellaredDrink applyForm(CellaredDrink cellaredDrink, Form form) {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern('yyyy-MM-dd')
+        return cellaredDrink.with { CellaredDrink self ->
+            size = form.size
+            quantity = Long.valueOf(form.quantity)
+            notes = form.notes
+            binIdentifier = form.binIdentifier
+            tradeable = Boolean.valueOf(form.tradeable)
+
+            if (form.bottleDate) {
+                bottleDate = LocalDate.parse(form.bottleDate, dateFormat)
+            }
+
+            if (form.drinkByDate) {
+                drinkByDate = LocalDate.parse(form.drinkByDate, dateFormat)
+            }
+
+            if (form.numTradeable) {
+                numTradeable = Short.valueOf(form.numTradeable)
+            } else {
+                numTradeable = 0
+            }
+
+            if (form.dateAcquired) {
+                dateAcquired = LocalDate.parse(form.dateAcquired)
+            }
+
+            return self
         }
     }
 }
