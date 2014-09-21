@@ -9,9 +9,11 @@ import static ratpack.rx.RxRatpack.observeEach
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
+import com.cellarhq.mappers.CustomViewRecordMapperProvider
 import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
+import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.SelectConditionStep
 import org.jooq.SelectJoinStep
@@ -69,7 +71,14 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     private List<CellaredDrinkDetails> allQuery(Closure<SelectConditionStep> criteria) {
-        jooq { DSLContext create ->
+        jooq({ Configuration c ->
+            c.set(new CustomViewRecordMapperProvider([
+                    organizationSlug: String,
+                    organizationName: String,
+                    drinkSlug: String,
+                    drinkName: String
+            ]))
+        }) { DSLContext create ->
             SelectJoinStep step = create.select(JooqUtil.andFields(
                         CELLARED_DRINK.fields(),
                         ORGANIZATION.SLUG.as('organizationSlug'),
