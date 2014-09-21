@@ -118,4 +118,15 @@ class OrganizationService extends BaseJooqService {
             }
         })
     }
+
+    Observable<Integer> searchCount(String searchTerm) {
+        observe(execControl.blocking {
+            withDslContext(dataSource) { DSLContext create ->
+                create.selectCount()
+                    .from(Tables.ORGANIZATION)
+                    .where(Tables.ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
+                    .fetchOneInto(Integer)
+            }
+        })
+    }
 }

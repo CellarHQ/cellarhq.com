@@ -46,7 +46,10 @@ class BreweryEndpoint extends GroovyChainAction {
                     Integer offset = (requestedPage - 1) * pageSize
                     String searchTerm = request.queryParams.search
 
-                    rx.Observable<Integer> totalCount = organizationService.count().single()
+                    rx.Observable<Integer> totalCount = searchTerm ?
+                        organizationService.searchCount(searchTerm).single() :
+                        organizationService.count().single()
+
                     rx.Observable organizations = searchTerm ?
                             organizationService.search(searchTerm, pageSize, offset).toList() :
                             organizationService.all(pageSize, offset).toList()
@@ -57,12 +60,14 @@ class BreweryEndpoint extends GroovyChainAction {
                                 totalCount   : count
                         ]
                     }.subscribe({ Map map ->
-                        Integer pageCount = (map.totalCount / pageSize) + (map.totalCount % pageSize)
+                        Integer pageCount = (map.totalCount / pageSize)
+                        Boolean shouldShowPagination = pageCount != 0
 
                         render handlebarsTemplate('breweries/list.html',
                                 organizations: map.organizations,
                                 currentPage: requestedPage,
-                                totlalPageCount: pageCount,
+                                totalPageCount: pageCount,
+                                shouldShowPagination: shouldShowPagination,
                                 title: 'CellarHQ : Breweries',
                                 pageId: 'breweries.list',
                                 loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
@@ -119,7 +124,6 @@ class BreweryEndpoint extends GroovyChainAction {
             }
         }
 
-        //TODO: Must be authenticated for this page
         /**
          * HTML page for adding a new brewery.
          */
