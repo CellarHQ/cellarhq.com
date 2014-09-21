@@ -1,8 +1,10 @@
 package com.cellarhq.endpoints
 
 import com.cellarhq.Messages
+import com.cellarhq.domain.views.DrinkSearchDisplay
 import com.cellarhq.domain.Organization
 import com.cellarhq.domain.OrganizationType
+import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
@@ -21,7 +23,6 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 @SuppressWarnings('MethodSize')
 @Slf4j
 class BreweryEndpoint extends GroovyChainAction {
-
     ValidatorFactory validatorFactory
     OrganizationService organizationService
 
@@ -29,13 +30,11 @@ class BreweryEndpoint extends GroovyChainAction {
     public BreweryEndpoint(ValidatorFactory validatorFactory, OrganizationService organizationService) {
         this.validatorFactory = validatorFactory
         this.organizationService = organizationService
-
     }
 
     @Override
     protected void execute() throws Exception {
         handler('breweries') { OrganizationService organizationService ->
-
             byMethod {
                 /**
                  * List all breweries; has search.
@@ -46,7 +45,10 @@ class BreweryEndpoint extends GroovyChainAction {
                     Integer offset = (requestedPage - 1) * pageSize
                     String searchTerm = request.queryParams.search
 
-                    rx.Observable<Integer> totalCount = organizationService.count().single()
+                    rx.Observable<Integer> totalCount = searchTerm ?
+                        organizationService.searchCount(searchTerm).single() :
+                        organizationService.count().single()
+
                     rx.Observable organizations = searchTerm ?
                             organizationService.search(searchTerm, pageSize, offset).toList() :
                             organizationService.all(pageSize, offset).toList()
@@ -57,18 +59,19 @@ class BreweryEndpoint extends GroovyChainAction {
                                 totalCount   : count
                         ]
                     }.subscribe({ Map map ->
-                        Integer pageCount = (map.totalCount / pageSize) + (map.totalCount % pageSize)
+                        Integer pageCount = (map.totalCount / pageSize)
+                        Boolean shouldShowPagination = pageCount != 0
 
                         render handlebarsTemplate('breweries/list.html',
                                 organizations: map.organizations,
                                 currentPage: requestedPage,
-                                totlalPageCount: pageCount,
+                                totalPageCount: pageCount,
+                                shouldShowPagination: shouldShowPagination,
                                 title: 'CellarHQ : Breweries',
                                 pageId: 'breweries.list',
                                 loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
                     }, {
                         clientError 500
-
                     })
                 }
 
@@ -78,25 +81,7 @@ class BreweryEndpoint extends GroovyChainAction {
                 post {
                     Form form = parse(Form)
 
-                    Organization organization = new Organization().with { Organization self ->
-                        type = OrganizationType.BREWERY
-                        slug = form.name
-                        name = form.name
-                        description = form.description
-                        established = Short.parseShort(form.established)
-                        phone = form.phone
-                        website = form.website
-                        address = form.address
-                        address2 = form.address2
-                        locality = form.city
-                        postalCode = form.postalCode
-                        country = form.country
-                        searchable = true
-                        locked = false
-                        needsModeration = false
-
-                        self
-                    }
+                    Organization organization = updateOrganizationFromForm(new Organization(), form)
 
                     Validator validator = validatorFactory.validator
                     Set<ConstraintViolation<Organization>> organizationViolations = validator.validate(organization)
@@ -108,18 +93,14 @@ class BreweryEndpoint extends GroovyChainAction {
                     } else {
                         List<String> messages = new ValidationErrorMapper().buildMessages(organizationViolations)
 
-                        SessionUtil.setFlashMessages(request, messages)
+                        SessionUtil.setFlash(request, messages)
 
                         redirect('/breweries/add?error=' + Messages.FORM_VALIDATION_ERROR)
-
                     }
-
-
                 }
             }
         }
 
-        //TODO: Must be authenticated for this page
         /**
          * HTML page for adding a new brewery.
          */
@@ -141,7 +122,6 @@ class BreweryEndpoint extends GroovyChainAction {
             String slug = pathTokens['slug']
             organizationService.findBySlug(slug).single().subscribe { Organization organization ->
                 if (organization.editable) {
-
                     render handlebarsTemplate('breweries/edit.html',
                             organization: organization,
                             title: "CellarHQ : Edit ${organization.name}",
@@ -153,20 +133,32 @@ class BreweryEndpoint extends GroovyChainAction {
             }
         }
 
-        handler('breweries/:slug') { OrganizationService organizationService ->
+        handler('breweries/:slug') { OrganizationService organizationService, DrinkService drinkService ->
             byMethod {
                 /**
                  * Get an existing brewery.
                  */
                 get {
                     String slug = pathTokens['slug']
-                    organizationService.findBySlug(slug).single().subscribe { Organization organization ->
+
+                    rx.Observable<Organization> organizationObservable =
+                        organizationService.findBySlug(slug).single()
+                    rx.Observable<DrinkSearchDisplay> drinkObservable =
+                        drinkService.findByOrganizationSlug(slug).toList()
+
+                    rx.Observable.zip(organizationObservable, drinkObservable) { Organization org, List drinks ->
+                        [
+                            organization: org,
+                            drinks   : drinks
+                        ]
+                    }.subscribe({ Map map ->
                         render handlebarsTemplate('breweries/show.html',
-                                organization: organization,
-                                title: "CellarHQ : ${organization.name}",
-                                pageId: 'breweries.show',
-                                loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
-                    }
+                            organization: map.organization,
+                            title: "CellarHQ : ${map.organization.name}",
+                            drinks: map.drinks,
+                            pageId: 'breweries.show',
+                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                    })
                 }
 
                 /**
@@ -177,30 +169,13 @@ class BreweryEndpoint extends GroovyChainAction {
                     Form form = parse(Form)
 
                     organizationService.findBySlug(slug).single().subscribe { Organization foundOrganization ->
-
                         if (foundOrganization) {
-
                             if (foundOrganization.editable) {
-
-                                foundOrganization.with { Organization self ->
-                                    slug = form.name
-                                    name = form.name
-                                    description = form.description
-                                    established = Short.parseShort(form.established)
-                                    phone = form.phone
-                                    website = form.website
-                                    address = form.address
-                                    address2 = form.address2
-                                    locality = form.city
-                                    postalCode = form.postalCode
-                                    country = form.country
-
-                                    self
-                                }
+                                updateOrganizationFromForm(foundOrganization, form)
 
                                 organizationService.save(foundOrganization)
-                                        .single()
-                                        .subscribe { Organization savedOrganization ->
+                                    .single()
+                                    .subscribe { Organization savedOrganization ->
                                     redirect("/breweries/${savedOrganization.slug}")
                                 }
                             } else {
@@ -209,9 +184,7 @@ class BreweryEndpoint extends GroovyChainAction {
                         } else {
                             clientError 404
                         }
-
                     }
-
                 }
 
                 /**
@@ -220,6 +193,28 @@ class BreweryEndpoint extends GroovyChainAction {
                 delete {}
             }
         }
+    }
 
+    private Organization updateOrganizationFromForm(Organization organization, Form form) {
+        organization.with {
+            slug = form.name
+            name = form.name
+            description = form.description
+            established = Short.parseShort(form.established)
+            phone = form.phone
+            website = form.website
+            address = form.address
+            address2 = form.address2
+            locality = form.city
+            postalCode = form.postalCode
+            country = form.country
+            searchable = true
+            locked = false
+            needsModeration = false
+            type = OrganizationType.BREWERY
+        }
+
+
+        return organization
     }
 }
