@@ -26,7 +26,12 @@ ruleset {
     }
     ruleset('rulesets/generic.xml')
     ruleset('rulesets/groovyism.xml') {
-        'ExplicitCallToAndMethod' enabled: false // jOOQ where "and" query creation
+        'ExplicitCallToAndMethod' {
+            doNotApplyToFileNames = '*Service.groovy' // jOOQ DSL
+        }
+        'ExplicitCallToMinusMethod' {
+            doNotApplyToFileNames = '*Service.groovy' // jOOQ DSL
+        }
         'ClosureAsLastMethodParameter' {
             doNotApplyToFileNames = '*Endpoint.groovy'
         }

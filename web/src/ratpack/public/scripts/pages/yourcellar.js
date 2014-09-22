@@ -6,6 +6,8 @@ var YourCellar = function() {
       $('button.drink-cellared-beer').click(this.drinkCellaredBeer);
       this.autoComplete('#brewery', '/api/organizations/live-search');
       this.autoComplete('#beer', '/api/drinks/live-search');
+      $('button.delete-cellared-beer').click(this.confirmDeleteCellaredBeer);
+      $('a.confirm-delete-cellared-drink').click(this.deleteCellaredBeer);
 
       $('#add-beer-form').validate({
         errorClass: 'help-block animation-slideUp',
@@ -98,24 +100,60 @@ var YourCellar = function() {
 
     drinkCellaredBeer: function() {
       var
-        id = $(this).data('cellaredDrinkId'),
+        id = $(this).data('cellareddrinkid'),
         cellar = $(this).data('cellar');
 
-      $.ajax(['/cellars/', cellar, '/drinks/', id, '/drink'].join(), {
+      $.ajax('/api/cellars/' + cellar + '/drinks/' + id + '/drink', {
         type: 'PUT',
         cache: false,
         dataType: 'json'
       })
         .done(function() {
-          location.reload();
+          window.location = '/yourcellar?success=Tasty. If that was your last beer, we removed it from the list.'
         })
-        .fail(function(data) {
-          var message = $.parseJSON(data).message;
-          if (message == null) {
-            message = 'An error occurred while drinking beer. Try again!';
-          }
-          window.location = ['/cellars/', cellar, '?error=', message].join();
+        .fail(function() {
+          window.location = '/yourcellar?error=An error occurred while drinking beer. Try again!'
         });
+    },
+
+    confirmDeleteCellaredBeer: function() {
+      var
+        id = $(this).data('cellareddrinkid'),
+        cellar = $(this).data('cellar'),
+        deleteButton = $('a.confirm-delete-cellared-drink');
+
+      deleteButton.data('cellar', cellar);
+      deleteButton.data('cellareddrinkid', id);
+
+      $('#confirmDeleteCellaredBeerModal').modal();
+    },
+
+    deleteCellaredBeer: function() {
+      var
+        id = $(this).data('cellareddrinkid'),
+        cellar = $(this).data('cellar');
+
+      if (id && cellar) {
+        $.ajax('/api/cellars/' + cellar + '/drinks/' + id, {
+          type: 'DELETE',
+          cache: false,
+          dataType: 'json'
+        })
+          .done(function() {
+            // TODO: Don't refresh, just flash the row red and hide the element.
+            location.reload();
+          })
+          .fail(function(data) {
+            var response = $.parseJSON(data.responseText);
+            var message = response.message;
+            if (message == null) {
+              message = 'An error occurred while deleting the cellared beer. Try again!';
+            }
+            window.location = ['/yourcellar/?error=' + message].join();
+          })
+      } else {
+        console.log('ERR: Cannot delete cellared beer: Data was not populated');
+      }
     },
 
     autoComplete: function(selector, url) {
