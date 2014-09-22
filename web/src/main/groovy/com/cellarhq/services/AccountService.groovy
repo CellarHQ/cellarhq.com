@@ -99,7 +99,7 @@ class AccountService extends BaseJooqService {
             create.transactionResult {
                 CellarRecord cellarRecord = create.newRecord(CELLAR, emailAccount.cellar)
 
-                if (picture) {
+                if (picture?.fileName) {
                     PhotoRecord photoRecord = new PhotoRecordBuilder(picture).makePhoto(create)
                     if (photoRecord) {
                         photoRecord.description = Photo.DESCRIPTION_SETTINGS_UPLOAD

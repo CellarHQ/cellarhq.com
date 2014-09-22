@@ -138,7 +138,7 @@ class CellarService extends BaseJooqService {
             create.transactionResult {
                 CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
 
-                if (photo) {
+                if (photo?.fileName) {
                     try {
                         PhotoRecord photoRecord = photoService.createPhotoRecord(create, Photo.Type.CELLAR, photo, [
                                 new ResizeCommand(Photo.Size.THUMB, 64),
