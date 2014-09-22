@@ -1,3 +1,5 @@
+import com.cellarhq.endpoints.BeerEndpoint
+
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
@@ -112,6 +114,7 @@ ratpack {
         }
 
         handler chain(registry.get(BreweryEndpoint))
+        handler chain(registry.get(BeerEndpoint))
         handler chain(registry.get(CellarsEndpoint))
 
         /**
