@@ -18,7 +18,7 @@ Requirements:
 * Vagrant
 * docker (and boot2docker if on osx)
 
-In order to get started, you will need to run `vagrant up` in the root directory of this project. This vagrant image
+In order to get started, you will need to run `vagrant up` from the `model` directory of this project. This vagrant image
 will bring up the development PostgreSQL database. After that has been provisioned, you will need to run 
 `gradle update` to run the Liquibase migrations. This will run the migrations against the development and testing
 databases which are contained in the vagrant image. If you want to run the migrations locally against the production
@@ -37,6 +37,16 @@ can start the container like this:
  -e dataSource.password='PASSWORDGOESHERE' \
  -p 5050:5050 com.cellarhq/cellarhq:0.1
 ```
+
+SimpleDB Data
+-------------
+
+If you want to work from the SimpleDB (current production) data, you will need to run `$ gradle :model:run`. This will take awhile to run, but at the end you'll have the entire production DB on your machine.
+
+Running Local
+-------------
+
+`$ gradle :web:run`
 
 
 Deployments
