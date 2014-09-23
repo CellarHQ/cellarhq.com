@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <if condition='property("DISABLE_LOGENTRIES").contains("true")'>
+        <then>
+            <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                    <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+                </encoder>
+            </appender>
+
+            <root level="info">
+                <appender-ref ref="STDOUT"/>
+            </root>
+        </then>
+    </if>
+
+    <!-- We only want the logentries appender if we're running in prod -->
+    <if condition='!property("DISABLE_LOGENTRIES").contains("true")'>
+        <then>
+            <appender name="LE" class="com.logentries.logback.LogentriesAppender">
+                <Debug>False</Debug>
+                <Token>fa564351-d38b-45f0-9ce8-ee5caf0a3ef7</Token>
+                <Ssl>False</Ssl>
+                <facility>USER</facility>
+                <layout>
+                    <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+                </layout>
+            </appender>
+            <root level="info">
+                <appender-ref ref="LE"/>
+            </root>
+        </then>
+    </if>
+</configuration>
