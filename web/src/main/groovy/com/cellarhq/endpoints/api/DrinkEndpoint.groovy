@@ -24,7 +24,7 @@ class DrinkEndpoint extends GroovyChainAction {
                 render json(drinks.empty)
             }
         }
-        put('drinks/live-search') {
+        get('drinks/live-search') {
             drinkService.search(request.queryParams.name, 5, 0).toList().subscribe { List<Drink> drinks ->
                 render json(drinks.collect {
                     [

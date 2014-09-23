@@ -32,4 +32,8 @@ class CellaredDrinkDetails extends CellaredDrink {
         return drinkByDate &&
                 LocalDate.now().isAfter(drinkByDate?.minusDays(DRINK_BY_DANGER_DAYS))
     }
+
+    boolean getHasDetails() {
+        return notes || binIdentifier || dateAcquired || drinkByDate || tradeable
+    }
 }

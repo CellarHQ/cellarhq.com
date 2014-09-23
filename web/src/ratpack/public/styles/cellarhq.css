@@ -45,6 +45,10 @@ ul.cellared-drink-flags {
     margin: 0;
 }
 
+#cellared-drinks-table td:nth-child(2) {
+    max-width: 400px;
+}
+
 .ui-autocomplete {
     background-color: #fff;
     border-right: 1px solid #dae0e8;

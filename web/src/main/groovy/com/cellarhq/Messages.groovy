@@ -21,4 +21,6 @@ abstract class Messages {
     final static String AUTH_CREDENTIALS_DO_NOT_MATCH = 'Email and/or password did not match'
 
     final static String SETTINGS_SAVED = "Lookin' good. We've updated your profile."
+
+    final static String CELLARED_DRINK_SAVED = "Lookin' good. We've saved your drink."
 }
