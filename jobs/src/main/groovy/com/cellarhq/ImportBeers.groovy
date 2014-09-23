@@ -1,8 +1,10 @@
 package com.cellarhq
 
+import com.cellarhq.brewerydb.BreweryDbBeerImporter
 import com.cellarhq.brewerydb.BreweryDbBreweryImporter
 import com.cellarhq.s3.S3AccountImporter
 import com.cellarhq.s3.S3BeerImporter
+import com.cellarhq.s3.S3BreweryImporter
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
@@ -29,10 +31,13 @@ class ImportBeers {
 
             DSLContext create = DSL.using(conn, SQLDialect.POSTGRES)
 
+            //new S3BreweryImporter().importBeersFromS3(create)
+            //new S3BeerImporter().importBeersFromS3(create)
+            //new S3AccountImporter().importAccountsFromS3(create)
+            //new S3CellaredBeerImporter().importCellaredBeers(create)
+
             new BreweryDbBreweryImporter().importBreweriesFromBDB(create)
-            new S3BeerImporter().importBeersFromS3(create)
-            new S3AccountImporter().importAccountsFromS3(create)
-            new S3CellaredBeerImporter().importCellaredBeers(create)
+            new BreweryDbBeerImporter().importBreweriesFromBDB(create)
         } catch (Exception e) {
             e.printStackTrace()
         }

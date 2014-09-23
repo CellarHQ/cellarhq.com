@@ -10,13 +10,12 @@ class S3ItemRetriever {
     static final String accessKeyId = 'AKIAIXBP2ORLESIX5CIQ'
     static final String secretKey = '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'
 
-    void withEachItem(String simpleDbQuery, Closure itemHandler) {
-        AmazonHelper amazonHelper = new AmazonHelper()
-        AmazonSimpleDB simpleDB = new AmazonSimpleDBClient(
-            new BasicAWSCredentials(
-                accessKeyId,
-                secretKey))
+    static AmazonSimpleDB simpleDB = new AmazonSimpleDBClient(
+        new BasicAWSCredentials(
+            accessKeyId,
+            secretKey))
 
+    void withEachItem(String simpleDbQuery, Closure itemHandler) {
         String nextToken = null
 
         SelectRequest request = new SelectRequest().withSelectExpression(simpleDbQuery).withNextToken(nextToken)
@@ -33,22 +32,14 @@ class S3ItemRetriever {
             nextToken = result.nextToken
 
             result.items.each {
-                String beerName = amazonHelper.getAttribute(it.attributes, 'name').replace('"', '""')
-
-                String breweryName = amazonHelper.getAttribute(it.attributes, 'brewery').replace('"', '""')
-                String verificationSelect = "select * from cellar_PROD_cellars  where beer=\"${beerName}\" and brewery=\"${breweryName}\" limit 1"
-
-//                try {
-//                    SelectRequest verifyRequest = new SelectRequest().withSelectExpression(verificationSelect)
-//                    SelectResult verifyResult = simpleDB.select(verifyRequest)
-//
-//                    if (verifyResult.items.size() == 1) {
                         itemHandler(it)
-//                    }
-//                } catch (AmazonClientException e) {
-//                    println "amazon exception ${e.message} for ${verificationSelect}"
-//                }
             }
         }
+    }
+
+    Boolean doesQueryReturnResult(String query) {
+        SelectRequest verifyRequest = new SelectRequest().withSelectExpression(query)
+        SelectResult verifyResult = simpleDB.select(verifyRequest)
+        return verifyResult.items.size() > 0
     }
 }

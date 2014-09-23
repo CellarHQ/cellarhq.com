@@ -35,8 +35,6 @@ class S3CellaredBeerImporter {
             try {
                 if (drinkRecord.drinkId) {
                     drinkRecord.store()
-                } else {
-                    println "did not find beer"
                 }
 
             } catch (DataAccessException e) {

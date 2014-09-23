@@ -2,6 +2,7 @@ package com.cellarhq.s3
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Drink
+import com.cellarhq.generated.tables.records.StyleRecord
 import com.github.slugify.Slugify
 import org.joda.time.DateTime
 import org.jooq.DSLContext
@@ -30,17 +31,33 @@ class S3ToDrinkMapper {
 
         Drink d = new Drink().with { Drink self ->
 
-            String styleName = helper.getAttribute(item.attributes, attrStyle)
-            String glasswareName = helper.getAttribute(item.attributes, attrGlassware)
+            String styleName = helper.getAttribute(item.attributes, attrStyle).trim()
+            String glasswareName = helper.getAttribute(item.attributes, attrGlassware).trim()
             String organizationName = helper.getAttribute(item.attributes, attrBrewery).trim()
             Integer styleId = dslContext.select(STYLE.ID)
                 .from(STYLE)
                 .where(STYLE.NAME.equalIgnoreCase(styleName))
                 .fetchOneInto(Integer)
+
+            // This data will need cleaned for sure. Anything over 100 I am assuming is spam.
+            if (!styleId && styleName && styleName.length() < 101) {
+                println "Could not find style ${styleName}"
+
+                StyleRecord styleRecord =  dslContext.newRecord(STYLE)
+                styleRecord.name = styleName
+                styleRecord.categoryId = 13
+                styleRecord.store()
+                styleId = styleRecord.id
+            }
+
             Integer glasswareId = dslContext.select(GLASSWARE.ID)
                 .from(GLASSWARE)
                 .where(GLASSWARE.NAME.equalIgnoreCase(glasswareName))
                 .fetchOneInto(Integer)
+
+            if (!glasswareId && glasswareName) {
+                println "Could not find glass ${glasswareName}"
+            }
 
             String searchSlug = new Slugify().slugify(organizationName)
             Integer organizationId = dslContext.select(ORGANIZATION.ID)

@@ -21,34 +21,43 @@ class S3BeerImporter {
         AmazonHelper helper = new AmazonHelper()
 
         s3ItemRetriever.withEachItem(selectAllBeersQuery) { Item item ->
-            Drink drink = drinkMapper.mapItemToDrink(dslContext, item)
+            String beerName = helper.getAttribute(item.attributes, 'name').replace('"', '""')
+            String breweryName = helper.getAttribute(item.attributes, 'brewery').replace('"', '""')
+            String verificationSelect = "select * from cellar_PROD_cellars  where beer=\"${beerName}\" and brewery=\"${breweryName}\" limit 1"
 
-            DrinkRecord drinkRecord = dslContext.newRecord(DRINK, drink)
-            drinkRecord.reset(DRINK.ID)
-            drinkRecord.reset(DRINK.DATA)
+            if (s3ItemRetriever.doesQueryReturnResult(verificationSelect)) {
+                Drink drink = drinkMapper.mapItemToDrink(dslContext, item)
 
-            if (!drinkRecord.createdDate) drinkRecord.reset(DRINK.CREATED_DATE)
-            if (!drinkRecord.modifiedDate) drinkRecord.reset(DRINK.MODIFIED_DATE)
+                DrinkRecord drinkRecord = dslContext.newRecord(DRINK, drink)
+                drinkRecord.reset(DRINK.ID)
+                drinkRecord.reset(DRINK.DATA)
 
-            try {
-                if (drinkRecord.organizationId) {
-                    drinkRecord.store()
+                if (!drinkRecord.createdDate) drinkRecord.reset(DRINK.CREATED_DATE)
+                if (!drinkRecord.modifiedDate) drinkRecord.reset(DRINK.MODIFIED_DATE)
 
-                } else {
-                    String organizationName = helper.getAttribute(item.attributes, 'brewery').trim()
+                try {
+                    if (drinkRecord.organizationId) {
+                        drinkRecord.store()
 
-                    OrganizationRecord newOrganization = dslContext.newRecord(ORGANIZATION)
+                    } else {
+                        String organizationName = helper.getAttribute(item.attributes, 'brewery').trim()
+                        println "Count not find brewery ${organizationName} so inserting it now"
 
-                    newOrganization.name = organizationName
-                    newOrganization.slug = new Slugify().slugify(newOrganization.name)
-                    newOrganization.type = 'BREWERY'
+                        OrganizationRecord newOrganization = dslContext.newRecord(ORGANIZATION)
 
-                    int newId = newOrganization.store()
-                    drinkRecord.organizationId = newId
-                    drinkRecord.store()
+                        newOrganization.name = organizationName
+                        newOrganization.slug = new Slugify().slugify(newOrganization.name)
+                        newOrganization.type = 'BREWERY'
+
+                        newOrganization.store()
+                        int newId = newOrganization.id
+
+                        drinkRecord.organizationId = newId
+                        drinkRecord.store()
+                    }
+                } catch (DataAccessException e) {
+                    println "Error inserting because ${e.message} with ${drinkRecord}"
                 }
-            } catch (DataAccessException e) {
-                println "Error inserting because ${e.message} with ${drinkRecord.abv}"
             }
         }
     }

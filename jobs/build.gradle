@@ -11,6 +11,7 @@ dependencies {
     compile 'com.github.slugify:slugify:2.1.2'
     compile 'joda-time:joda-time:2.4'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'org.unbescape:unbescape:1.1.0.RELEASE'
 
     compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0.1'
     compile 'org.apache.logging.log4j:log4j-api:2.0.1'
