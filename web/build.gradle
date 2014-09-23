@@ -63,6 +63,7 @@ dependencies {
     runtime 'org.slf4j:slf4j-api:1.7.7'
     runtime 'ch.qos.logback:logback-classic:1.1.2'
     runtime 'com.lmax:disruptor:3.3.0'
+    runtime 'net.kencochrane.raven:raven:0.4'
 
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
         exclude module: 'groovy-all'
@@ -102,6 +103,6 @@ task publish(dependsOn: 'buildDocker') {
 test.dependsOn ':model:dropAll', ':model:update'
 
 run {
-    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries... maybe a better way?
-    systemProperty 'DISABLE_LOGENTRIES', true
+    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
+    systemProperty 'DISABLE_SERVICES', true
 }

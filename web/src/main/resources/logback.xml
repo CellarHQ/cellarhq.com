@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <if condition='property("DISABLE_LOGENTRIES").contains("true")'>
+    <if condition='property("DISABLE_SERVICES").contains("true")'>
         <then>
             <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
                 <encoder>
@@ -14,8 +14,8 @@
         </then>
     </if>
 
-    <!-- We only want the logentries appender if we're running in prod -->
-    <if condition='!property("DISABLE_LOGENTRIES").contains("true")'>
+    <!-- We only want the service appenders if we're running in prod -->
+    <if condition='!property("DISABLE_SERVICES").contains("true")'>
         <then>
             <appender name="LE" class="com.logentries.logback.LogentriesAppender">
                 <Debug>False</Debug>
@@ -26,8 +26,19 @@
                     <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
                 </layout>
             </appender>
+
+            <appender name="SENTRY" class="net.kencochrane.raven.logback.SentryAppender">
+                <dsn>
+                    https://640b2f0db70143fa8518aebd0397c36c:1e93be694d8c4363899dfbfda93c7701@app.getsentry.com/30588
+                </dsn>
+            </appender>
+
             <root level="info">
                 <appender-ref ref="LE"/>
+            </root>
+
+            <root level="error">
+                <appender-ref ref="SENTRY"/>
             </root>
         </then>
     </if>
