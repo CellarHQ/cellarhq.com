@@ -2,9 +2,6 @@ package com.cellarhq
 
 import com.cellarhq.brewerydb.BreweryDbBeerImporter
 import com.cellarhq.brewerydb.BreweryDbBreweryImporter
-import com.cellarhq.s3.S3AccountImporter
-import com.cellarhq.s3.S3BeerImporter
-import com.cellarhq.s3.S3BreweryImporter
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
@@ -19,7 +16,7 @@ import java.sql.DriverManager
  */
 @Slf4j
 @CompileStatic
-class ImportBeers {
+class UpdateData {
     public static void main(String[] args) {
         String userName = "cellarhq"
         String password = "cellarhq"

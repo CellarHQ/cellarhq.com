@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.AccountOauth
@@ -14,16 +14,16 @@ import static com.cellarhq.generated.Tables.ACCOUNT_EMAIL
 import static com.cellarhq.generated.Tables.ACCOUNT_OAUTH
 import static com.cellarhq.generated.Tables.CELLAR
 
-class S3AccountImporter {
+class SimpleDBAccountImporter {
     AmazonHelper helper = new AmazonHelper()
 
     void importAccountsFromS3(DSLContext dslContext) {
         String selectAllAccounts = 'select * from cellar_PROD_accounts limit 2500'
 
-        S3ItemRetriever s3ItemRetriever = new S3ItemRetriever()
-        S3ToCellarMapper cellarMapper = new S3ToCellarMapper()
+        SimpleDBItemRetriever itemRetriever = new SimpleDBItemRetriever()
+        SimpleDBToCellarMapper cellarMapper = new SimpleDBToCellarMapper()
 
-        s3ItemRetriever.withEachItem(selectAllAccounts) { Item item ->
+        itemRetriever.withEachItem(selectAllAccounts) { Item item ->
             Cellar cellar = cellarMapper.mapItemToCellar(dslContext, item)
 
             CellarRecord cellarRecord = dslContext.newRecord(CELLAR, cellar)

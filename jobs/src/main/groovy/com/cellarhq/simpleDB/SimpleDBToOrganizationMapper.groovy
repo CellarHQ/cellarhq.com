@@ -1,11 +1,11 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Organization
 import com.github.slugify.Slugify
 import org.jooq.DSLContext
 
-class S3ToOrganizationMapper {
+class SimpleDBToOrganizationMapper {
     static String attrName = "name"
     static String attrPhotoUrl = "photoUrl"
     static String attrPhotoFullSizeUrl = "photoFullSizeUrl"

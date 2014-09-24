@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.services.simpledb.AmazonSimpleDB
@@ -6,7 +6,7 @@ import com.amazonaws.services.simpledb.AmazonSimpleDBClient
 import com.amazonaws.services.simpledb.model.SelectRequest
 import com.amazonaws.services.simpledb.model.SelectResult
 
-class S3ItemRetriever {
+class SimpleDBItemRetriever {
     static final String accessKeyId = 'AKIAIXBP2ORLESIX5CIQ'
     static final String secretKey = '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'
 

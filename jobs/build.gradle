@@ -23,4 +23,4 @@ dependencies {
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 }
 
-mainClassName = "com.cellarhq.ImportBeers"
+mainClassName = "com.cellarhq.UpdateData"

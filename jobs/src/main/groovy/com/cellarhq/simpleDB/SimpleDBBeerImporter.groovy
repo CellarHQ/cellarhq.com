@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Drink
@@ -12,20 +12,20 @@ import static com.cellarhq.generated.Tables.DRINK
 import static com.cellarhq.generated.Tables.ORGANIZATION
 
 
-class S3BeerImporter {
+class SimpleDBBeerImporter {
     void importBeersFromS3(DSLContext dslContext) {
         String selectAllBeersQuery = 'select * from cellar_PROD_beers limit 2500'
 
-        S3ItemRetriever s3ItemRetriever = new S3ItemRetriever()
-        S3ToDrinkMapper drinkMapper = new S3ToDrinkMapper()
+        SimpleDBItemRetriever itemRetriever = new SimpleDBItemRetriever()
+        SimpleDBToDrinkMapper drinkMapper = new SimpleDBToDrinkMapper()
         AmazonHelper helper = new AmazonHelper()
 
-        s3ItemRetriever.withEachItem(selectAllBeersQuery) { Item item ->
+        itemRetriever.withEachItem(selectAllBeersQuery) { Item item ->
             String beerName = helper.getAttribute(item.attributes, 'name').replace('"', '""')
             String breweryName = helper.getAttribute(item.attributes, 'brewery').replace('"', '""')
             String verificationSelect = "select * from cellar_PROD_cellars  where beer=\"${beerName}\" and brewery=\"${breweryName}\" limit 1"
 
-            if (s3ItemRetriever.doesQueryReturnResult(verificationSelect)) {
+            if (itemRetriever.doesQueryReturnResult(verificationSelect)) {
                 Drink drink = drinkMapper.mapItemToDrink(dslContext, item)
 
                 DrinkRecord drinkRecord = dslContext.newRecord(DRINK, drink)

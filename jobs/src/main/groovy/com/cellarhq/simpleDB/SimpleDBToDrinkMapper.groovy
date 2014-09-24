@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Drink
@@ -12,7 +12,7 @@ import java.sql.Timestamp
 
 import static com.cellarhq.generated.Tables.*
 
-class S3ToDrinkMapper {
+class SimpleDBToDrinkMapper {
     static final String attrStyle = "style"
     static final String attrBrewery = "brewery"
     static final String attrGlassware = "glassware"

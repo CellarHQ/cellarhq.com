@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.AccountEmail
@@ -9,7 +9,7 @@ import org.jooq.DSLContext
 
 import java.sql.Timestamp
 
-class S3ToCellarMapper {
+class SimpleDBToCellarMapper {
     static final String attrScreenName = 'screenName'
     static final String attrName = "name"
     static final String attrLocation = "location"

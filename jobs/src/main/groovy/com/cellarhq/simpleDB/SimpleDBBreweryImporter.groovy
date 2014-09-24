@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Organization
@@ -8,15 +8,15 @@ import org.jooq.exception.DataAccessException
 
 import static com.cellarhq.generated.Tables.ORGANIZATION
 
-class S3BreweryImporter {
+class SimpleDBBreweryImporter {
     String selectAllBeersQuery = 'select * from cellar_PROD_breweries limit 2500'
 
-    S3ItemRetriever s3ItemRetriever = new S3ItemRetriever()
-    S3ToOrganizationMapper organizationMapper = new S3ToOrganizationMapper()
+    SimpleDBItemRetriever itemRetriever = new SimpleDBItemRetriever()
+    SimpleDBToOrganizationMapper organizationMapper = new SimpleDBToOrganizationMapper()
     AmazonHelper helper = new AmazonHelper()
 
     void importBeersFromS3(DSLContext dslContext) {
-        s3ItemRetriever.withEachItem(selectAllBeersQuery) { Item item ->
+        itemRetriever.withEachItem(selectAllBeersQuery) { Item item ->
             Organization organization = organizationMapper.mapItemToOrganization(dslContext, item)
 
             OrganizationRecord organizationRecord = dslContext.newRecord(ORGANIZATION, organization)

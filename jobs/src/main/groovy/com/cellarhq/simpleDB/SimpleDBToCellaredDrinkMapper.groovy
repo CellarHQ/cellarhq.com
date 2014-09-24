@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.Keys
@@ -10,7 +10,7 @@ import static com.cellarhq.generated.Tables.ORGANIZATION
 import static com.cellarhq.generated.Tables.DRINK
 import static com.cellarhq.generated.Tables.CELLAR
 
-class S3ToCellaredDrinkMapper {
+class SimpleDBToCellaredDrinkMapper {
     String attrScreenName = 'screenName'
     String attrBeer = "beer"
     String attrBrewery = "brewery"
