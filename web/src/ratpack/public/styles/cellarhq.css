@@ -71,3 +71,47 @@ ul.cellared-drink-flags {
 .servererror pre code {
     border: none;
 }
+
+.roadmap {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.roadmap-behind {
+    border-left-color: #deb25c;
+}
+.roadmap-behind h4 {
+    color: #deb25c;
+    margin-top: 0;
+}
+.roadmap-behind h4::before {
+    content: "Behind: ";
+    font-weight: bold;
+}
+
+.roadmap-scheduled {
+    border-left-color: #5cafde;
+}
+.roadmap-scheduled h4 {
+    color: #5cafde;
+    margin-top: 0;
+}
+.roadmap-scheduled h4::before {
+    content: "Scheduled: ";
+    font-weight: bold;
+}
+
+.roadmap-ontrack {
+    border-left-color: #afde5c;
+}
+.roadmap-ontrack h4 {
+    color: #afde5c;
+    margin-top: 0;
+}
+.roadmap-ontrack h4::before {
+    content: "On Track: ";
+    font-weight: bold;
+}
