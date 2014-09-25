@@ -15,4 +15,8 @@ interface BreweryDbApi {
                       @Query('withSocialAccounts') String withSocialAccounts,
                       @Query('withLocations') String withLocations)
 
+    @GET("/beers")
+    Map listBeers(@Query('p') Integer p, @Query('withBreweries') String withBreweries)
+
+
 }

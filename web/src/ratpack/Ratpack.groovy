@@ -1,7 +1,3 @@
-import static ratpack.groovy.Groovy.ratpack
-import static ratpack.handlebars.Template.handlebarsTemplate
-import static ratpack.jackson.Jackson.json
-
 import com.cellarhq.CellarHQModule
 import com.cellarhq.ClientErrorHandlerImpl
 import com.cellarhq.ErrorHandler
@@ -9,14 +5,10 @@ import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.HomepageStatistics
-import com.cellarhq.endpoints.api.DrinkEndpoint
-import com.cellarhq.endpoints.BreweryEndpoint
-import com.cellarhq.endpoints.CellarsEndpoint
-import com.cellarhq.endpoints.OrganizationEndpoint
-import com.cellarhq.endpoints.SettingsEndpoint
-import com.cellarhq.endpoints.YourCellarEndpoint
+import com.cellarhq.endpoints.*
 import com.cellarhq.endpoints.api.CellarEndpoint
 import com.cellarhq.endpoints.api.CellaredDrinkEndpoint
+import com.cellarhq.endpoints.api.DrinkEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.CellarService
@@ -38,6 +30,10 @@ import ratpack.rx.RxRatpack
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
+
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.handlebars.Template.handlebarsTemplate
+import static ratpack.jackson.Jackson.json
 
 String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
     String value = System.getenv(key)
@@ -112,6 +108,7 @@ ratpack {
         }
 
         handler chain(registry.get(BreweryEndpoint))
+        handler chain(registry.get(BeerEndpoint))
         handler chain(registry.get(CellarsEndpoint))
 
         /**

@@ -187,11 +187,6 @@ class BreweryEndpoint extends GroovyChainAction {
                         }
                     }
                 }
-
-                /**
-                 * Delete an existing brewery.
-                 */
-                delete {}
             }
         }
     }

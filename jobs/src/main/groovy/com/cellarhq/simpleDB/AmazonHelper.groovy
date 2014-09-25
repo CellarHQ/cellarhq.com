@@ -1,4 +1,4 @@
-package com.cellarhq.s3
+package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Attribute
 import groovy.util.logging.Slf4j
@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeParser
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.DateTimeFormatterBuilder
 import org.joda.time.format.ISODateTimeFormat
+import org.unbescape.html.HtmlEscape
 
 @Slf4j
 class AmazonHelper {
@@ -29,7 +30,12 @@ class AmazonHelper {
         def attribute = attributes.find {
             name.equalsIgnoreCase(it.name)
         }
-        return attribute?.value ?: ''
+
+        if (attribute?.value) {
+            return HtmlEscape.unescapeHtml(attribute?.value)
+        }
+
+        return ''
     }
 
     String buildDescription(List<Attribute> attributes) {
