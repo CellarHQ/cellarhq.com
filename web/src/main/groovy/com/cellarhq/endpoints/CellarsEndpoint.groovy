@@ -8,6 +8,8 @@ import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.CellaredDrinkService
+import com.cellarhq.services.DrinkService
+import com.cellarhq.services.OrganizationService
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -35,14 +37,20 @@ class CellarsEndpoint extends GroovyChainAction {
     ValidatorFactory validatorFactory
     CellarService cellarService
     CellaredDrinkService cellaredDrinkService
+    DrinkService drinkService
+    OrganizationService organizationService
 
     @Inject
     CellarsEndpoint(ValidatorFactory validatorFactory,
                     CellarService cellarService,
-                    CellaredDrinkService cellaredDrinkService) {
+                    CellaredDrinkService cellaredDrinkService,
+                    DrinkService drinkService,
+                    OrganizationService organizationService) {
         this.validatorFactory = validatorFactory
         this.cellarService = cellarService
         this.cellaredDrinkService = cellaredDrinkService
+        this.drinkService = drinkService
+        this.organizationService = organizationService
     }
 
     @Override
@@ -127,15 +135,32 @@ class CellarsEndpoint extends GroovyChainAction {
             Validator validator = validatorFactory.validator
             Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(drink)
 
-            String next = request.queryParams.get('next') ?: '/yourcellar'
             if (drinkViolations.empty) {
-                cellaredDrinkService.save(drink).single().subscribe { CellaredDrink savedDrink ->
-                    redirect(next)
-                }
+                // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
+                //       queries for two small pieces of data.
+                rx.Observable.zip(
+                        cellaredDrinkService.save(drink).single(),
+                        drinkService.findNameById(drink.drinkId).single(),
+                        organizationService.findNameByDrinkId(drink.drinkId).single()
+                ) { CellaredDrink savedDrink, String drinkName, String orgName ->
+                    [
+                            cellared: savedDrink,
+                            drink: drinkName,
+                            org: orgName
+                    ]
+                }.subscribe({ Map map ->
+                    SessionUtil.setFlash(request, FlashMessage.success(
+                            Messages.CELLARED_DRINK_SAVED,
+                            new FlashMessage.SocialButton(
+                                    String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
+                                    "/cellars/${slug}"
+                            )))
+                    redirect('/yourcellar')
+                })
             } else {
                 List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
                 SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                redirect(next)
+                redirect('/yourcellar')
             }
         }
 

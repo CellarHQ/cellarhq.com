@@ -23,4 +23,5 @@ abstract class Messages {
     final static String SETTINGS_SAVED = "Lookin' good. We've updated your profile."
 
     final static String CELLARED_DRINK_SAVED = "Lookin' good. We've saved your drink."
+    final static String CELLARED_DRINK_SAVED_SOCIAL = 'Added %1s by %2s to my beer cellar!'
 }

@@ -1,7 +1,6 @@
 package com.cellarhq.services
 
 import com.cellarhq.domain.Organization
-import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.OrganizationRecord
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
@@ -12,6 +11,7 @@ import rx.Observable
 
 import javax.sql.DataSource
 
+import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
@@ -27,17 +27,17 @@ class OrganizationService extends BaseJooqService {
     Observable<Organization> save(Organization organization) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                OrganizationRecord organizationRecord = create.newRecord(Tables.ORGANIZATION, organization)
+                OrganizationRecord organizationRecord = create.newRecord(ORGANIZATION, organization)
 
 
-                organizationRecord.reset(Tables.ORGANIZATION.DATA)
-                organizationRecord.reset(Tables.ORGANIZATION.CREATED_DATE)
-                organizationRecord.reset(Tables.ORGANIZATION.MODIFIED_DATE)
+                organizationRecord.reset(ORGANIZATION.DATA)
+                organizationRecord.reset(ORGANIZATION.CREATED_DATE)
+                organizationRecord.reset(ORGANIZATION.MODIFIED_DATE)
 
                 if (organizationRecord.id) {
                     organizationRecord.update()
                 } else {
-                    organizationRecord.reset(Tables.ORGANIZATION.ID)
+                    organizationRecord.reset(ORGANIZATION.ID)
                     organizationRecord.store()
                 }
 
@@ -51,8 +51,8 @@ class OrganizationService extends BaseJooqService {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
-                        .from(Tables.ORGANIZATION)
-                        .where(Tables.ORGANIZATION.ID.eq(id))
+                        .from(ORGANIZATION)
+                        .where(ORGANIZATION.ID.eq(id))
                         .fetchOneInto(Organization)
             }
         }).asObservable()
@@ -63,20 +63,32 @@ class OrganizationService extends BaseJooqService {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
-                        .from(Tables.ORGANIZATION)
-                        .where(Tables.ORGANIZATION.SLUG.eq(slug))
+                        .from(ORGANIZATION)
+                        .where(ORGANIZATION.SLUG.eq(slug))
                         .fetchOneInto(Organization)
             }
         }).asObservable()
 
     }
 
+    Observable<String> findNameByDrinkId(Long drinkId) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(ORGANIZATION.NAME)
+                        .from(ORGANIZATION)
+                        .join(DRINK).onKey()
+                        .where(DRINK.ID.eq(drinkId))
+                        .fetchOne(ORGANIZATION.NAME)
+            }
+        }).asObservable()
+    }
+
     Observable<Organization> all(int numberOfRows=20, int offset=0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
-                        .from(Tables.ORGANIZATION)
-                        .orderBy(Tables.ORGANIZATION.NAME)
+                        .from(ORGANIZATION)
+                        .orderBy(ORGANIZATION.NAME)
                         .limit(offset, numberOfRows)
                         .fetchInto(Organization)
             }
@@ -87,9 +99,9 @@ class OrganizationService extends BaseJooqService {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
-                        .from(Tables.ORGANIZATION)
-                        .where(Tables.ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
-                        .orderBy(Tables.ORGANIZATION.NAME)
+                        .from(ORGANIZATION)
+                        .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
+                        .orderBy(ORGANIZATION.NAME)
                         .limit(offset, numberOfRows)
                         .fetchInto(Organization)
             }
@@ -99,7 +111,7 @@ class OrganizationService extends BaseJooqService {
     Observable<Void> delete(String slug) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                OrganizationRecord org = create.fetchOne(Tables.ORGANIZATION, Tables.ORGANIZATION.SLUG.equal(slug))
+                OrganizationRecord org = create.fetchOne(ORGANIZATION, ORGANIZATION.SLUG.equal(slug))
 
                 if (org) {
                     org.delete()
@@ -113,7 +125,7 @@ class OrganizationService extends BaseJooqService {
     Observable<Integer> count() {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                create.selectCount().from(Tables.ORGANIZATION).fetchOneInto(Integer)
+                create.selectCount().from(ORGANIZATION).fetchOneInto(Integer)
             }
         })
     }
@@ -122,8 +134,8 @@ class OrganizationService extends BaseJooqService {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.selectCount()
-                    .from(Tables.ORGANIZATION)
-                    .where(Tables.ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
+                    .from(ORGANIZATION)
+                    .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
                     .fetchOneInto(Integer)
             }
         })

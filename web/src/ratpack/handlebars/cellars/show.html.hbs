@@ -164,7 +164,7 @@
             <h4 class="modal-title" id="addBeerModalLabel">Add Beer</h4>
           </div>
           <div class="modal-body">
-            <form id="add-beer-form" action="/cellars/{{cellar.slug}}/drinks?next={{request.uri}}" method="post" class="form-horizontal form-bordered">
+            <form id="add-beer-form" action="/cellars/{{cellar.slug}}/drinks" method="post" class="form-horizontal form-bordered">
               {{>cellars/_add-cellared-drink-form-fields}}
             </form>
           </div>

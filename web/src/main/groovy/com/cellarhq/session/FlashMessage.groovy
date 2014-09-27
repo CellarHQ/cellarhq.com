@@ -34,6 +34,16 @@ class FlashMessage {
         }
     }
 
+    static class SocialButton {
+        String message
+        String url
+
+        SocialButton(String message, String url) {
+            this.message = message
+            this.url = url
+        }
+    }
+
     static FlashMessage error(String message, List<String> embedded = null) {
         return new FlashMessage(Type.ERROR, message, embedded)
     }
@@ -50,9 +60,16 @@ class FlashMessage {
         return new FlashMessage(Type.SUCCESS, message, embedded)
     }
 
+    static FlashMessage success(String message, SocialButton socialButton) {
+        FlashMessage flash = new FlashMessage(Type.SUCCESS, message, null)
+        flash.socialButton = socialButton
+        return flash
+    }
+
     Type type
     String message
     List<EmbeddedMessage> embeddedMessages = []
+    SocialButton socialButton
 
     FlashMessage(Type type, String message, List<String> messages) {
         this.type = type
