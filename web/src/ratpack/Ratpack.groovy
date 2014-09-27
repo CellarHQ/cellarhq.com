@@ -9,6 +9,7 @@ import com.cellarhq.endpoints.*
 import com.cellarhq.endpoints.api.CellarEndpoint
 import com.cellarhq.endpoints.api.CellaredDrinkEndpoint
 import com.cellarhq.endpoints.api.DrinkEndpoint
+import com.cellarhq.endpoints.api.OrganizationEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.CellarService

@@ -41,6 +41,20 @@ class DrinkService extends BaseJooqService {
         })
     }
 
+    Observable<Drink> searchByOrganizationId(Long organizationId, String searchTerm, int numRows = 20, int offset = 0) {
+        observeEach(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select()
+                        .from(DRINK)
+                        .where(DRINK.ORGANIZATION_ID.eq(organizationId))
+                            .and(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
+                        .orderBy(DRINK.NAME)
+                        .limit(offset, numRows)
+                        .fetchInto(Drink)
+            }
+        })
+    }
+
     Observable<DrinkSearchDisplay> findByOrganizationSlug(String slug) {
         observeEach(execControl.blocking {
             jooq({ Configuration c ->

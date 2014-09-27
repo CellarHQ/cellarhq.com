@@ -130,12 +130,18 @@ var YourCellar = function() {
           return false;
         },
         source: function(request, response) {
+          var data = {
+            name: request.term
+          };
+
+          if (selector == '#beer') {
+            data.organizationId = $('#breweryId').val();
+          }
+
           $.ajax(url, {
             type: 'GET',
             dataType: 'json',
-            data: {
-              name: request.term
-            },
+            data: data,
             success: function(data) {
               response($.map(data, function(v, i) {
                 return {
