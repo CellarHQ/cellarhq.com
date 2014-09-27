@@ -21,7 +21,7 @@ trait DatabaseSupport {
             // TODO Make configurable. Perhaps ENVARS
             String userName = 'cellarhq'
             String password = 'cellarhq'
-            String url = 'dbc:postgresql://localhost:15432/cellarhq'
+            String url = 'jdbc:postgresql://localhost:15432/cellarhq'
 
             Class.forName("org.postgresql.ds.PGSimpleDataSource").newInstance()
             Connection conn = DriverManager.getConnection(url, userName, password)

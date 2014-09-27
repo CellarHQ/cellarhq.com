@@ -23,7 +23,11 @@ class CommandApp {
             throw new IllegalArgumentException("Cannot find command with name '${args[0]}'")
         }
 
-        command.configure((String[]) args[1..args.size()-1].toArray())
+        String[] commandArgs = []
+        if (args.size() > 1) {
+            commandArgs = args[1..args.size()-1]
+        }
+        command.configure((String[]) commandArgs)
         System.exit(command.run() ? 0 : 1)
     }
 }
