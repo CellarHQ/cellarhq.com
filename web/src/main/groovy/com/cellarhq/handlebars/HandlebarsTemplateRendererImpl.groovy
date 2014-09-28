@@ -82,6 +82,12 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
                 FlashMessage flashMessage = (FlashMessage) session.remove(name)
                 model[name] = flashMessage.message
                 model[messagesName] = flashMessage.embeddedMessages
+
+                if (flashMessage.socialButton) {
+                    model[(String) "show${name.capitalize()}SocialButton"] = true
+                    model[(String) "${name}SocialButtonMessage"] = flashMessage.socialButton.message
+                    model[(String) "${name}SocialButtonUrl"] = flashMessage.socialButton.url
+                }
             }
         }
     }

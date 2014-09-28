@@ -41,7 +41,7 @@ class CellaredDrinkService extends BaseJooqService {
                     drinkRecord.store()
                 }
 
-                drinkRecord.into(CellaredDrink)
+                drinkRecord?.into(CellaredDrink)
             }
         }).asObservable()
     }

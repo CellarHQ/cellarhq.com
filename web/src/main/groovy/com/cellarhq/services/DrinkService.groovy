@@ -64,6 +64,17 @@ class DrinkService extends BaseJooqService {
         })
     }
 
+    Observable<String> findNameById(Long id) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(DRINK.NAME)
+                        .from(DRINK)
+                        .where(DRINK.ID.eq(id))
+                        .fetchOne(DRINK.NAME)
+            }
+        }).asObservable()
+    }
+
     Observable<Drink> save(Drink drink) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
