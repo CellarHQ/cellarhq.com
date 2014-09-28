@@ -1,4 +1,4 @@
-package com.cellarhq.endpoints
+package com.cellarhq.endpoints.api
 
 import com.cellarhq.domain.Organization
 import com.cellarhq.services.OrganizationService
@@ -9,9 +9,6 @@ import ratpack.groovy.handling.GroovyChainAction
 import static ratpack.jackson.Jackson.fromJson
 import static ratpack.jackson.Jackson.json
 
-/**
- * @todo Move to api package.
- */
 @Slf4j
 class OrganizationEndpoint extends GroovyChainAction {
 

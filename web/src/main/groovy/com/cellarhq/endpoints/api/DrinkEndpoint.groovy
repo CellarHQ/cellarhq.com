@@ -25,7 +25,15 @@ class DrinkEndpoint extends GroovyChainAction {
             }
         }
         get('drinks/live-search') {
-            drinkService.search(request.queryParams.name, 5, 0).toList().subscribe { List<Drink> drinks ->
+            rx.Observable observable
+            if (request.queryParams.organizationId) {
+                observable = drinkService.searchByOrganizationId(
+                        Long.valueOf(request.queryParams.organizationId),
+                        request.queryParams.name, 5, 0)
+            } else {
+                observable = drinkService.search(request.queryParams.name, 5, 0)
+            }
+            observable.toList().subscribe { List<Drink> drinks ->
                 render json(drinks.collect {
                     [
                             id: it.id,
