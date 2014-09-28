@@ -73,6 +73,10 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
             FlashMessage msg = FlashMessage.error(request.queryParams.error)
             session.put(msg.type.name, msg)
         }
+        if (request.queryParams.success) {
+            FlashMessage msg = FlashMessage.success(request.queryParams.success)
+            session.put(msg.type.name, msg)
+        }
 
         FlashMessage.Type.values().each { FlashMessage.Type type ->
             String name = type.name

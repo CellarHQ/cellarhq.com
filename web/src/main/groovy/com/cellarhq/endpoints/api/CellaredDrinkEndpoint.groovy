@@ -3,18 +3,17 @@ package com.cellarhq.endpoints.api
 import static ratpack.jackson.Jackson.fromJson
 import static ratpack.jackson.Jackson.json
 
+import com.cellarhq.Messages
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.services.CellaredDrinkService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import ratpack.groovy.handling.GroovyContext
-import ratpack.groovy.handling.GroovyHandler
+import org.pac4j.core.profile.UserProfile
+import ratpack.groovy.handling.GroovyChainAction
+import ratpack.handling.Context
 
-/**
- * @todo Add validation
- */
 @Slf4j
-class CellaredDrinkEndpoint extends GroovyHandler {
+class CellaredDrinkEndpoint extends GroovyChainAction {
 
     CellaredDrinkService cellaredDrinkService
 
@@ -24,37 +23,83 @@ class CellaredDrinkEndpoint extends GroovyHandler {
     }
 
     @Override
-    protected void handle(GroovyContext context) {
-        context.with {
-            String slug = pathTokens['cellarSlug']
-            Long id = pathTokens['id']
+    protected void execute() throws Exception {
+        get('cellars/:cellarSlug/drinks') {
+            cellaredDrinkService.all(pathTokens['cellarSlug']).toList().subscribe { List<CellaredDrink> drinks ->
+                render json(drinks)
+            }
+        }
 
+        handler('cellars/:cellarSlug/drinks/:id') {
             byMethod {
                 get {
-                    cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
-                        if (drink == null) {
-                            clientError 404
-                        } else {
-                            render json(drink)
+                    String slug = pathTokens['cellarSlug']
+                    Long id = Long.valueOf(pathTokens['id'])
+
+                    requireSelf(context, pathTokens['cellarSlug']) {
+                        cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
+                            if (drink) {
+                                render json(drink)
+                            } else {
+                                clientError 404
+                            }
                         }
                     }
                 }
 
                 post {
-                    // TODO: Confirm cellar exists
-                    cellaredDrinkService.save(parse(fromJson(CellaredDrink))
-                    ).single().flatMap {
-                        cellaredDrinkService.findById(slug, it.id).single()
-                    } subscribe { CellaredDrink createdDrink ->
-                        render json(createdDrink)
+                    String slug = pathTokens['cellarSlug']
+
+                    requireSelf(context, pathTokens['cellarSlug']) {
+                        cellaredDrinkService.save(parse(fromJson(CellaredDrink))
+                        ).single().flatMap {
+                            cellaredDrinkService.findById(slug, it.id).single()
+                        } subscribe { CellaredDrink createdDrink ->
+                            render json(createdDrink)
+                        }
                     }
                 }
 
                 delete {
-                    cellaredDrinkService.delete(slug, id).subscribe {
-                        response.send()
+                    String slug = pathTokens['cellarSlug']
+                    Long id = Long.valueOf(pathTokens['id'])
+
+                    requireSelf(context, pathTokens['cellarSlug']) {
+                        cellaredDrinkService.delete(slug, id).subscribe {
+                            response.status(204).send()
+                        }
                     }
                 }
+            }
+        }
+
+        put('cellars/:cellarSlug/drinks/:id/drink') {
+            String slug = pathTokens['cellarSlug']
+            Long id = Long.valueOf(pathTokens['id'])
+
+            requireSelf(context, pathTokens['cellarSlug']) {
+                cellaredDrinkService.drink(slug, id).single().subscribe { CellaredDrink drink ->
+                    if (drink == null) {
+                        clientError 404
+                    } else {
+                        render json(drink)
+                    }
+                }
+            }
+        }
+    }
+
+    void requireSelf(Context context, String cellarSlug, Closure operation) {
+        context.with {
+            boolean isSelf = request.maybeGet(UserProfile)?.username == cellarSlug
+            if (isSelf) {
+                operation()
+            } else {
+                response.status(403)
+                render json([
+                        message: Messages.UNAUTHORIZED_ERROR
+                ])
+                response.send()
             }
         }
     }

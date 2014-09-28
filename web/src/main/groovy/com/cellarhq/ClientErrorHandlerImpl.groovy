@@ -1,6 +1,7 @@
 package com.cellarhq
 
 import static ratpack.handlebars.Template.handlebarsTemplate
+import static ratpack.jackson.Jackson.json
 
 import com.cellarhq.util.LogUtil
 import groovy.transform.CompileStatic
@@ -27,11 +28,19 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
     void error(Context context, int statusCode) throws Exception {
         ClientErrorMessages messages = getStatusCodeContent(context.request, statusCode)
         context.with {
-            render handlebarsTemplate('client-error.html',
-                    title: messages.headTitle,
-                    statusCode: statusCode,
-                    message: messages.pageTitle,
-                    pageId: 'client.error')
+            response.status(statusCode)
+            if (request.headers.get('Accept').contains('application/json')) {
+                render json([
+                        title: message.headTitle,
+                        message: messages.pageTitle
+                ])
+            } else {
+                render handlebarsTemplate('client-error.html',
+                        title: messages.headTitle,
+                        statusCode: statusCode,
+                        message: messages.pageTitle,
+                        pageId: 'client.error')
+            }
         }
     }
 

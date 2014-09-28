@@ -20,6 +20,8 @@ import org.jooq.SelectJoinStep
 import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Slf4j
 class CellaredDrinkService extends BaseJooqService {
@@ -142,6 +144,32 @@ class CellaredDrinkService extends BaseJooqService {
                 }
 
                 return Void
+            }
+        })
+    }
+
+    rx.Observable<CellaredDrink> drink(String cellarSlug, Long id) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                CellaredDrinkRecord drink = create
+                        .select()
+                        .from(CELLARED_DRINK)
+                        .join(CELLAR).onKey()
+                        .where(CELLAR.SCREEN_NAME.eq(cellarSlug))
+                            .and(CELLARED_DRINK.ID.eq(id))
+                        .fetchOneInto(CellaredDrinkRecord)
+
+                if (drink && drink.quantity > 0) {
+                    create.update(CELLARED_DRINK)
+                            .set(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.QUANTITY.minus(1))
+                            .set(CELLARED_DRINK.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
+                            .where(CELLARED_DRINK.ID.eq(id))
+                            .execute()
+                    drink.refresh(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.MODIFIED_DATE)
+                    return drink.into(CellaredDrink)
+                }
+
+                return null
             }
         })
     }

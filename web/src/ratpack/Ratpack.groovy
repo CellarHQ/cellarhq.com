@@ -3,7 +3,6 @@ import com.cellarhq.ClientErrorHandlerImpl
 import com.cellarhq.ErrorHandler
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
-import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.HomepageStatistics
 import com.cellarhq.endpoints.*
 import com.cellarhq.endpoints.api.CellarEndpoint
@@ -13,7 +12,6 @@ import com.cellarhq.endpoints.api.OrganizationEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.CellarService
-import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
@@ -217,13 +215,7 @@ ratpack {
                 }
             }
 
-            handler('cellars/:cellarSlug/drinks/:id?', registry.get(CellaredDrinkEndpoint))
-            get('cellars/:cellarSlug/drinks') { CellaredDrinkService cellaredDrinkService ->
-                cellaredDrinkService.all(pathTokens['cellarSlug']).toList().subscribe { List<CellaredDrink> cellaredDrinks ->
-                    render json(cellaredDrinks)
-                }
-            }
-
+            handler chain(registry.get(CellaredDrinkEndpoint))
             handler chain(registry.get(OrganizationEndpoint))
             handler chain(registry.get(DrinkEndpoint))
         }
