@@ -1,4 +1,4 @@
-include 'jobs', 'model', 'web'
+include 'jobs', 'model', 'web', 'perf'
 
 rootProject.children.each { project ->
     project.buildFileName = "build.gradle"
