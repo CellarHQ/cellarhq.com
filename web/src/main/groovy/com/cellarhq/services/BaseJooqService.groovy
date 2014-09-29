@@ -4,16 +4,14 @@ import com.cellarhq.jooq.listeners.InputSanitizingListener
 import groovy.transform.CompileStatic
 import org.jooq.Configuration
 import org.jooq.DSLContext
+import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
 import org.jooq.impl.DefaultRecordListenerProvider
-import org.jooq.tools.jdbc.JDBCUtils
 import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
-import java.sql.Connection
 
-@SuppressWarnings('JdbcConnectionReference')
 @CompileStatic
 abstract class BaseJooqService {
 
@@ -34,15 +32,13 @@ abstract class BaseJooqService {
     }
 
     private <T> T execute(Closure<T> operation, Closure extraConfig = null) {
-        Connection conn = dataSource.connection
-        DSLContext dsl = DSL.using(makeConfiguration(conn, extraConfig))
+        DSLContext dsl = DSL.using(makeConfiguration(extraConfig))
         T result = operation.call(dsl)
-        conn.close()
         return result
     }
 
-    private Configuration makeConfiguration(Connection conn, Closure extraConfig = null) {
-        Configuration configuration = new DefaultConfiguration().set(conn).set(JDBCUtils.dialect(conn))
+    private Configuration makeConfiguration(Closure extraConfig = null) {
+        Configuration configuration = new DefaultConfiguration().set(dataSource).set(SQLDialect.POSTGRES)
         configuration.set(new DefaultRecordListenerProvider(InputSanitizingListener.instance))
 
         if (extraConfig) {
