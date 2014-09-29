@@ -84,6 +84,7 @@ class SimpleDBToDrinkMapper {
             self.availability = helper.getAttribute(item.attributes, attrAvailability)
             self.searchable = true
             self.breweryDbId = helper.getAttribute(item.attributes, attrBrewerydbId)
+            self.warningFlag = false
 
             DateTime breweryDbUpdatedTime = helper.getDateAttribute(item.attributes, attrBrewerydbLastUpdate)
 

@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = 730281487;
+	private static final long serialVersionUID = -1422151283;
 
 	/**
 	 * The singleton instance of <code>public.organization</code>
@@ -145,6 +145,11 @@ public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated
 	 * The column <code>public.organization.region</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.String> REGION = createField("region", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
+
+	/**
+	 * The column <code>public.organization.warning_flag</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.Boolean> WARNING_FLAG = createField("warning_flag", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.organization</code> table reference

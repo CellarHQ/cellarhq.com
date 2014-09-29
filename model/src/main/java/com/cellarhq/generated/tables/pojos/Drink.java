@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class Drink implements java.io.Serializable {
 
-	private static final long serialVersionUID = -2009910046;
+	private static final long serialVersionUID = -582219495;
 
 	private java.lang.Long       id;
 	private java.lang.Integer    version;
@@ -37,6 +37,7 @@ public class Drink implements java.io.Serializable {
 	private java.sql.Timestamp   createdDate;
 	private java.sql.Timestamp   modifiedDate;
 	private java.lang.Object     data;
+	private java.lang.Boolean    warningFlag;
 
 	public Drink() {}
 
@@ -62,7 +63,8 @@ public class Drink implements java.io.Serializable {
 		java.lang.Boolean    needsModeration,
 		java.sql.Timestamp   createdDate,
 		java.sql.Timestamp   modifiedDate,
-		java.lang.Object     data
+		java.lang.Object     data,
+		java.lang.Boolean    warningFlag
 	) {
 		this.id = id;
 		this.version = version;
@@ -86,6 +88,7 @@ public class Drink implements java.io.Serializable {
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 		this.data = data;
+		this.warningFlag = warningFlag;
 	}
 
 	@javax.persistence.Id
@@ -285,5 +288,14 @@ public class Drink implements java.io.Serializable {
 
 	public void setData(java.lang.Object data) {
 		this.data = data;
+	}
+
+	@javax.persistence.Column(name = "warning_flag", nullable = false)
+	public java.lang.Boolean getWarningFlag() {
+		return this.warningFlag;
+	}
+
+	public void setWarningFlag(java.lang.Boolean warningFlag) {
+		this.warningFlag = warningFlag;
 	}
 }
