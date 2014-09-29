@@ -62,9 +62,10 @@ class CellarsEndpoint extends GroovyChainAction {
             String searchTerm = request.queryParams.search
 
             rx.Observable<Integer> totalCount = cellarService.count(searchTerm).single()
+
             rx.Observable cellars = searchTerm ?
-                    cellarService.search(searchTerm, pageSize, offset).toList() :
-                    cellarService.all(pageSize, offset).toList()
+                cellarService.search(searchTerm, pageSize, offset).toList() :
+                cellarService.all(pageSize, offset).toList()
 
             rx.Observable.zip(cellars, totalCount) { List list, Integer count ->
                 [
@@ -72,12 +73,14 @@ class CellarsEndpoint extends GroovyChainAction {
                         totalCount: count
                 ]
             }.subscribe({ Map map ->
-                Integer pageCount = (map.totalCount / pageSize) + (map.totalCount % pageSize)
+                Integer pageCount = (map.totalCount / pageSize)
+                Boolean shouldShowPagination = pageCount != 0
 
                 render handlebarsTemplate('cellars/list.html',
                         cellars: map.cellars,
                         currentPage: requestedPage,
                         totalPageCount: pageCount,
+                        shouldShowPagination: shouldShowPagination,
                         title: 'CellarHQ : Cellars',
                         pageId: 'cellars.list')
             }, {

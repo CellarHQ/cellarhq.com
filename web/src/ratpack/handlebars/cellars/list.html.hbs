@@ -5,62 +5,65 @@
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
             <div class="block">
-                <div class="row">
-                    <div class="input-group col-md-6">
-                        <form action="/cellars" method="get" role="search">
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-effect-ripple btn-primary">
-                        <i class="fa fa-search"></i> Search
-                    </button>
-                </span>
-                            <input type="text" id="search" name="search" class="form-control" placeholder="Cellar">
-                        </form>
+                <div class="dataTables_wrapper form-inline no-footer">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-7">
+                            <form action="/cellars" method="get" role="search">
+                                <div class="input-group">
+                                    <input type="search" name="search" class="form-control" placeholder="Search">
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="table-responsive">
+                    <table id="cellars-table"
+                           class="table table-striped table-bordered table-condensed table-vcenter">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Total Beers</th>
+                            <th>Unique Beers</th>
+                            <th>Breweries</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                        <table id="breweries-table"
-                               class="table table-striped table-bordered table-condensed table-vcenter">
-                            <thead>
+                        {{#each cellars}}
                             <tr>
-                                <th>Name</th>
-                                <th>Total Beers</th>
-                                <th>Unique Beers</th>
-                                <th>Breweries</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {{#each cellars}}
-                                <tr>
-                                    <td>
-                                        <div class="col-sm-8">
-                                            <a href="/cellars/{{screenName}}">{{displayName}}</a><br/>{{location}}
-                                        </div>
-                                        <div class="col-sm-push-4 text-right">
-                                            {{#if hasTradeableBeers}}
-                                                <span class="label label-info">
+                                <td>
+                                    <div class="col-sm-8">
+                                        <a href="/cellars/{{screenName}}">{{screenName}}</a><br/>{{location}}
+                                    </div>
+                                    <div class="col-sm-push-4 text-right">
+                                        {{#if hasTradeableBeers}}
+                                            <span class="label label-info">
                               <abbr title="This user is looking for trades">
                                   <i class="fa fa-exchange"></i>
                               </abbr>
                             </span>
-                                            {{/if}}
-                                        </div>
-                                    </td>
-                                    <td>{{totalBeers}}</td>
-                                    <td>{{uniqueBeers}}</td>
-                                    <td>{{uniqueBreweries}}</td>
-                                </tr>
-                            {{/each}}
-                            </tbody>
-                        </table>
+                                        {{/if}}
+                                    </div>
+                                </td>
+                                <td>{{totalBeers}}</td>
+                                <td>{{uniqueBeers}}</td>
+                                <td>{{uniqueBreweries}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
 
-                        {{>common/pagination}}
-
+                    <div class="row">
+                        <div class="col-sm-7 col-xs-12 clearfix">
+                            <div class="dataTables_paginate paging_bootstrap">
+                                {{#if shouldShowPagination}}
+                                    {{>common/pagination}}
+                                {{/if}}
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

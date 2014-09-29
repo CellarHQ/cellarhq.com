@@ -91,6 +91,7 @@ class CellarService extends BaseJooqService {
             jooq { DSLContext create ->
                 create.select()
                         .from(CELLAR)
+                        .orderBy(CELLAR.SCREEN_NAME)
                         .limit(offset, numberOfRows)
                         .fetchInto(Cellar)
             }
@@ -98,11 +99,12 @@ class CellarService extends BaseJooqService {
     }
 
     rx.Observable<Cellar> search(String searchTerm, int numberOfRows = 20, int offset = 0) {
-        observe(execControl.blocking {
+        observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
                     .from(CELLAR)
-                    .where(CELLAR.DISPLAY_NAME.likeIgnoreCase("%${searchTerm}%"))
+                    .where(CELLAR.SCREEN_NAME.likeIgnoreCase("%${searchTerm}%"))
+                    .orderBy(CELLAR.SCREEN_NAME)
                     .limit(offset, numberOfRows)
                     .fetchInto(Cellar)
             }
