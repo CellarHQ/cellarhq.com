@@ -31,7 +31,7 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
             response.status(statusCode)
             if (request.headers.get('Accept').contains('application/json')) {
                 render json([
-                        title: message.headTitle,
+                        title: messages.headTitle,
                         message: messages.pageTitle
                 ])
             } else {
