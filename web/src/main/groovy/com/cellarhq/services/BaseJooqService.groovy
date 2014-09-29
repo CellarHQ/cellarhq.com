@@ -1,5 +1,6 @@
 package com.cellarhq.services
 
+import com.cellarhq.jooq.listeners.CellarStatsUpdatingListener
 import com.cellarhq.jooq.listeners.InputSanitizingListener
 import groovy.transform.CompileStatic
 import org.jooq.Configuration
@@ -44,6 +45,7 @@ abstract class BaseJooqService {
     private Configuration makeConfiguration(Connection conn, Closure extraConfig = null) {
         Configuration configuration = new DefaultConfiguration().set(conn).set(JDBCUtils.dialect(conn))
         configuration.set(new DefaultRecordListenerProvider(InputSanitizingListener.instance))
+        configuration.set(new DefaultRecordListenerProvider(new CellarStatsUpdatingListener()))
 
         if (extraConfig) {
             extraConfig.call(configuration)

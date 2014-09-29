@@ -9,6 +9,7 @@ import static ratpack.rx.RxRatpack.observeEach
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
+import com.cellarhq.jooq.CellarStatsUpdater
 import com.cellarhq.mappers.CustomViewRecordMapperProvider
 import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
@@ -165,6 +166,9 @@ class CellaredDrinkService extends BaseJooqService {
                             .set(CELLARED_DRINK.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
                             .where(CELLARED_DRINK.ID.eq(id))
                             .execute()
+
+                    new CellarStatsUpdater().update(drink.cellarId, create)
+
                     drink.refresh(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.MODIFIED_DATE)
                     return drink.into(CellaredDrink)
                 }
