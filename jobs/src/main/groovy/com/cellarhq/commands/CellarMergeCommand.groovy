@@ -57,7 +57,7 @@ class CellarMergeCommand implements NamedCommand, DatabaseSupport {
             println('###################################################')
             println('## THIS IS NOT A DRY RUN (starting in 5 seconds) ##')
             println('###################################################')
-            sleep(5)
+            sleep(5000)
         }
 
         CellarRecord targetCellar = getCellar(targetCellarId)
