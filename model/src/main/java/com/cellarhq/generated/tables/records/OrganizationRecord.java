@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = 1825262034;
+	private static final long serialVersionUID = 1847137194;
 
 	/**
 	 * Setter for <code>public.organization.id</code>.
@@ -391,6 +391,51 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		return (java.lang.Boolean) getValue(24);
 	}
 
+	/**
+	 * Setter for <code>public.organization.total_beers</code>.
+	 */
+	public void setTotalBeers(java.lang.Short value) {
+		setValue(25, value);
+	}
+
+	/**
+	 * Getter for <code>public.organization.total_beers</code>.
+	 */
+	@javax.persistence.Column(name = "total_beers", nullable = false, precision = 16)
+	public java.lang.Short getTotalBeers() {
+		return (java.lang.Short) getValue(25);
+	}
+
+	/**
+	 * Setter for <code>public.organization.cellared_beers</code>.
+	 */
+	public void setCellaredBeers(java.lang.Short value) {
+		setValue(26, value);
+	}
+
+	/**
+	 * Getter for <code>public.organization.cellared_beers</code>.
+	 */
+	@javax.persistence.Column(name = "cellared_beers", nullable = false, precision = 16)
+	public java.lang.Short getCellaredBeers() {
+		return (java.lang.Short) getValue(26);
+	}
+
+	/**
+	 * Setter for <code>public.organization.contained_in_cellars</code>.
+	 */
+	public void setContainedInCellars(java.lang.Short value) {
+		setValue(27, value);
+	}
+
+	/**
+	 * Getter for <code>public.organization.contained_in_cellars</code>.
+	 */
+	@javax.persistence.Column(name = "contained_in_cellars", nullable = false, precision = 16)
+	public java.lang.Short getContainedInCellars() {
+		return (java.lang.Short) getValue(27);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -417,7 +462,7 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Create a detached, initialised OrganizationRecord
 	 */
-	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region, java.lang.Boolean warningFlag) {
+	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region, java.lang.Boolean warningFlag, java.lang.Short totalBeers, java.lang.Short cellaredBeers, java.lang.Short containedInCellars) {
 		super(com.cellarhq.generated.tables.Organization.ORGANIZATION);
 
 		setValue(0, id);
@@ -445,5 +490,8 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		setValue(22, data);
 		setValue(23, region);
 		setValue(24, warningFlag);
+		setValue(25, totalBeers);
+		setValue(26, cellaredBeers);
+		setValue(27, containedInCellars);
 	}
 }

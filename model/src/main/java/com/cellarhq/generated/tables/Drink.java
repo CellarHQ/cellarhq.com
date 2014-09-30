@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.DrinkRecord> {
 
-	private static final long serialVersionUID = 1011968340;
+	private static final long serialVersionUID = 1882204414;
 
 	/**
 	 * The singleton instance of <code>public.drink</code>
@@ -140,6 +140,21 @@ public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables
 	 * The column <code>public.drink.warning_flag</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Boolean> WARNING_FLAG = createField("warning_flag", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.drink.tradable_beers</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Short> TRADABLE_BEERS = createField("tradable_beers", org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.drink.cellared_beers</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Short> CELLARED_BEERS = createField("cellared_beers", org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.drink.contained_in_cellars</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Short> CONTAINED_IN_CELLARS = createField("contained_in_cellars", org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.drink</code> table reference
