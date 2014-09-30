@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1979069730;
+	private static final long serialVersionUID = -446735815;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -39,6 +39,7 @@ public class Organization implements java.io.Serializable {
 	private java.sql.Timestamp modifiedDate;
 	private java.lang.Object   data;
 	private java.lang.String   region;
+	private java.lang.Boolean  warningFlag;
 
 	public Organization() {}
 
@@ -66,7 +67,8 @@ public class Organization implements java.io.Serializable {
 		java.sql.Timestamp createdDate,
 		java.sql.Timestamp modifiedDate,
 		java.lang.Object   data,
-		java.lang.String   region
+		java.lang.String   region,
+		java.lang.Boolean  warningFlag
 	) {
 		this.id = id;
 		this.version = version;
@@ -92,6 +94,7 @@ public class Organization implements java.io.Serializable {
 		this.modifiedDate = modifiedDate;
 		this.data = data;
 		this.region = region;
+		this.warningFlag = warningFlag;
 	}
 
 	@javax.persistence.Id
@@ -309,5 +312,14 @@ public class Organization implements java.io.Serializable {
 
 	public void setRegion(java.lang.String region) {
 		this.region = region;
+	}
+
+	@javax.persistence.Column(name = "warning_flag", nullable = false)
+	public java.lang.Boolean getWarningFlag() {
+		return this.warningFlag;
+	}
+
+	public void setWarningFlag(java.lang.Boolean warningFlag) {
+		this.warningFlag = warningFlag;
 	}
 }

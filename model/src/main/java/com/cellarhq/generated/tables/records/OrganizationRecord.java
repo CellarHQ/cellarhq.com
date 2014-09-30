@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = 1573818431;
+	private static final long serialVersionUID = 1825262034;
 
 	/**
 	 * Setter for <code>public.organization.id</code>.
@@ -376,6 +376,21 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		return (java.lang.String) getValue(23);
 	}
 
+	/**
+	 * Setter for <code>public.organization.warning_flag</code>.
+	 */
+	public void setWarningFlag(java.lang.Boolean value) {
+		setValue(24, value);
+	}
+
+	/**
+	 * Getter for <code>public.organization.warning_flag</code>.
+	 */
+	@javax.persistence.Column(name = "warning_flag", nullable = false)
+	public java.lang.Boolean getWarningFlag() {
+		return (java.lang.Boolean) getValue(24);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -402,7 +417,7 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Create a detached, initialised OrganizationRecord
 	 */
-	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region) {
+	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region, java.lang.Boolean warningFlag) {
 		super(com.cellarhq.generated.tables.Organization.ORGANIZATION);
 
 		setValue(0, id);
@@ -429,5 +444,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		setValue(21, modifiedDate);
 		setValue(22, data);
 		setValue(23, region);
+		setValue(24, warningFlag);
 	}
 }

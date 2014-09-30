@@ -18,6 +18,7 @@
     <include file="releases/rapid-login-attempt-prevention.xml" relativeToChangelogFile="true"/>
 
     <include file="releases/misc_updates_from_importing_data.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add_warning_flag.xml" relativeToChangelogFile="true"/>
     <!-- next: -->
 
 </databaseChangeLog>

@@ -51,6 +51,7 @@ class SimpleDBToOrganizationMapper {
             self.searchable = true
             self.locked = false
             self.needsModeration = false
+            self.warningFlag = false
 
             return self
         }

@@ -21,6 +21,8 @@ class AmazonHelper {
     DateTimeParser[] parsers = [
         DateTimeFormat.forPattern( "yyyy-MM" ).getParser(),
         DateTimeFormat.forPattern( "yyyy-MM-dd" ).getParser(),
+        DateTimeFormat.forPattern( "MM/dd/yyyy" ).getParser(),
+        DateTimeFormat.forPattern( "dd/MM/yyyy" ).getParser(),
         ISODateTimeFormat.dateTimeParser().getParser()
     ]
 

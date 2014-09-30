@@ -6,6 +6,8 @@ import com.cellarhq.generated.tables.pojos.CellaredDrink
 import com.github.slugify.Slugify
 import org.jooq.DSLContext
 
+import java.time.LocalDate
+
 import static com.cellarhq.generated.Tables.ORGANIZATION
 import static com.cellarhq.generated.Tables.DRINK
 import static com.cellarhq.generated.Tables.CELLAR
@@ -35,14 +37,30 @@ class SimpleDBToCellaredDrinkMapper {
 
             String drinkName = helper.getAttribute(item.attributes, attrBeer)
             String organizationName = helper.getAttribute(item.attributes, attrBrewery)
+
+            if (drinkName.length() > 100) {
+                drinkName = drinkName.substring(0,99)
+            }
+
+            if (organizationName.length() > 100) {
+                organizationName = organizationName.substring(0,99)
+            }
+
+
             Integer drinkId = findDrinkId(dslContext, drinkName, organizationName)
 
             if (!drinkId) {
-                println "Could not find drink: ${drinkName} - ${organizationName}"
+                drinkId = insertDrink(drinkName, organizationName, dslContext)
             }
 
             self.drinkId = drinkId
-            //self.bottleDate = helper.getDateAttribute(item.attributes, attrBottleDate)?.toLocalDate()
+
+            org.joda.time.LocalDate parsedDate = helper.getDateAttribute(item.attributes, attrBottleDate)?.toLocalDate()
+
+            if (parsedDate) {
+                LocalDate bottledDate = new LocalDate(parsedDate.year, parsedDate.monthOfYear, parsedDate.dayOfMonth)
+                self.bottleDate = bottledDate
+            }
             self.notes = helper.getAttribute(item.attributes, attrNotes)
             self.quantity  = helper.getNumberAttribute(item.attributes, attrQuantity) ?: 0
             self.size = helper.getAttribute(item.attributes, attrSize)
@@ -50,6 +68,20 @@ class SimpleDBToCellaredDrinkMapper {
 
             self
         }
+    }
+
+    private int insertDrink(String beerName, String breweryName, DSLContext dslContext) {
+        String searchSlug = new Slugify().slugify(breweryName)
+        Integer organizationId = dslContext.select(ORGANIZATION.ID)
+            .from(ORGANIZATION)
+            .where(ORGANIZATION.SLUG.eq(searchSlug))
+            .fetchOneInto(Integer)
+
+        if (!organizationId) {
+            organizationId = new LastResort().insertOrganization(breweryName, dslContext).id
+        }
+
+        new LastResort().insertDrink(beerName, organizationId, dslContext).id
     }
 
     private Integer findDrinkId(DSLContext dslContext, String beerName, String breweryName) {

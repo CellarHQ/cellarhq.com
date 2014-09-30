@@ -1,6 +1,7 @@
 package com.cellarhq.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
+import com.cellarhq.generated.tables.Organization
 import com.cellarhq.generated.tables.pojos.Drink
 import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.generated.tables.records.OrganizationRecord
@@ -23,6 +24,7 @@ class SimpleDBBeerImporter {
         itemRetriever.withEachItem(selectAllBeersQuery) { Item item ->
             String beerName = helper.getAttribute(item.attributes, 'name').replace('"', '""')
             String breweryName = helper.getAttribute(item.attributes, 'brewery').replace('"', '""')
+
             String verificationSelect = "select * from cellar_PROD_cellars  where beer=\"${beerName}\" and brewery=\"${breweryName}\" limit 1"
 
             if (itemRetriever.doesQueryReturnResult(verificationSelect)) {
@@ -40,19 +42,12 @@ class SimpleDBBeerImporter {
                         drinkRecord.store()
 
                     } else {
-                        String organizationName = helper.getAttribute(item.attributes, 'brewery').trim()
-                        println "Count not find brewery ${organizationName} so inserting it now"
+                        String name = helper.getAttribute(item.attributes, 'brewery').trim()
+                        OrganizationRecord organization = new LastResort().insertOrganization(name, dslContext)
 
-                        OrganizationRecord newOrganization = dslContext.newRecord(ORGANIZATION)
+                        println "Could not find brewery ${organization.name} so inserted it now"
 
-                        newOrganization.name = organizationName
-                        newOrganization.slug = new Slugify().slugify(newOrganization.name)
-                        newOrganization.type = 'BREWERY'
-
-                        newOrganization.store()
-                        int newId = newOrganization.id
-
-                        drinkRecord.organizationId = newId
+                        drinkRecord.organizationId = organization.id
                         drinkRecord.store()
                     }
                 } catch (DataAccessException e) {

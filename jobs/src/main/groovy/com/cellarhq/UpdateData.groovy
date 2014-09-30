@@ -2,6 +2,12 @@ package com.cellarhq
 
 import com.cellarhq.brewerydb.BreweryDbBeerImporter
 import com.cellarhq.brewerydb.BreweryDbBreweryImporter
+import com.cellarhq.cellars.CellarCountUpdater
+import com.cellarhq.cleanup.OrphanedDataRemover
+import com.cellarhq.simpleDB.SimpleDBAccountImporter
+import com.cellarhq.simpleDB.SimpleDBBeerImporter
+import com.cellarhq.simpleDB.SimpleDBBreweryImporter
+import com.cellarhq.simpleDB.SimpleDBCellaredBeerImporter
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
@@ -28,13 +34,31 @@ class UpdateData {
 
             DSLContext create = DSL.using(conn, SQLDialect.POSTGRES)
 
-            //new S3BreweryImporter().importBeersFromS3(create)
-            //new S3BeerImporter().importBeersFromS3(create)
-            //new S3AccountImporter().importAccountsFromS3(create)
-            //new S3CellaredBeerImporter().importCellaredBeers(create)
+            println "Importing breweries"
+            new SimpleDBBreweryImporter().importBeersFromS3(create)
 
+            println "Importing beers"
+            new SimpleDBBeerImporter().importBeersFromS3(create)
+
+            println "Importing accounts"
+            new SimpleDBAccountImporter().importAccountsFromS3(create)
+
+            println "Importing cellared beers"
+            new SimpleDBCellaredBeerImporter().importCellaredBeers(create)
+
+            println "Updating stats for users"
+            new CellarCountUpdater().updateCounts(create)
+
+            println "Removing unused beers and breweries"
+            new OrphanedDataRemover().deleteOrphans(create)
+
+            println "Updating breweries from BreweryDB"
             new BreweryDbBreweryImporter().importBreweriesFromBDB(create)
+
+            println "Updating beers from BreweryDB"
             new BreweryDbBeerImporter().importBreweriesFromBDB(create)
+
+            println "All Done!"
         } catch (Exception e) {
             e.printStackTrace()
         }
