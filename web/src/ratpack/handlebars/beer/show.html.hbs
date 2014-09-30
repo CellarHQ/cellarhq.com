@@ -18,14 +18,14 @@
 
             <div class="row">
                 {{#if drink.description}}
-                        <article>
+                    <div class="col-sm-5 col-md-5 cold-lg 5 pull-left">
                         <p class="lead"><strong>Description</strong></p>
                         <p>{{drink.description}}</p>
-                        </article>
+                    </div>
 
                 {{/if}}
 
-                <div class="list-group float-right">
+                <div class="list-group pull-right col-sm-5 col-md-5 cold-lg 5 ">
                     {{#if drink.style}}
                     <a href="javascript:void(0)" class="list-group-item">
                         <span class="badge">{{drink.style}}</span>

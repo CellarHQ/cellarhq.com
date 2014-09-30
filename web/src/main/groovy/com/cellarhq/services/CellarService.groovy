@@ -118,7 +118,7 @@ class CellarService extends BaseJooqService {
                         .from(CELLAR)
 
                 if (searchTerm) {
-                    select.where(CELLAR.DISPLAY_NAME.likeIgnoreCase("%${searchTerm}%"))
+                    select.where(CELLAR.SCREEN_NAME.likeIgnoreCase("%${searchTerm}%"))
                 }
 
                 select.fetchOneInto(Integer)

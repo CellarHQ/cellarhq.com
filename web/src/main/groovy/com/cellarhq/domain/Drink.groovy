@@ -15,6 +15,10 @@ import groovy.transform.InheritConstructors
 @InheritConstructors
 class Drink extends com.cellarhq.generated.tables.pojos.Drink {
 
+    String organizationName
+    String organizationSlug
+    String styleName
+
     Drink() {
         searchable = true
         locked = false
@@ -25,4 +29,6 @@ class Drink extends com.cellarhq.generated.tables.pojos.Drink {
     void setSlug(String slug) {
         super.slug = new Slugify().slugify(slug)
     }
+
+
 }

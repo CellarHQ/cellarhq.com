@@ -6,6 +6,7 @@ import com.cellarhq.generated.Keys
 import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.mappers.CustomViewRecordMapperProvider
+import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import org.jooq.Configuration
@@ -28,15 +29,21 @@ class DrinkService extends BaseJooqService {
     }
 
 
-    Observable<Drink> search(String searchTerm, int numberOfRows=20, int offset=0) {
+    Observable<Drink> search(String searchTerm, int numberOfRows = 20, int offset = 0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
-                create.select()
-                        .from(DRINK)
-                        .where(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
-                        .orderBy(DRINK.NAME)
-                        .limit(offset, numberOfRows)
-                        .fetchInto(Drink)
+                create.select(JooqUtil.andFields(
+                    DRINK.fields(),
+                    ORGANIZATION.NAME.as('organizationName'),
+                    ORGANIZATION.SLUG.as('organizationSlug'),
+                    STYLE.NAME.as('styleName')))
+                    .from(Tables.DRINK)
+                    .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+                    .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+                    .where(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
+                    .orderBy(DRINK.NAME)
+                    .limit(offset, numberOfRows)
+                    .fetchInto(Drink)
             }
         })
     }
@@ -45,12 +52,12 @@ class DrinkService extends BaseJooqService {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
-                        .from(DRINK)
-                        .where(DRINK.ORGANIZATION_ID.eq(organizationId))
-                            .and(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
-                        .orderBy(DRINK.NAME)
-                        .limit(offset, numRows)
-                        .fetchInto(Drink)
+                    .from(DRINK)
+                    .where(DRINK.ORGANIZATION_ID.eq(organizationId))
+                    .and(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
+                    .orderBy(DRINK.NAME)
+                    .limit(offset, numRows)
+                    .fetchInto(Drink)
             }
         })
     }
@@ -64,10 +71,10 @@ class DrinkService extends BaseJooqService {
                 ]))
             }) { DSLContext create ->
                 create.select(
-                        DRINK.SLUG,
-                        DRINK.NAME.as('drink'),
-                        STYLE.NAME.as('style'),
-                        DRINK.AVAILABILITY)
+                    DRINK.SLUG,
+                    DRINK.NAME.as('drink'),
+                    STYLE.NAME.as('style'),
+                    DRINK.AVAILABILITY)
                     .from(DRINK)
                     .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
                     .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
@@ -82,9 +89,9 @@ class DrinkService extends BaseJooqService {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select(DRINK.NAME)
-                        .from(DRINK)
-                        .where(DRINK.ID.eq(id))
-                        .fetchOne(DRINK.NAME)
+                    .from(DRINK)
+                    .where(DRINK.ID.eq(id))
+                    .fetchOne(DRINK.NAME)
             }
         }).asObservable()
     }
@@ -127,8 +134,14 @@ class DrinkService extends BaseJooqService {
     Observable<Drink> findBySlug(String slug) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                create.select()
+                create.select(JooqUtil.andFields(
+                    DRINK.fields(),
+                    ORGANIZATION.NAME.as('organizationName'),
+                    ORGANIZATION.SLUG.as('organizationSlug'),
+                    STYLE.NAME.as('styleName')))
                     .from(Tables.DRINK)
+                    .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+                    .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
                     .where(Tables.DRINK.SLUG.eq(slug))
                     .fetchOneInto(Drink)
             }
@@ -136,11 +149,23 @@ class DrinkService extends BaseJooqService {
 
     }
 
-    Observable<Drink> all(int numberOfRows=20, int offset=0) {
+    Observable<Drink> all(int numberOfRows = 20, int offset = 0) {
         observeEach(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select()
+            jooq({ Configuration c ->
+                c.set(new CustomViewRecordMapperProvider([
+                    organizationName: String,
+                    organizationSlug: String,
+                    styleName: String
+                ]))
+            }) { DSLContext create ->
+                create.select(JooqUtil.andFields(
+                    DRINK.fields(),
+                    ORGANIZATION.NAME.as('organizationName'),
+                    ORGANIZATION.SLUG.as('organizationSlug'),
+                    STYLE.NAME.as('styleName')))
                     .from(Tables.DRINK)
+                    .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+                    .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
                     .orderBy(Tables.DRINK.NAME)
                     .limit(offset, numberOfRows)
                     .fetchInto(Drink)

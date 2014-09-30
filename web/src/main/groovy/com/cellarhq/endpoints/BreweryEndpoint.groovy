@@ -157,6 +157,7 @@ class BreweryEndpoint extends GroovyChainAction {
                             organization: map.organization,
                             title: "CellarHQ : ${map.organization.name}",
                             drinks: map.drinks,
+                            numberOfDrinks: map.drinks.size(),
                             pageId: 'breweries.show',
                             loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
                     })

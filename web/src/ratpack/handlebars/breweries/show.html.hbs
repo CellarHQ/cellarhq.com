@@ -1,5 +1,5 @@
 {{# partial "header" }}
-  <h1>Brewery Management</h1>
+    <h1>Brewery Management</h1>
 {{/partial}}
 {{# partial "content" }}
     <div class="row">
@@ -11,56 +11,52 @@
                 </div>
 
                 {{#if organization.editable }}
-                <div class="row">
-                    <a href="/breweries/{{organization.slug}}/edit" class="btn btn-primary pull-right">Edit</a>
-                </div>
+                    <div class="row">
+                        <a href="/breweries/{{organization.slug}}/edit" class="btn btn-primary pull-right">Edit</a>
+                    </div>
                 {{/if}}
 
                 {{#if organization.description}}
                     <div class="row">
                         <p class="lead"><strong>Description</strong></p>
+
                         <p>{{organization.description}}</p>
                     </div>
                 {{/if}}
 
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-5 col-md-5 cold-lg 5 pull-left">
                         <address>
                             {{organization.address}}<br/>
                             {{#if organization.address2}}
                                 {{organization.address2}}<br/>
                             {{/if}}
-                            {{locality}}{{#if region}}{{#if locality}},{{/if}} {{region}}{{/if}} {{organization.postalcode}} {{country}}<br/>
-                            {{#if organization.phone}}<i class="gi gi-phone_alt text-info"></i> {{organization.phone}}<br/>{{/if}}
+                            {{locality}}{{#if region}}{{#if locality}}
+                            ,{{/if}} {{region}}{{/if}} {{organization.postalcode}} {{country}}<br/>
+                            {{#if organization.phone}}<i class="gi gi-phone_alt text-info"></i> {{organization.phone}}
+                                <br/>{{/if}}
                             {{#if organization.website}}
                                 <i class="hi hi-link text-info">
-                                    <a target="_blank"  href="{{organization.website}}">{{organization.website}}</a>
+                                    <a target="_blank" href="{{organization.website}}">{{organization.website}}</a>
                                 </i>
                             {{/if}}
                         </address>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="text-center">
-                            <img src="http://cdn-storage-www.cellarhq.com/brewery/surly-brewing-company/surly-brewing-company-5e12d-166x168.png"
-                                 alt="avatar" class="img-thumbnail">
-
-                            <h3 class="widget-heading"><i class="gi gi-beer text-info"></i> <br>
-                                <small>{{drinks.size}}</small>
-                            </h3>
-                        </div>
+                    <div class="list-group pull-right col-sm-5 col-md-5 cold-lg 5">
+                        <a href="javascript:void(0)" class="list-group-item">
+                            <span class="badge">{{numberOfDrinks}}</span>
+                            <h4 class="list-group-item-heading">Beers</h4>
+                        </a>
+                        <a href="javascript:void(0)" class="list-group-item">
+                            <span class="badge">{{numberOfDrinks}}</span>
+                            <h4 class="list-group-item-heading">Included in Cellars</h4>
+                        </a>
+                        <a href="javascript:void(0)" class="list-group-item">
+                            <span class="badge">{{numberOfDrinks}}</span>
+                            <h4 class="list-group-item-heading"># Beers Cellared</h4>
+                        </a>
                     </div>
                 </div>
-
-                <div class="content-header">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="header-section">
-                                <h1>Beers</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="table-responsive">
                         <table id="beer-table" class="table table-striped table-bordered table-condensed table-vcenter">
@@ -86,7 +82,5 @@
             </div>
         </div>
     </div>
-
 {{/partial}}
-
 {{> layout.html}}
