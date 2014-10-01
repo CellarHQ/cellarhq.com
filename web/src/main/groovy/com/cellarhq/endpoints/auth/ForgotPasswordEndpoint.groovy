@@ -2,6 +2,7 @@ package com.cellarhq.endpoints.auth
 
 import static ratpack.handlebars.Template.handlebarsTemplate
 
+import com.cellarhq.CellarHQModule
 import com.cellarhq.Messages
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
@@ -63,7 +64,7 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                                 | Forgot your password, huh? Don't worry, we'll help you change it: Follow the link
                                 | below to change it. It will only be valid for 24 hours, so make it quick!
                                 |
-                                | http://www.cellarhq.com/forgot-password/${recoveryHash}
+                                | http://${CellarHQModule.hostname}/forgot-password/${recoveryHash}
                                 |
                                 | Cheers!
                                 | Kyle and Rob

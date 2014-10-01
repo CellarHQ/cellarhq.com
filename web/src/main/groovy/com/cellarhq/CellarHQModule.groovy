@@ -30,8 +30,12 @@ import javax.validation.ValidatorFactory
 @CompileStatic
 class CellarHQModule extends AbstractModule {
 
-    final static String ENV_DEPLOYMENT = 'deploymentEnv'
+    final static String ENV_DEPLOYMENT = 'CHQ_DEPLOYMENT'
+    final static String ENV_HOSTNAME = 'CHQ_HOSTNAME'
+    final static String ENV_GA_TRACKING_CODE = 'CHQ_GA_ID'
+
     final static String ENV_DEPLOYMENT_PRODUCTION = 'production'
+    final static String ENV_HOSTNAME_PRODUCTION = 'www.cellarhq.com'
 
     private final String awsAccessKey
     private final String awsSecretKey
@@ -43,6 +47,16 @@ class CellarHQModule extends AbstractModule {
 
     static boolean isProductionEnv() {
         return System.getenv(ENV_DEPLOYMENT) == ENV_DEPLOYMENT_PRODUCTION
+    }
+
+    static String getHostname() {
+        String hostname = null
+        try {
+            hostname = System.getenv(ENV_HOSTNAME)
+        } catch (NullPointerException e) {
+            hostname = ENV_HOSTNAME_PRODUCTION
+        }
+        return hostname ?: ENV_HOSTNAME_PRODUCTION
     }
 
     @Override
