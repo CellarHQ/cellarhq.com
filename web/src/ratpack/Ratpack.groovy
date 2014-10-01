@@ -15,6 +15,7 @@ import com.cellarhq.services.CellarService
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
+import com.github.jknack.handlebars.cache.TemplateCache
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.error.ClientErrorHandler
@@ -223,6 +224,11 @@ ratpack {
         get('health-checks', { HealthCheckRegistry healthCheckRegistry ->
             render json(healthCheckRegistry.runHealthChecks())
         })
+
+        post('bust-cache') { TemplateCache cache ->
+            cache.clear()
+            render json('ok')
+        }
 
         assets "public"
     }
