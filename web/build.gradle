@@ -105,4 +105,6 @@ test.dependsOn ':model:dropAll', ':model:update'
 run {
     // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
     systemProperty 'DISABLE_SERVICES', true
+    environment 'CHQ_GA_ID', 'UA-27709782-2' // Local GA tracking code
+    environment 'CHQ_HOSTNAME', 'localhost:5050'
 }

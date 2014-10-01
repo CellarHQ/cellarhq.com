@@ -1,5 +1,6 @@
 package com.cellarhq.handlebars
 
+import com.cellarhq.CellarHQModule
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -30,6 +31,7 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
     private final static String MODEL_LOGGED_IN = 'loggedIn'
     private final static String MODEL_PAGE_URI = 'pageUri'
     private final static String MODEL_REQUEST = 'request'
+    private final static String MODEL_GA_TRACKING_CODE = 'gaTrackingCode'
 
     @Inject
     HandlebarsTemplateRendererImpl(Handlebars handlebars) {
@@ -60,6 +62,10 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
 
         model[MODEL_LOGGED_IN] = SessionUtil.isLoggedIn(context.request.maybeGet(CommonProfile))
         applyFlashMessages(context.request, model)
+
+        if (System.getenv(CellarHQModule.ENV_GA_TRACKING_CODE)) {
+            model[MODEL_GA_TRACKING_CODE] = System.getenv(CellarHQModule.ENV_GA_TRACKING_CODE)
+        }
 
         model[MODEL_REQUEST] = context.request
 
