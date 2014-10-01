@@ -2,12 +2,12 @@ package com.cellarhq.cli
 
 import com.cellarhq.commands.CellarMergeCommand
 import com.cellarhq.commands.NamedCommand
+import com.cellarhq.commands.UpdateCountsCommand
 import groovy.transform.CompileStatic
 
 /**
  * Offers an entry point into CLI jobs.
  */
-@CompileStatic
 class CommandApp {
 
     final static void main(String[] args) {
@@ -17,7 +17,8 @@ class CommandApp {
         }
 
         NamedCommand command = [
-                new CellarMergeCommand()
+                new CellarMergeCommand(),
+                new UpdateCountsCommand()
         ].find { it.name == args[0] }
         if (!command) {
             throw new IllegalArgumentException("Cannot find command with name '${args[0]}'")

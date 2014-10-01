@@ -55,11 +55,11 @@ class SettingsEndpoint extends GroovyHandler {
                         ]
                     }.subscribe { Map map ->
                         render handlebarsTemplate('settings.html',
-                                title: 'Account Settings',
+                                [title: 'Account Settings',
                                 isOauthAccount: profile instanceof TwitterProfile,
                                 pageId: 'settings',
                                 cellar: map.cellar,
-                                photo: map.photo)
+                                photo: map.photo])
                     }
                 }
 
@@ -116,10 +116,10 @@ class SettingsEndpoint extends GroovyHandler {
                             redirect('/settings')
                         } else {
                             render handlebarsTemplate('settings.html',
-                                    title: 'Account Settings',
+                                    [title: 'Account Settings',
                                     pageId: 'settings',
                                     isOauthAccount: profile instanceof TwitterProfile,
-                                    cellar: result.cellar
+                                    cellar: result.cellar]
                             )
                         }
                     }

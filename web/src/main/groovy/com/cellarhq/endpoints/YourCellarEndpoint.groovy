@@ -57,12 +57,12 @@ class YourCellarEndpoint extends GroovyHandler {
                             clientError 404
                         } else {
                             render handlebarsTemplate('cellars/show.html',
-                                    cellar: map.cellar,
+                                    [cellar: map.cellar,
                                     photo: map.photo,
                                     cellaredDrinks: map.cellaredDrinks,
                                     self: true,
                                     title: 'CellarHQ : Your Cellar',
-                                    pageId: 'yourcellar'
+                                    pageId: 'yourcellar']
                             )
                         }
                     }

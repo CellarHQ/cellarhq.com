@@ -83,7 +83,7 @@ docker {
     apiEmail project.hasProperty('dockerApiEmail') ? project.dockerApiEmail : 'invalid'
 }
 
-task buildDocker(type: Docker, dependsOn: 'build') {
+task buildDocker(type: Docker) {
     registry 'kyleboon'
     applicationName = 'cellarhq'
     tagVersion = 'latest'

@@ -64,13 +64,13 @@ class BreweryEndpoint extends GroovyChainAction {
                         Boolean shouldShowPagination = pageCount != 0
 
                         render handlebarsTemplate('breweries/list.html',
-                                organizations: map.organizations,
+                                [organizations: map.organizations,
                                 currentPage: requestedPage,
                                 totalPageCount: pageCount,
                                 shouldShowPagination: shouldShowPagination,
                                 title: 'CellarHQ : Breweries',
                                 pageId: 'breweries.list',
-                                loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                                loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
                     }, {
                         clientError 500
                     })
@@ -107,12 +107,12 @@ class BreweryEndpoint extends GroovyChainAction {
          */
         get('breweries/add') { OrganizationService organizationService ->
             render handlebarsTemplate('breweries/new.html',
-                    organization: new Organization(),
+                    [organization: new Organization(),
                     title: 'CellarHQ : Add New Brewery',
                     pageId: 'breweries.new',
                     error: request.queryParams.error ?: '',
                     errorMessages: SessionUtil.getFlashMessages(request).collect { [message: it] },
-                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
 
         }
 
@@ -124,10 +124,10 @@ class BreweryEndpoint extends GroovyChainAction {
             organizationService.findBySlug(slug).single().subscribe { Organization organization ->
                 if (organization.editable) {
                     render handlebarsTemplate('breweries/edit.html',
-                            organization: organization,
+                            [organization: organization,
                             title: "CellarHQ : Edit ${organization.name}",
                             pageId: 'breweries.show',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
                 } else {
                     clientError 403
                 }
@@ -154,12 +154,12 @@ class BreweryEndpoint extends GroovyChainAction {
                         ]
                     }.subscribe({ Map map ->
                         render handlebarsTemplate('breweries/show.html',
-                            organization: map.organization,
+                            [organization: map.organization,
                             title: "CellarHQ : ${map.organization.name}",
                             drinks: map.drinks,
                             numberOfDrinks: map.drinks.size(),
                             pageId: 'breweries.show',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
                     })
                 }
 

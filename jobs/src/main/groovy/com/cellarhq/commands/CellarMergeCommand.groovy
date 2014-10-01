@@ -6,7 +6,6 @@ import com.cellarhq.commands.support.DatabaseSupport
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.AccountOauthRecord
 import com.cellarhq.generated.tables.records.CellarRecord
-import groovy.transform.CompileStatic
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
