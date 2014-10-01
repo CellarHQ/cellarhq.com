@@ -63,7 +63,7 @@ class BreweryEndpoint extends GroovyChainAction {
                         Integer pageCount = (map.totalCount / pageSize)
                         Boolean shouldShowPagination = pageCount != 0
 
-                        render handlebarsTemplate('breweries/list.html',
+                        render handlebarsTemplate('breweries/list-brewery.html',
                                 [organizations: map.organizations,
                                 currentPage: requestedPage,
                                 totalPageCount: pageCount,
@@ -106,7 +106,7 @@ class BreweryEndpoint extends GroovyChainAction {
          * HTML page for adding a new brewery.
          */
         get('breweries/add') { OrganizationService organizationService ->
-            render handlebarsTemplate('breweries/new.html',
+            render handlebarsTemplate('breweries/new-brewery.html',
                     [organization: new Organization(),
                     title: 'CellarHQ : Add New Brewery',
                     pageId: 'breweries.new',
@@ -123,7 +123,7 @@ class BreweryEndpoint extends GroovyChainAction {
             String slug = pathTokens['slug']
             organizationService.findBySlug(slug).single().subscribe { Organization organization ->
                 if (organization.editable) {
-                    render handlebarsTemplate('breweries/edit.html',
+                    render handlebarsTemplate('breweries/edit-brewery.html',
                             [organization: organization,
                             title: "CellarHQ : Edit ${organization.name}",
                             pageId: 'breweries.show',
@@ -153,7 +153,7 @@ class BreweryEndpoint extends GroovyChainAction {
                             drinks   : drinks
                         ]
                     }.subscribe({ Map map ->
-                        render handlebarsTemplate('breweries/show.html',
+                        render handlebarsTemplate('breweries/show-brewery.html',
                             [organization: map.organization,
                             title: "CellarHQ : ${map.organization.name}",
                             drinks: map.drinks,

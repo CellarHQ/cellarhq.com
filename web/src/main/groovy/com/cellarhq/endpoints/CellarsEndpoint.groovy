@@ -76,7 +76,7 @@ class CellarsEndpoint extends GroovyChainAction {
                 Integer pageCount = (map.totalCount / pageSize)
                 Boolean shouldShowPagination = pageCount != 0
 
-                render handlebarsTemplate('cellars/list.html',
+                render handlebarsTemplate('cellars/list-cellars.html',
                         [cellars: map.cellars,
                         currentPage: requestedPage,
                         totalPageCount: pageCount,
@@ -104,7 +104,7 @@ class CellarsEndpoint extends GroovyChainAction {
                 if (map.cellar == null) {
                     clientError 404
                 } else {
-                    render handlebarsTemplate('cellars/show.html',
+                    render handlebarsTemplate('cellars/show-cellar.html',
                             [cellar: map.cellar,
                             photo: map.cellar.photo,
                             cellaredDrinks: map.cellaredDrinks,

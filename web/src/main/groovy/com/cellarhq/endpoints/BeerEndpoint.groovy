@@ -51,7 +51,7 @@ class BeerEndpoint extends GroovyChainAction {
                         Integer pageCount = (map.totalCount / pageSize)
                         Boolean shouldShowPagination = pageCount != 0
 
-                        render handlebarsTemplate('beer/list.html',
+                        render handlebarsTemplate('beer/list-beer.html',
                             [drinks: map.drinks,
                             currentPage: requestedPage,
                             totalPageCount: pageCount,
@@ -94,7 +94,7 @@ class BeerEndpoint extends GroovyChainAction {
                     String slug = pathTokens['slug']
 
                     drinkService.findBySlug(slug).single().subscribe { Drink drink ->
-                        render handlebarsTemplate('beer/show.html',
+                        render handlebarsTemplate('beer/show-beer.html',
                             [drink: drink,
                             title: "CellarHQ : ${drink.name}",
                             pageId: 'beer.show',
