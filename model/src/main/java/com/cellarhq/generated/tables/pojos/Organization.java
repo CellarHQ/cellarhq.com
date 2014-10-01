@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = -446735815;
+	private static final long serialVersionUID = 1469164379;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -40,6 +40,9 @@ public class Organization implements java.io.Serializable {
 	private java.lang.Object   data;
 	private java.lang.String   region;
 	private java.lang.Boolean  warningFlag;
+	private java.lang.Short    totalBeers;
+	private java.lang.Short    cellaredBeers;
+	private java.lang.Short    containedInCellars;
 
 	public Organization() {}
 
@@ -68,7 +71,10 @@ public class Organization implements java.io.Serializable {
 		java.sql.Timestamp modifiedDate,
 		java.lang.Object   data,
 		java.lang.String   region,
-		java.lang.Boolean  warningFlag
+		java.lang.Boolean  warningFlag,
+		java.lang.Short    totalBeers,
+		java.lang.Short    cellaredBeers,
+		java.lang.Short    containedInCellars
 	) {
 		this.id = id;
 		this.version = version;
@@ -95,6 +101,9 @@ public class Organization implements java.io.Serializable {
 		this.data = data;
 		this.region = region;
 		this.warningFlag = warningFlag;
+		this.totalBeers = totalBeers;
+		this.cellaredBeers = cellaredBeers;
+		this.containedInCellars = containedInCellars;
 	}
 
 	@javax.persistence.Id
@@ -321,5 +330,32 @@ public class Organization implements java.io.Serializable {
 
 	public void setWarningFlag(java.lang.Boolean warningFlag) {
 		this.warningFlag = warningFlag;
+	}
+
+	@javax.persistence.Column(name = "total_beers", nullable = false, precision = 16)
+	public java.lang.Short getTotalBeers() {
+		return this.totalBeers;
+	}
+
+	public void setTotalBeers(java.lang.Short totalBeers) {
+		this.totalBeers = totalBeers;
+	}
+
+	@javax.persistence.Column(name = "cellared_beers", nullable = false, precision = 16)
+	public java.lang.Short getCellaredBeers() {
+		return this.cellaredBeers;
+	}
+
+	public void setCellaredBeers(java.lang.Short cellaredBeers) {
+		this.cellaredBeers = cellaredBeers;
+	}
+
+	@javax.persistence.Column(name = "contained_in_cellars", nullable = false, precision = 16)
+	public java.lang.Short getContainedInCellars() {
+		return this.containedInCellars;
+	}
+
+	public void setContainedInCellars(java.lang.Short containedInCellars) {
+		this.containedInCellars = containedInCellars;
 	}
 }

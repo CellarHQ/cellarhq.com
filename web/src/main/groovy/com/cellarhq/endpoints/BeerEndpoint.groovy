@@ -51,14 +51,14 @@ class BeerEndpoint extends GroovyChainAction {
                         Integer pageCount = (map.totalCount / pageSize)
                         Boolean shouldShowPagination = pageCount != 0
 
-                        render handlebarsTemplate('beer/list.html',
-                            drinks: map.drinks,
+                        render handlebarsTemplate('beer/list-beer.html',
+                            [drinks: map.drinks,
                             currentPage: requestedPage,
                             totalPageCount: pageCount,
                             shouldShowPagination: shouldShowPagination,
                             title: 'CellarHQ : Beer',
                             pageId: 'beer.list',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
                     }, {
                         clientError 500
                     })
@@ -94,11 +94,11 @@ class BeerEndpoint extends GroovyChainAction {
                     String slug = pathTokens['slug']
 
                     drinkService.findBySlug(slug).single().subscribe { Drink drink ->
-                        render handlebarsTemplate('beer/show.html',
-                            drink: drink,
+                        render handlebarsTemplate('beer/show-beer.html',
+                            [drink: drink,
                             title: "CellarHQ : ${drink.name}",
                             pageId: 'beer.show',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile)))
+                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
                     }
                 }
             }

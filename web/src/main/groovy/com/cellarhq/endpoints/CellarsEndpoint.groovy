@@ -76,13 +76,13 @@ class CellarsEndpoint extends GroovyChainAction {
                 Integer pageCount = (map.totalCount / pageSize)
                 Boolean shouldShowPagination = pageCount != 0
 
-                render handlebarsTemplate('cellars/list.html',
-                        cellars: map.cellars,
+                render handlebarsTemplate('cellars/list-cellars.html',
+                        [cellars: map.cellars,
                         currentPage: requestedPage,
                         totalPageCount: pageCount,
                         shouldShowPagination: shouldShowPagination,
                         title: 'CellarHQ : Cellars',
-                        pageId: 'cellars.list')
+                        pageId: 'cellars.list'])
             }, {
                 clientError 500
             })
@@ -104,13 +104,13 @@ class CellarsEndpoint extends GroovyChainAction {
                 if (map.cellar == null) {
                     clientError 404
                 } else {
-                    render handlebarsTemplate('cellars/show.html',
-                            cellar: map.cellar,
+                    render handlebarsTemplate('cellars/show-cellar.html',
+                            [cellar: map.cellar,
                             photo: map.cellar.photo,
                             cellaredDrinks: map.cellaredDrinks,
                             self: isSelf,
                             title: "CellarHQ : ${map.cellar.displayName}",
-                            pageId: 'cellars.show')
+                            pageId: 'cellars.show'])
                 }
             }
         }
@@ -181,10 +181,10 @@ class CellarsEndpoint extends GroovyChainAction {
             cellaredDrinkService.findByIdForEdit(slug, drinkId).single().subscribe { CellaredDrinkDetails drink ->
                 if (drink) {
                     render handlebarsTemplate('cellars/edit-cellared-drink.html',
-                            action: request.uri.replace('/edit', ''),
+                            [action: request.uri.replace('/edit', ''),
                             cellaredDrink: drink,
                             title: 'CellarHQ : Edit Cellared Drink',
-                            pageId: 'cellared-drink.edit')
+                            pageId: 'cellared-drink.edit'])
                 } else {
                     clientError 404
                 }

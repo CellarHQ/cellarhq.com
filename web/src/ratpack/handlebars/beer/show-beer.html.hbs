@@ -18,14 +18,14 @@
 
             <div class="row">
                 {{#if drink.description}}
-                        <article>
+                    <div class="col-sm-5 col-md-5 cold-lg 5 pull-left">
                         <p class="lead"><strong>Description</strong></p>
                         <p>{{drink.description}}</p>
-                        </article>
+                    </div>
 
                 {{/if}}
 
-                <div class="list-group float-right">
+                <div class="list-group pull-right col-sm-5 col-md-5 cold-lg 5 ">
                     {{#if drink.style}}
                     <a href="javascript:void(0)" class="list-group-item">
                         <span class="badge">{{drink.style}}</span>
@@ -56,6 +56,18 @@
                         <h4 class="list-group-item-heading"><strong>SRM</strong></h4>
                     </a>
                     {{/if}}
+                    <a href="javascript:void(0)" class="list-group-item">
+                        <span class="badge">{{drink.tradableBeers}}</span>
+                        <h4 class="list-group-item-heading">Tradable Beers</h4>
+                    </a>
+                    <a href="javascript:void(0)" class="list-group-item">
+                        <span class="badge">{{drink.cellaredBeers}}</span>
+                        <h4 class="list-group-item-heading">Total in cellars</h4>
+                    </a>
+                    <a href="javascript:void(0)" class="list-group-item">
+                        <span class="badge">{{drink.containedInCellars}}</span>
+                        <h4 class="list-group-item-heading">Contained in cellars</h4>
+                    </a>
                 </div>
             </div>
             </div>

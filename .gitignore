@@ -24,4 +24,6 @@ out
 app.log
 app*.gz
 
+cellarhqdump.sql
+
 assets/AppUI 1.0 by pixelcave/
