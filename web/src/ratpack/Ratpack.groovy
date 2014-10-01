@@ -81,9 +81,10 @@ ratpack {
         add new HandlebarsModule()
 
         // IMPORTANT: Our module must be last, so we can override whatever we need to created by the other modules.
+        // TODO: Remove AWS keys from codebase, generate new ones and inject via env vars.
         add new CellarHQModule(
-                getConfig(launchConfig, 'other.aws.accessKey', 'AKIAIXBP2ORLESIX5CIQ'),
-                getConfig(launchConfig, 'other.aws.secretKey', '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')
+                getConfig(launchConfig, 'other.aws.accessKey', 'AKIAJE3VS4JUNXZODG2Q'),
+                getConfig(launchConfig, 'other.aws.secretKey', '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')
         )
 
         init {
