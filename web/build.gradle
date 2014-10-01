@@ -63,7 +63,8 @@ dependencies {
     runtime 'org.slf4j:slf4j-api:1.7.7'
     runtime 'ch.qos.logback:logback-classic:1.1.2'
     runtime 'com.lmax:disruptor:3.3.0'
-    runtime 'net.kencochrane.raven:raven:5.0.1'
+    runtime 'net.kencochrane.raven:raven-logback:5.0.1'
+
 
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
         exclude module: 'groovy-all'

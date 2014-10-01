@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <if condition='property("DISABLE_SERVICES").contains("true")'>
-        <then>
             <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
                 <encoder>
                     <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
@@ -11,8 +9,6 @@
             <root level="info">
                 <appender-ref ref="STDOUT"/>
             </root>
-        </then>
-    </if>
 
     <!-- We only want the service appenders if we're running in prod -->
     <if condition='!property("DISABLE_SERVICES").contains("true")'>
