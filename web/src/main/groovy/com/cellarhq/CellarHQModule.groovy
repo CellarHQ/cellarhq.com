@@ -57,14 +57,9 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
     }
 
     static String getHostname() {
-        String hostname = null
-        try {
-            hostname = System.getenv(ENV_HOSTNAME)
-        } catch (NullPointerException e) {
-            hostname = ENV_HOSTNAME_PRODUCTION
-              return hostname ?: ENV_HOSTNAME_PRODUCTION
+        String hostname = System.getenv(ENV_HOSTNAME)
+        return hostname ?: ENV_HOSTNAME_PRODUCTION
     }
-  }
 
     @Override
     protected void configure() {
