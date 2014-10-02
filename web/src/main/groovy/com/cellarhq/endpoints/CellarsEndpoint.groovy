@@ -16,6 +16,7 @@ import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
+import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyChainAction
@@ -117,11 +118,16 @@ class CellarsEndpoint extends GroovyChainAction {
 
         post('cellars/:slug/drinks') {
             String slug = pathTokens['slug']
-            boolean isSelf = request.maybeGet(UserProfile)?.username == slug
+
+            // TODO: Removing this temporarily, it needs to be moved later because
+            // pac4j is setting the username as the email address (because that's what
+            // people use to log in with)
+            // boolean isSelf = request.maybeGet(CommonProfile)?.username == slug
+            boolean isSelf = true
 
             if (!isSelf) {
                 log.warn(LogUtil.toLog('AccessControlExceeded', [
-                        subject: request.maybeGet(UserProfile)?.username,
+                        subject: request.maybeGet(CommonProfile)?.username,
                         accessingAs: slug,
                         action: 'POSTing to another cellar drinks'
                 ]))

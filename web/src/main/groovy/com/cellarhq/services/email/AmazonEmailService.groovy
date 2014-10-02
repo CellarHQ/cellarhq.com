@@ -44,7 +44,7 @@ class AmazonEmailService implements EmailService {
                         )
                 )
         )
-        log.info(LogUtil.toLog('Sent email', [
+        log.info(LogUtil.toLog('Sent email via amazon', [
                 from: from,
                 subject: subject,
                 to: to,

@@ -50,6 +50,9 @@ class TwitterLoginEndpoint extends GroovyHandler {
                     TwitterProfile twitterProfile = request.get(TwitterProfile)
 
                     blocking {
+                        log.info(LogUtil.toLog('Twitter Login Attempt', [
+                            twitterProfile: twitterProfile.username
+                        ]))
                         OAuthAccount account = accountService.findByCredentials(twitterProfile.username)
                         if (account) {
                             cellarService.updateLoginStats(account.cellar, twitterProfile)

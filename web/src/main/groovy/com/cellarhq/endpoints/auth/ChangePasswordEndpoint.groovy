@@ -64,6 +64,9 @@ class ChangePasswordEndpoint extends GroovyHandler {
 
                         EmailAccount account = accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
                         if (account) {
+                            log.info(LogUtil.toLog('ChangingPassword', [
+                                accountId: account.id
+                            ]))
                             account.password = form.password
                             account.passwordConfirm = form.passwordConfirm
 

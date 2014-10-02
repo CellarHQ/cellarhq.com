@@ -20,6 +20,7 @@ import com.google.inject.Provides
 import com.google.inject.Scopes
 import com.google.inject.Singleton
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import ratpack.codahale.metrics.internal.RequestTimingHandler
 import ratpack.guice.HandlerDecoratingModule
 import ratpack.handlebars.internal.HandlebarsTemplateRenderer
@@ -33,6 +34,7 @@ import javax.validation.ValidatorFactory
  */
 @SuppressWarnings('AbcMetric')
 @CompileStatic
+@Slf4j
 class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
 
     final static String ENV_DEPLOYMENT = 'CHQ_DEPLOYMENT'
@@ -79,8 +81,10 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(AWSCredentials).toInstance(new BasicAWSCredentials(awsAccessKey, awsSecretKey))
 
         if (isProductionEnv()) {
+            log.info('Binding amazon email service')
             bind(EmailService).to(AmazonEmailService).in(Scopes.SINGLETON)
         } else {
+            log.info('Binding log email service')
             bind(EmailService).to(LogEmailService).in(Scopes.SINGLETON)
         }
 
