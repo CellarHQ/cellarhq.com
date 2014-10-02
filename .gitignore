@@ -17,6 +17,7 @@ out
 *.iml
 *.ipr
 *.iws
+.idea/
 .vagrant
 .DS_Store
 *.ids
