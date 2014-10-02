@@ -1,6 +1,6 @@
 import com.cellarhq.CellarHQModule
 import com.cellarhq.ClientErrorHandlerImpl
-import com.cellarhq.ErrorHandler
+import com.cellarhq.ServerErrorHandlerImpl
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.views.HomepageStatistics
@@ -51,7 +51,7 @@ String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
 
 ratpack {
     bindings {
-        bind ServerErrorHandler, ErrorHandler
+        bind ServerErrorHandler, ServerErrorHandlerImpl
         bind ClientErrorHandler, ClientErrorHandlerImpl
         bind DatabaseHealthcheck
 

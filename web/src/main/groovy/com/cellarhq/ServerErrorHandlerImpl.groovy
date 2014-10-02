@@ -14,7 +14,7 @@ import ratpack.handling.Context
  */
 @Slf4j
 @CompileStatic
-class ErrorHandler implements ServerErrorHandler {
+class ServerErrorHandlerImpl implements ServerErrorHandler {
 
     @Override
     void error(Context context, Throwable throwable) throws Throwable {
