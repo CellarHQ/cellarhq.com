@@ -4,7 +4,6 @@ buildscript {
         maven { url "http://oss.jfrog.org/repo" }
     }
     dependencies {
-        classpath "io.ratpack:ratpack-gradle:0.9.8"
         classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
@@ -14,12 +13,12 @@ buildscript {
 
 plugins {
     id 'com.github.johnrengelman.shadow' version '1.1.2'
+    id 'io.ratpack.ratpack-groovy' version '0.9.8'
+    id 'groovy'
 }
 
 apply from: "${rootDir}/gradle/codenarc.gradle"
-apply plugin: "io.ratpack.ratpack-groovy"
 apply plugin: 'docker'
-apply plugin: 'groovy'
 
 codenarcTest.enabled = false
 
