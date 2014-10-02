@@ -7,15 +7,17 @@ buildscript {
         classpath "io.ratpack:ratpack-gradle:0.9.8"
         classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
         classpath databaseDriver
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.2'
         classpath 'se.transmode.gradle:gradle-docker:1.2'
 
     }
 }
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.1.2'
+}
+
 apply from: "${rootDir}/gradle/codenarc.gradle"
 apply plugin: "io.ratpack.ratpack-groovy"
-apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'docker'
 apply plugin: 'groovy'
 

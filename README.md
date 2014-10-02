@@ -14,7 +14,7 @@ Development
 Requirements:
 
 * Java 8
-* Gradle 2.0
+* Gradle 2.1
 * Vagrant
 * docker (and boot2docker if on osx)
 

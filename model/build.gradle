@@ -9,9 +9,12 @@ buildscript {
     }
 }
 
+plugins {
+    id 'java'
+    id 'idea'
+}
+
 apply plugin: 'liquibase'
-apply plugin: 'java'
-apply plugin: 'idea'
 
 repositories {
     jcenter()
