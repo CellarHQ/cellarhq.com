@@ -186,6 +186,9 @@ class AccountService extends BaseJooqService {
     }
 
     void trackFailedLoginAttempt(EmailAccount emailAccount) {
+        log.info(LogUtil.toLog('FailedLoginAttempt', [
+            emailAccountId: emailAccount.id
+        ]))
         jooq { DSLContext create ->
             create.update(ACCOUNT_EMAIL)
                     .set(ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER, ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER.add(1))

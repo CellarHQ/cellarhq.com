@@ -7,6 +7,7 @@ import com.cellarhq.handlebars.HandlebarsTemplateRendererImpl
 import com.cellarhq.handlebars.helpers.DataTableSortingHelper
 import com.cellarhq.handlebars.helpers.PaginationHelper
 import com.cellarhq.handlebars.helpers.SelectedOptionHelper
+import com.cellarhq.handler.RequestLoggingHandler
 import com.cellarhq.services.*
 import com.cellarhq.services.email.AmazonEmailService
 import com.cellarhq.services.email.EmailService
@@ -14,11 +15,16 @@ import com.cellarhq.services.email.LogEmailService
 import com.cellarhq.services.photo.writer.AmazonPhotoWriteStrategy
 import com.cellarhq.services.photo.writer.PhotoWriteStrategy
 import com.google.inject.AbstractModule
+import com.google.inject.Injector
 import com.google.inject.Provides
 import com.google.inject.Scopes
 import com.google.inject.Singleton
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
+import ratpack.codahale.metrics.internal.RequestTimingHandler
+import ratpack.guice.HandlerDecoratingModule
 import ratpack.handlebars.internal.HandlebarsTemplateRenderer
+import ratpack.handling.Handler
 
 import javax.validation.Validation
 import javax.validation.ValidatorFactory
@@ -28,7 +34,8 @@ import javax.validation.ValidatorFactory
  */
 @SuppressWarnings('AbcMetric')
 @CompileStatic
-class CellarHQModule extends AbstractModule {
+@Slf4j
+class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
 
     final static String ENV_DEPLOYMENT = 'CHQ_DEPLOYMENT'
     final static String ENV_HOSTNAME = 'CHQ_HOSTNAME'
@@ -55,9 +62,9 @@ class CellarHQModule extends AbstractModule {
             hostname = System.getenv(ENV_HOSTNAME)
         } catch (NullPointerException e) {
             hostname = ENV_HOSTNAME_PRODUCTION
-        }
-        return hostname ?: ENV_HOSTNAME_PRODUCTION
+              return hostname ?: ENV_HOSTNAME_PRODUCTION
     }
+  }
 
     @Override
     protected void configure() {
@@ -74,8 +81,10 @@ class CellarHQModule extends AbstractModule {
         bind(AWSCredentials).toInstance(new BasicAWSCredentials(awsAccessKey, awsSecretKey))
 
         if (isProductionEnv()) {
+            log.info('Binding amazon email service')
             bind(EmailService).to(AmazonEmailService).in(Scopes.SINGLETON)
         } else {
+            log.info('Binding log email service')
             bind(EmailService).to(LogEmailService).in(Scopes.SINGLETON)
         }
 
@@ -92,5 +101,10 @@ class CellarHQModule extends AbstractModule {
             return new S3Service(credentials, S3Service.BUCKET_PRODUCTION)
         }
         return new S3Service(credentials, S3Service.BUCKET_DEVELOPMENT)
+    }
+
+    @Override
+    public Handler decorate(Injector injector, Handler handler) {
+        return new RequestLoggingHandler(handler);
     }
 }

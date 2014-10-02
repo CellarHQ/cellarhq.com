@@ -43,6 +43,9 @@ class ForgotPasswordEndpoint extends GroovyHandler {
 
                     blocking {
                         String recoveryHash = null
+                        log.info(LogUtil.toLog('ForgotPasswordEmail', [
+                            email: form.email
+                        ]))
                         EmailAccount emailAccount = accountService.findByEmail(form.email)
                         if (emailAccount) {
                             recoveryHash = accountService.startPasswordRecovery(emailAccount)
