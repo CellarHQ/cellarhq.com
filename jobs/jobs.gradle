@@ -1,5 +1,7 @@
-apply plugin: "groovy"
-apply plugin: "application"
+plugins {
+    id 'groovy'
+    id 'application'
+}
 
 repositories {
     mavenCentral()

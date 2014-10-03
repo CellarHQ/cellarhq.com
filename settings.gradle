@@ -1,15 +1,15 @@
 include 'jobs', 'model', 'web', 'perf'
 
+rootProject.name = 'cellarhq'
+rootProject.buildFileName = 'cellarhq.gradle'
+
 rootProject.children.each { project ->
     project.buildFileName = "build.gradle"
-    //setSubprojectBuildFile(project)
+    setSubprojectBuildFile(project)
 }
 
 void setSubprojectBuildFile(def project) {
     String fileBaseName = project.name.replaceAll("\\p{Upper}") { "-${it.toLowerCase()}"}
     project.buildFileName = "${fileBaseName}.gradle"
     assert project.buildFile.isFile()
-    project.children.each { subproject ->
-        setSubprojectBuildFile(subproject)
-    }
 }

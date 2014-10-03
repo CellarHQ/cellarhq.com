@@ -1,4 +1,6 @@
-apply plugin: 'scala'
+plugins {
+    id 'scala'
+}
 
 def gatlingVersion = '2.0.0-RC5'
 
