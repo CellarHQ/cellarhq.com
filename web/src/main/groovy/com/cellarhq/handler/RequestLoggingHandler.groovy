@@ -19,7 +19,7 @@ class RequestLoggingHandler implements Handler {
     @SuppressWarnings('VariableName')
     @Override
     void handle(Context context) throws Exception {
-        final Request request = context.request
+        Request request = context.request
 
         context.onClose(new Action<RequestOutcome>() {
             public void execute(RequestOutcome thing) throws Exception {
