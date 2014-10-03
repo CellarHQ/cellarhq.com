@@ -52,7 +52,7 @@ class FormLoginEndpoint extends GroovyHandler {
                                 exception: e.toString()
                         ]), e)
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-                        redirect(500, '/logout')
+                        redirect('/logout')
                     } then { EmailAccount emailAccount ->
                         request.get(SessionStorage).put(SessionConstants.USER_PROFILE, httpProfile)
                         request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, emailAccount.cellarId)

@@ -43,7 +43,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                         ]), t)
 
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-                        redirect(500, '/forgot-password')
+                        redirect('/forgot-password')
                     } then { EmailAccount emailAccount ->
                         if (emailAccount) {
                             render handlebarsTemplate('change-password.html',
@@ -97,7 +97,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                                 exception: t.toString()
                         ]))
 
-                        redirect(500, '/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
+                        redirect('/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
                     } then { boolean result ->
                         if (result) {
                             SessionUtil.setFlash(
