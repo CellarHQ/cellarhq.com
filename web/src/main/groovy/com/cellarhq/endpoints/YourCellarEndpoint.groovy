@@ -39,7 +39,7 @@ class YourCellarEndpoint extends GroovyHandler {
                     Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
 
                     rx.Observable.zip(
-                            cellarService.find(cellarId).single(),
+                            cellarService.get(cellarId).single(),
                             cellaredDrinkService.all(cellarId).toList(),
                             photoService.findByCellarId(cellarId).single()
                     ) { Cellar cellar, List cellaredDrinks, Photo photo ->
@@ -52,7 +52,7 @@ class YourCellarEndpoint extends GroovyHandler {
                         if (map.cellar == null) {
                             log.error(LogUtil.toLog('YourCellar', [
                                     msg: 'Could not locate a cellar by user session id',
-                                    id: profile.id
+                                    id: cellarId
                             ]))
                             clientError 404
                         } else {

@@ -56,7 +56,7 @@ class CellarService extends BaseJooqService {
         }).asObservable()
     }
 
-    rx.Observable<Cellar> find(Long id) {
+    rx.Observable<Cellar> get(Long id) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()

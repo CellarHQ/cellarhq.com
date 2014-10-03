@@ -46,7 +46,7 @@ class SettingsEndpoint extends GroovyHandler {
                 UserProfile profile = request.get(UserProfile)
                 get {
                     rx.Observable.zip(
-                            cellarService.find(cellarId),
+                            cellarService.get(cellarId),
                             photoService.findByCellarId(cellarId)
                     ) { Cellar cellar, Photo photo ->
                         [
