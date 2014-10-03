@@ -57,8 +57,7 @@ class BeerEndpoint extends GroovyChainAction {
                             totalPageCount: pageCount,
                             shouldShowPagination: shouldShowPagination,
                             title: 'CellarHQ : Beer',
-                            pageId: 'beer.list',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
+                            pageId: 'beer.list'])
                     }, {
                         clientError 500
                     })
@@ -97,8 +96,7 @@ class BeerEndpoint extends GroovyChainAction {
                         render handlebarsTemplate('beer/show-beer.html',
                             [drink: drink,
                             title: "CellarHQ : ${drink.name}",
-                            pageId: 'beer.show',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
+                            pageId: 'beer.show'])
                     }
                 }
             }

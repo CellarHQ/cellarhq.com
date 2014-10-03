@@ -69,8 +69,7 @@ class BreweryEndpoint extends GroovyChainAction {
                                 totalPageCount: pageCount,
                                 shouldShowPagination: shouldShowPagination,
                                 title: 'CellarHQ : Breweries',
-                                pageId: 'breweries.list',
-                                loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
+                                pageId: 'breweries.list'])
                     }, {
                         clientError 500
                     })
@@ -109,10 +108,7 @@ class BreweryEndpoint extends GroovyChainAction {
             render handlebarsTemplate('breweries/new-brewery.html',
                     [organization: new Organization(),
                     title: 'CellarHQ : Add New Brewery',
-                    pageId: 'breweries.new',
-                    error: request.queryParams.error ?: '',
-                    errorMessages: SessionUtil.getFlashMessages(request).collect { [message: it] },
-                    loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
+                    pageId: 'breweries.new'])
 
         }
 
@@ -126,8 +122,7 @@ class BreweryEndpoint extends GroovyChainAction {
                     render handlebarsTemplate('breweries/edit-brewery.html',
                             [organization: organization,
                             title: "CellarHQ : Edit ${organization.name}",
-                            pageId: 'breweries.show',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
+                            pageId: 'breweries.show'])
                 } else {
                     clientError 403
                 }
@@ -158,8 +153,7 @@ class BreweryEndpoint extends GroovyChainAction {
                             title: "CellarHQ : ${map.organization.name}",
                             drinks: map.drinks,
                             numberOfDrinks: map.drinks.size(),
-                            pageId: 'breweries.show',
-                            loggedIn: SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))])
+                            pageId: 'breweries.show'])
                     })
                 }
 
