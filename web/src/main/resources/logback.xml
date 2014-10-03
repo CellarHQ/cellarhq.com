@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-            <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-                <encoder>
-                    <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
-                </encoder>
-            </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-            <root level="info">
-                <appender-ref ref="STDOUT"/>
-            </root>
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
 
     <!-- We only want the service appenders if we're running in prod -->
     <if condition='!property("DISABLE_SERVICES").contains("true")'>
@@ -21,19 +21,22 @@
                 <layout>
                     <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
                 </layout>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>INFO</level>
+                </filter>
             </appender>
 
             <appender name="SENTRY" class="net.kencochrane.raven.logback.SentryAppender">
                 <dsn>
                     https://640b2f0db70143fa8518aebd0397c36c:1e93be694d8c4363899dfbfda93c7701@app.getsentry.com/30588
                 </dsn>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>ERROR</level>
+                </filter>
             </appender>
 
-            <root level="info">
+            <root level="INFO">
                 <appender-ref ref="LE"/>
-            </root>
-
-            <root level="error">
                 <appender-ref ref="SENTRY"/>
             </root>
         </then>
