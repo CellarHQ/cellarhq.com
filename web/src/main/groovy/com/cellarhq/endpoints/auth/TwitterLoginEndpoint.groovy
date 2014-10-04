@@ -81,7 +81,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
                     } onError { Throwable e ->
                         log.error(LogUtil.toLog('TwitterLoginEndpoint'), e)
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-                        redirect(500, '/logout')
+                        redirect('/logout')
                     } then { OAuthAccount oAuthAccount ->
                         request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
                         redirect('/yourcellar')

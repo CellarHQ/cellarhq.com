@@ -85,16 +85,19 @@ class RegisterEndpoint extends GroovyHandler {
                     boolean passwordsMatch = emailAccount.password == emailAccount.passwordConfirm
 
                     if (cellarViolations.size() == 0 && accountViolations.size() == 0 && passwordsMatch) {
-                        // Rx would actually work pretty well here...
                         blocking {
                             // TODO: Add uploaded file support for settings page
                             accountService.create(emailAccount, null)
                         }.onError { Throwable e ->
-                            log.error(LogUtil.toLog('RegistrationFailure'), e)
 
-                            // TODO... if we get a conflict on username, it isn't unexpected.
-                            SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-                            redirect(500, '/register')
+                            if (e.message.contains('unq_cellar_screen_name')) {
+                                SessionUtil.setFlash(request, FlashMessage.error(Messages.REGISTER_SCREEN_NAME_TAKEN))
+                            } else {
+                                log.error(LogUtil.toLog('RegistrationFailure'), e)
+                                SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                            }
+
+                            redirect('/register')
                         } then {
                             request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, emailAccount.cellarId)
 

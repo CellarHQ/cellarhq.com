@@ -57,7 +57,7 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                         ]), t)
 
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-                        redirect(500, '/forgot-password')
+                        redirect('/forgot-password')
                     } then { String recoveryHash ->
                         if (recoveryHash) {
                             // TODO: We should definitely do HTML emails as well.
