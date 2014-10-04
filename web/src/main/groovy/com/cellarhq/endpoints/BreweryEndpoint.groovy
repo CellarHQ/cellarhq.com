@@ -71,7 +71,7 @@ class BreweryEndpoint extends GroovyChainAction {
                                 shouldShowPagination: shouldShowPagination,
                                 title: 'CellarHQ : Breweries',
                                 pageId: 'breweries.list'])
-                    }, {
+                    }, { Throwable t ->
                         log.error(LogUtil.toLog('ListBreweriesError'), t)
                         clientError 500
                     })
