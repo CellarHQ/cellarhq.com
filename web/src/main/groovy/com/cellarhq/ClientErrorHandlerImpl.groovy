@@ -63,6 +63,12 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
                         pageTitle: 'We were unable to authenticate your request. Log in or try again.'
                 )
 
+            case 403:
+                return new ClientErrorMessages(
+                        headTitle: 'Forbidden',
+                        pageTitle: 'The server has refused your request.'
+                )
+
             case 404:
                 log.warn(LogUtil.toLog('ClientError', [
                         statusCode: statusCode,
