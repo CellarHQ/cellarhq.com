@@ -39,7 +39,7 @@ class SecurityModule extends AbstractModule implements HandlerDecoratingModule {
     @Singleton
     @Provides
     FormClient formClient(UsernamePasswordAuthenticator authenticator) {
-        new FormClient('/login', authenticator)
+        new CellarHQFormClient('/login', authenticator)
     }
 
     @Singleton

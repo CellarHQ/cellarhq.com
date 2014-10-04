@@ -1,9 +1,11 @@
 package com.cellarhq.endpoints
 
+import static ratpack.handlebars.Template.handlebarsTemplate
+
 import com.cellarhq.Messages
-import com.cellarhq.domain.views.DrinkSearchDisplay
 import com.cellarhq.domain.Organization
 import com.cellarhq.domain.OrganizationType
+import com.cellarhq.domain.views.DrinkSearchDisplay
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.session.FlashMessage
@@ -11,15 +13,12 @@ import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import org.pac4j.core.profile.CommonProfile
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyChainAction
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
-
-import static ratpack.handlebars.Template.handlebarsTemplate
 
 @SuppressWarnings('MethodSize')
 @Slf4j
