@@ -5,11 +5,14 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 import com.cellarhq.domain.Drink
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
+import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
+import groovy.util.logging.Slf4j
 import ratpack.groovy.handling.GroovyChainAction
 
 import javax.validation.ValidatorFactory
 
+@Slf4j
 class BeerEndpoint extends GroovyChainAction {
     ValidatorFactory validatorFactory
     DrinkService drinkService
@@ -57,7 +60,8 @@ class BeerEndpoint extends GroovyChainAction {
                             shouldShowPagination: shouldShowPagination,
                             title: 'CellarHQ : Beer',
                             pageId: 'beer.list'])
-                    }, {
+                    }, { Throwable t ->
+                        log.error(LogUtil.toLog('ListBeerError'), t)
                         clientError 500
                     })
                 }

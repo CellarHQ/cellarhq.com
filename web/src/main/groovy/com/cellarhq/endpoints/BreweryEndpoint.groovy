@@ -10,6 +10,7 @@ import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.session.FlashMessage
+import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
@@ -71,6 +72,7 @@ class BreweryEndpoint extends GroovyChainAction {
                                 title: 'CellarHQ : Breweries',
                                 pageId: 'breweries.list'])
                     }, {
+                        log.error(LogUtil.toLog('ListBreweriesError'), t)
                         clientError 500
                     })
                 }
