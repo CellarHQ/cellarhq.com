@@ -2,6 +2,8 @@ package com.cellarhq.services
 
 import com.cellarhq.domain.Organization
 import com.cellarhq.generated.tables.records.OrganizationRecord
+
+import com.cellarhq.jooq.SortCommand
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -83,25 +85,33 @@ class OrganizationService extends BaseJooqService {
         }).asObservable()
     }
 
-    Observable<Organization> all(int numberOfRows=20, int offset=0) {
+    Observable<Organization> all(SortCommand sortCommand, int numberOfRows=20, int offset=0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
                         .from(ORGANIZATION)
-                        .orderBy(ORGANIZATION.NAME)
+                        .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
+                                name: ORGANIZATION.NAME,
+                                location: ORGANIZATION.LOCALITY,
+                                established: ORGANIZATION.ESTABLISHED
+                        ]))
                         .limit(offset, numberOfRows)
                         .fetchInto(Organization)
             }
         })
     }
 
-    Observable<Organization> search(String searchTerm, int numberOfRows=20, int offset=0) {
+    Observable<Organization> search(String searchTerm, SortCommand sortCommand, int numberOfRows=20, int offset=0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
                         .from(ORGANIZATION)
                         .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
-                        .orderBy(ORGANIZATION.NAME)
+                        .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
+                                name: ORGANIZATION.NAME,
+                                location: ORGANIZATION.LOCALITY,
+                                established: ORGANIZATION.ESTABLISHED
+                        ]))
                         .limit(offset, numberOfRows)
                         .fetchInto(Organization)
             }

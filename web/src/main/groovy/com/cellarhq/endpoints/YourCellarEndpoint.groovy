@@ -5,6 +5,7 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.Photo
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.photo.PhotoService
@@ -40,7 +41,7 @@ class YourCellarEndpoint extends GroovyHandler {
 
                     rx.Observable.zip(
                             cellarService.get(cellarId).single(),
-                            cellaredDrinkService.all(cellarId).toList(),
+                            cellaredDrinkService.all(cellarId, SortCommand.fromRequest(request)).toList(),
                             photoService.findByCellarId(cellarId).single()
                     ) { Cellar cellar, List cellaredDrinks, Photo photo ->
                         [

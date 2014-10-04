@@ -3,6 +3,7 @@ package com.cellarhq.endpoints
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.domain.Drink
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
 import com.google.inject.Inject
 import ratpack.groovy.handling.GroovyChainAction
@@ -37,13 +38,13 @@ class BeerEndpoint extends GroovyChainAction {
                         drinkService.count().single()
 
                     rx.Observable drinks = searchTerm ?
-                        drinkService.search(searchTerm, pageSize, offset).toList() :
-                        drinkService.all(pageSize, offset).toList()
+                        drinkService.search(searchTerm, SortCommand.fromRequest(request), pageSize, offset).toList() :
+                        drinkService.all(SortCommand.fromRequest(request), pageSize, offset).toList()
 
                     rx.Observable.zip(drinks, totalCount) { List list, Integer count ->
                         [
                             drinks: list,
-                            totalCount   : count
+                            totalCount: count
                         ]
                     }.subscribe({ Map map ->
                         Integer pageCount = (map.totalCount / pageSize)

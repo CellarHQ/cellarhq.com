@@ -6,6 +6,7 @@ import com.cellarhq.Messages
 import com.cellarhq.domain.Organization
 import com.cellarhq.domain.OrganizationType
 import com.cellarhq.domain.views.DrinkSearchDisplay
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.session.FlashMessage
@@ -20,7 +21,7 @@ import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
 
-@SuppressWarnings('MethodSize')
+@SuppressWarnings(['MethodSize', 'LineLength'])
 @Slf4j
 class BreweryEndpoint extends GroovyChainAction {
     ValidatorFactory validatorFactory
@@ -50,8 +51,8 @@ class BreweryEndpoint extends GroovyChainAction {
                         organizationService.count().single()
 
                     rx.Observable organizations = searchTerm ?
-                            organizationService.search(searchTerm, pageSize, offset).toList() :
-                            organizationService.all(pageSize, offset).toList()
+                            organizationService.search(searchTerm, SortCommand.fromRequest(request), pageSize, offset).toList() :
+                            organizationService.all(SortCommand.fromRequest(request), pageSize, offset).toList()
 
                     rx.Observable.zip(organizations, totalCount) { List list, Integer count ->
                         [

@@ -24,20 +24,21 @@
                     <table id="beer-table" class="table table-striped table-bordered table-vcenter dataTable no-footer">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Style</th>
-                            <th>Availability</th>
-                            <th>IBU</th>
-                            <th>ABV</th>
+                            <th>{{tableSort request field='beerName' title='Name'}}</th>
+                            <th>{{tableSort request field='style' title='Style'}}</th>
+                            <th>{{tableSort request field='availability' title='Availability'}}</th>
+                            <th>{{tableSort request field='ibu' title='IBU'}}</th>
+                            <th>{{tableSort request field='abv' title='ABV'}}</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         {{#each drinks}}
                             <tr>
-                                <td><h4 class="no-padding no-margin"><strong><a
-                                        href="/beers/{{slug}}">{{name}}</a></strong>
-                                </h4>
+                                <td>
+                                    <h4 class="no-padding no-margin">
+                                        <strong><a href="/beers/{{slug}}">{{name}}</a></strong>
+                                    </h4>
                                     <a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a>
                                 </td>
                                 <td>{{styleName}}</td>
