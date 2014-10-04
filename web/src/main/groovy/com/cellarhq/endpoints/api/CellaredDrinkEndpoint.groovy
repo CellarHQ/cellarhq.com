@@ -1,16 +1,17 @@
 package com.cellarhq.endpoints.api
 
-import static ratpack.jackson.Jackson.fromJson
-import static ratpack.jackson.Jackson.json
-
 import com.cellarhq.Messages
+import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.services.CellaredDrinkService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import org.pac4j.core.profile.UserProfile
 import ratpack.groovy.handling.GroovyChainAction
 import ratpack.handling.Context
+import ratpack.session.store.SessionStorage
+
+import static ratpack.jackson.Jackson.fromJson
+import static ratpack.jackson.Jackson.json
 
 @Slf4j
 class CellaredDrinkEndpoint extends GroovyChainAction {
@@ -36,8 +37,9 @@ class CellaredDrinkEndpoint extends GroovyChainAction {
                     String slug = pathTokens['cellarSlug']
                     Long id = Long.valueOf(pathTokens['id'])
 
-                    requireSelf(context, pathTokens['cellarSlug']) {
-                        cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
+
+                    cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
+                        requireSelf(context, drink) {
                             if (drink) {
                                 render json(drink)
                             } else {
@@ -47,12 +49,14 @@ class CellaredDrinkEndpoint extends GroovyChainAction {
                     }
                 }
 
+
                 post {
                     String slug = pathTokens['cellarSlug']
 
-                    requireSelf(context, pathTokens['cellarSlug']) {
-                        cellaredDrinkService.save(parse(fromJson(CellaredDrink))
-                        ).single().flatMap {
+                    CellaredDrink cellaredDrink = parse(fromJson(CellaredDrink))
+                    requireSelf(context, cellaredDrink) {
+                        cellaredDrinkService.save(cellaredDrink)
+                            .single().flatMap {
                             cellaredDrinkService.findById(slug, it.id).single()
                         } subscribe { CellaredDrink createdDrink ->
                             render json(createdDrink)
@@ -64,12 +68,15 @@ class CellaredDrinkEndpoint extends GroovyChainAction {
                     String slug = pathTokens['cellarSlug']
                     Long id = Long.valueOf(pathTokens['id'])
 
-                    requireSelf(context, pathTokens['cellarSlug']) {
-                        cellaredDrinkService.delete(slug, id).subscribe {
-                            response.status(204).send()
+                    cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
+                        requireSelf(context, drink) {
+                            cellaredDrinkService.delete(slug, id).subscribe {
+                                response.status(204).send()
+                            }
                         }
                     }
                 }
+
             }
         }
 
@@ -77,27 +84,31 @@ class CellaredDrinkEndpoint extends GroovyChainAction {
             String slug = pathTokens['cellarSlug']
             Long id = Long.valueOf(pathTokens['id'])
 
-            requireSelf(context, pathTokens['cellarSlug']) {
-                cellaredDrinkService.drink(slug, id).single().subscribe { CellaredDrink drink ->
-                    if (drink == null) {
-                        clientError 404
-                    } else {
-                        render json(drink)
+            cellaredDrinkService.findById(slug, id).single().subscribe  { CellaredDrink drink ->
+                requireSelf(context, drink) {
+                    cellaredDrinkService.drink(slug, id).single().subscribe { CellaredDrink drankDrink ->
+                        if (drankDrink == null) {
+                            clientError 404
+                        } else {
+                            render json(drankDrink)
+                        }
                     }
                 }
             }
         }
     }
 
-    void requireSelf(Context context, String cellarSlug, Closure operation) {
+    void requireSelf(Context context, CellaredDrink cellaredDrink, Closure operation) {
         context.with {
-            boolean isSelf = request.maybeGet(UserProfile)?.username == cellarSlug
+            Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+            boolean isSelf = cellaredDrink.cellarId == cellarId
+
             if (isSelf) {
                 operation()
             } else {
                 response.status(403)
                 render json([
-                        message: Messages.UNAUTHORIZED_ERROR
+                    message: Messages.UNAUTHORIZED_ERROR
                 ])
                 response.send()
             }

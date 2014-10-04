@@ -21,6 +21,7 @@ import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyChainAction
+import ratpack.handling.Context
 
 import static ratpack.handlebars.Template.handlebarsTemplate
 
@@ -31,6 +32,8 @@ import javax.validation.Validator
 import javax.validation.ValidatorFactory
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
+import static ratpack.jackson.Jackson.json
 
 @SuppressWarnings('MethodSize')
 @Slf4j
@@ -71,20 +74,20 @@ class CellarsEndpoint extends GroovyChainAction {
 
             rx.Observable.zip(cellars, totalCount) { List list, Integer count ->
                 [
-                        cellars: list,
-                        totalCount: count
+                    cellars   : list,
+                    totalCount: count
                 ]
             }.subscribe({ Map map ->
                 Integer pageCount = (map.totalCount / pageSize)
                 Boolean shouldShowPagination = pageCount != 0
 
                 render handlebarsTemplate('cellars/list-cellars.html',
-                        [cellars: map.cellars,
-                        currentPage: requestedPage,
-                        totalPageCount: pageCount,
-                        shouldShowPagination: shouldShowPagination,
-                        title: 'CellarHQ : Cellars',
-                        pageId: 'cellars.list'])
+                    [cellars             : map.cellars,
+                     currentPage         : requestedPage,
+                     totalPageCount      : pageCount,
+                     shouldShowPagination: shouldShowPagination,
+                     title               : 'CellarHQ : Cellars',
+                     pageId              : 'cellars.list'])
             }, {
                 clientError 500
             })
@@ -99,20 +102,20 @@ class CellarsEndpoint extends GroovyChainAction {
                     cellaredDrinkService.all(slug, SortCommand.fromRequest(request)).toList()
             ) { Cellar cellar, List cellaredDrinks ->
                 [
-                        cellar: cellar,
-                        cellaredDrinks: cellaredDrinks,
+                    cellar        : cellar,
+                    cellaredDrinks: cellaredDrinks,
                 ]
             }.subscribe { Map map ->
                 if (map.cellar == null) {
                     clientError 404
                 } else {
                     render handlebarsTemplate('cellars/show-cellar.html',
-                            [cellar: map.cellar,
-                            photo: map.cellar.photo,
-                            cellaredDrinks: map.cellaredDrinks,
-                            self: isSelf,
-                            title: "CellarHQ : ${map.cellar.displayName}",
-                            pageId: 'cellars.show'])
+                        [cellar        : map.cellar,
+                         photo         : map.cellar.photo,
+                         cellaredDrinks: map.cellaredDrinks,
+                         self          : isSelf,
+                         title         : "CellarHQ : ${map.cellar.displayName}",
+                         pageId        : 'cellars.show'])
                 }
             }
         }
@@ -128,9 +131,9 @@ class CellarsEndpoint extends GroovyChainAction {
 
             if (!isSelf) {
                 log.warn(LogUtil.toLog('AccessControlExceeded', [
-                        subject: request.maybeGet(CommonProfile)?.username,
-                        accessingAs: slug,
-                        action: 'POSTing to another cellar drinks'
+                    subject    : request.maybeGet(CommonProfile)?.username,
+                    accessingAs: slug,
+                    action     : 'POSTing to another cellar drinks'
                 ]))
                 throw new AccessControlException("Cannot modify other user's cellar")
             }
@@ -149,22 +152,22 @@ class CellarsEndpoint extends GroovyChainAction {
                 // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
                 //       queries for two small pieces of data.
                 rx.Observable.zip(
-                        cellaredDrinkService.save(drink).single(),
-                        drinkService.findNameById(drink.drinkId).single(),
-                        organizationService.findNameByDrinkId(drink.drinkId).single()
+                    cellaredDrinkService.save(drink).single(),
+                    drinkService.findNameById(drink.drinkId).single(),
+                    organizationService.findNameByDrinkId(drink.drinkId).single()
                 ) { CellaredDrink savedDrink, String drinkName, String orgName ->
                     [
-                            cellared: savedDrink,
-                            drink: drinkName,
-                            org: orgName
+                        cellared: savedDrink,
+                        drink   : drinkName,
+                        org     : orgName
                     ]
                 }.subscribe({ Map map ->
                     SessionUtil.setFlash(request, FlashMessage.success(
-                            Messages.CELLARED_DRINK_SAVED,
-                            new FlashMessage.SocialButton(
-                                    String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
-                                    "/cellars/${slug}"
-                            )))
+                        Messages.CELLARED_DRINK_SAVED,
+                        new FlashMessage.SocialButton(
+                            String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
+                            "/cellars/${slug}"
+                        )))
                     redirect('/yourcellar')
                 })
             } else {
@@ -177,53 +180,45 @@ class CellarsEndpoint extends GroovyChainAction {
         get('cellars/:slug/drinks/:drinkId/edit') {
             String slug = pathTokens['slug']
             Long drinkId = Long.valueOf(pathTokens['drinkId'])
-            boolean isSelf = request.maybeGet(UserProfile)?.username == slug
-
-            if (!isSelf) {
-                SessionUtil.setFlash(request, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR))
-                redirect('/yourcellar')
-                return
-            }
 
             cellaredDrinkService.findByIdForEdit(slug, drinkId).single().subscribe { CellaredDrinkDetails drink ->
+
                 if (drink) {
-                    render handlebarsTemplate('cellars/edit-cellared-drink.html',
-                            [action: request.uri.replace('/edit', ''),
-                            cellaredDrink: drink,
-                            title: 'CellarHQ : Edit Cellared Drink',
-                            pageId: 'cellared-drink.edit'])
+                    requireSelf(context, drink) {
+                        render handlebarsTemplate('cellars/edit-cellared-drink.html',
+                            [action       : request.uri.replace('/edit', ''),
+                             cellaredDrink: drink,
+                             title        : 'CellarHQ : Edit Cellared Drink',
+                             pageId       : 'cellared-drink.edit'])
+                    }
                 } else {
                     clientError 404
                 }
+
             }
         }
 
         post('cellars/:slug/drinks/:drinkId') {
             String slug = pathTokens['slug']
             Long drinkId = Long.valueOf(pathTokens['drinkId'])
-            boolean isSelf = request.maybeGet(UserProfile)?.username == slug
 
-            if (!isSelf) {
-                SessionUtil.setFlash(request, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR))
-                redirect('/yourcellar')
-                return
-            }
-
-            cellaredDrinkService.findById(slug, drinkId).single().subscribe { drink ->
+            cellaredDrinkService.findById(slug, drinkId).single().subscribe { CellaredDrink drink ->
                 if (drink) {
-                    CellaredDrink editedDrink = applyForm(drink, parse(Form))
+                    requireSelf(context, drink) {
+                        CellaredDrink editedDrink = applyForm(drink, parse(Form))
 
-                    Validator validator = validatorFactory.validator
-                    Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(editedDrink)
-                    if (drinkViolations.empty) {
-                        cellaredDrinkService.save(editedDrink).single().subscribe { CellaredDrink savedDrink ->
-                            SessionUtil.setFlash(request, FlashMessage.success(Messages.CELLARED_DRINK_SAVED))
-                            redirect('/yourcellar')
+                        Validator validator = validatorFactory.validator
+                        Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(editedDrink)
+                        if (drinkViolations.empty) {
+                            cellaredDrinkService.save(editedDrink).single().subscribe { CellaredDrink savedDrink ->
+                                SessionUtil.setFlash(request, FlashMessage.success(Messages.CELLARED_DRINK_SAVED))
+                                redirect('/yourcellar')
+                            }
+                        } else {
+                            List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
+                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                            redirect("${request.uri}/edit")
                         }
-                    } else {
-                        List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
-                        SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                        redirect("${request.uri}/edit")
                     }
                 } else {
                     clientError 404
@@ -260,6 +255,21 @@ class CellarsEndpoint extends GroovyChainAction {
             }
 
             return self
+        }
+    }
+
+    void requireSelf(Context context, CellaredDrink cellaredDrink, Closure operation) {
+        context.with {
+            Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+            boolean isSelf = cellaredDrink.cellarId == cellarId
+
+            if (isSelf) {
+                operation()
+            } else {
+                SessionUtil.setFlash(request, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR))
+                redirect('/yourcellar')
+                return
+            }
         }
     }
 }
