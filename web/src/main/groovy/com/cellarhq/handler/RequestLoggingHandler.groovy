@@ -16,16 +16,16 @@ class RequestLoggingHandler implements Handler {
         this.rest = rest
     }
 
+    @SuppressWarnings('VariableName')
     @Override
     void handle(Context context) throws Exception {
-        final Request request = context.getRequest();
-
+        final Request request = context.request
 
         context.onClose(new Action<RequestOutcome>() {
             public void execute(RequestOutcome thing) throws Exception {
                 log.info(getRequestLogEntry(context, request, thing.response))
             }
-        });
+        })
         context.insert(rest)
     }
 

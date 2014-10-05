@@ -48,7 +48,14 @@ class UsernamePasswordAuthenticatorImpl implements UsernamePasswordAuthenticator
             throwsException(Messages.AUTH_CREDENTIALS_DO_NOT_MATCH)
         }
 
-        if (passwordService.checkPassword(credentials.password, emailAccount.password)) {
+        boolean passwordMatches = false
+        try {
+            passwordMatches = passwordService.checkPassword(credentials.password, emailAccount.password)
+        } catch (UnclaimedAccountException e) {
+            throwsException(e.message)
+        }
+
+        if (passwordMatches) {
             accountService.resetFailedLoginAttempts(emailAccount)
             return
         }

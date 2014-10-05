@@ -14,14 +14,9 @@ import com.cellarhq.services.email.EmailService
 import com.cellarhq.services.email.LogEmailService
 import com.cellarhq.services.photo.writer.AmazonPhotoWriteStrategy
 import com.cellarhq.services.photo.writer.PhotoWriteStrategy
-import com.google.inject.AbstractModule
-import com.google.inject.Injector
-import com.google.inject.Provides
-import com.google.inject.Scopes
-import com.google.inject.Singleton
+import com.google.inject.*
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import ratpack.codahale.metrics.internal.RequestTimingHandler
 import ratpack.guice.HandlerDecoratingModule
 import ratpack.handlebars.internal.HandlebarsTemplateRenderer
 import ratpack.handling.Handler
@@ -100,6 +95,6 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
 
     @Override
     public Handler decorate(Injector injector, Handler handler) {
-        return new RequestLoggingHandler(handler);
+        return new RequestLoggingHandler(handler)
     }
 }

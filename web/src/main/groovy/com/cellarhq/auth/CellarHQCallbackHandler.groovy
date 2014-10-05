@@ -1,5 +1,7 @@
 package com.cellarhq.auth
 
+import com.cellarhq.session.FlashMessage
+import com.cellarhq.util.SessionUtil
 import groovy.transform.CompileStatic
 import org.pac4j.core.client.Client
 import org.pac4j.core.client.Clients
@@ -42,6 +44,7 @@ class CellarHQCallbackHandler implements Handler {
             if (ex instanceof RequiresHttpAction) {
                 webContext.sendResponse((RequiresHttpAction) ex)
             } else {
+                SessionUtil.setFlash(request, FlashMessage.error(ex.message))
                 throw new TechnicalException('Failed to get user profile', ex)
             }
         } then { UserProfile profile ->

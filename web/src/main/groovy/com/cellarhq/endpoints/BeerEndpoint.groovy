@@ -1,15 +1,13 @@
 package com.cellarhq.endpoints
 
+import static ratpack.handlebars.Template.handlebarsTemplate
+
 import com.cellarhq.domain.Drink
 import com.cellarhq.services.DrinkService
-import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
-import org.pac4j.core.profile.CommonProfile
 import ratpack.groovy.handling.GroovyChainAction
 
 import javax.validation.ValidatorFactory
-
-import static ratpack.handlebars.Template.handlebarsTemplate
 
 class BeerEndpoint extends GroovyChainAction {
     ValidatorFactory validatorFactory
