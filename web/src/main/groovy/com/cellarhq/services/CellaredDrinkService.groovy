@@ -10,6 +10,8 @@ import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
 import com.cellarhq.jooq.CellarStatsUpdater
+
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.mappers.CustomViewRecordMapperProvider
 import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
@@ -86,23 +88,23 @@ class CellaredDrinkService extends BaseJooqService {
         })
     }
 
-    rx.Observable<CellaredDrink> all(Long id) {
+    rx.Observable<CellaredDrink> all(Long id, SortCommand sortCommand) {
         observeEach(execControl.blocking {
-            allQuery { SelectJoinStep step ->
+            allQuery(sortCommand) { SelectJoinStep step ->
                 step.where(CELLAR.ID.eq(id))
             }
         })
     }
 
-    rx.Observable<CellaredDrink> all(String cellarSlug) {
+    rx.Observable<CellaredDrink> all(String cellarSlug, SortCommand sortCommand) {
         observeEach(execControl.blocking {
-            allQuery { SelectJoinStep step ->
+            allQuery(sortCommand) { SelectJoinStep step ->
                 step.where(CELLAR.SCREEN_NAME.eq(cellarSlug))
             }
         })
     }
 
-    private List<CellaredDrinkDetails> allQuery(Closure<SelectConditionStep> criteria) {
+    private List<CellaredDrinkDetails> allQuery(SortCommand sortCommand, Closure<SelectConditionStep> criteria) {
         jooq({ Configuration c ->
             c.set(new CustomViewRecordMapperProvider([
                     organizationSlug: String,
@@ -111,7 +113,7 @@ class CellaredDrinkService extends BaseJooqService {
                     drinkName: String
             ]))
         }) { DSLContext create ->
-            SelectJoinStep step = create.select(JooqUtil.andFields(
+            SelectJoinStep selectStep = create.select(JooqUtil.andFields(
                         CELLARED_DRINK.fields(),
                         ORGANIZATION.SLUG.as('organizationSlug'),
                         ORGANIZATION.NAME.as('organizationName'),
@@ -123,8 +125,15 @@ class CellaredDrinkService extends BaseJooqService {
                     .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
                     .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
 
-            criteria(step)
+            criteria(selectStep)
                     .and(CELLARED_DRINK.QUANTITY.greaterThan(0))
+                    .orderBy(makeSortField(sortCommand, CELLARED_DRINK.ID, [
+                            beerName: DRINK.NAME,
+                            breweryName: ORGANIZATION.NAME,
+                            size: CELLARED_DRINK.SIZE,
+                            quantity: CELLARED_DRINK.QUANTITY,
+                            bottleDate: CELLARED_DRINK.BOTTLE_DATE
+                    ]))
                     .fetchInto(CellaredDrinkDetails)
         }
     }

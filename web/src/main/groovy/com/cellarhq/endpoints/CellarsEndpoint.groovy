@@ -6,6 +6,7 @@ import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.CellaredDrinkDetails
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.DrinkService
@@ -65,8 +66,8 @@ class CellarsEndpoint extends GroovyChainAction {
             rx.Observable<Integer> totalCount = cellarService.count(searchTerm).single()
 
             rx.Observable cellars = searchTerm ?
-                cellarService.search(searchTerm, pageSize, offset).toList() :
-                cellarService.all(pageSize, offset).toList()
+                cellarService.search(searchTerm, SortCommand.fromRequest(request), pageSize, offset).toList() :
+                cellarService.all(SortCommand.fromRequest(request), pageSize, offset).toList()
 
             rx.Observable.zip(cellars, totalCount) { List list, Integer count ->
                 [
@@ -95,7 +96,7 @@ class CellarsEndpoint extends GroovyChainAction {
 
             rx.Observable.zip(
                     cellarService.findBySlug(slug).single(),
-                    cellaredDrinkService.all(slug).toList()
+                    cellaredDrinkService.all(slug, SortCommand.fromRequest(request)).toList()
             ) { Cellar cellar, List cellaredDrinks ->
                 [
                         cellar: cellar,

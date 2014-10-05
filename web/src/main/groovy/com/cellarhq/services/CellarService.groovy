@@ -8,6 +8,7 @@ import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.Photo
 import com.cellarhq.generated.tables.records.CellarRecord
 import com.cellarhq.generated.tables.records.PhotoRecord
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.services.photo.model.ResizeCommand
 import com.cellarhq.services.photo.writer.PhotoWriteFailedException
@@ -86,25 +87,35 @@ class CellarService extends BaseJooqService {
         }).asObservable()
     }
 
-    rx.Observable<Cellar> all(int numberOfRows = 20, int offset = 0) {
+    rx.Observable<Cellar> all(SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
                         .from(CELLAR)
-                        .orderBy(CELLAR.SCREEN_NAME)
+                        .orderBy(makeSortField(sortCommand, CELLAR.SCREEN_NAME, [
+                                name: CELLAR.SCREEN_NAME,
+                                totalBeers: CELLAR.TOTAL_BEERS,
+                                uniqueBeers: CELLAR.UNIQUE_BEERS,
+                                breweries: CELLAR.UNIQUE_BREWERIES
+                        ]))
                         .limit(offset, numberOfRows)
                         .fetchInto(Cellar)
             }
         })
     }
 
-    rx.Observable<Cellar> search(String searchTerm, int numberOfRows = 20, int offset = 0) {
+    rx.Observable<Cellar> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
                     .from(CELLAR)
                     .where(CELLAR.SCREEN_NAME.likeIgnoreCase("%${searchTerm}%"))
-                    .orderBy(CELLAR.SCREEN_NAME)
+                    .orderBy(makeSortField(sortCommand, CELLAR.SCREEN_NAME, [
+                            name: CELLAR.SCREEN_NAME,
+                            totalBeers: CELLAR.TOTAL_BEERS,
+                            uniqueBeers: CELLAR.UNIQUE_BEERS,
+                            breweries: CELLAR.UNIQUE_BREWERIES
+                    ]))
                     .limit(offset, numberOfRows)
                     .fetchInto(Cellar)
             }

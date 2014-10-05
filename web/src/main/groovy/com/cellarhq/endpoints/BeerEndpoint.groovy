@@ -3,12 +3,16 @@ package com.cellarhq.endpoints
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.domain.Drink
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
+import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
+import groovy.util.logging.Slf4j
 import ratpack.groovy.handling.GroovyChainAction
 
 import javax.validation.ValidatorFactory
 
+@Slf4j
 class BeerEndpoint extends GroovyChainAction {
     ValidatorFactory validatorFactory
     DrinkService drinkService
@@ -37,13 +41,13 @@ class BeerEndpoint extends GroovyChainAction {
                         drinkService.count().single()
 
                     rx.Observable drinks = searchTerm ?
-                        drinkService.search(searchTerm, pageSize, offset).toList() :
-                        drinkService.all(pageSize, offset).toList()
+                        drinkService.search(searchTerm, SortCommand.fromRequest(request), pageSize, offset).toList() :
+                        drinkService.all(SortCommand.fromRequest(request), pageSize, offset).toList()
 
                     rx.Observable.zip(drinks, totalCount) { List list, Integer count ->
                         [
                             drinks: list,
-                            totalCount   : count
+                            totalCount: count
                         ]
                     }.subscribe({ Map map ->
                         Integer pageCount = (map.totalCount / pageSize)
@@ -56,7 +60,8 @@ class BeerEndpoint extends GroovyChainAction {
                             shouldShowPagination: shouldShowPagination,
                             title: 'CellarHQ : Beer',
                             pageId: 'beer.list'])
-                    }, {
+                    }, { Throwable t ->
+                        log.error(LogUtil.toLog('ListBeerError'), t)
                         clientError 500
                     })
                 }
