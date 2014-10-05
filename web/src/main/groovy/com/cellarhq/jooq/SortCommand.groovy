@@ -10,14 +10,14 @@ class SortCommand {
         DESC('desc'),
         ASC('asc')
 
-        private String value
+        final String value
 
         Order(String value) {
             this.value = value
         }
 
         static Order fromString(String value) {
-            return values().find { it.value == value } ?: Order.DESC
+            return values().find { it.value == value } ?: DESC
         }
     }
 
