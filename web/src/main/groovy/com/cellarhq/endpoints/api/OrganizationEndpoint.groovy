@@ -31,9 +31,13 @@ class OrganizationEndpoint implements Action<Chain> {
             }
 
             get('organizations/valid-name') {
-                organizationService.search(request.queryParams.name, null, 1, 0).toList().subscribe {
-                    List<Organization> orgs ->
-                    render json(orgs.empty)
+                organizationService.search(request.queryParams.name, null, 1, 0).toList()
+                        .subscribe { List<Organization> orgs ->
+                    if (request.queryParams.exists) {
+                        render json(!orgs.empty)
+                    } else {
+                        render json(orgs.empty)
+                    }
                 }
             }
 

@@ -108,7 +108,7 @@ class BreweryEndpoint implements Action<Chain> {
 
                             SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
 
-                            redirect('/breweries/add?error=' + Messages.FORM_VALIDATION_ERROR)
+                            redirect('/breweries/add')
                         }
                     }
                 }
@@ -152,7 +152,7 @@ class BreweryEndpoint implements Action<Chain> {
 
                         rx.Observable<Organization> organizationObservable =
                             organizationService.findBySlug(slug).single()
-                        rx.Observable<DrinkSearchDisplay> drinkObservable =
+                        rx.Observable<List<DrinkSearchDisplay>> drinkObservable =
                             drinkService.findByOrganizationSlug(slug).toList()
 
                         rx.Observable.zip(organizationObservable, drinkObservable) { Organization org, List drinks ->

@@ -108,7 +108,6 @@ class DrinkService extends BaseJooqService {
             jooq { DSLContext create ->
                 DrinkRecord drinkRecord = create.newRecord(DRINK, drink)
 
-
                 drinkRecord.reset(DRINK.DATA)
                 drinkRecord.reset(DRINK.CREATED_DATE)
                 drinkRecord.reset(DRINK.MODIFIED_DATE)

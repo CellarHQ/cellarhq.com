@@ -1,0 +1,103 @@
+{{# partial "header" }}
+    <h1>Beer Management</h1>
+{{/partial}}
+{{# partial "content" }}
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+            <div class="block">
+                <!-- Form Validation Title -->
+                <div class="block-title">
+                    <h2>Add New Beer</h2>
+                </div>
+                <form action="/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="organization">Name <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="organization" name="organization" class="form-control" placeholder="Surly Brewing"/>
+                        </div>
+                        <input type="hidden" id="organizationId" name="organizationId"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="name">Name <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Furious"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="style">Style</label>
+                        <div class="col-md-6">
+                            <select id="style" name="style">
+                                <option value="" selected>-- Select one --</option>
+                                {{#each styles}}
+                                    <option value="{{value}}">{{label}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="glassware">Glassware</label>
+                        <div class="col-md-6">
+                            <select id="glassware" name="glassware">
+                                <option value="" selected>-- Select one --</option>
+                                {{#each glassware}}
+                                    <option value="{{value}}">{{label}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="description">Name <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <textarea id="description" name="description" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="srm">SRM</label>
+                        <div class="col-md-6">
+                            <input type="text" id="srm" name="srm" class="form-control" placeholder="27"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ibu">IBU</label>
+                        <div class="col-md-6">
+                            <input type="text" id="ibu" name="ibu" class="form-control" placeholder="99"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="abv">ABV</label>
+                        <div class="col-md-6">
+                            <input type="text" id="abv" name="abv" class="form-control" placeholder="6.2"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="availability">Availability</label>
+                        <div class="col-md-6">
+                            <select id="availability" name="availability">
+                                <option value="" selected>Unknown</option>
+                                {{#each availability}}
+                                    <option value="{{value}}">{{label}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-actions">
+                        <div class="col-md-8 col-md-offset-3">
+                            <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-effect-ripple btn-danger">Reset</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{# partial "extra_includes"}}
+    <script src="/scripts/pages/beers.js"></script>
+    <script>$(function () {
+        Beer.init();
+    });</script>
+{{/partial}}
+
+{{> layout.html}}

@@ -19,4 +19,11 @@ public enum Availability {
     String toString() {
         return value
     }
+
+    static List<Map<String, String>> toHandlebars() {
+        return values().collect {
+            String val = it.toString()
+            return [val: val.tokenize().collect { it.capitalize() }.join(' ')]
+        }
+    }
 }
