@@ -123,21 +123,6 @@ class CellarsEndpoint extends GroovyChainAction {
         post('cellars/:slug/drinks') {
             String slug = pathTokens['slug']
 
-            // TODO: Removing this temporarily, it needs to be moved later because
-            // pac4j is setting the username as the email address (because that's what
-            // people use to log in with)
-            // boolean isSelf = request.maybeGet(CommonProfile)?.username == slug
-            boolean isSelf = true
-
-            if (!isSelf) {
-                log.warn(LogUtil.toLog('AccessControlExceeded', [
-                    subject    : request.maybeGet(CommonProfile)?.username,
-                    accessingAs: slug,
-                    action     : 'POSTing to another cellar drinks'
-                ]))
-                throw new AccessControlException("Cannot modify other user's cellar")
-            }
-
             Form form = parse(Form)
             CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
                 cellarId = (long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
@@ -207,6 +192,7 @@ class CellarsEndpoint extends GroovyChainAction {
                     requireSelf(context, drink) {
                         CellaredDrink editedDrink = applyForm(drink, parse(Form))
 
+                        log.info("Tradeable = ${editedDrink.tradeable}")
                         Validator validator = validatorFactory.validator
                         Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(editedDrink)
                         if (drinkViolations.empty) {
@@ -234,7 +220,8 @@ class CellarsEndpoint extends GroovyChainAction {
             quantity = Long.valueOf(form.quantity)
             notes = form.notes
             binIdentifier = form.binIdentifier
-            tradeable = Boolean.valueOf(form.tradeable)
+
+            tradeable = form.tradeable == 'on'
 
             if (form.bottleDate) {
                 bottleDate = LocalDate.parse(form.bottleDate, dateFormat)

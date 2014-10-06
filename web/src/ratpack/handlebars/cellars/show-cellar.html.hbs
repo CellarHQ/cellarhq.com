@@ -124,21 +124,25 @@
                       {{#if tradeable}}
                         <div class="col-sm-6 col-lg-6">
                           <h3 class="text-info"><i class="fa fa-exchange"></i> <strong>{{numTradeable}} Tradeable!</strong></h3>
-                          <p>This beer is available for a trade! You can arrange a trade by contacting this user via:</p>
-                          <ul>
-                              {{#if cellar.twitter}}
-                                <li>Twitter: {{cellar.twitter}}</li>
-                              {{/if}}
-                              {{#if cellar.reddit}}
-                                <li>Reddit: {{cellar.reddit}}</li>
-                              {{/if}}
-                              {{#if cellar.beeradvocate}}
-                                <li>BeerAdvocate: {{cellar.beeradvocate}}</li>
-                              {{/if}}
-                              {{#if cellar.ratebeer}}
-                                <li>RateBeer: {{cellar.ratebeer}}</li>
-                              {{/if}}
-                          </ul>
+                            {{#if cellar.hasContactInfo}}
+                                <p>This beer is available for a trade! You can arrange a trade by contacting this user via:</p>
+                                <ul>
+                                    {{#if cellar.twitter}}
+                                        <li>Twitter: {{cellar.twitter}}</li>
+                                    {{/if}}
+                                    {{#if cellar.reddit}}
+                                        <li>Reddit: {{cellar.reddit}}</li>
+                                    {{/if}}
+                                    {{#if cellar.beeradvocate}}
+                                        <li>BeerAdvocate: {{cellar.beeradvocate}}</li>
+                                    {{/if}}
+                                    {{#if cellar.ratebeer}}
+                                        <li>RateBeer: {{cellar.ratebeer}}</li>
+                                    {{/if}}
+                                </ul>
+                            {{else}}
+                                <p>This beer is available for a trade! However, there is no contact information provided. :(</p>
+                            {{/if}}
                         </div>
                       {{/if}}
                   </div>

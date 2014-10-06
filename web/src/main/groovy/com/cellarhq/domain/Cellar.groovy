@@ -84,4 +84,8 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
         roles << role
     }
 
+    boolean hasContactInfo() {
+        twitter || reddit || beeradvocate
+    }
+
 }
