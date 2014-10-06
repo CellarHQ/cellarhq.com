@@ -15,9 +15,10 @@ import com.cellarhq.services.CellarService
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
-import com.github.jknack.handlebars.cache.TemplateCache
 import org.pac4j.core.profile.CommonProfile
 import ratpack.codahale.metrics.CodaHaleMetricsModule
+import ratpack.codahale.metrics.HealthCheckHandler
+import ratpack.codahale.metrics.MetricsWebsocketBroadcastHandler
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -30,7 +31,9 @@ import ratpack.rx.RxRatpack
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
+import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 
+import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
@@ -55,8 +58,7 @@ ratpack {
         bind ClientErrorHandler, ClientErrorHandlerImpl
         bind DatabaseHealthcheck
 
-        add new CodaHaleMetricsModule().healthChecks()
-        add new CodaHaleMetricsModule().websocket()
+        add new CodaHaleMetricsModule().jvmMetrics().jmx().websocket().healthChecks()
 
         String serverName = getConfig(launchConfig, 'dataSource.serverName', 'localhost')
         String portNumber =  getConfig(launchConfig, 'dataSource.portNumber', '15432')
@@ -226,9 +228,12 @@ ratpack {
             render json(healthCheckRegistry.runHealthChecks())
         })
 
-        post('bust-cache') { TemplateCache cache ->
-            cache.clear()
-            render json('ok')
+        prefix("admin") {
+            get("metrics-report", new MetricsWebsocketBroadcastHandler())
+
+            get("metrics") {
+                render handlebarsTemplate("metrics.html", title: "Metrics")
+            }
         }
 
         assets "public"
