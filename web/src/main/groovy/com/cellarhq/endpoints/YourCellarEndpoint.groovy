@@ -1,7 +1,5 @@
 package com.cellarhq.endpoints
 
-import static ratpack.handlebars.Template.handlebarsTemplate
-
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.Photo
@@ -15,6 +13,8 @@ import groovy.util.logging.Slf4j
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
 import ratpack.session.store.SessionStorage
+
+import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
 class YourCellarEndpoint extends GroovyHandler {
@@ -34,38 +34,36 @@ class YourCellarEndpoint extends GroovyHandler {
 
     @Override
     protected void handle(GroovyContext context) {
-        context.with {
-            byMethod {
-                get {
-                    Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+        context.byMethod {
+            get {
+                Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
 
-                    rx.Observable.zip(
-                            cellarService.get(cellarId).single(),
-                            cellaredDrinkService.all(cellarId, SortCommand.fromRequest(request)).toList(),
-                            photoService.findByCellarId(cellarId).single()
-                    ) { Cellar cellar, List cellaredDrinks, Photo photo ->
-                        [
-                                cellar: cellar,
-                                cellaredDrinks: cellaredDrinks,
-                                photo: photo
-                        ]
-                    }.subscribe { Map map ->
-                        if (map.cellar == null) {
-                            log.error(LogUtil.toLog('YourCellar', [
-                                    msg: 'Could not locate a cellar by user session id',
-                                    id: cellarId
-                            ]))
-                            clientError 404
-                        } else {
-                            render handlebarsTemplate('cellars/show-cellar.html',
-                                    [cellar: map.cellar,
-                                    photo: map.photo,
-                                    cellaredDrinks: map.cellaredDrinks,
-                                    self: true,
-                                    title: 'CellarHQ : Your Cellar',
-                                    pageId: 'yourcellar']
-                            )
-                        }
+                rx.Observable.zip(
+                    cellarService.get(cellarId).single(),
+                    cellaredDrinkService.all(cellarId, SortCommand.fromRequest(request)).toList(),
+                    photoService.findByCellarId(cellarId).single()
+                ) { Cellar cellar, List cellaredDrinks, Photo photo ->
+                    [
+                        cellar        : cellar,
+                        cellaredDrinks: cellaredDrinks,
+                        photo         : photo
+                    ]
+                }.subscribe { Map map ->
+                    if (map.cellar == null) {
+                        log.error(LogUtil.toLog('YourCellar', [
+                            msg: 'Could not locate a cellar by user session id',
+                            id : cellarId
+                        ]))
+                        clientError 404
+                    } else {
+                        render handlebarsTemplate('cellars/show-cellar.html',
+                            [cellar        : map.cellar,
+                             photo         : map.photo,
+                             cellaredDrinks: map.cellaredDrinks,
+                             self          : true,
+                             title         : 'CellarHQ : Your Cellar',
+                             pageId        : 'yourcellar']
+                        )
                     }
                 }
             }

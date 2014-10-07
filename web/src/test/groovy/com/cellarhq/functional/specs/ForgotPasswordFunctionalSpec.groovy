@@ -3,18 +3,13 @@ package com.cellarhq.functional.specs
 import com.cellarhq.SpecFlags
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
-import com.cellarhq.functional.pages.BasePage
-import com.cellarhq.functional.pages.ChangePasswordPage
-import com.cellarhq.functional.pages.ForgotPasswordPage
-import com.cellarhq.functional.pages.HomePage
-import com.cellarhq.functional.pages.LoginPage
-import com.cellarhq.functional.pages.YourCellarPage
+import com.cellarhq.functional.CellarHqApplication
+import com.cellarhq.functional.pages.*
 import com.cellarhq.services.AccountService
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException
-import ratpack.groovy.test.LocalScriptApplicationUnderTest
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
 import spock.lang.IgnoreIf
@@ -29,9 +24,7 @@ import javax.sql.DataSource
 class ForgotPasswordFunctionalSpec extends GebReportingSpec {
 
     @Shared
-    ApplicationUnderTest aut = new LocalScriptApplicationUnderTest(
-            'other.remoteControl.enabled': 'true',
-            'other.hikari.dataSourceProperties.databaseName': 'cellarhq_testing')
+    ApplicationUnderTest aut = new CellarHqApplication()
 
     @Shared
     RemoteControl remote = new RemoteControl(aut)

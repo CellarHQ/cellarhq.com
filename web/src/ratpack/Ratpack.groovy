@@ -190,9 +190,9 @@ ratpack {
             redirect('/')
         }
 
-        handler('forgot-password', registry.get(ForgotPasswordEndpoint))
+        handler('forgot-password', chain(registry.get(ForgotPasswordEndpoint)))
         handler('forgot-password/:id', registry.get(ChangePasswordEndpoint))
-        handler('settings', registry.get(SettingsEndpoint))
+        handler('settings', chain(registry.get(SettingsEndpoint)))
 
         /**
          * Backwards compatibility endpoints:
