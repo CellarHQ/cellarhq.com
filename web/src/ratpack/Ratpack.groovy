@@ -54,11 +54,11 @@ String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
 
 ratpack {
     bindings {
+        //add new CodaHaleMetricsModule().metrics().jvmMetrics().jmx().websocket().healthChecks()
+
         bind ServerErrorHandler, ServerErrorHandlerImpl
         bind ClientErrorHandler, ClientErrorHandlerImpl
         bind DatabaseHealthcheck
-
-        add new CodaHaleMetricsModule().jvmMetrics().jmx().websocket().healthChecks()
 
         String serverName = getConfig(launchConfig, 'dataSource.serverName', 'localhost')
         String portNumber =  getConfig(launchConfig, 'dataSource.portNumber', '15432')
@@ -228,13 +228,13 @@ ratpack {
             render json(healthCheckRegistry.runHealthChecks())
         })
 
-        prefix("admin") {
-            get("metrics-report", new MetricsWebsocketBroadcastHandler())
-
-            get("metrics") {
-                render handlebarsTemplate("metrics.html", title: "Metrics")
-            }
-        }
+//        prefix("admin") {
+//            get("metrics-report", new MetricsWebsocketBroadcastHandler())
+//
+//            get("metrics") {
+//                render handlebarsTemplate("metrics.html", title: "Metrics")
+//            }
+//        }
 
         assets "public"
     }

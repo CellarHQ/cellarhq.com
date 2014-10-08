@@ -29,17 +29,22 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 class BreweryEndpoint implements Action<Chain> {
     ValidatorFactory validatorFactory
     OrganizationService organizationService
+    DrinkService drinkService
 
     @Inject
-    public BreweryEndpoint(ValidatorFactory validatorFactory, OrganizationService organizationService) {
+    public BreweryEndpoint(ValidatorFactory validatorFactory,
+                           OrganizationService organizationService,
+                           DrinkService drinkService) {
+
         this.validatorFactory = validatorFactory
         this.organizationService = organizationService
+        this.drinkService = drinkService
     }
 
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            handler('breweries') { OrganizationService organizationService ->
+            handler('breweries') {
                 byMethod {
                     /**
                      * List all breweries; has search.
@@ -112,7 +117,7 @@ class BreweryEndpoint implements Action<Chain> {
             /**
              * HTML page for adding a new brewery.
              */
-            get('breweries/add') { OrganizationService organizationService ->
+            get('breweries/add') {
                 render handlebarsTemplate('breweries/new-brewery.html',
                     [organization: new Organization(),
                      title       : 'CellarHQ : Add New Brewery',
@@ -123,7 +128,7 @@ class BreweryEndpoint implements Action<Chain> {
             /**
              * HTML page for editing breweries.
              */
-            get('breweries/:slug/edit') { OrganizationService organizationService ->
+            get('breweries/:slug/edit') {
                 String slug = pathTokens['slug']
                 organizationService.findBySlug(slug).single().subscribe { Organization organization ->
                     if (organization.editable) {
@@ -137,7 +142,7 @@ class BreweryEndpoint implements Action<Chain> {
                 }
             }
 
-            handler('breweries/:slug') { OrganizationService organizationService, DrinkService drinkService ->
+            handler('breweries/:slug') {
                 byMethod {
                     /**
                      * Get an existing brewery.

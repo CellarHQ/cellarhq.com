@@ -15,7 +15,6 @@ import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import org.pac4j.core.profile.UserProfile
 import ratpack.form.Form
 import ratpack.func.Action
 import ratpack.groovy.Groovy
@@ -91,10 +90,13 @@ class CellarsEndpoint implements Action<Chain> {
                             clientError 500
                         })
                     }
+                }
+            }
 
-                    get(':slug') {
+            handler('cellars/:slug') {
+                byMethod {
+                    get {
                         String slug = pathTokens['slug']
-                        boolean isSelf = request.maybeGet(UserProfile)?.username == slug
 
                         rx.Observable.zip(
                                 cellarService.findBySlug(slug).single(),
@@ -108,6 +110,9 @@ class CellarsEndpoint implements Action<Chain> {
                             if (map.cellar == null) {
                                 clientError 404
                             } else {
+                                Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+                                boolean isSelf = map.cellar.id == cellarId
+
                                 render handlebarsTemplate('cellars/show-cellar.html',
                                         [cellar        : map.cellar,
                                          photo         : map.cellar.photo,
@@ -119,7 +124,7 @@ class CellarsEndpoint implements Action<Chain> {
                         }
                     }
 
-                    post(':slug/drinks') {
+                    post('drinks') {
                         String slug = pathTokens['slug']
 
                         Form form = parse(Form)
@@ -161,7 +166,7 @@ class CellarsEndpoint implements Action<Chain> {
                         }
                     }
 
-                    get(':slug/drinks/:drinkId/edit') {
+                    get('drinks/:drinkId/edit') {
                         String slug = pathTokens['slug']
                         Long drinkId = Long.valueOf(pathTokens['drinkId'])
 
@@ -181,7 +186,6 @@ class CellarsEndpoint implements Action<Chain> {
                 }
             }
         }
-
     }
 
     private CellaredDrink applyForm(CellaredDrink cellaredDrink, Form form) {
