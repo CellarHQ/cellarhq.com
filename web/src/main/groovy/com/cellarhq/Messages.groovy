@@ -21,6 +21,7 @@ abstract class Messages {
     final static String AUTH_CREDENTIALS_DO_NOT_MATCH = 'Email and/or password did not match'
 
     final static String REGISTER_SCREEN_NAME_TAKEN = 'Bummer. That username is already taken, try something else.'
+    final static String REGISTER_EMAIL_ACCOUNT_ALREADY_EXISTS = 'An account with that email is already registered.'
 
     final static String SETTINGS_SAVED = "Lookin' good. We've updated your profile."
 
