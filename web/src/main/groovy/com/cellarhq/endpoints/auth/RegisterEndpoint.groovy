@@ -89,9 +89,13 @@ class RegisterEndpoint extends GroovyHandler {
                             // TODO: Add uploaded file support for settings page
                             accountService.create(emailAccount, null)
                         }.onError { Throwable e ->
-
                             if (e.message.contains('unq_cellar_screen_name')) {
                                 SessionUtil.setFlash(request, FlashMessage.error(Messages.REGISTER_SCREEN_NAME_TAKEN))
+                            } else if (e.message.contains('unq_account_email_email')) {
+                                SessionUtil.setFlash(
+                                        request,
+                                        FlashMessage.error(Messages.REGISTER_EMAIL_ACCOUNT_ALREADY_EXISTS)
+                                )
                             } else {
                                 log.error(LogUtil.toLog('RegistrationFailure'), e)
                                 SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
