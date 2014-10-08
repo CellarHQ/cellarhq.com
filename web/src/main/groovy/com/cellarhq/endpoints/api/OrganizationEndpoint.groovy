@@ -28,12 +28,12 @@ class OrganizationEndpoint extends GroovyChainAction {
         }
 
         get('organizations/valid-name') {
-            organizationService.search(request.queryParams.name, 1, 0).toList().subscribe { List<Organization> orgs ->
+            organizationService.search(request.queryParams.name, null, 1, 0).toList().subscribe { List<Organization> orgs ->
                 render json(orgs.empty)
             }
         }
         get('organizations/live-search') {
-            organizationService.search(request.queryParams.name, 5, 0).toList().subscribe { List<Organization> orgs ->
+            organizationService.search(request.queryParams.name, null, 5, 0).toList().subscribe { List<Organization> orgs ->
                 render json(orgs.collect {
                     [
                             id: it.id,

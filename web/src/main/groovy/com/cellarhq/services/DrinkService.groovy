@@ -156,7 +156,7 @@ class DrinkService extends BaseJooqService {
 
     }
 
-    Observable<Drink> all(SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
+    Observable<Drink> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
         observeEach(execControl.blocking {
             jooq({ Configuration c ->
                 c.set(new CustomViewRecordMapperProvider([

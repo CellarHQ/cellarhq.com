@@ -87,7 +87,7 @@ class CellarService extends BaseJooqService {
         }).asObservable()
     }
 
-    rx.Observable<Cellar> all(SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
+    rx.Observable<Cellar> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()

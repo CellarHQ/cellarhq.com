@@ -20,7 +20,7 @@ class DrinkEndpoint extends GroovyChainAction {
     @Override
     protected void execute() throws Exception {
         put('drinks/validate-name') {
-            drinkService.search(request.queryParams.name, 1, 0).toList().subscribe { List<Drink> drinks ->
+            drinkService.search(request.queryParams.name, null, 1, 0).toList().subscribe { List<Drink> drinks ->
                 render json(drinks.empty)
             }
         }
@@ -31,7 +31,7 @@ class DrinkEndpoint extends GroovyChainAction {
                         Long.valueOf(request.queryParams.organizationId),
                         request.queryParams.name, 5, 0)
             } else {
-                observable = drinkService.search(request.queryParams.name, 5, 0)
+                observable = drinkService.search(request.queryParams.name, null, 5, 0)
             }
             observable.toList().subscribe { List<Drink> drinks ->
                 render json(drinks.collect {
