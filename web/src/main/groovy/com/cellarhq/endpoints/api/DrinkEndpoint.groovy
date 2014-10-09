@@ -21,31 +21,30 @@ class DrinkEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            handler {
-                put('drinks/validate-name') {
-                    drinkService.search(request.queryParams.name, null, 1, 0).toList().subscribe { List<Drink> drinks ->
-                        render json(drinks.empty)
-                    }
-                }
-                get('drinks/live-search') {
-                    rx.Observable observable
-                    if (request.queryParams.organizationId) {
-                        observable = drinkService.searchByOrganizationId(
-                                Long.valueOf(request.queryParams.organizationId),
-                                request.queryParams.name, 5, 0)
-                    } else {
-                        observable = drinkService.search(request.queryParams.name, null, 5, 0)
-                    }
-                    observable.toList().subscribe { List<Drink> drinks ->
-                        render json(drinks.collect {
-                            [
-                                    id  : it.id,
-                                    name: it.name
-                            ]
-                        })
-                    }
+            put('drinks/validate-name') {
+                drinkService.search(request.queryParams.name, null, 1, 0).toList().subscribe { List<Drink> drinks ->
+                    render json(drinks.empty)
                 }
             }
+            get('drinks/live-search') {
+                rx.Observable observable
+                if (request.queryParams.organizationId) {
+                    observable = drinkService.searchByOrganizationId(
+                            Long.valueOf(request.queryParams.organizationId),
+                            request.queryParams.name, 5, 0)
+                } else {
+                    observable = drinkService.search(request.queryParams.name, null, 5, 0)
+                }
+                observable.toList().subscribe { List<Drink> drinks ->
+                    render json(drinks.collect {
+                        [
+                                id  : it.id,
+                                name: it.name
+                        ]
+                    })
+                }
+            }
+
         }
     }
 }

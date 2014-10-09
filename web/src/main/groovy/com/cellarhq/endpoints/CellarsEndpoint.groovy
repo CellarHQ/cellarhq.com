@@ -123,68 +123,96 @@ class CellarsEndpoint implements Action<Chain> {
                             }
                         }
                     }
+                }
+            }
 
-                    post('drinks') {
-                        String slug = pathTokens['slug']
+            post('cellars/:slug/drinks') {
+                String slug = pathTokens['slug']
 
-                        Form form = parse(Form)
-                        CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
-                            cellarId = (long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-                            drinkId = Long.valueOf(form.beerId)
-                            return self
-                        }
+                Form form = parse(Form)
+                CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
+                    cellarId = (long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+                    drinkId = Long.valueOf(form.beerId)
+                    return self
+                }
+
+                Validator validator = validatorFactory.validator
+                Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(drink)
+
+                if (drinkViolations.empty) {
+                    // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
+                    //       queries for two small pieces of data.
+                    rx.Observable.zip(
+                            cellaredDrinkService.save(drink).single(),
+                            drinkService.findNameById(drink.drinkId).single(),
+                            organizationService.findNameByDrinkId(drink.drinkId).single()
+                    ) { CellaredDrink savedDrink, String drinkName, String orgName ->
+                        [
+                                cellared: savedDrink,
+                                drink   : drinkName,
+                                org     : orgName
+                        ]
+                    }.subscribe({ Map map ->
+                        SessionUtil.setFlash(request, FlashMessage.success(
+                                Messages.CELLARED_DRINK_SAVED,
+                                new FlashMessage.SocialButton(
+                                        String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
+                                        "/cellars/${slug}"
+                                )))
+                        redirect('/yourcellar')
+                    })
+                } else {
+                    List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
+                    SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                    redirect('/yourcellar')
+                }
+            }
+
+            post('cellars/:slug/drinks/:drinkId') {
+                String slug = pathTokens['slug']
+                Long drinkId = Long.valueOf(pathTokens['drinkId'])
+
+                cellaredDrinkService.findById(slug, drinkId).single().subscribe { drink ->
+                    if (drink) {
+                        CellaredDrink editedDrink = applyForm(drink, parse(Form))
 
                         Validator validator = validatorFactory.validator
-                        Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(drink)
-
+                        Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(editedDrink)
                         if (drinkViolations.empty) {
-                            // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
-                            //       queries for two small pieces of data.
-                            rx.Observable.zip(
-                                    cellaredDrinkService.save(drink).single(),
-                                    drinkService.findNameById(drink.drinkId).single(),
-                                    organizationService.findNameByDrinkId(drink.drinkId).single()
-                            ) { CellaredDrink savedDrink, String drinkName, String orgName ->
-                                [
-                                        cellared: savedDrink,
-                                        drink   : drinkName,
-                                        org     : orgName
-                                ]
-                            }.subscribe({ Map map ->
-                                SessionUtil.setFlash(request, FlashMessage.success(
-                                        Messages.CELLARED_DRINK_SAVED,
-                                        new FlashMessage.SocialButton(
-                                                String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
-                                                "/cellars/${slug}"
-                                        )))
+                            cellaredDrinkService.save(editedDrink).single().subscribe { CellaredDrink savedDrink ->
+                                SessionUtil.setFlash(request, FlashMessage.success(Messages.CELLARED_DRINK_SAVED))
                                 redirect('/yourcellar')
-                            })
+                            }
                         } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
                             SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                            redirect('/yourcellar')
+                            redirect("${request.uri}/edit")
                         }
-                    }
-
-                    get('drinks/:drinkId/edit') {
-                        String slug = pathTokens['slug']
-                        Long drinkId = Long.valueOf(pathTokens['drinkId'])
-
-                        cellaredDrinkService.findByIdForEdit(slug, drinkId).single().subscribe { CellaredDrinkDetails drink ->
-
-                            if (drink) {
-                                requireSelf(context, drink) {
-                                    render handlebarsTemplate('cellars/edit-cellared-drink.html',
-                                            [action       : request.uri.replace('/edit', ''),
-                                             cellaredDrink: drink,
-                                             title        : 'CellarHQ : Edit Cellared Drink',
-                                             pageId       : 'cellared-drink.edit'])
-                                }
-                            }
-                        }
+                    } else {
+                        clientError 404
                     }
                 }
             }
+
+            get('cellars/:slug/drinks/:drinkId/edit') {
+                String slug = pathTokens['slug']
+                Long drinkId = Long.valueOf(pathTokens['drinkId'])
+
+                cellaredDrinkService.findByIdForEdit(slug, drinkId).single().subscribe { CellaredDrinkDetails drink ->
+
+                    if (drink) {
+                        requireSelf(context, drink) {
+                            render handlebarsTemplate('cellars/edit-cellared-drink.html',
+                                    [action       : request.uri.replace('/edit', ''),
+                                     cellaredDrink: drink,
+                                     title        : 'CellarHQ : Edit Cellared Drink',
+                                     pageId       : 'cellared-drink.edit'])
+                        }
+                    }
+                }
+
+            }
+
         }
     }
 
@@ -234,4 +262,5 @@ class CellarsEndpoint implements Action<Chain> {
             }
         }
     }
+
 }
