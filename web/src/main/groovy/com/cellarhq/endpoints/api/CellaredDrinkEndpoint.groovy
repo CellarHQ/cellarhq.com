@@ -6,7 +6,9 @@ import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.services.CellaredDrinkService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import ratpack.groovy.handling.GroovyChainAction
+import ratpack.func.Action
+import ratpack.groovy.Groovy
+import ratpack.handling.Chain
 import ratpack.handling.Context
 import ratpack.session.store.SessionStorage
 
@@ -14,7 +16,7 @@ import static ratpack.jackson.Jackson.fromJson
 import static ratpack.jackson.Jackson.json
 
 @Slf4j
-class CellaredDrinkEndpoint extends GroovyChainAction {
+class CellaredDrinkEndpoint implements Action<Chain> {
 
     CellaredDrinkService cellaredDrinkService
 
@@ -24,73 +26,78 @@ class CellaredDrinkEndpoint extends GroovyChainAction {
     }
 
     @Override
-    protected void execute() throws Exception {
-        get('cellars/:cellarSlug/drinks') {
-            cellaredDrinkService.all(pathTokens['cellarSlug']).toList().subscribe { List<CellaredDrink> drinks ->
-                render json(drinks)
-            }
-        }
+    void execute(Chain chain) throws Exception {
+        Groovy.chain(chain) {
+            handler {
+                get('cellars/:cellarSlug/drinks') {
+                    cellaredDrinkService.all(
+                        pathTokens['cellarSlug']).toList().subscribe { List<CellaredDrink> drinks ->
+                        render json(drinks)
+                    }
+                }
 
-        handler('cellars/:cellarSlug/drinks/:id') {
-            byMethod {
-                get {
+                handler('cellars/:cellarSlug/drinks/:id') {
+                    byMethod {
+                        get {
+                            String slug = pathTokens['cellarSlug']
+                            Long id = Long.valueOf(pathTokens['id'])
+
+
+                            cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
+                                requireSelf(context, drink) {
+                                    if (drink) {
+                                        render json(drink)
+                                    } else {
+                                        clientError 404
+                                    }
+                                }
+                            }
+                        }
+
+
+                        post {
+                            String slug = pathTokens['cellarSlug']
+
+                            CellaredDrink cellaredDrink = parse(fromJson(CellaredDrink))
+                            requireSelf(context, cellaredDrink) {
+                                cellaredDrinkService.save(cellaredDrink)
+                                    .single().flatMap {
+                                    cellaredDrinkService.findById(slug, it.id).single()
+                                } subscribe { CellaredDrink createdDrink ->
+                                    render json(createdDrink)
+                                }
+                            }
+                        }
+
+                        delete {
+                            String slug = pathTokens['cellarSlug']
+                            Long id = Long.valueOf(pathTokens['id'])
+
+                            cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
+                                requireSelf(context, drink) {
+                                    cellaredDrinkService.delete(slug, id).subscribe {
+                                        response.status(204).send()
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                put('cellars/:cellarSlug/drinks/:id/drink') {
                     String slug = pathTokens['cellarSlug']
                     Long id = Long.valueOf(pathTokens['id'])
 
-
                     cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
                         requireSelf(context, drink) {
-                            if (drink) {
-                                render json(drink)
-                            } else {
-                                clientError 404
+                            cellaredDrinkService.drink(slug, id).single().subscribe { CellaredDrink drankDrink ->
+                                if (drankDrink == null) {
+                                    clientError 404
+                                } else {
+                                    render json(drankDrink)
+                                }
                             }
-                        }
-                    }
-                }
-
-
-                post {
-                    String slug = pathTokens['cellarSlug']
-
-                    CellaredDrink cellaredDrink = parse(fromJson(CellaredDrink))
-                    requireSelf(context, cellaredDrink) {
-                        cellaredDrinkService.save(cellaredDrink)
-                            .single().flatMap {
-                            cellaredDrinkService.findById(slug, it.id).single()
-                        } subscribe { CellaredDrink createdDrink ->
-                            render json(createdDrink)
-                        }
-                    }
-                }
-
-                delete {
-                    String slug = pathTokens['cellarSlug']
-                    Long id = Long.valueOf(pathTokens['id'])
-
-                    cellaredDrinkService.findById(slug, id).single().subscribe { CellaredDrink drink ->
-                        requireSelf(context, drink) {
-                            cellaredDrinkService.delete(slug, id).subscribe {
-                                response.status(204).send()
-                            }
-                        }
-                    }
-                }
-
-            }
-        }
-
-        put('cellars/:cellarSlug/drinks/:id/drink') {
-            String slug = pathTokens['cellarSlug']
-            Long id = Long.valueOf(pathTokens['id'])
-
-            cellaredDrinkService.findById(slug, id).single().subscribe  { CellaredDrink drink ->
-                requireSelf(context, drink) {
-                    cellaredDrinkService.drink(slug, id).single().subscribe { CellaredDrink drankDrink ->
-                        if (drankDrink == null) {
-                            clientError 404
-                        } else {
-                            render json(drankDrink)
                         }
                     }
                 }
@@ -114,4 +121,5 @@ class CellaredDrinkEndpoint extends GroovyChainAction {
             }
         }
     }
+
 }

@@ -108,8 +108,8 @@ class RegisterEndpoint extends GroovyHandler {
                             // TODO Is there a way to do this without calling into ratpack's internals?
                             UserProfile userProfile = makeUserProfile(emailAccount)
 
-                            request.register(userProfile)
-                            request.register(UserProfile, userProfile)
+                            request.add(userProfile)
+                            request.add(UserProfile, userProfile)
                             request.get(SessionStorage).put(SessionConstants.USER_PROFILE, userProfile)
 
                             redirect('/yourcellar')

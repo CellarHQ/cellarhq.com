@@ -60,11 +60,6 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
         return super.screenName
     }
 
-    @Override
-    void setScreenName(String screenName) {
-        super.screenName = new Slugify().slugify(screenName)
-    }
-
     String getSlug() {
         return screenName
     }

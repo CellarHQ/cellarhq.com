@@ -7,16 +7,17 @@ buildscript {
         classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
-
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.5'
     }
 }
 
 plugins {
     id 'com.github.johnrengelman.shadow' version '1.1.2'
-    id 'io.ratpack.ratpack-groovy' version '0.9.8'
+    id 'io.ratpack.ratpack-groovy' version '0.9.9'
     id 'groovy'
 }
 
+apply plugin: 'com.github.ben-manes.versions'
 apply from: "${rootDir}/gradle/codenarc.gradle"
 apply plugin: 'docker'
 
@@ -31,7 +32,7 @@ repositories {
 dependencies {
     // SpringLoaded enables runtime hot reloading.
     // It is not part of the app runtime and is not shipped in the distribution.
-    springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
+    //springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
 
     compile project(':model')
 
@@ -50,16 +51,16 @@ dependencies {
     compile 'com.github.slugify:slugify:2.1.2'
 
     compile 'org.hibernate:hibernate-validator:5.1.2.Final'
-    compile 'javax.el:javax.el-api:2.2.4'
-    compile 'org.glassfish.web:javax.el:2.2.4'
+    compile 'javax.el:javax.el-api:3.0.1-b04'
+    compile 'org.glassfish.web:javax.el:2.2.6'
 
-    compile 'com.amazonaws:aws-java-sdk:1.8.9.1'
+    compile 'com.amazonaws:aws-java-sdk:1.8.11'
 
     compile 'org.reflections:reflections-maven:0.9.9-RC2'
     compile 'org.imgscalr:imgscalr-lib:4.2'
     compile 'org.owasp.antisamy:antisamy:1.5.3'
 
-    runtime 'org.codehaus.janino:janino:2.6.1'
+    runtime 'org.codehaus.janino:janino:2.7.6'
     runtime 'com.logentries:logentries-appender:1.1.27'
     runtime 'org.slf4j:slf4j-api:1.7.7'
     runtime 'ch.qos.logback:logback-classic:1.1.2'
@@ -68,16 +69,18 @@ dependencies {
 
 
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
-        exclude module: 'groovy-all'
+        exclude module: "groovy-all"
     }
-    testCompile 'cglib:cglib-nodep:2.2'
-    testCompile "org.gebish:geb-spock:0.9.2"
-    // Required for mocking multi arg constructor
+    testCompile "org.gebish:geb-spock:0.9.3"
     testRuntime "org.objenesis:objenesis:1.2"
-    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.40.0"
+    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.43.1"
     testCompile ratpack.dependency("remote-test")
-
+    testCompile 'cglib:cglib-nodep:3.1'
 }
+
+// The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in
+// This should be fixed upstream in Ratpack
+configurations.testCompile.dependencies.find { it.name == "ratpack-groovy-test" }.exclude(group: "org.codehaus.groovy")
 
 docker {
     apiUsername project.hasProperty('dockerUser') ? project.dockerUser : 'invalid'

@@ -1,7 +1,5 @@
 package com.cellarhq.endpoints
 
-import static ratpack.handlebars.Template.handlebarsTemplate
-
 import com.cellarhq.Messages
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
@@ -16,16 +14,19 @@ import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.UserProfile
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.form.Form
-import ratpack.groovy.handling.GroovyContext
-import ratpack.groovy.handling.GroovyHandler
+import ratpack.func.Action
+import ratpack.groovy.Groovy
+import ratpack.handling.Chain
 import ratpack.session.store.SessionStorage
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
 
+import static ratpack.handlebars.Template.handlebarsTemplate
+
 @Slf4j
-class SettingsEndpoint extends GroovyHandler {
+class SettingsEndpoint implements Action<Chain> {
 
     private final CellarService cellarService
     private final PhotoService photoService
@@ -39,88 +40,90 @@ class SettingsEndpoint extends GroovyHandler {
     }
 
     @Override
-    protected void handle(GroovyContext context) {
-        context.with {
-            byMethod {
-                Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-                UserProfile profile = request.get(UserProfile)
-                get {
-                    rx.Observable.zip(
+    void execute(Chain chain) throws Exception {
+        Groovy.chain(chain) {
+            handler {
+                byMethod {
+                    Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+                    UserProfile profile = request.get(UserProfile)
+                    get {
+                        rx.Observable.zip(
                             cellarService.get(cellarId),
                             photoService.findByCellarId(cellarId)
-                    ) { Cellar cellar, Photo photo ->
-                        [
+                        ) { Cellar cellar, Photo photo ->
+                            [
                                 cellar: cellar,
-                                photo: photo
-                        ]
-                    }.subscribe { Map map ->
-                        render handlebarsTemplate('settings.html',
-                                [title: 'Account Settings',
-                                isOauthAccount: profile instanceof TwitterProfile,
-                                pageId: 'settings',
-                                cellar: map.cellar,
-                                photo: map.photo])
+                                photo : photo
+                            ]
+                        }.subscribe { Map map ->
+                            render handlebarsTemplate('settings.html',
+                                [title         : 'Account Settings',
+                                 isOauthAccount: profile instanceof TwitterProfile,
+                                 pageId        : 'settings',
+                                 cellar        : map.cellar,
+                                 photo         : map.photo])
+                        }
                     }
-                }
 
-                post {
-                    Form form = parse(Form)
-                    Validator validator = validatorFactory.validator
+                    post {
+                        Form form = parse(Form)
+                        Validator validator = validatorFactory.validator
 
-                    blocking {
-                        Map result = [
+                        blocking {
+                            Map result = [
                                 success: false,
-                                cellar: (Cellar) null
-                        ]
+                                cellar : (Cellar) null
+                            ]
 
-                        Cellar cellar = cellarService.getBlocking(cellarId)
-                        if (cellar) {
-                            cellar.with {
-                                displayName = form.displayName
-                                location = form.location
-                                website = form.website
-                                bio = form.bio
-                                contactEmail = form.contactEmail
-                                updateFromNetwork = form.updateFromNetwork
-                                setPrivate((Boolean) form.private)
-                                reddit = form.reddit
-                                twitter = form.twitter
-                                beeradvocate = form.beeradvocate
-                                ratebeer = form.ratebeer
-                            }
+                            Cellar cellar = cellarService.getBlocking(cellarId)
+                            if (cellar) {
+                                cellar.with {
+                                    displayName = form.displayName
+                                    location = form.location
+                                    website = form.website
+                                    bio = form.bio
+                                    contactEmail = form.contactEmail
+                                    updateFromNetwork = form.updateFromNetwork
+                                    setPrivate((Boolean) form.private)
+                                    reddit = form.reddit
+                                    twitter = form.twitter
+                                    beeradvocate = form.beeradvocate
+                                    ratebeer = form.ratebeer
+                                }
 
-                            Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(cellar)
-                            if (cellarViolations.size() > 0) {
-                                SessionUtil.setFlash(
+                                Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(cellar)
+                                if (cellarViolations.size() > 0) {
+                                    SessionUtil.setFlash(
                                         request,
                                         FlashMessage.error(Messages.FORM_VALIDATION_ERROR, cellarViolations.collect {
                                             "${it.propertyPath.toString()} ${it.message}"
                                         })
-                                )
-                                result.cellar = cellar
-                            } else {
-                                cellarService.saveBlocking(cellar, form.file('photo'))
-                                result.success = true
+                                    )
+                                    result.cellar = cellar
+                                } else {
+                                    cellarService.saveBlocking(cellar, form.file('photo'))
+                                    result.success = true
+                                }
                             }
-                        }
-                        result
-                    } onError { Throwable t ->
-                        log.error(LogUtil.toLog('SaveSettingsFailure', [
+                            result
+                        } onError { Throwable t ->
+                            log.error(LogUtil.toLog('SaveSettingsFailure', [
                                 exception: t
-                        ]), t)
-                        SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-                        redirect('/settings')
-                    } then { Map result ->
-                        if (result.success) {
-                            SessionUtil.setFlash(request, FlashMessage.success(Messages.SETTINGS_SAVED))
+                            ]), t)
+                            SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                             redirect('/settings')
-                        } else {
-                            render handlebarsTemplate('settings.html',
-                                    [title: 'Account Settings',
-                                    pageId: 'settings',
-                                    isOauthAccount: profile instanceof TwitterProfile,
-                                    cellar: result.cellar]
-                            )
+                        } then { Map result ->
+                            if (result.success) {
+                                SessionUtil.setFlash(request, FlashMessage.success(Messages.SETTINGS_SAVED))
+                                redirect('/settings')
+                            } else {
+                                render handlebarsTemplate('settings.html',
+                                    [title         : 'Account Settings',
+                                     pageId        : 'settings',
+                                     isOauthAccount: profile instanceof TwitterProfile,
+                                     cellar        : result.cellar]
+                                )
+                            }
                         }
                     }
                 }
