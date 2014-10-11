@@ -206,6 +206,16 @@ ratpack {
         handler('forgotpassword') {
             redirect(301, '/forgot-password')
         }
+        handler('cellar/:slug') {
+            redirect(301, "/cellars/${pathTokens['slug']}")
+        }
+        handler('brewery/:slug') {
+            redirect(301, "/breweries/${pathTokens['slug']}")
+        }
+        handler('brewery/:brewery/beer/:beer') {
+            // TODO Create a handler for /brewery/:slug/beers/:beer
+            redirect(301, "/beers/${pathTokens['beer']}")
+        }
 
         /**************************************************************************************************************
          * API
