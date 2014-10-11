@@ -16,9 +16,6 @@ import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
 import org.pac4j.core.profile.CommonProfile
-import ratpack.codahale.metrics.CodaHaleMetricsModule
-import ratpack.codahale.metrics.HealthCheckHandler
-import ratpack.codahale.metrics.MetricsWebsocketBroadcastHandler
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule

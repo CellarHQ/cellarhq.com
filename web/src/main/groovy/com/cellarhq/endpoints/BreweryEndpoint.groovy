@@ -100,9 +100,9 @@ class BreweryEndpoint implements Action<Chain> {
                         if (organizationViolations.empty) {
                             organizationService.save(organization)
                                 .single()
-                                .subscribe { Organization savedOrganization ->
-                                redirect("/breweries/${savedOrganization.slug}")
-                            }
+                                .subscribe({ Organization savedOrganization ->
+                                    redirect("/breweries/${savedOrganization.slug}")
+                                })
                         } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(organizationViolations)
 
@@ -216,6 +216,10 @@ class BreweryEndpoint implements Action<Chain> {
             searchable = true
             locked = false
             needsModeration = false
+            warningFlag = false
+            totalBeers = 0
+            cellaredBeers = 0
+            containedInCellars = 0
             type = OrganizationType.BREWERY
         }
 
