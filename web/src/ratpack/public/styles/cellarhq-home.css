@@ -83,3 +83,40 @@ footer {
     padding: 20px 0 75px;
     height: 100px;
 }
+
+@media (max-width: 480px)  {
+    #register-cta {
+        height: 100%;
+        padding: 0 20px 0;
+    }
+
+    #register-cta > .row:nth-child(2) {
+        padding-top: 0;
+    }
+
+    #register-cta .cta-text {
+        margin-bottom: 100px;
+    }
+
+    #register-cta h1 {
+        font-size: 24px;
+    }
+
+    #register-cta h2 {
+        font-size: 24px;
+    }
+
+    footer ul {
+        text-align: center;
+    }
+
+    footer ul li:first-child {
+        padding-left: 0;
+    }
+
+    footer ul li:last-child {
+        display: block;
+        border-left: none;
+        padding-left: 0;
+    }
+}
