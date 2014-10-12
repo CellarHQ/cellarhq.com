@@ -27,6 +27,8 @@ class SimpleDBBreweryImporter implements ProgressSupport {
             if (!organizationRecord.createdDate) organizationRecord.reset(ORGANIZATION.CREATED_DATE)
             if (!organizationRecord.modifiedDate) organizationRecord.reset(ORGANIZATION.MODIFIED_DATE)
 
+            new SimpleDBPhotoImporter(dslContext).importPhoto(item, organizationRecord)
+
             try {
                 organizationRecord.store()
                 incrementProgressAnts()

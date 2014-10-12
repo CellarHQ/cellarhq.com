@@ -34,6 +34,8 @@ class SimpleDBBeerImporter implements ProgressSupport {
                 if (!drinkRecord.createdDate) drinkRecord.reset(DRINK.CREATED_DATE)
                 if (!drinkRecord.modifiedDate) drinkRecord.reset(DRINK.MODIFIED_DATE)
 
+                new SimpleDBPhotoImporter(dslContext).importPhoto(item, drinkRecord)
+
                 try {
                     if (drinkRecord.organizationId) {
                         drinkRecord.store()
