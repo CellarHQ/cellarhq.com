@@ -1,7 +1,7 @@
-{{#pagination this currentPage totalPageCount 5}}
+{{#pagination request currentPage totalPageCount 5}}
   <ul class="pagination">
       {{#if canGoPrevious}}
-        <li class="prev"><a href="{{pageUri}}?page={{previousIdx}}">Prev</a></li>
+        <li class="prev"><a href="{{previousUri}}">Prev</a></li>
       {{else}}
         <li class="prev disabled"><a href="#">Prev</a></li>
       {{/if}}
@@ -10,12 +10,12 @@
           {{#if isCurrent}}
             <li class="active"><a href="#">{{page}}</a></li>
           {{else}}
-            <li><a href="{{pageUri}}?page={{page}}">{{page}}</a></li>
+            <li><a href="{{pageUri}}">{{page}}</a></li>
           {{/if}}
       {{/each}}
 
       {{#if canGoNext}}
-        <li class="next"><a href="{{pageUri}}?page={{nextIdx}}">Next</a></li>
+        <li class="next"><a href="{{nextUri}}">Next</a></li>
       {{else}}
         <li class="next disabled"><a href="#">Next</a></li>
       {{/if}}
