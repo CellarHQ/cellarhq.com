@@ -1,18 +1,16 @@
 package com.cellarhq.cellars
 
+import com.cellarhq.commands.support.ProgressSupport
 import com.cellarhq.generated.Keys
-import com.cellarhq.generated.Tables
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
-
-import java.sql.Statement
 
 import static com.cellarhq.generated.Tables.CELLAR
 import static com.cellarhq.generated.Tables.CELLARED_DRINK
 import static com.cellarhq.generated.Tables.DRINK
 
 
-class CellarCountUpdater {
+class CellarCountUpdater implements ProgressSupport {
     void updateCounts(DSLContext dslContext) {
         List<Long> ids = dslContext.select(CELLAR.ID).from(CELLAR).fetchInto(Long)
 
@@ -38,6 +36,8 @@ class CellarCountUpdater {
                 .set(CELLAR.UNIQUE_BEERS, uniqueBeers)
                 .set(CELLAR.UNIQUE_BREWERIES, uniqueBreweries)
                 .where(CELLAR.ID.eq(id))
+
+            incrementProgressAnts()
         }).execute()
     }
 }

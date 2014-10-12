@@ -1,7 +1,6 @@
-package com.cellarhq.cleanup
+package com.cellarhq.dbimport.cleanup
 
 import com.cellarhq.generated.Keys
-import com.cellarhq.generated.tables.pojos.Organization
 import org.jooq.DSLContext
 
 import static com.cellarhq.generated.Tables.CELLARED_DRINK

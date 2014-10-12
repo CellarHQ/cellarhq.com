@@ -1,4 +1,4 @@
-package com.cellarhq.brewerydb
+package com.cellarhq.dbimport.brewerydb
 
 import retrofit.http.GET
 import retrofit.http.Query

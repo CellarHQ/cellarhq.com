@@ -1,4 +1,4 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Drink
@@ -41,7 +41,7 @@ class SimpleDBToDrinkMapper {
 
             // This data will need cleaned for sure. Anything over 100 I am assuming is spam.
             if (!styleId && styleName && styleName.length() < 101) {
-                println "Could not find style ${styleName}"
+                println "Could not find style ${styleName}, adding"
 
                 StyleRecord styleRecord =  dslContext.newRecord(STYLE)
                 styleRecord.name = styleName
@@ -85,6 +85,9 @@ class SimpleDBToDrinkMapper {
             self.searchable = true
             self.breweryDbId = helper.getAttribute(item.attributes, attrBrewerydbId)
             self.warningFlag = false
+            self.cellaredBeers = 0
+            self.containedInCellars = 0
+            self.tradableBeers = 0
 
             DateTime breweryDbUpdatedTime = helper.getDateAttribute(item.attributes, attrBrewerydbLastUpdate)
 

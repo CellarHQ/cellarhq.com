@@ -1,5 +1,6 @@
-package com.cellarhq.brewerydb
+package com.cellarhq.dbimport.brewerydb
 
+import com.cellarhq.commands.support.ProgressSupport
 import com.cellarhq.generated.tables.records.DrinkRecord
 import com.github.slugify.Slugify
 import org.jooq.DSLContext
@@ -7,7 +8,7 @@ import org.jooq.exception.DataAccessException
 
 import static com.cellarhq.generated.Tables.*
 
-class BreweryDbBeerImporter {
+class BreweryDbBeerImporter implements ProgressSupport {
     void importBreweriesFromBDB(DSLContext dslContext) {
         BreweryDbBeerRetreiver beerRetreiver = new BreweryDbBeerRetreiver()
 
@@ -59,6 +60,7 @@ class BreweryDbBeerImporter {
 
                 if (organizationId) {
                     drink.store()
+                    incrementProgressAnts()
                 }  else {
                     println "no brewery for ${beerMap.name}"
                 }

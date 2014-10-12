@@ -1,5 +1,6 @@
-package com.cellarhq.brewerydb
+package com.cellarhq.dbimport.brewerydb
 
+import com.cellarhq.commands.support.ProgressSupport
 import com.cellarhq.generated.tables.records.OrganizationRecord
 import com.github.slugify.Slugify
 import org.jooq.DSLContext
@@ -8,7 +9,7 @@ import org.jooq.exception.DataAccessException
 import static com.cellarhq.generated.Tables.ORGANIZATION
 
 
-class BreweryDbBreweryImporter {
+class BreweryDbBreweryImporter implements ProgressSupport {
     void importBreweriesFromBDB(DSLContext dslContext) {
         BreweryDbBreweryRetreiver breweryRetreiver = new BreweryDbBreweryRetreiver()
 
@@ -39,6 +40,7 @@ class BreweryDbBreweryImporter {
                     organization.type = 'BREWERY'
 
                     organization.store()
+                    incrementProgressAnts()
                 } else {
                     OrganizationRecord newOrganization = dslContext.newRecord(ORGANIZATION)
 
@@ -59,6 +61,7 @@ class BreweryDbBreweryImporter {
                     newOrganization.type = 'BREWERY'
 
                     newOrganization.store()
+                    incrementProgressAnts()
                 }
             } catch (DataAccessException e) {
                 println "Data access exception ${e.message} processing ${breweryMap.name}"

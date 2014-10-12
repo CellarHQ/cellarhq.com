@@ -1,4 +1,4 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.generated.tables.records.OrganizationRecord
@@ -18,6 +18,9 @@ class LastResort {
         newDrink.drinkType = 'BEER'
         newDrink.organizationId = organizationId
         newDrink.warningFlag = true
+        newDrink.tradableBeers = 0
+        newDrink.cellaredBeers = 0
+        newDrink.containedInCellars = 0
 
         newDrink.store()
 
@@ -31,6 +34,9 @@ class LastResort {
         newOrganization.slug = new Slugify().slugify(newOrganization.name)
         newOrganization.type = 'BREWERY'
         newOrganization.warningFlag = true
+        newOrganization.totalBeers = 0
+        newOrganization.cellaredBeers = 0
+        newOrganization.containedInCellars = 0
 
         newOrganization.store()
 

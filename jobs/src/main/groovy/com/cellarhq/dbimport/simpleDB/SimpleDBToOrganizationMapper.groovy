@@ -1,4 +1,4 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Organization
@@ -37,7 +37,6 @@ class SimpleDBToOrganizationMapper {
             self.country = helper.getAttribute(item.attributes, attrCountry).trim()
             self.breweryDbId = helper.getAttribute(item.attributes, attrBrewerydbId).trim()
 
-
             self.established = helper.getNumberAttribute(item.attributes, attrEstablished)
 
             self.description = helper.buildDescription(item.attributes)
@@ -52,6 +51,9 @@ class SimpleDBToOrganizationMapper {
             self.locked = false
             self.needsModeration = false
             self.warningFlag = false
+            self.totalBeers = 0
+            self.cellaredBeers = 0
+            self.containedInCellars = 0
 
             return self
         }

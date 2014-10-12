@@ -1,6 +1,7 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
+import com.cellarhq.commands.support.ProgressSupport
 import com.cellarhq.generated.tables.pojos.AccountOauth
 import com.cellarhq.generated.tables.pojos.AccountEmail
 import com.cellarhq.generated.tables.pojos.Cellar
@@ -14,7 +15,7 @@ import static com.cellarhq.generated.Tables.ACCOUNT_EMAIL
 import static com.cellarhq.generated.Tables.ACCOUNT_OAUTH
 import static com.cellarhq.generated.Tables.CELLAR
 
-class SimpleDBAccountImporter {
+class SimpleDBAccountImporter implements ProgressSupport {
     AmazonHelper helper = new AmazonHelper()
 
     void importAccountsFromS3(DSLContext dslContext) {
@@ -56,6 +57,7 @@ class SimpleDBAccountImporter {
 
                 try {
                     oauthRecord.store()
+                    incrementProgressAnts()
                 } catch (DataAccessException e) {
                     println "Error inserting because ${e.message}"
                 }
@@ -77,6 +79,7 @@ class SimpleDBAccountImporter {
 
                 try {
                     emailRecord.store()
+                    incrementProgressAnts()
                 } catch (DataAccessException e) {
                     println "Error inserting because ${e.message}"
                 }

@@ -1,4 +1,4 @@
-package com.cellarhq.brewerydb
+package com.cellarhq.dbimport.brewerydb
 
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter

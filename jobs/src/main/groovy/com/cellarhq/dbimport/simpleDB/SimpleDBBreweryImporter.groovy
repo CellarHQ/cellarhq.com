@@ -1,6 +1,7 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
+import com.cellarhq.commands.support.ProgressSupport
 import com.cellarhq.generated.tables.pojos.Organization
 import com.cellarhq.generated.tables.records.OrganizationRecord
 import org.jooq.DSLContext
@@ -8,7 +9,7 @@ import org.jooq.exception.DataAccessException
 
 import static com.cellarhq.generated.Tables.ORGANIZATION
 
-class SimpleDBBreweryImporter {
+class SimpleDBBreweryImporter implements ProgressSupport {
     String selectAllBeersQuery = 'select * from cellar_PROD_breweries limit 2500'
 
     SimpleDBItemRetriever itemRetriever = new SimpleDBItemRetriever()
@@ -28,6 +29,7 @@ class SimpleDBBreweryImporter {
 
             try {
                 organizationRecord.store()
+                incrementProgressAnts()
             } catch (DataAccessException e) {
                 println "Error inserting because ${e.message} with ${organizationRecord}"
             }

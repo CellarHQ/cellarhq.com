@@ -1,19 +1,16 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
-import com.cellarhq.generated.tables.Organization
+import com.cellarhq.commands.support.ProgressSupport
 import com.cellarhq.generated.tables.pojos.Drink
 import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.generated.tables.records.OrganizationRecord
-import com.github.slugify.Slugify
 import org.jooq.DSLContext
 import org.jooq.exception.DataAccessException
 
 import static com.cellarhq.generated.Tables.DRINK
-import static com.cellarhq.generated.Tables.ORGANIZATION
 
-
-class SimpleDBBeerImporter {
+class SimpleDBBeerImporter implements ProgressSupport {
     void importBeersFromS3(DSLContext dslContext) {
         String selectAllBeersQuery = 'select * from cellar_PROD_beers limit 2500'
 
@@ -40,6 +37,7 @@ class SimpleDBBeerImporter {
                 try {
                     if (drinkRecord.organizationId) {
                         drinkRecord.store()
+                        incrementProgressAnts()
 
                     } else {
                         String name = helper.getAttribute(item.attributes, 'brewery').trim()

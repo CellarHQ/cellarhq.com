@@ -1,39 +1,22 @@
-package com.cellarhq
+package com.cellarhq.commands
 
-import com.cellarhq.brewerydb.BreweryDbBeerImporter
-import com.cellarhq.brewerydb.BreweryDbBreweryImporter
+import com.cellarhq.dbimport.brewerydb.BreweryDbBeerImporter
+import com.cellarhq.dbimport.brewerydb.BreweryDbBreweryImporter
 import com.cellarhq.cellars.CellarCountUpdater
-import com.cellarhq.cleanup.OrphanedDataRemover
-import com.cellarhq.simpleDB.SimpleDBAccountImporter
-import com.cellarhq.simpleDB.SimpleDBBeerImporter
-import com.cellarhq.simpleDB.SimpleDBBreweryImporter
-import com.cellarhq.simpleDB.SimpleDBCellaredBeerImporter
+import com.cellarhq.dbimport.cleanup.OrphanedDataRemover
+import com.cellarhq.commands.support.DatabaseSupport
+import com.cellarhq.dbimport.simpleDB.SimpleDBAccountImporter
+import com.cellarhq.dbimport.simpleDB.SimpleDBBeerImporter
+import com.cellarhq.dbimport.simpleDB.SimpleDBBreweryImporter
+import com.cellarhq.dbimport.simpleDB.SimpleDBCellaredBeerImporter
 import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
-import org.jooq.DSLContext
-import org.jooq.SQLDialect
-import org.jooq.impl.DSL
 
-import java.sql.Connection
-import java.sql.DriverManager
-
-/**
- * Main Class for importing beers and cellared beers from simple db.
- */
-@Slf4j
 @CompileStatic
-class UpdateData {
-    public static void main(String[] args) {
-        String userName = "cellarhq"
-        String password = "cellarhq"
-        String url = "jdbc:postgresql://localhost:15432/cellarhq"
+class DbImportCommand implements NamedCommand, DatabaseSupport {
 
+    @Override
+    boolean run() {
         try {
-            Class.forName("org.postgresql.ds.PGSimpleDataSource").newInstance()
-            Connection conn = DriverManager.getConnection(url, userName, password)
-
-            DSLContext create = DSL.using(conn, SQLDialect.POSTGRES)
-
             println "Importing breweries"
             new SimpleDBBreweryImporter().importBeersFromS3(create)
 
@@ -59,8 +42,11 @@ class UpdateData {
             new BreweryDbBeerImporter().importBreweriesFromBDB(create)
 
             println "All Done!"
+
+            return true
         } catch (Exception e) {
             e.printStackTrace()
+            return false
         }
     }
 }

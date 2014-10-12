@@ -15,6 +15,7 @@ import java.sql.DriverManager
 trait DatabaseSupport {
 
     private DSLContext create
+    private Connection conn
 
     DSLContext getCreate() {
         if (!create) {
@@ -24,7 +25,7 @@ trait DatabaseSupport {
             String url = 'jdbc:postgresql://localhost:15432/cellarhq'
 
             Class.forName("org.postgresql.ds.PGSimpleDataSource").newInstance()
-            Connection conn = DriverManager.getConnection(url, userName, password)
+            conn = DriverManager.getConnection(url, userName, password)
             create = DSL.using(conn, SQLDialect.POSTGRES)
         }
         return create

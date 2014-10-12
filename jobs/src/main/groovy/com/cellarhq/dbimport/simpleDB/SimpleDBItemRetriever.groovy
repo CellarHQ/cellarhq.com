@@ -1,4 +1,4 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.services.simpledb.AmazonSimpleDB

@@ -1,6 +1,7 @@
-package com.cellarhq.simpleDB
+package com.cellarhq.dbimport.simpleDB
 
 import com.amazonaws.services.simpledb.model.Item
+import com.cellarhq.commands.support.ProgressSupport
 import com.cellarhq.generated.tables.pojos.CellaredDrink
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
 import org.jooq.DSLContext
@@ -9,7 +10,7 @@ import org.jooq.exception.DataAccessException
 import static com.cellarhq.generated.Tables.CELLARED_DRINK
 
 
-class SimpleDBCellaredBeerImporter {
+class SimpleDBCellaredBeerImporter implements ProgressSupport {
     void importCellaredBeers(DSLContext dslContext) {
         String selectAllBeersQuery = 'select * from cellar_PROD_cellars limit 2500'
 
@@ -29,6 +30,7 @@ class SimpleDBCellaredBeerImporter {
             try {
                 if (drinkRecord.drinkId) {
                     drinkRecord.store()
+                    incrementProgressAnts()
                 }
 
             } catch (DataAccessException e) {
