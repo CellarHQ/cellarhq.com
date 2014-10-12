@@ -1,4 +1,4 @@
-package com.cellarhq.dbimport.simpleDB
+package com.cellarhq.dbimport.simpledb
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.commands.support.ProgressSupport
@@ -32,6 +32,9 @@ class SimpleDBAccountImporter implements ProgressSupport {
 
             if (!cellarRecord.createdDate) cellarRecord.reset(CELLAR.CREATED_DATE)
             if (!cellarRecord.modifiedDate) cellarRecord.reset(CELLAR.MODIFIED_DATE)
+
+
+            new SimpleDBPhotoImporter(dslContext).importPhoto(item, cellarRecord)
 
             try {
                 cellarRecord.store()

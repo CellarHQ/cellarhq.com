@@ -1,4 +1,4 @@
-package com.cellarhq.dbimport.simpleDB
+package com.cellarhq.dbimport.simpledb
 
 import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.generated.tables.records.OrganizationRecord

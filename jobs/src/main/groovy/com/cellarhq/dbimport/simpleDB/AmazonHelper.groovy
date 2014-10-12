@@ -1,4 +1,4 @@
-package com.cellarhq.dbimport.simpleDB
+package com.cellarhq.dbimport.simpledb
 
 import com.amazonaws.services.simpledb.model.Attribute
 import groovy.util.logging.Slf4j

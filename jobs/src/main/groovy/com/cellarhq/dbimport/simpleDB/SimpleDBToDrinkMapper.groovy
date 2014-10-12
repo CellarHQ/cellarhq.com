@@ -1,4 +1,4 @@
-package com.cellarhq.dbimport.simpleDB
+package com.cellarhq.dbimport.simpledb
 
 import com.amazonaws.services.simpledb.model.Item
 import com.cellarhq.generated.tables.pojos.Drink

@@ -5,10 +5,10 @@ import com.cellarhq.dbimport.brewerydb.BreweryDbBreweryImporter
 import com.cellarhq.cellars.CellarCountUpdater
 import com.cellarhq.dbimport.cleanup.OrphanedDataRemover
 import com.cellarhq.commands.support.DatabaseSupport
-import com.cellarhq.dbimport.simpleDB.SimpleDBAccountImporter
-import com.cellarhq.dbimport.simpleDB.SimpleDBBeerImporter
-import com.cellarhq.dbimport.simpleDB.SimpleDBBreweryImporter
-import com.cellarhq.dbimport.simpleDB.SimpleDBCellaredBeerImporter
+import com.cellarhq.dbimport.simpledb.SimpleDBAccountImporter
+import com.cellarhq.dbimport.simpledb.SimpleDBBeerImporter
+import com.cellarhq.dbimport.simpledb.SimpleDBBreweryImporter
+import com.cellarhq.dbimport.simpledb.SimpleDBCellaredBeerImporter
 import groovy.transform.CompileStatic
 
 @CompileStatic
