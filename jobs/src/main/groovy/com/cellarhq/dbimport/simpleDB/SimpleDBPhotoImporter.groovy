@@ -45,7 +45,7 @@ class SimpleDBPhotoImporter {
         }
 
         BufferedImage originalImage = getBufferedImage(photoRecord.originalUrl)
-        if (!getBufferedImage(photoRecord.originalUrl)) {
+        if (!originalImage) {
             println('Could not read original image; aborting import of photo')
             return
         }
@@ -93,6 +93,10 @@ class SimpleDBPhotoImporter {
     }
 
     private BufferedImage getBufferedImage(String url) {
-        return ImageIO.read(new URL(url))
+        try {
+            return ImageIO.read(new URL(url))
+        } catch (IOException e) {
+            return null
+        }
     }
 }
