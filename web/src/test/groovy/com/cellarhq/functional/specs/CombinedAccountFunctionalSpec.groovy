@@ -4,6 +4,7 @@ import com.cellarhq.SpecFlags
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.domain.OAuthAccount
+import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.LogoutPage
@@ -11,7 +12,6 @@ import com.cellarhq.functional.pages.YourCellarPage
 import com.cellarhq.functional.pages.thirdparty.TwitterAuthorizePage
 import com.cellarhq.functional.pages.thirdparty.TwitterOAuthPage
 import com.cellarhq.services.AccountService
-import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
 import ratpack.test.ApplicationUnderTest
@@ -24,7 +24,7 @@ import javax.sql.DataSource
 
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) || SpecFlags.isTrue(SpecFlags.NO_INTERNET) })
-class CombinedAccountFunctionalSpec extends GebReportingSpec {
+class CombinedAccountFunctionalSpec extends BaseFunctionalSpecification {
 
     @Shared
     ApplicationUnderTest aut = new CellarHqApplication()

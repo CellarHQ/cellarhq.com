@@ -1,37 +1,22 @@
 package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
-import com.cellarhq.auth.SecurityModule
-import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
+import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.LogInUserTrait
 import com.cellarhq.functional.pages.AddBreweryPage
 import com.cellarhq.functional.pages.BreweriesPage
-import com.cellarhq.functional.pages.LoginPage
-import com.cellarhq.functional.pages.LogoutPage
-import com.cellarhq.functional.pages.RegisterPage
 import com.cellarhq.functional.pages.ShowBreweryPage
-import com.cellarhq.functional.pages.YourCellarPage
-import com.cellarhq.services.AccountService
-import geb.spock.GebReportingSpec
-import groovy.sql.Sql
-import groovy.transform.CompileStatic
-import org.h2.jdbc.JdbcSQLException
-import org.pac4j.http.profile.HttpProfile
-import ratpack.pac4j.internal.SessionConstants
-import ratpack.session.store.SessionStorage
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
 
-import javax.sql.DataSource
-
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })
-class BreweriesFunctionalSpec extends GebReportingSpec implements LogInUserTrait {
+class BreweriesFunctionalSpec extends BaseFunctionalSpecification implements LogInUserTrait {
     @Shared
     ApplicationUnderTest aut = new CellarHqApplication()
 
