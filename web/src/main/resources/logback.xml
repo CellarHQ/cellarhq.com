@@ -27,6 +27,14 @@
             </appender>
 
             <appender name="SENTRY" class="net.kencochrane.raven.logback.SentryAppender">
+                <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+                    <evaluator>
+                        <expression>return message.contains('Credentials validation fails -> return to the form with error');</expression>
+                    </evaluator>
+                    <OnMismatch>NEUTRAL</OnMismatch>
+                    <OnMatch>DENY</OnMatch>
+                </filter>
+
                 <dsn>
                     https://640b2f0db70143fa8518aebd0397c36c:1e93be694d8c4363899dfbfda93c7701@app.getsentry.com/30588
                 </dsn>
