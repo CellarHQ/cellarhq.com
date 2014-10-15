@@ -2,7 +2,7 @@
     <label class="col-md-3 control-label" for="name">Name <span class="text-danger">*</span></label>
 
     <div class="col-md-6">
-        <input type="text" id="name" name="name" class="form-control" placeholder="Surly Brewing"
+        <input {{#if organization.id}}disabled{{/if}} type="text" id="name" name="name" class="form-control" placeholder="Surly Brewing"
                value="{{organization.name}}"/>
     </div>
 </div>

@@ -135,7 +135,7 @@ class BreweryEndpoint implements Action<Chain> {
                         render handlebarsTemplate('breweries/edit-brewery.html',
                             [organization: organization,
                              title       : "CellarHQ : Edit ${organization.name}",
-                             pageId      : 'breweries.show'])
+                             pageId      : 'breweries.edit'])
                     } else {
                         clientError 403
                     }
@@ -202,8 +202,8 @@ class BreweryEndpoint implements Action<Chain> {
 
     private Organization updateOrganizationFromForm(Organization organization, Form form) {
         organization.with {
-            slug = form.name
-            name = form.name
+            slug = organization.slug ?: form.name
+            name = organization.slug ?: form.name
             description = form.description
             established = Short.parseShort(form.established)
             phone = form.phone

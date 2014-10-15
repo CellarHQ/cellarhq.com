@@ -1,6 +1,7 @@
 package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
+<<<<<<< Updated upstream
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
@@ -8,6 +9,17 @@ import com.cellarhq.functional.LogInUserTrait
 import com.cellarhq.functional.pages.AddBreweryPage
 import com.cellarhq.functional.pages.BreweriesPage
 import com.cellarhq.functional.pages.ShowBreweryPage
+=======
+import com.cellarhq.functional.CellarHqApplication
+import com.cellarhq.functional.LogInUserTrait
+import com.cellarhq.functional.pages.breweries.AddBreweryPage
+import com.cellarhq.functional.pages.breweries.BreweriesPage
+import com.cellarhq.functional.pages.breweries.EditBreweryPage
+import com.cellarhq.functional.pages.breweries.ShowBreweryPage
+import geb.spock.GebReportingSpec
+import groovy.sql.Sql
+import org.h2.jdbc.JdbcSQLException
+>>>>>>> Stashed changes
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
 import spock.lang.IgnoreIf
@@ -25,12 +37,22 @@ class BreweriesFunctionalSpec extends BaseFunctionalSpecification implements Log
 
     def setupSpec() {
         browser.baseUrl = aut.getAddress().toString()
-        EmailAccount emailAccount = anEmailAccountUser()
-        logInUser(emailAccount)
+        anEmailAccountUser(remote, 'someone', 'test@example.com', 'password1')
+        logInUser('test@example.com', 'password1')
     }
 
     def cleanupSpec() {
-        cleanUpUsers()
+        cleanUpUsers(remote)
+        remote.exec {
+            try {
+                Sql sql = new Sql(get(DataSource))
+                sql.execute('delete from organization where 1=1')
+                sql.close()
+            } catch (JdbcSQLException e) {
+                // I don't think this should make the test fail: Will also be changed moving to jOOQ.
+                log.error(e.message)
+            }
+        }
     }
 
     def 'verify can get to an empty list page'() {
@@ -43,13 +65,29 @@ class BreweriesFunctionalSpec extends BaseFunctionalSpecification implements Log
 
     def 'can add a new brewery'() {
         when: 'Navigate to the add brewery page'
-        AddBreweryPage page2 = to AddBreweryPage
+        AddBreweryPage addBreweryPage = to AddBreweryPage
+
+        and: 'the form is filled it'
+        addBreweryPage.fillForm()
+
+        and: 'the form is submitted'
+        addBreweryPage.submitForm()
+
+        then: 'the show brewery page is displayed'
+        noExceptionThrown()
+        at ShowBreweryPage
+    }
+
+    def 'can edit a brewery'() {
+        when: 'Navigate to the add brewery page'
+        ShowBreweryPage showBreweryPage = to(ShowBreweryPage, 'name')
+
+        and: ''
+        showBreweryPage.editBreweryButton.click()
+        EditBreweryPage editBreweryPage = at (EditBreweryPage)
 
         and:
-        page2.fillForm()
-
-        and:
-        page2.submitForm()
+        editBreweryPage.submitForm()
 
         then:
         noExceptionThrown()
