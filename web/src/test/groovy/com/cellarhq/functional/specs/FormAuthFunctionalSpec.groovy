@@ -1,9 +1,9 @@
 package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
+import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.pages.*
-import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException
@@ -19,7 +19,7 @@ import javax.sql.DataSource
 @Slf4j
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })
-class FormAuthFunctionalSpec extends GebReportingSpec {
+class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
 
     @Shared
     ApplicationUnderTest aut = new CellarHqApplication()

@@ -76,6 +76,8 @@ dependencies {
     testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.43.1"
     testCompile ratpack.dependency("remote-test")
     testCompile 'cglib:cglib-nodep:3.1'
+
+    testCompile 'org.liquibase:liquibase-core:3.2.2'
 }
 
 // The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in
@@ -105,7 +107,11 @@ task publish(dependsOn: 'buildDocker') {
 
 }
 
-test.dependsOn ':model:dropAll', ':model:update'
+test {
+    systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
+    systemProperty 'liquibase.schema.default', 'public'
+    systemProperty 'liquibase.onerror.fail', true
+}
 
 run {
     // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?

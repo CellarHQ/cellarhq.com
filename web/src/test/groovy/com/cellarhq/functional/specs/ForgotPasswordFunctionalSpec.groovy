@@ -3,10 +3,10 @@ package com.cellarhq.functional.specs
 import com.cellarhq.SpecFlags
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
+import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.pages.*
 import com.cellarhq.services.AccountService
-import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException
@@ -21,7 +21,7 @@ import javax.sql.DataSource
 @Slf4j
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })
-class ForgotPasswordFunctionalSpec extends GebReportingSpec {
+class ForgotPasswordFunctionalSpec extends BaseFunctionalSpecification {
 
     @Shared
     ApplicationUnderTest aut = new CellarHqApplication()

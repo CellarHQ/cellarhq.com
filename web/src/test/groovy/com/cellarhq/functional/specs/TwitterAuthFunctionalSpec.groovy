@@ -4,6 +4,7 @@ import com.cellarhq.SpecFlags
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.domain.OAuthClient
+import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.YourCellarPage
@@ -11,7 +12,6 @@ import com.cellarhq.functional.pages.thirdparty.TwitterAuthorizePage
 import com.cellarhq.functional.pages.thirdparty.TwitterOAuthPage
 import com.cellarhq.services.AccountService
 import com.cellarhq.services.CellarService
-import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
@@ -23,7 +23,7 @@ import javax.sql.DataSource
 
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) || SpecFlags.isTrue(SpecFlags.NO_INTERNET) })
-class TwitterAuthFunctionalSpec extends GebReportingSpec {
+class TwitterAuthFunctionalSpec extends BaseFunctionalSpecification {
 
     @Shared
     ApplicationUnderTest aut = new CellarHqApplication()
