@@ -1,6 +1,7 @@
 plugins {
     id 'groovy'
     id 'application'
+    id 'idea'
 }
 
 repositories {
