@@ -1,0 +1,14 @@
+package com.cellarhq.functional.pages.breweries
+
+import com.cellarhq.functional.pages.BasePage
+
+
+class ShowBreweryPage extends BasePage {
+    static url = '/breweries'
+
+    static content = {
+        editBreweryButton(wait: true) { $('#edit-brewery-button') }
+    }
+
+    static at = { pageId ==~ /breweries.show/ }
+}

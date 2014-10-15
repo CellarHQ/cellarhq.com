@@ -5,22 +5,21 @@ import com.cellarhq.domain.EmailAccount
 import com.cellarhq.functional.pages.LoginPage
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
+import ratpack.test.remote.RemoteControl
 
 import javax.sql.DataSource
 
 trait  LogInUserTrait {
-    abstract def getRemote()
-
-    EmailAccount anEmailAccountUser() {
+    EmailAccount anEmailAccountUser(RemoteControl remote, String screenName, String email, String password) {
         remote.exec {
-            Cellar cellar = new Cellar(screenName: 'someone', displayName: 'Someone')
-            EmailAccount emailAccount = new EmailAccount(email: 'test@example.com', password: 'password1')
+            Cellar cellar = new Cellar(screenName: screenName, displayName: screenName)
+            EmailAccount emailAccount = new EmailAccount(email: email, password: password)
             emailAccount.cellar = cellar
             get(com.cellarhq.services.AccountService).create(emailAccount, null)
         }
     }
 
-    void cleanUpUsers() {
+    void cleanUpUsers(RemoteControl remote) {
         remote.exec {
             try {
                 Sql sql = new Sql(get(DataSource))
@@ -36,9 +35,9 @@ trait  LogInUserTrait {
 
     }
 
-    void logInUser(EmailAccount emailAccount) {
+    void logInUser(String email, String password) {
         LoginPage page = to LoginPage
-        page.fillForm('test@example.com', 'password1')
+        page.fillForm(email, password)
         page.submitForm()
     }
 
