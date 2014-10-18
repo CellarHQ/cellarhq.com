@@ -6,60 +6,57 @@
         <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
             <div class="block">
                 <div class="block-title">
-                    <h2>Add New Beer</h2>
+                    <h2>Edit Beer: {{drink.name}}</h2>
                 </div>
-                <form action="/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
+                <form action="/beers/{{drink.slug}}" method="post" id="edit-beer-form" class="form-horizontal form-bordered">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="organization">Brewery <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label">Brewery</label>
                         <div class="col-md-6">
-                            <input type="text" id="organization" name="organization" class="form-control" placeholder="Surly Brewing"/>
-                            <p class="help-block">If the brewery you're looking for doesn't already exist, you'll need
-                                to <a href="/breweries/add">add it first</a>.</p>
+                            <p class="form-control-static">{{drink.organizationName}}</p>
                         </div>
-                        <input type="hidden" id="organizationId" name="organizationId"/>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="name">Name <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label">Name</label>
                         <div class="col-md-6">
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Furious"/>
+                            <p class="form-control-static">{{drink.name}}</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="style">Style</label>
                         <div class="col-md-6">
-                            <input type="text" id="style" name="style" class="form-control" placeholder="American IPA"/>
+                            <input type="text" id="style" name="style" class="form-control" value="{{drink.styleName}}"/>
                         </div>
-                        <input type="hidden" id="styleId" name="styleId"/>
+                        <input type="hidden" id="styleId" name="styleId" value="{{drink.styleId}}"/>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="glassware">Glassware</label>
                         <div class="col-md-6">
-                            <input type="text" id="glassware" name="glassware" class="form-control" placeholder="Pint"/>
+                            <input type="text" id="glassware" name="glassware" class="form-control" value="{{drink.glasswareName}}"/>
                         </div>
-                        <input type="hidden" id="glasswareId" name="glasswareId"/>
+                        <input type="hidden" id="glasswareId" name="glasswareId" value="{{drink.glasswareId}}"/>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="description">Description</label>
                         <div class="col-md-6">
-                            <textarea id="description" name="description" class="form-control" placeholder="Beer for a glass, from a can."></textarea>
+                            <textarea id="description" name="description" class="form-control">{{drink.description}}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="srm">SRM</label>
                         <div class="col-md-6">
-                            <input type="text" id="srm" name="srm" class="form-control" placeholder="27"/>
+                            <input type="text" id="srm" name="srm" class="form-control" value="{{drink.srm}}"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="ibu">IBU</label>
                         <div class="col-md-6">
-                            <input type="text" id="ibu" name="ibu" class="form-control" placeholder="99"/>
+                            <input type="text" id="ibu" name="ibu" class="form-control" value="{{drink.ibu}}"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="abv">ABV</label>
                         <div class="col-md-6">
-                            <input type="text" id="abv" name="abv" class="form-control" placeholder="6.2"/>
+                            <input type="text" id="abv" name="abv" class="form-control" value="{{drink.abv}}"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -68,7 +65,7 @@
                             <select class="form-control" id="availability" name="availability">
                                 <option value="" selected>Unknown</option>
                                 {{#each availability}}
-                                    <option value="{{value}}">{{label}}</option>
+                                    <option value="{{value}}" {{selectedOption drink "getAvailability" value}}>{{label}}</option>
                                 {{/each}}
                             </select>
                         </div>

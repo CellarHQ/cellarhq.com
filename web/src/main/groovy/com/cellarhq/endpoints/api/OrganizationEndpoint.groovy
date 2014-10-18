@@ -31,8 +31,10 @@ class OrganizationEndpoint implements Action<Chain> {
             }
 
             get('organizations/valid-name') {
-                organizationService.search(request.queryParams.name, null, 1, 0).toList()
+                organizationService.search(request.queryParams.name, null, 1, 0)
+                        .toList()
                         .subscribe { List<Organization> orgs ->
+
                     if (request.queryParams.exists) {
                         render json(!orgs.empty)
                     } else {
@@ -42,8 +44,10 @@ class OrganizationEndpoint implements Action<Chain> {
             }
 
             get('organizations/live-search') {
-                organizationService.search(request.queryParams.name, null, 5, 0).toList().subscribe {
-                    List<Organization> orgs ->
+                organizationService.search(request.queryParams.name, null, 5, 0)
+                        .toList()
+                        .subscribe { List<Organization> orgs ->
+
                     render json(orgs.collect {
                         [
                                 id  : it.id,

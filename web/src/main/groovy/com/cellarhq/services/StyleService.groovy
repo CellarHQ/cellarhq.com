@@ -19,7 +19,7 @@ class StyleService extends BaseJooqService {
         super(dataSource, execControl)
     }
 
-    rx.Observable<List<Style>> search(String searchTerm, int numRows = 20, int offset = 0) {
+    rx.Observable<Style> search(String searchTerm, int numRows = 20, int offset = 0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()

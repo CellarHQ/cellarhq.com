@@ -24,6 +24,7 @@ import javax.validation.ValidatorFactory
 
 import static ratpack.handlebars.Template.handlebarsTemplate
 
+@SuppressWarnings(['LineLength', 'MethodSize'])
 @Slf4j
 class BeerEndpoint implements Action<Chain> {
 
@@ -95,15 +96,30 @@ class BeerEndpoint implements Action<Chain> {
                     post {
                         Form form = parse(Form)
 
-                        Drink drink = applyFrom(new Drink(), form)
+                        Drink drink
+                        try {
+                            drink = applyFrom(new Drink(), form)
+                        } catch (NumberFormatException e) {
+                            SessionUtil.setFlash(request, FlashMessage.warning(Messages.FORM_VALIDATION_ERROR))
+                            return redirect('/beers/add')
+                        }
 
                         Validator validator = validatorFactory.validator
                         Set<ConstraintViolation<Drink>> drinkViolations = validator.validate(drink)
 
                         if (drinkViolations.empty) {
-                            drinkService.save(drink).single().subscribe { Drink savedDrink ->
+                            drinkService.save(drink).single().subscribe({ Drink savedDrink ->
                                 redirect("/beers/${savedDrink.slug}")
-                            }
+                            }, { Throwable t ->
+                                if (t.message.contains('unq_drink_slug')) {
+                                    SessionUtil.setFlash(request, FlashMessage.error(
+                                            String.format(Messages.BEER_ADD_ALREADY_EXISTS_ERROR, drink.slug)
+                                    ))
+                                } else {
+                                    SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR))
+                                }
+                                redirect('/beers/add')
+                            })
                         } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
                             SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
@@ -130,15 +146,25 @@ class BeerEndpoint implements Action<Chain> {
              */
             get('beers/:slug/edit') {
                 String slug = pathTokens['slug']
-                drinkService.findBySlug(slug).single().subscribe { Drink drink ->
-                    if (drink.editable) {
-                        render handlebarsTemplate('beer/edit-beer.html', [
-                                beer: drink,
-                                title: "CellarHQ : Edit ${drink.name}",
-                                pageId: 'beer.edit'
-                        ])
+                drinkService.findBySlug(slug).single().subscribe({ Drink drink ->
+                    if (drink) {
+                        if (drink.editable) {
+                            render handlebarsTemplate('beer/edit-beer.html', [
+                                    drink: drink,
+                                    title: "CellarHQ : Edit ${drink.name}",
+                                    pageId: 'beer.edit',
+                                    availability: Availability.toHandlebars()
+                            ])
+                        } else {
+                            clientError 403
+                        }
+                    } else {
+                        clientError 404
                     }
-                }
+                }, { Throwable t ->
+                    log.error(LogUtil.toLog('ShowBeerError'), t)
+                    clientError 500
+                })
             }
 
             handler('beers/:slug') {
@@ -149,31 +175,50 @@ class BeerEndpoint implements Action<Chain> {
                     get {
                         String slug = pathTokens['slug']
 
-                        drinkService.findBySlug(slug).single().subscribe { Drink drink ->
+                        drinkService.findBySlug(slug).subscribe({ Drink drink ->
                             render handlebarsTemplate('beer/show-beer.html',
-                                [drink : drink,
-                                 title : "CellarHQ : ${drink.name}",
-                                 pageId: 'beer.show'])
-                        }
+                                    [drink : drink,
+                                     title : "CellarHQ : ${drink.name}",
+                                     pageId: 'beer.show'])
+                        }, { Throwable t ->
+                            log.error(LogUtil.toLog('ShowBeerError'), t)
+                            clientError 500
+                        })
                     }
-                }
 
-                post {
-                    String slug = pathTokens['slug']
-                    Form form = parse(Form)
+                    post {
+                        String slug = pathTokens['slug']
+                        Form form = parse(Form)
 
-                    drinkService.findBySlug(slug).single().subscribe { Drink drink ->
-                        if (drink) {
-                            if (drink.editable) {
-                                applyFrom(drink, form)
-                                drinkService.save(drink)
-                                    .single()
-                                    .subscribe { Drink savedDrink -> redirect("/beers/${savedDrink.slug}") }
+                        drinkService.findBySlug(slug).single().subscribe { Drink drink ->
+                            if (drink) {
+                                if (drink.editable) {
+                                    applyFrom(drink, form)
+
+                                    Validator validator = validatorFactory.validator
+                                    Set<ConstraintViolation<Drink>> drinkViolations = validator.validate(drink)
+
+                                    if (drinkViolations.empty) {
+                                        drinkService.save(drink)
+                                                .single()
+                                                .subscribe { Drink savedDrink ->
+
+                                            SessionUtil.setFlash(request, FlashMessage.success(Messages.BEER_EDIT_SAVED))
+                                            redirect("/beers/${savedDrink.slug}")
+                                        }
+                                    } else {
+                                        List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
+                                        SessionUtil.setFlash(request,
+                                                FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)
+                                        )
+                                        redirect("/beers/${slug}/edit")
+                                    }
+                                } else {
+                                    clientError 403
+                                }
                             } else {
-                                clientError 403
+                                clientError 404
                             }
-                        } else {
-                            clientError 404
                         }
                     }
                 }
@@ -184,20 +229,39 @@ class BeerEndpoint implements Action<Chain> {
     private Drink applyFrom(Drink drink, Form form) {
         if (!drink.id) {
             drink.with {
-                organizationId = Long.valueOf(form.organizationId)
-                styleId = Long.valueOf(form.styleId)
-                glasswareId = Long.valueOf(form.glasswareId)
+                if (form.organizationId) {
+                    organizationId = form.organizationId.toLong()
+                }
+
                 drinkType = DrinkType.BEER
                 slug = form.name
                 name = form.name
             }
         }
+
         drink.with {
             description = form.description
-            srm = Integer.valueOf(form.srm)
-            ibu = Integer.valueOf(form.ibu)
-            abv = BigDecimal.valueOf(form.abv)
-            availability = form.availability
+
+            if (form.styleId) {
+                styleId = form.styleId.toLong()
+            }
+            if (form.glasswareId) {
+                glasswareId = form.glasswareId.toLong()
+            }
+            if (form.srm) {
+                srm = form.srm.toInteger()
+            }
+            if (form.ibu) {
+                ibu = form.ibu.toInteger()
+            }
+            if (form.abv) {
+                abv = form.abv.toBigDecimal()
+            }
+            if (form.availability) {
+                availability = form.availability
+            }
+
+            needsModeration = true
         }
         return drink
     }

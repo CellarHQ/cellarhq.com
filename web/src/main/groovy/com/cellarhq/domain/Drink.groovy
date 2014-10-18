@@ -21,6 +21,7 @@ class Drink extends com.cellarhq.generated.tables.pojos.Drink {
     String organizationName
     String organizationSlug
     String styleName
+    String glasswareName
 
     Drink() {
         searchable = true
@@ -28,6 +29,10 @@ class Drink extends com.cellarhq.generated.tables.pojos.Drink {
         needsModeration = true
         createdDate = Timestamp.valueOf(LocalDateTime.now())
         modifiedDate = createdDate
+        warningFlag = false
+        tradableBeers = 0
+        cellaredBeers = 0
+        containedInCellars = 0
     }
 
     @Override
