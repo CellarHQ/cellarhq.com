@@ -28,8 +28,6 @@ trait  LogInUserTrait {
                 sql.execute('delete from cellar where 1=1')
                 sql.close()
             } catch (JdbcSQLException e) {
-                // I don't think this should make the test fail: Will also be changed moving to jOOQ.
-                log.error(e.message)
             }
         }
 

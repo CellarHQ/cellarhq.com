@@ -109,10 +109,12 @@ task publish(dependsOn: 'buildDocker') {
 }
 
 test {
+    systemProperty 'DISABLE_SERVICES', true
     systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
     systemProperty 'liquibase.schema.default', 'public'
     systemProperty 'liquibase.onerror.fail', true
 }
+
 
 run {
     // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
