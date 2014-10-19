@@ -58,6 +58,9 @@
                     </div>
                 </div>
                 <div class="row">
+                    {{#if loggedIn}}
+                        <a href="/breweries/{{organization.slug}}/beers/add" class="btn btn-primary pull-right">Add New Beer</a>
+                    {{/if}}
                     <div class="table-responsive">
                         <table id="beer-table" class="table table-striped table-bordered table-condensed table-vcenter">
                             <thead>
@@ -70,7 +73,7 @@
                             <tbody>
                             {{#each drinks}}
                                 <tr>
-                                    <td><a href="/beers/{{slug}}">{{drink}}</a></td>
+                                    <td><a href="/breweries/{{organization.slug}}/beers/{{slug}}">{{drink}}</a></td>
                                     <td>{{style}}</td>
                                     <td>{{availability}}</td>
                                 </tr>

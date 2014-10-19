@@ -21,7 +21,7 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'cellars',
             /cellars\/[a-zA-Z0-9\-_]+/,
             'beers',
-            /beers\/(?!add$)[a-zA-Z0-9\-_]+/,
+            /breweries\/(?!add$)[a-zA-Z0-9\-_]+\/beers\/(?!add$)[a-zA-Z0-9\-_]+/,
             'breweries',
             /breweries\/(?!add$)[a-zA-Z0-9\-_]+/,
             'about',

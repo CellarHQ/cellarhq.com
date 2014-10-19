@@ -1,7 +1,6 @@
 var Beer = function() {
     return {
         init: function() {
-            this.autoComplete('#add-beer-form', '#organization', '/api/organizations/live-search');
             this.autoComplete('#add-beer-form', '#style', '/api/styles/live-search');
             this.autoComplete('#add-beer-form', '#glassware', '/api/glassware/live-search');
             this.autoComplete('#edit-beer-form', '#style', '/api/styles/live-search');
@@ -26,19 +25,6 @@ var Beer = function() {
                     }
                 },
                 rules: {
-                    'organization': {
-                        required: true,
-                        remote: {
-                            url: '/api/organizations/valid-name',
-                            type: 'get',
-                            data: {
-                                exists: true,
-                                name: function() {
-                                    return $('#organization').val();
-                                }
-                            }
-                        }
-                    },
                     'style': {
                         remote: {
                             url: '/api/styles/validate-name',

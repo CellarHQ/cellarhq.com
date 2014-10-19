@@ -8,7 +8,7 @@
                 <div class="block-title">
                     <h2>Edit Beer: {{drink.name}}</h2>
                 </div>
-                <form action="/beers/{{drink.slug}}" method="post" id="edit-beer-form" class="form-horizontal form-bordered">
+                <form action="/breweries/{{drink.organizationSlug}}/beers/{{drink.slug}}" method="post" id="edit-beer-form" class="form-horizontal form-bordered">
                     <div class="form-group">
                         <label class="col-md-3 control-label">Brewery</label>
                         <div class="col-md-6">
