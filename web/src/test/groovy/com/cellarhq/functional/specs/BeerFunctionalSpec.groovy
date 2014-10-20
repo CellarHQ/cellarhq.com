@@ -30,26 +30,26 @@ class BeerFunctionalSpec extends BaseFunctionalSpecification implements LogInUse
     RemoteControl remote = new RemoteControl(aut)
 
     def setupSpec() {
-        browser.baseUrl = aut.address.toString()
-        EmailAccount emailAccount = anEmailAccountUser()
-        logInUser(emailAccount)
-
         remote.exec {
             Organization org = new Organization(
                     name: 'the business',
                     slug: 'the-business'
             )
-            get(OrganizationService).save(org)
+            get(OrganizationService).save(org).toBlocking().single()
         }
+
+        browser.baseUrl = aut.address.toString()
+        EmailAccount emailAccount = anEmailAccountUser(remote, 'user', 'user@example.com', 'password1')
+        logInUser(emailAccount.email, 'password1')
     }
 
     def cleanupSpec() {
-        cleanUpUsers()
+        cleanUpUsers(remote)
         remote.exec {
             try {
                 Sql sql = new Sql(get(DataSource))
                 sql.execute('delete from drink where 1=1')
-                sql.execute('delete from organization where = 1=1')
+                sql.execute('delete from organization where 1=1')
                 sql.close()
             } catch (JdbcSQLException e) {
             }
@@ -58,7 +58,7 @@ class BeerFunctionalSpec extends BaseFunctionalSpecification implements LogInUse
 
     def 'empty beer list'() {
         when:
-        ShowBreweryPage page = to ShowBreweryPage
+        ShowBreweryPage page = to ShowBreweryPage, 'the-business'
 
         then:
         assert page.beerTable.find('tbody tr').size() == 0
@@ -67,7 +67,11 @@ class BeerFunctionalSpec extends BaseFunctionalSpecification implements LogInUse
     def 'add new beer'() {
         when:
         AddBeerPage page = to AddBeerPage, 'the-business'
+
+        and:
         page.fillForm(null)
+
+        and:
         page.submitForm()
 
         then:

@@ -9,6 +9,6 @@ class ShowBreweryPage extends BasePage {
 
     static content = {
         editBreweryButton(wait: true) { $('#edit-brewery-button') }
-        beersTable(wait: true) { $('#beer-list') }
+        beerTable(wait: true) { $('#beer-list') }
     }
 }

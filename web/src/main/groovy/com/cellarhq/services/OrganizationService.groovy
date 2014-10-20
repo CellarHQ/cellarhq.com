@@ -45,7 +45,7 @@ class OrganizationService extends BaseJooqService {
 
                 organizationRecord.into(Organization)
             }
-        }).asObservable()
+        })
 
     }
 

@@ -3,6 +3,7 @@ package com.cellarhq.functional
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.functional.pages.LoginPage
+import com.cellarhq.services.AccountService
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
 import ratpack.test.remote.RemoteControl
@@ -15,7 +16,7 @@ trait  LogInUserTrait {
             Cellar cellar = new Cellar(screenName: screenName, displayName: screenName)
             EmailAccount emailAccount = new EmailAccount(email: email, password: password)
             emailAccount.cellar = cellar
-            get(com.cellarhq.services.AccountService).create(emailAccount, null)
+            get(AccountService).create(emailAccount, null)
         }
     }
 
