@@ -67,7 +67,11 @@ class CellarsEndpoint implements Action<Chain> {
                         rx.Observable<Integer> totalCount = cellarService.count(searchTerm).single()
 
                         rx.Observable cellars = searchTerm ?
-                                cellarService.search(searchTerm, SortCommand.fromRequest(request), pageSize, offset).toList() :
+                                cellarService.search(
+                                    searchTerm,
+                                    SortCommand.fromRequest(request),
+                                    pageSize,
+                                    offset).toList() :
                                 cellarService.all(SortCommand.fromRequest(request), pageSize, offset).toList()
 
                         rx.Observable.zip(cellars, totalCount) { List list, Integer count ->

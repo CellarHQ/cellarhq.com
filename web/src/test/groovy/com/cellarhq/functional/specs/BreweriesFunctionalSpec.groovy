@@ -1,30 +1,22 @@
 package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
-<<<<<<< Updated upstream
-import com.cellarhq.domain.EmailAccount
 import com.cellarhq.functional.BaseFunctionalSpecification
-import com.cellarhq.functional.CellarHqApplication
-import com.cellarhq.functional.LogInUserTrait
-import com.cellarhq.functional.pages.AddBreweryPage
-import com.cellarhq.functional.pages.BreweriesPage
-import com.cellarhq.functional.pages.ShowBreweryPage
-=======
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.LogInUserTrait
 import com.cellarhq.functional.pages.breweries.AddBreweryPage
 import com.cellarhq.functional.pages.breweries.BreweriesPage
 import com.cellarhq.functional.pages.breweries.EditBreweryPage
 import com.cellarhq.functional.pages.breweries.ShowBreweryPage
-import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
->>>>>>> Stashed changes
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
+
+import javax.sql.DataSource
 
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })

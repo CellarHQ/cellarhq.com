@@ -3,7 +3,6 @@ package com.cellarhq.domain
 import com.cellarhq.annotations.Sanitize
 import com.cellarhq.auth.Role
 import com.cellarhq.generated.tables.records.CellarRecord
-import com.github.slugify.Slugify
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
 import org.hibernate.validator.constraints.Length
