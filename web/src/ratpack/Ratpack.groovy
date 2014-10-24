@@ -8,7 +8,9 @@ import com.cellarhq.endpoints.*
 import com.cellarhq.endpoints.api.CellarEndpoint
 import com.cellarhq.endpoints.api.CellaredDrinkEndpoint
 import com.cellarhq.endpoints.api.DrinkEndpoint
+import com.cellarhq.endpoints.api.GlasswareEndpoint
 import com.cellarhq.endpoints.api.OrganizationEndpoint
+import com.cellarhq.endpoints.api.StyleEndpoint
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.CellarService
@@ -229,6 +231,8 @@ ratpack {
             handler chain(registry.get(CellaredDrinkEndpoint))
             handler chain(registry.get(OrganizationEndpoint))
             handler chain(registry.get(DrinkEndpoint))
+            handler chain(registry.get(StyleEndpoint))
+            handler chain(registry.get(GlasswareEndpoint))
         }
 
         get('health-checks', { HealthCheckRegistry healthCheckRegistry ->

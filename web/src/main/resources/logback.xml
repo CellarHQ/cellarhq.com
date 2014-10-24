@@ -29,7 +29,7 @@
             <appender name="SENTRY" class="net.kencochrane.raven.logback.SentryAppender">
                 <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
                     <evaluator>
-                        <expression>return message.contains('Credentials validation fails -> return to the form with error');</expression>
+                        <expression>return message.contains("Credentials validation fails -> return to the form with error");</expression>
                     </evaluator>
                     <OnMismatch>NEUTRAL</OnMismatch>
                     <OnMatch>DENY</OnMatch>

@@ -16,9 +16,6 @@
                                 </div>
                             </form>
                         </div>
-                        {{#if loggedIn}}
-                            <a href="/beers/add" class="btn btn-primary pull-right">Add New Brewery</a>
-                        {{/if}}
                     </div>
 
                     <table id="beer-table" class="table table-striped table-bordered table-vcenter dataTable no-footer">
@@ -37,7 +34,7 @@
                             <tr>
                                 <td>
                                     <h4 class="no-padding no-margin">
-                                        <strong><a href="/beers/{{slug}}">{{name}}</a></strong>
+                                        <strong><a href="/breweries/{{organizationSlug}}/beers/{{slug}}">{{name}}</a></strong>
                                     </h4>
                                     <a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a>
                                 </td>

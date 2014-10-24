@@ -55,7 +55,11 @@ dependencies {
     compile 'javax.el:javax.el-api:3.0.1-b04'
     compile 'org.glassfish.web:javax.el:2.2.6'
 
-    compile 'com.amazonaws:aws-java-sdk:1.8.11'
+    compile 'com.amazonaws:aws-java-sdk:1.8.11', {
+        // selenium requires httpclient-4.3; aws includes 4.2.
+        exclude module: 'httpclient'
+    }
+    compile 'org.apache.httpcomponents:httpclient:4.3.5'
 
     compile 'org.reflections:reflections-maven:0.9.9-RC2'
     compile 'org.imgscalr:imgscalr-lib:4.2'
@@ -68,13 +72,14 @@ dependencies {
     runtime 'com.lmax:disruptor:3.3.0'
     runtime 'net.kencochrane.raven:raven-logback:5.0.1'
 
-
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
         exclude module: "groovy-all"
     }
     testCompile "org.gebish:geb-spock:0.9.3"
     testRuntime "org.objenesis:objenesis:1.2"
-    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.43.1"
+    testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.43.1", {
+        exclude module: 'httpclient'
+    }
     testCompile ratpack.dependency("remote-test")
     testCompile 'cglib:cglib-nodep:3.1'
 
@@ -109,10 +114,12 @@ task publish(dependsOn: 'buildDocker') {
 }
 
 test {
+    systemProperty 'DISABLE_SERVICES', true
     systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
     systemProperty 'liquibase.schema.default', 'public'
     systemProperty 'liquibase.onerror.fail', true
 }
+
 
 run {
     // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?

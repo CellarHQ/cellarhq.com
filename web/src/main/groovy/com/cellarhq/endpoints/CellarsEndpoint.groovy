@@ -30,7 +30,7 @@ import java.time.format.DateTimeFormatter
 
 import static ratpack.handlebars.Template.handlebarsTemplate
 
-@SuppressWarnings('MethodSize')
+@SuppressWarnings(['LineLength', 'MethodSize'])
 @Slf4j
 class CellarsEndpoint implements Action<Chain> {
 
@@ -149,7 +149,7 @@ class CellarsEndpoint implements Action<Chain> {
                     rx.Observable.zip(
                             cellaredDrinkService.save(drink).single(),
                             drinkService.findNameById(drink.drinkId).single(),
-                            organizationService.findNameByDrinkId(drink.drinkId).single()
+                            organizationService.findNameByDrink(drink.drinkId).single()
                     ) { CellaredDrink savedDrink, String drinkName, String orgName ->
                         [
                                 cellared: savedDrink,

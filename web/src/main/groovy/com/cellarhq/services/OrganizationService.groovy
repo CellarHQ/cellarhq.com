@@ -45,7 +45,7 @@ class OrganizationService extends BaseJooqService {
 
                 organizationRecord.into(Organization)
             }
-        }).asObservable()
+        })
 
     }
 
@@ -73,13 +73,25 @@ class OrganizationService extends BaseJooqService {
 
     }
 
-    Observable<String> findNameByDrinkId(Long drinkId) {
+    Observable<String> findNameByDrink(Long drinkId) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select(ORGANIZATION.NAME)
                         .from(ORGANIZATION)
                         .join(DRINK).onKey()
                         .where(DRINK.ID.eq(drinkId))
+                        .fetchOne(ORGANIZATION.NAME)
+            }
+        }).asObservable()
+    }
+
+    Observable<String> findNameByDrink(String drinkSlug) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(ORGANIZATION.NAME)
+                        .from(ORGANIZATION)
+                        .join(DRINK).onKey()
+                        .where(DRINK.SLUG.eq(drinkSlug))
                         .fetchOne(ORGANIZATION.NAME)
             }
         }).asObservable()

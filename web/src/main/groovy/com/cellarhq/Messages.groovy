@@ -27,4 +27,7 @@ abstract class Messages {
 
     final static String CELLARED_DRINK_SAVED = "Lookin' good. We've saved your drink."
     final static String CELLARED_DRINK_SAVED_SOCIAL = 'Added %1s by %2s to my beer cellar!'
+
+    final static String BEER_ADD_ALREADY_EXISTS_ERROR = "Looks like the beer you're trying to add <a href='/beers/%1s'>already exists</a>."
+    final static String BEER_EDIT_SAVED = "Lookin' good. We've updated that beer."
 }

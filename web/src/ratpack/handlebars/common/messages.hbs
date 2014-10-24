@@ -1,7 +1,7 @@
 {{#if success}}
     <div class='alert alert-success alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{success}}
+        {{& success}}
         {{#if showSuccessSocialButton}}
           <a href="https://twitter.com/share" class="twitter-share-button"
             data-url="{{socialButtonUrl}}" data-text="{{successSocialButtonMessage}}"
@@ -20,7 +20,7 @@
 {{#if info}}
     <div class='alert alert-info alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{info}}
+        {{& info}}
         {{#if showInfoSocialButton}}
           <a href="https://twitter.com/share" class="twitter-share-button"
             data-url="{{socialButtonUrl}}" data-text="{{successSocialButtonMessage}}"
@@ -39,7 +39,7 @@
 {{#if warning}}
     <div class='alert alert-warning alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{warning}}
+        {{& warning}}
         {{#if warningMessages}}
             <ul>
                 {{#each warningMessages}}
@@ -52,7 +52,7 @@
 {{#if error}}
     <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{error}}
+        {{& error}}
         {{#if errorMessages}}
             <ul>
                 {{#each errorMessages}}

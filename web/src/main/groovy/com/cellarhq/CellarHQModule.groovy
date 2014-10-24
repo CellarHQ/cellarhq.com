@@ -63,9 +63,6 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(CellaredDrinkService).in(Scopes.SINGLETON)
         bind(OrganizationService).in(Scopes.SINGLETON)
         bind(StatsService).in(Scopes.SINGLETON)
-        bind(PaginationHelper).in(Scopes.SINGLETON)
-        bind(DataTableSortingHelper).in(Scopes.SINGLETON)
-        bind(SelectedOptionHelper).in(Scopes.SINGLETON)
         bind(PasswordService).in(Scopes.SINGLETON)
 
         bind(AWSCredentials).toInstance(new BasicAWSCredentials(awsAccessKey, awsSecretKey))
@@ -81,6 +78,10 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(PhotoWriteStrategy).to(AmazonPhotoWriteStrategy).in(Scopes.SINGLETON)
 
         bind(ValidatorFactory).toInstance(Validation.buildDefaultValidatorFactory())
+
+        bind(PaginationHelper).in(Scopes.SINGLETON)
+        bind(DataTableSortingHelper).in(Scopes.SINGLETON)
+        bind(SelectedOptionHelper).in(Scopes.SINGLETON)
         bind(HandlebarsTemplateRenderer).to(HandlebarsTemplateRendererImpl).in(Scopes.SINGLETON)
     }
 

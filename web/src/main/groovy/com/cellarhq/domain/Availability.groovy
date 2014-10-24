@@ -19,4 +19,15 @@ public enum Availability {
     String toString() {
         return value
     }
+
+    @SuppressWarnings('UnnecessaryCollectCall') // Groovy complains about not being able to apply the category method.
+    static List<Map<String, String>> toHandlebars() {
+        return values().collect {
+            String val = it.toString()
+            return [
+                    value: val,
+                    label: val.tokenize().collect { it.capitalize() }.join(' ')
+            ]
+        }
+    }
 }

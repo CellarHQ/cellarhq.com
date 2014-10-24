@@ -5,10 +5,10 @@ import com.cellarhq.functional.pages.BasePage
 
 class ShowBreweryPage extends BasePage {
     static url = '/breweries'
+    static at = { pageId ==~ /breweries.show/ }
 
     static content = {
         editBreweryButton(wait: true) { $('#edit-brewery-button') }
+        beerTable(wait: true) { $('#beer-list') }
     }
-
-    static at = { pageId ==~ /breweries.show/ }
 }
