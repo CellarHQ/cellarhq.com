@@ -8,12 +8,6 @@ Chat
 
 We have a Slack account for talking with each other about things. Ask Rob for an invite.
 
-KanBan
-------
-
-Get the Chrome browser plugin: https://www.zenhub.io/pricing
-
-
 Development
 -----------
 
