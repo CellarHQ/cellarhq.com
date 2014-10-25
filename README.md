@@ -18,7 +18,7 @@ Requirements:
 * Vagrant
 * docker (and boot2docker if on osx)
 
-In order to get started, you will need to run `vagrant up` from the `model` directory of this project. This vagrant image
+In order to get started, you will need to run `vagrant up` from the `deployment` directory of this project. This vagrant image
 will bring up the development PostgreSQL database. After that has been provisioned, you will need to run 
 `gradle update` to run the Liquibase migrations. This will run the migrations against the development and testing
 databases which are contained in the vagrant image. If you want to run the migrations locally against the production
