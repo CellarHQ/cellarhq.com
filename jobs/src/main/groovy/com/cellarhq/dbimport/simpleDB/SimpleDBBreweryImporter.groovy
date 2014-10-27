@@ -14,7 +14,6 @@ class SimpleDBBreweryImporter implements ProgressSupport {
 
     SimpleDBItemRetriever itemRetriever = new SimpleDBItemRetriever()
     SimpleDBToOrganizationMapper organizationMapper = new SimpleDBToOrganizationMapper()
-    AmazonHelper helper = new AmazonHelper()
 
     void importBeersFromS3(DSLContext dslContext) {
         itemRetriever.withEachItem(selectAllBeersQuery) { Item item ->

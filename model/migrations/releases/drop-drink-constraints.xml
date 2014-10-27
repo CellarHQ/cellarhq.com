@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="drop-searchable-column" author="kboon" dbms="postgresql">
+        <dropColumn columnName="searchable"
+                        tableName="organization"/>
+        <dropColumn columnName="searchable"
+                    tableName="drink"/>
+    </changeSet>
+    <changeSet id="drop-unique-constraints" author="kboon" dbms="postgresql">
+        <dropUniqueConstraint constraintName="unq_drink_slug" tableName="drink"/>
+    </changeSet>
+</databaseChangeLog>

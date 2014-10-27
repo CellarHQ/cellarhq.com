@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = 1847137194;
+	private static final long serialVersionUID = -912086485;
 
 	/**
 	 * Setter for <code>public.organization.id</code>.
@@ -242,25 +242,10 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	}
 
 	/**
-	 * Setter for <code>public.organization.searchable</code>.
-	 */
-	public void setSearchable(java.lang.Boolean value) {
-		setValue(15, value);
-	}
-
-	/**
-	 * Getter for <code>public.organization.searchable</code>.
-	 */
-	@javax.persistence.Column(name = "searchable", nullable = false)
-	public java.lang.Boolean getSearchable() {
-		return (java.lang.Boolean) getValue(15);
-	}
-
-	/**
 	 * Setter for <code>public.organization.brewery_db_id</code>.
 	 */
 	public void setBreweryDbId(java.lang.String value) {
-		setValue(16, value);
+		setValue(15, value);
 	}
 
 	/**
@@ -268,14 +253,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
 	public java.lang.String getBreweryDbId() {
-		return (java.lang.String) getValue(16);
+		return (java.lang.String) getValue(15);
 	}
 
 	/**
 	 * Setter for <code>public.organization.brewery_db_last_updated</code>.
 	 */
 	public void setBreweryDbLastUpdated(java.sql.Timestamp value) {
-		setValue(17, value);
+		setValue(16, value);
 	}
 
 	/**
@@ -283,14 +268,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "brewery_db_last_updated")
 	public java.sql.Timestamp getBreweryDbLastUpdated() {
-		return (java.sql.Timestamp) getValue(17);
+		return (java.sql.Timestamp) getValue(16);
 	}
 
 	/**
 	 * Setter for <code>public.organization.locked</code>.
 	 */
 	public void setLocked(java.lang.Boolean value) {
-		setValue(18, value);
+		setValue(17, value);
 	}
 
 	/**
@@ -298,14 +283,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "locked")
 	public java.lang.Boolean getLocked() {
-		return (java.lang.Boolean) getValue(18);
+		return (java.lang.Boolean) getValue(17);
 	}
 
 	/**
 	 * Setter for <code>public.organization.needs_moderation</code>.
 	 */
 	public void setNeedsModeration(java.lang.Boolean value) {
-		setValue(19, value);
+		setValue(18, value);
 	}
 
 	/**
@@ -313,14 +298,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "needs_moderation", nullable = false)
 	public java.lang.Boolean getNeedsModeration() {
-		return (java.lang.Boolean) getValue(19);
+		return (java.lang.Boolean) getValue(18);
 	}
 
 	/**
 	 * Setter for <code>public.organization.created_date</code>.
 	 */
 	public void setCreatedDate(java.sql.Timestamp value) {
-		setValue(20, value);
+		setValue(19, value);
 	}
 
 	/**
@@ -328,14 +313,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
 	public java.sql.Timestamp getCreatedDate() {
-		return (java.sql.Timestamp) getValue(20);
+		return (java.sql.Timestamp) getValue(19);
 	}
 
 	/**
 	 * Setter for <code>public.organization.modified_date</code>.
 	 */
 	public void setModifiedDate(java.sql.Timestamp value) {
-		setValue(21, value);
+		setValue(20, value);
 	}
 
 	/**
@@ -343,14 +328,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
 	public java.sql.Timestamp getModifiedDate() {
-		return (java.sql.Timestamp) getValue(21);
+		return (java.sql.Timestamp) getValue(20);
 	}
 
 	/**
 	 * Setter for <code>public.organization.data</code>.
 	 */
 	public void setData(java.lang.Object value) {
-		setValue(22, value);
+		setValue(21, value);
 	}
 
 	/**
@@ -358,14 +343,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "data")
 	public java.lang.Object getData() {
-		return (java.lang.Object) getValue(22);
+		return (java.lang.Object) getValue(21);
 	}
 
 	/**
 	 * Setter for <code>public.organization.region</code>.
 	 */
 	public void setRegion(java.lang.String value) {
-		setValue(23, value);
+		setValue(22, value);
 	}
 
 	/**
@@ -373,14 +358,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "region", length = 100)
 	public java.lang.String getRegion() {
-		return (java.lang.String) getValue(23);
+		return (java.lang.String) getValue(22);
 	}
 
 	/**
 	 * Setter for <code>public.organization.warning_flag</code>.
 	 */
 	public void setWarningFlag(java.lang.Boolean value) {
-		setValue(24, value);
+		setValue(23, value);
 	}
 
 	/**
@@ -388,14 +373,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "warning_flag", nullable = false)
 	public java.lang.Boolean getWarningFlag() {
-		return (java.lang.Boolean) getValue(24);
+		return (java.lang.Boolean) getValue(23);
 	}
 
 	/**
 	 * Setter for <code>public.organization.total_beers</code>.
 	 */
 	public void setTotalBeers(java.lang.Short value) {
-		setValue(25, value);
+		setValue(24, value);
 	}
 
 	/**
@@ -403,14 +388,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "total_beers", nullable = false, precision = 16)
 	public java.lang.Short getTotalBeers() {
-		return (java.lang.Short) getValue(25);
+		return (java.lang.Short) getValue(24);
 	}
 
 	/**
 	 * Setter for <code>public.organization.cellared_beers</code>.
 	 */
 	public void setCellaredBeers(java.lang.Short value) {
-		setValue(26, value);
+		setValue(25, value);
 	}
 
 	/**
@@ -418,14 +403,14 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "cellared_beers", nullable = false, precision = 16)
 	public java.lang.Short getCellaredBeers() {
-		return (java.lang.Short) getValue(26);
+		return (java.lang.Short) getValue(25);
 	}
 
 	/**
 	 * Setter for <code>public.organization.contained_in_cellars</code>.
 	 */
 	public void setContainedInCellars(java.lang.Short value) {
-		setValue(27, value);
+		setValue(26, value);
 	}
 
 	/**
@@ -433,7 +418,7 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	 */
 	@javax.persistence.Column(name = "contained_in_cellars", nullable = false, precision = 16)
 	public java.lang.Short getContainedInCellars() {
-		return (java.lang.Short) getValue(27);
+		return (java.lang.Short) getValue(26);
 	}
 
 	// -------------------------------------------------------------------------
@@ -462,7 +447,7 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Create a detached, initialised OrganizationRecord
 	 */
-	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region, java.lang.Boolean warningFlag, java.lang.Short totalBeers, java.lang.Short cellaredBeers, java.lang.Short containedInCellars) {
+	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region, java.lang.Boolean warningFlag, java.lang.Short totalBeers, java.lang.Short cellaredBeers, java.lang.Short containedInCellars) {
 		super(com.cellarhq.generated.tables.Organization.ORGANIZATION);
 
 		setValue(0, id);
@@ -480,18 +465,17 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		setValue(12, locality);
 		setValue(13, postalCode);
 		setValue(14, country);
-		setValue(15, searchable);
-		setValue(16, breweryDbId);
-		setValue(17, breweryDbLastUpdated);
-		setValue(18, locked);
-		setValue(19, needsModeration);
-		setValue(20, createdDate);
-		setValue(21, modifiedDate);
-		setValue(22, data);
-		setValue(23, region);
-		setValue(24, warningFlag);
-		setValue(25, totalBeers);
-		setValue(26, cellaredBeers);
-		setValue(27, containedInCellars);
+		setValue(15, breweryDbId);
+		setValue(16, breweryDbLastUpdated);
+		setValue(17, locked);
+		setValue(18, needsModeration);
+		setValue(19, createdDate);
+		setValue(20, modifiedDate);
+		setValue(21, data);
+		setValue(22, region);
+		setValue(23, warningFlag);
+		setValue(24, totalBeers);
+		setValue(25, cellaredBeers);
+		setValue(26, containedInCellars);
 	}
 }

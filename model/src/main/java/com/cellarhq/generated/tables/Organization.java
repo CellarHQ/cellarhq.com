@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = -1444660192;
+	private static final long serialVersionUID = -390932299;
 
 	/**
 	 * The singleton instance of <code>public.organization</code>
@@ -100,11 +100,6 @@ public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated
 	 * The column <code>public.organization.country</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.String> COUNTRY = createField("country", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
-
-	/**
-	 * The column <code>public.organization.searchable</code>.
-	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.Boolean> SEARCHABLE = createField("searchable", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.organization.brewery_db_id</code>.

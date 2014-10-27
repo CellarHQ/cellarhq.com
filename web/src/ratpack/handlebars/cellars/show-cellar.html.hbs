@@ -48,9 +48,8 @@
           <thead>
           <tr>
             <th></th>
-            <th>
-              {{tableSort request field='beerName' title='Beer'}} / {{tableSort request field='breweryName' title='Brewery'}}
-            </th>
+            <th>{{tableSort request field='beerName' title='Beer'}}</th>
+            <th>{{tableSort request field='breweryName' title='Brewery'}}</th>
             <th>{{tableSort request field='size' title='Size'}}</th>
             <th>{{tableSort request field='quantity' title='Quantity'}}</th>
             <th>{{tableSort request field='bottleDate' title='Bottle Date'}}</th>
@@ -73,10 +72,10 @@
               </td>
               <td>
                 <h4 class="no-padding no-margin">
-                  <a href="/beers/{{drinkSlug}}">{{drinkName}}</a>
+                  <a href="/breweries/{{organizationSlug}}/beers/{{drinkSlug}}">{{drinkName}}</a>
                 </h4>
-                <a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a>
               </td>
+              <td><a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a></td>
               <td>{{size}}</td>
               <td>{{quantity}}</td>
               <td>{{bottleDate}}</td>

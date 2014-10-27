@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.DrinkRecord> {
 
-	private static final long serialVersionUID = 1882204414;
+	private static final long serialVersionUID = -1338491892;
 
 	/**
 	 * The singleton instance of <code>public.drink</code>
@@ -95,11 +95,6 @@ public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables
 	 * The column <code>public.drink.availability</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.String> AVAILABILITY = createField("availability", org.jooq.impl.SQLDataType.VARCHAR.length(20), this, "");
-
-	/**
-	 * The column <code>public.drink.searchable</code>.
-	 */
-	public final org.jooq.TableField<com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Boolean> SEARCHABLE = createField("searchable", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.drink.brewery_db_id</code>.
@@ -199,7 +194,7 @@ public class Drink extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables
 	 */
 	@Override
 	public java.util.List<org.jooq.UniqueKey<com.cellarhq.generated.tables.records.DrinkRecord>> getKeys() {
-		return java.util.Arrays.<org.jooq.UniqueKey<com.cellarhq.generated.tables.records.DrinkRecord>>asList(com.cellarhq.generated.Keys.PK_DRINK, com.cellarhq.generated.Keys.UNQ_DRINK_SLUG);
+		return java.util.Arrays.<org.jooq.UniqueKey<com.cellarhq.generated.tables.records.DrinkRecord>>asList(com.cellarhq.generated.Keys.PK_DRINK);
 	}
 
 	/**
