@@ -30,8 +30,9 @@ class SimpleDBToOrganizationMapper {
     Organization mapItemToOrganization(DSLContext dslContext, Item item) {
         AmazonHelper helper = new AmazonHelper()
 
-        Organization d = new Organization().with { Organization self ->
+        return new Organization().with { Organization self ->
             self.name = helper.getAttribute(item.attributes, attrName).trim()
+            self.slug = item.name
             self.address = helper.getAttribute(item.attributes, attrAddress).trim()
             self.address2 = helper.getAttribute(item.attributes, attrExtendedAddress).trim()
             self.country = helper.getAttribute(item.attributes, attrCountry).trim()
@@ -43,11 +44,9 @@ class SimpleDBToOrganizationMapper {
             self.locality = helper.getAttribute(item.attributes, attrLocality).trim()
             self.region = helper.getAttribute(item.attributes, attrRegion).trim()
             self.phone = helper.getAttribute(item.attributes, attrPhone).trim()
-            self.slug = new Slugify().slugify(self.name)
             self.postalCode = helper.getAttribute(item.attributes, attrPostalCode).trim()
             self.website = helper.getAttribute(item.attributes, attrWebsite).trim()
             self.type = 'BREWERY'
-            self.searchable = true
             self.locked = false
             self.needsModeration = false
             self.warningFlag = false

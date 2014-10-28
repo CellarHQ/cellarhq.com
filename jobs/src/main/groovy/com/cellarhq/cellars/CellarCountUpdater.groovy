@@ -15,6 +15,8 @@ class CellarCountUpdater implements ProgressSupport {
         List<Long> ids = dslContext.select(CELLAR.ID).from(CELLAR).fetchInto(Long)
 
         dslContext.batch(ids.collect { Long id ->
+            incrementProgressAnts()
+
             Integer totalBeers = dslContext.select(DSL.sum(CELLARED_DRINK.QUANTITY))
                 .from(CELLARED_DRINK)
                 .where(CELLARED_DRINK.CELLAR_ID.eq(id))
@@ -31,13 +33,12 @@ class CellarCountUpdater implements ProgressSupport {
                     .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
                     .where(CELLARED_DRINK.CELLAR_ID.eq(id))) ?: 0
 
+            // last statment must return the sql statement for the batch
             dslContext.update(CELLAR)
                 .set(CELLAR.TOTAL_BEERS, totalBeers)
                 .set(CELLAR.UNIQUE_BEERS, uniqueBeers)
                 .set(CELLAR.UNIQUE_BREWERIES, uniqueBreweries)
                 .where(CELLAR.ID.eq(id))
-
-            incrementProgressAnts()
         }).execute()
     }
 }

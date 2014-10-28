@@ -103,7 +103,7 @@ class BeerEndpoint implements Action<Chain> {
                 organizationService.findBySlug(pathTokens['brewery']).single().subscribe({ Organization org ->
                     if (org) {
                         render handlebarsTemplate('beer/new-beer.html', [
-                                organization: org,
+                                org: org,
                                 drink: new Drink(),
                                 title: 'CellarHQ : Add New Beer',
                                 pageId: 'beers.new',
@@ -123,7 +123,8 @@ class BeerEndpoint implements Action<Chain> {
              */
             get('breweries/:brewery/beers/:slug/edit') {
                 String slug = pathTokens['slug']
-                drinkService.findBySlug(slug).single().subscribe({ Drink drink ->
+                String brewery = pathTokens['brewery']
+                drinkService.findBySlug(brewery, slug).single().subscribe({ Drink drink ->
                     if (drink && drink.organizationSlug == pathTokens['brewery']) {
                         if (drink.editable) {
                             render handlebarsTemplate('beer/edit-beer.html', [
@@ -164,7 +165,7 @@ class BeerEndpoint implements Action<Chain> {
                         drink.organizationId = org.id
 
                         drinkService.save(drink).single().subscribe({ Drink savedDrink ->
-                            redirect("/beers/${savedDrink.slug}")
+                            redirect("/breweries/${pathTokens['brewery']}/beers/${savedDrink.slug}")
                         }, { Throwable t ->
                             if (t.message.contains('unq_drink_slug')) {
                                 SessionUtil.setFlash(request, FlashMessage.error(
@@ -187,14 +188,16 @@ class BeerEndpoint implements Action<Chain> {
             }
 
             handler('breweries/:brewery/beers/:slug') {
+
                 byMethod {
                     /**
                      * Get an existing beer.
                      */
                     get {
                         String slug = pathTokens['slug']
+                        String brewery = pathTokens['brewery']
 
-                        drinkService.findBySlug(slug).subscribe({ Drink drink ->
+                        drinkService.findBySlug(brewery, slug).subscribe({ Drink drink ->
                             if (drink && drink.organizationSlug == pathTokens['brewery']) {
                                 render handlebarsTemplate('beer/show-beer.html',
                                         [drink : drink,
@@ -214,10 +217,11 @@ class BeerEndpoint implements Action<Chain> {
                      */
                     post {
                         String slug = pathTokens['slug']
+                        String brewery = pathTokens['brewery']
                         Form form = parse(Form)
 
-                        drinkService.findBySlug(slug).single().subscribe { Drink drink ->
-                            if (drink && drink.organizationSlug == pathTokens['brewery']) {
+                        drinkService.findBySlug(brewery, slug).single().subscribe { Drink drink ->
+                            if (drink) {
                                 if (drink.editable) {
                                     applyFrom(drink, form)
 
@@ -230,7 +234,7 @@ class BeerEndpoint implements Action<Chain> {
                                                 .subscribe { Drink savedDrink ->
 
                                             SessionUtil.setFlash(request, FlashMessage.success(Messages.BEER_EDIT_SAVED))
-                                            redirect("/breweries${pathTokens['brewery']}/beers/${savedDrink.slug}")
+                                            redirect("/breweries/${pathTokens['brewery']}/beers/${savedDrink.slug}")
                                         }
                                     } else {
                                         List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)

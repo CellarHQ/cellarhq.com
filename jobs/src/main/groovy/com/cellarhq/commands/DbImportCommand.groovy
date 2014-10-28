@@ -29,9 +29,6 @@ class DbImportCommand implements NamedCommand, DatabaseSupport {
             println "Importing cellared beers"
             new SimpleDBCellaredBeerImporter().importCellaredBeers(create)
 
-            println "Updating stats for users"
-            new CellarCountUpdater().updateCounts(create)
-
             println "Removing unused beers and breweries"
             new OrphanedDataRemover().deleteOrphans(create)
 
@@ -40,6 +37,9 @@ class DbImportCommand implements NamedCommand, DatabaseSupport {
 
             println "Updating beers from BreweryDB"
             new BreweryDbBeerImporter().importBreweriesFromBDB(create)
+
+            println "Updating stats for users"
+            new CellarCountUpdater().updateCounts(create)
 
             println "All Done!"
 

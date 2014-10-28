@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class Drink implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1403210094;
+	private static final long serialVersionUID = -106395878;
 
 	private java.lang.Long       id;
 	private java.lang.Integer    version;
@@ -29,7 +29,6 @@ public class Drink implements java.io.Serializable {
 	private java.lang.Integer    ibu;
 	private java.math.BigDecimal abv;
 	private java.lang.String     availability;
-	private java.lang.Boolean    searchable;
 	private java.lang.String     breweryDbId;
 	private java.sql.Timestamp   breweryDbLastUpdated;
 	private java.lang.Boolean    locked;
@@ -59,7 +58,6 @@ public class Drink implements java.io.Serializable {
 		java.lang.Integer    ibu,
 		java.math.BigDecimal abv,
 		java.lang.String     availability,
-		java.lang.Boolean    searchable,
 		java.lang.String     breweryDbId,
 		java.sql.Timestamp   breweryDbLastUpdated,
 		java.lang.Boolean    locked,
@@ -86,7 +84,6 @@ public class Drink implements java.io.Serializable {
 		this.ibu = ibu;
 		this.abv = abv;
 		this.availability = availability;
-		this.searchable = searchable;
 		this.breweryDbId = breweryDbId;
 		this.breweryDbLastUpdated = breweryDbLastUpdated;
 		this.locked = locked;
@@ -164,7 +161,7 @@ public class Drink implements java.io.Serializable {
 		this.drinkType = drinkType;
 	}
 
-	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 100)
+	@javax.persistence.Column(name = "slug", nullable = false, length = 100)
 	public java.lang.String getSlug() {
 		return this.slug;
 	}
@@ -225,15 +222,6 @@ public class Drink implements java.io.Serializable {
 
 	public void setAvailability(java.lang.String availability) {
 		this.availability = availability;
-	}
-
-	@javax.persistence.Column(name = "searchable", nullable = false)
-	public java.lang.Boolean getSearchable() {
-		return this.searchable;
-	}
-
-	public void setSearchable(java.lang.Boolean searchable) {
-		this.searchable = searchable;
 	}
 
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)

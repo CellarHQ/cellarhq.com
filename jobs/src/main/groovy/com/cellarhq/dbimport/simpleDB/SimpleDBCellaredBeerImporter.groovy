@@ -16,7 +16,6 @@ class SimpleDBCellaredBeerImporter implements ProgressSupport {
 
         SimpleDBItemRetriever itemRetriever = new SimpleDBItemRetriever()
         SimpleDBToCellaredDrinkMapper drinkMapper = new SimpleDBToCellaredDrinkMapper()
-        AmazonHelper helper = new AmazonHelper()
 
         itemRetriever.withEachItem(selectAllBeersQuery) { Item item ->
             CellaredDrink drink = drinkMapper.mapItemToCellaredDrink(dslContext, item)

@@ -16,9 +16,15 @@ class BreweryDbBeerImporter implements ProgressSupport {
             String searchSlug = new Slugify().slugify(beerMap.name.toString())
 
             try {
+                String organizationBrewerDbId = beerMap.breweries?.getAt(0)?.id
+                Integer organizationId = dslContext.select(ORGANIZATION.ID)
+                    .from(ORGANIZATION)
+                    .where(ORGANIZATION.BREWERY_DB_ID.eq(organizationBrewerDbId))
+                    .fetchOneInto(Integer)
+
                 DrinkRecord drink = dslContext.select(DRINK.ID)
                     .from(DRINK)
-                    .where(DRINK.SLUG.eq(searchSlug))
+                    .where(DRINK.SLUG.eq(searchSlug).and(DRINK.ORGANIZATION_ID.eq(organizationId)))
                     .fetchOneInto(DrinkRecord)
 
                 if (!drink) {
@@ -38,7 +44,7 @@ class BreweryDbBeerImporter implements ProgressSupport {
 
                 String styleName = beerMap.style?.name
                 String glasswareName = beerMap.glass?.name
-                String organizationBrewerDbId = beerMap.breweries?.getAt(0)?.id
+
                 Integer styleId = dslContext.select(STYLE.ID)
                     .from(STYLE)
                     .where(STYLE.NAME.equalIgnoreCase(styleName))
@@ -47,11 +53,6 @@ class BreweryDbBeerImporter implements ProgressSupport {
                 Integer glasswareId = dslContext.select(GLASSWARE.ID)
                     .from(GLASSWARE)
                     .where(GLASSWARE.NAME.equalIgnoreCase(glasswareName))
-                    .fetchOneInto(Integer)
-
-                Integer organizationId = dslContext.select(ORGANIZATION.ID)
-                    .from(ORGANIZATION)
-                    .where(ORGANIZATION.BREWERY_DB_ID.eq(organizationBrewerDbId))
                     .fetchOneInto(Integer)
 
                 drink.organizationId = organizationId

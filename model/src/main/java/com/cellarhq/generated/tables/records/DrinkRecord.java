@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.DrinkRecord> {
 
-	private static final long serialVersionUID = 1761449757;
+	private static final long serialVersionUID = -1442333664;
 
 	/**
 	 * Setter for <code>public.drink.id</code>.
@@ -131,7 +131,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Getter for <code>public.drink.slug</code>.
 	 */
-	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 100)
+	@javax.persistence.Column(name = "slug", nullable = false, length = 100)
 	public java.lang.String getSlug() {
 		return (java.lang.String) getValue(7);
 	}
@@ -227,25 +227,10 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	}
 
 	/**
-	 * Setter for <code>public.drink.searchable</code>.
-	 */
-	public void setSearchable(java.lang.Boolean value) {
-		setValue(14, value);
-	}
-
-	/**
-	 * Getter for <code>public.drink.searchable</code>.
-	 */
-	@javax.persistence.Column(name = "searchable", nullable = false)
-	public java.lang.Boolean getSearchable() {
-		return (java.lang.Boolean) getValue(14);
-	}
-
-	/**
 	 * Setter for <code>public.drink.brewery_db_id</code>.
 	 */
 	public void setBreweryDbId(java.lang.String value) {
-		setValue(15, value);
+		setValue(14, value);
 	}
 
 	/**
@@ -253,14 +238,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)
 	public java.lang.String getBreweryDbId() {
-		return (java.lang.String) getValue(15);
+		return (java.lang.String) getValue(14);
 	}
 
 	/**
 	 * Setter for <code>public.drink.brewery_db_last_updated</code>.
 	 */
 	public void setBreweryDbLastUpdated(java.sql.Timestamp value) {
-		setValue(16, value);
+		setValue(15, value);
 	}
 
 	/**
@@ -268,14 +253,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "brewery_db_last_updated")
 	public java.sql.Timestamp getBreweryDbLastUpdated() {
-		return (java.sql.Timestamp) getValue(16);
+		return (java.sql.Timestamp) getValue(15);
 	}
 
 	/**
 	 * Setter for <code>public.drink.locked</code>.
 	 */
 	public void setLocked(java.lang.Boolean value) {
-		setValue(17, value);
+		setValue(16, value);
 	}
 
 	/**
@@ -283,14 +268,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "locked")
 	public java.lang.Boolean getLocked() {
-		return (java.lang.Boolean) getValue(17);
+		return (java.lang.Boolean) getValue(16);
 	}
 
 	/**
 	 * Setter for <code>public.drink.needs_moderation</code>.
 	 */
 	public void setNeedsModeration(java.lang.Boolean value) {
-		setValue(18, value);
+		setValue(17, value);
 	}
 
 	/**
@@ -298,14 +283,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "needs_moderation", nullable = false)
 	public java.lang.Boolean getNeedsModeration() {
-		return (java.lang.Boolean) getValue(18);
+		return (java.lang.Boolean) getValue(17);
 	}
 
 	/**
 	 * Setter for <code>public.drink.created_date</code>.
 	 */
 	public void setCreatedDate(java.sql.Timestamp value) {
-		setValue(19, value);
+		setValue(18, value);
 	}
 
 	/**
@@ -313,14 +298,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "created_date", nullable = false)
 	public java.sql.Timestamp getCreatedDate() {
-		return (java.sql.Timestamp) getValue(19);
+		return (java.sql.Timestamp) getValue(18);
 	}
 
 	/**
 	 * Setter for <code>public.drink.modified_date</code>.
 	 */
 	public void setModifiedDate(java.sql.Timestamp value) {
-		setValue(20, value);
+		setValue(19, value);
 	}
 
 	/**
@@ -328,14 +313,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "modified_date", nullable = false)
 	public java.sql.Timestamp getModifiedDate() {
-		return (java.sql.Timestamp) getValue(20);
+		return (java.sql.Timestamp) getValue(19);
 	}
 
 	/**
 	 * Setter for <code>public.drink.data</code>.
 	 */
 	public void setData(java.lang.Object value) {
-		setValue(21, value);
+		setValue(20, value);
 	}
 
 	/**
@@ -343,14 +328,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "data")
 	public java.lang.Object getData() {
-		return (java.lang.Object) getValue(21);
+		return (java.lang.Object) getValue(20);
 	}
 
 	/**
 	 * Setter for <code>public.drink.warning_flag</code>.
 	 */
 	public void setWarningFlag(java.lang.Boolean value) {
-		setValue(22, value);
+		setValue(21, value);
 	}
 
 	/**
@@ -358,14 +343,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "warning_flag", nullable = false)
 	public java.lang.Boolean getWarningFlag() {
-		return (java.lang.Boolean) getValue(22);
+		return (java.lang.Boolean) getValue(21);
 	}
 
 	/**
 	 * Setter for <code>public.drink.tradable_beers</code>.
 	 */
 	public void setTradableBeers(java.lang.Short value) {
-		setValue(23, value);
+		setValue(22, value);
 	}
 
 	/**
@@ -373,14 +358,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "tradable_beers", nullable = false, precision = 16)
 	public java.lang.Short getTradableBeers() {
-		return (java.lang.Short) getValue(23);
+		return (java.lang.Short) getValue(22);
 	}
 
 	/**
 	 * Setter for <code>public.drink.cellared_beers</code>.
 	 */
 	public void setCellaredBeers(java.lang.Short value) {
-		setValue(24, value);
+		setValue(23, value);
 	}
 
 	/**
@@ -388,14 +373,14 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "cellared_beers", nullable = false, precision = 16)
 	public java.lang.Short getCellaredBeers() {
-		return (java.lang.Short) getValue(24);
+		return (java.lang.Short) getValue(23);
 	}
 
 	/**
 	 * Setter for <code>public.drink.contained_in_cellars</code>.
 	 */
 	public void setContainedInCellars(java.lang.Short value) {
-		setValue(25, value);
+		setValue(24, value);
 	}
 
 	/**
@@ -403,7 +388,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	 */
 	@javax.persistence.Column(name = "contained_in_cellars", nullable = false, precision = 16)
 	public java.lang.Short getContainedInCellars() {
-		return (java.lang.Short) getValue(25);
+		return (java.lang.Short) getValue(24);
 	}
 
 	// -------------------------------------------------------------------------
@@ -432,7 +417,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Create a detached, initialised DrinkRecord
 	 */
-	public DrinkRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.Long organizationId, java.lang.Long styleId, java.lang.Long glasswareId, java.lang.String drinkType, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Integer srm, java.lang.Integer ibu, java.math.BigDecimal abv, java.lang.String availability, java.lang.Boolean searchable, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.Boolean warningFlag, java.lang.Short tradableBeers, java.lang.Short cellaredBeers, java.lang.Short containedInCellars) {
+	public DrinkRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.Long organizationId, java.lang.Long styleId, java.lang.Long glasswareId, java.lang.String drinkType, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Integer srm, java.lang.Integer ibu, java.math.BigDecimal abv, java.lang.String availability, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.Boolean warningFlag, java.lang.Short tradableBeers, java.lang.Short cellaredBeers, java.lang.Short containedInCellars) {
 		super(com.cellarhq.generated.tables.Drink.DRINK);
 
 		setValue(0, id);
@@ -449,17 +434,16 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 		setValue(11, ibu);
 		setValue(12, abv);
 		setValue(13, availability);
-		setValue(14, searchable);
-		setValue(15, breweryDbId);
-		setValue(16, breweryDbLastUpdated);
-		setValue(17, locked);
-		setValue(18, needsModeration);
-		setValue(19, createdDate);
-		setValue(20, modifiedDate);
-		setValue(21, data);
-		setValue(22, warningFlag);
-		setValue(23, tradableBeers);
-		setValue(24, cellaredBeers);
-		setValue(25, containedInCellars);
+		setValue(14, breweryDbId);
+		setValue(15, breweryDbLastUpdated);
+		setValue(16, locked);
+		setValue(17, needsModeration);
+		setValue(18, createdDate);
+		setValue(19, modifiedDate);
+		setValue(20, data);
+		setValue(21, warningFlag);
+		setValue(22, tradableBeers);
+		setValue(23, cellaredBeers);
+		setValue(24, containedInCellars);
 	}
 }

@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1469164379;
+	private static final long serialVersionUID = 535653313;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -30,7 +30,6 @@ public class Organization implements java.io.Serializable {
 	private java.lang.String   locality;
 	private java.lang.String   postalCode;
 	private java.lang.String   country;
-	private java.lang.Boolean  searchable;
 	private java.lang.String   breweryDbId;
 	private java.sql.Timestamp breweryDbLastUpdated;
 	private java.lang.Boolean  locked;
@@ -62,7 +61,6 @@ public class Organization implements java.io.Serializable {
 		java.lang.String   locality,
 		java.lang.String   postalCode,
 		java.lang.String   country,
-		java.lang.Boolean  searchable,
 		java.lang.String   breweryDbId,
 		java.sql.Timestamp breweryDbLastUpdated,
 		java.lang.Boolean  locked,
@@ -91,7 +89,6 @@ public class Organization implements java.io.Serializable {
 		this.locality = locality;
 		this.postalCode = postalCode;
 		this.country = country;
-		this.searchable = searchable;
 		this.breweryDbId = breweryDbId;
 		this.breweryDbLastUpdated = breweryDbLastUpdated;
 		this.locked = locked;
@@ -240,15 +237,6 @@ public class Organization implements java.io.Serializable {
 
 	public void setCountry(java.lang.String country) {
 		this.country = country;
-	}
-
-	@javax.persistence.Column(name = "searchable", nullable = false)
-	public java.lang.Boolean getSearchable() {
-		return this.searchable;
-	}
-
-	public void setSearchable(java.lang.Boolean searchable) {
-		this.searchable = searchable;
 	}
 
 	@javax.persistence.Column(name = "brewery_db_id", length = 64)

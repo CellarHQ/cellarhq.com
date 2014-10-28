@@ -24,7 +24,6 @@ class Drink extends com.cellarhq.generated.tables.pojos.Drink {
     String glasswareName
 
     Drink() {
-        searchable = true
         locked = false
         needsModeration = true
         createdDate = Timestamp.valueOf(LocalDateTime.now())

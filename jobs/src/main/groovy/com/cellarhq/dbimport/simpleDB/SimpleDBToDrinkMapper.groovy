@@ -30,10 +30,10 @@ class SimpleDBToDrinkMapper {
         AmazonHelper helper = new AmazonHelper()
 
         Drink d = new Drink().with { Drink self ->
+            def (brewerySlug, beerSlug) = item.name.tokenize( '|' )
 
             String styleName = helper.getAttribute(item.attributes, attrStyle).trim()
             String glasswareName = helper.getAttribute(item.attributes, attrGlassware).trim()
-            String organizationName = helper.getAttribute(item.attributes, attrBrewery).trim()
             Integer styleId = dslContext.select(STYLE.ID)
                 .from(STYLE)
                 .where(STYLE.NAME.equalIgnoreCase(styleName))
@@ -59,10 +59,9 @@ class SimpleDBToDrinkMapper {
                 println "Could not find glass ${glasswareName}"
             }
 
-            String searchSlug = new Slugify().slugify(organizationName)
             Integer organizationId = dslContext.select(ORGANIZATION.ID)
                 .from(ORGANIZATION)
-                .where(ORGANIZATION.SLUG.eq(searchSlug))
+                .where(ORGANIZATION.SLUG.eq(brewerySlug))
                 .fetchOneInto(Integer)
 
             self.organizationId = organizationId
@@ -75,14 +74,13 @@ class SimpleDBToDrinkMapper {
             if (name.size() > 98) {
                 name = name.substring(0,97)
             }
-            self.slug = determineSlug(dslContext, name)
+            self.slug = beerSlug
             self.name = name
             self.description = helper.buildDescription(item.attributes)
             self.srm = helper.getNumberAttribute(item.attributes, attrSrm)
             self.ibu = helper.getNumberAttribute(item.attributes, attrIbu)
             self.abv = helper.getBigDecimalAttribute(item.attributes, attrAbv)?.setScale(3, RoundingMode.FLOOR)?.min(25.00)
             self.availability = helper.getAttribute(item.attributes, attrAvailability)
-            self.searchable = true
             self.breweryDbId = helper.getAttribute(item.attributes, attrBrewerydbId)
             self.warningFlag = false
             self.cellaredBeers = 0
@@ -112,24 +110,5 @@ class SimpleDBToDrinkMapper {
         }
 
         return d
-    }
-
-    private String determineSlug(DSLContext context, String name) {
-
-        String originalslug = new Slugify().slugify(name)
-        String slug = originalslug
-        Integer iteration = 1
-
-        while (true) {
-            Integer count = context.selectCount().from(DRINK).where(DRINK.SLUG.eq(slug)).fetchOneInto(Integer)
-            if (count > 0) {
-                iteration++
-                slug = "${originalslug}-${iteration}"
-            } else {
-                if (iteration == 1) return originalslug
-
-                return slug
-            }
-        }
     }
 }

@@ -46,7 +46,6 @@ public class Keys {
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellaredDrinkRecord> PK_CELLARED_DRINK = UniqueKeys0.PK_CELLARED_DRINK;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRoleRecord> PK_CELLAR_ROLE = UniqueKeys0.PK_CELLAR_ROLE;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.DrinkRecord> PK_DRINK = UniqueKeys0.PK_DRINK;
-	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.DrinkRecord> UNQ_DRINK_SLUG = UniqueKeys0.UNQ_DRINK_SLUG;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.GlasswareRecord> PK_GLASSWARE = UniqueKeys0.PK_GLASSWARE;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> PK_ORGANIZATION = UniqueKeys0.PK_ORGANIZATION;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> UNQ_ORGANIZATION_SLUG = UniqueKeys0.UNQ_ORGANIZATION_SLUG;
@@ -105,7 +104,6 @@ public class Keys {
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellaredDrinkRecord> PK_CELLARED_DRINK = createUniqueKey(com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK, com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRoleRecord> PK_CELLAR_ROLE = createUniqueKey(com.cellarhq.generated.tables.CellarRole.CELLAR_ROLE, com.cellarhq.generated.tables.CellarRole.CELLAR_ROLE.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.DrinkRecord> PK_DRINK = createUniqueKey(com.cellarhq.generated.tables.Drink.DRINK, com.cellarhq.generated.tables.Drink.DRINK.ID);
-		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.DrinkRecord> UNQ_DRINK_SLUG = createUniqueKey(com.cellarhq.generated.tables.Drink.DRINK, com.cellarhq.generated.tables.Drink.DRINK.SLUG);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.GlasswareRecord> PK_GLASSWARE = createUniqueKey(com.cellarhq.generated.tables.Glassware.GLASSWARE, com.cellarhq.generated.tables.Glassware.GLASSWARE.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> PK_ORGANIZATION = createUniqueKey(com.cellarhq.generated.tables.Organization.ORGANIZATION, com.cellarhq.generated.tables.Organization.ORGANIZATION.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.OrganizationRecord> UNQ_ORGANIZATION_SLUG = createUniqueKey(com.cellarhq.generated.tables.Organization.ORGANIZATION, com.cellarhq.generated.tables.Organization.ORGANIZATION.SLUG);
