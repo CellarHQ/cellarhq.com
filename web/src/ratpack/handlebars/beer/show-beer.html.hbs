@@ -10,29 +10,38 @@
                 </div>
 
                 {{#if drink.editable }}
-                    <div class="row">
-                        <div class="block-section">
-                            <div class="input-group">
-                                <div class="input-group-btn">
-                                    <a href="/breweries/{{drink.organizationSlug}}/beers/{{drink.slug}}/edit"
-                                       class="btn btn-effect-ripple  btn-primary pull-right"
-                                       style="overflow: hidden; position: relative;">Edit</a>
-                                </div>
+                <div class="row">
+                    <div class="block-section">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <a href="/breweries/{{drink.organizationSlug}}/beers/{{drink.slug}}/edit"
+                                   class="btn btn-effect-ripple  btn-primary pull-right"
+                                   style="overflow: hidden; position: relative;">Edit</a>
                             </div>
                         </div>
                     </div>
+                </div>
                 {{/if}}
 
                 <div class="row">
+                    {{#if photo}}
+                        <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+                             src="{{photo.largeUrl}}"
+                             alt="{{drink.name}} photo"/>
+                    {{else}}
+                        <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+                             src="/images/icon152.png" alt="no photo"/>
+                    {{/if}}
+
                     {{#if drink.description}}
                         <div class="col-sm-5 col-md-5 cold-lg 5 pull-left">
                             <p class="lead"><strong>Description</strong></p>
 
                             <p>{{drink.description}}</p>
                         </div>
-
                     {{/if}}
-
+                </div>
+                <div class="row">
                     <div class="list-group pull-right col-sm-5 col-md-5 cold-lg 5 ">
                         {{#if drink.style}}
                             <a href="javascript:void(0)" class="list-group-item">
@@ -79,8 +88,8 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-    </div>
 
 {{/partial}}
 

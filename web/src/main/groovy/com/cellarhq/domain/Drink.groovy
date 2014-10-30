@@ -18,6 +18,8 @@ import java.time.LocalDateTime
 @InheritConstructors
 class Drink extends com.cellarhq.generated.tables.pojos.Drink {
 
+    Photo photo
+
     String organizationName
     String organizationSlug
     String styleName

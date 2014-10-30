@@ -5,10 +5,12 @@ import com.cellarhq.domain.Availability
 import com.cellarhq.domain.Drink
 import com.cellarhq.domain.DrinkType
 import com.cellarhq.domain.Organization
+import com.cellarhq.domain.Photo
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.services.StyleService
+import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -34,17 +36,20 @@ class BeerEndpoint implements Action<Chain> {
     DrinkService drinkService
     StyleService styleService
     OrganizationService organizationService
+    PhotoService photoService
 
     @Inject
     BeerEndpoint(ValidatorFactory validatorFactory,
                  DrinkService drinkService,
                  StyleService styleService,
-                 OrganizationService organizationService) {
+                 OrganizationService organizationService,
+                 PhotoService photoService) {
 
         this.validatorFactory = validatorFactory
         this.drinkService = drinkService
         this.styleService = styleService
         this.organizationService = organizationService
+        this.photoService = photoService
     }
 
     @Override
@@ -60,36 +65,36 @@ class BeerEndpoint implements Action<Chain> {
                 String searchTerm = request.queryParams.search
 
                 rx.Observable<Integer> totalCount = searchTerm ?
-                        drinkService.searchCount(searchTerm).single() :
-                        drinkService.count().single()
+                    drinkService.searchCount(searchTerm).single() :
+                    drinkService.count().single()
 
                 rx.Observable drinks = searchTerm ?
-                        drinkService.search(
-                                searchTerm,
-                                SortCommand.fromRequest(request),
-                                pageSize,
-                                offset).toList() :
-                        drinkService.all(
-                                SortCommand.fromRequest(request),
-                                pageSize,
-                                offset).toList()
+                    drinkService.search(
+                        searchTerm,
+                        SortCommand.fromRequest(request),
+                        pageSize,
+                        offset).toList() :
+                    drinkService.all(
+                        SortCommand.fromRequest(request),
+                        pageSize,
+                        offset).toList()
 
                 rx.Observable.zip(drinks, totalCount) { List list, Integer count ->
                     [
-                            drinks    : list,
-                            totalCount: count
+                        drinks    : list,
+                        totalCount: count
                     ]
                 }.subscribe({ Map map ->
                     Integer pageCount = (map.totalCount / pageSize)
                     Boolean shouldShowPagination = pageCount != 0
 
                     render handlebarsTemplate('beer/list-beer.html',
-                            [drinks              : map.drinks,
-                             currentPage         : requestedPage,
-                             totalPageCount      : pageCount,
-                             shouldShowPagination: shouldShowPagination,
-                             title               : 'CellarHQ : Beer',
-                             pageId              : 'beer.list'])
+                        [drinks              : map.drinks,
+                         currentPage         : requestedPage,
+                         totalPageCount      : pageCount,
+                         shouldShowPagination: shouldShowPagination,
+                         title               : 'CellarHQ : Beer',
+                         pageId              : 'beer.list'])
                 }, { Throwable t ->
                     log.error(LogUtil.toLog('ListBeerError'), t)
                     clientError 500
@@ -103,11 +108,11 @@ class BeerEndpoint implements Action<Chain> {
                 organizationService.findBySlug(pathTokens['brewery']).single().subscribe({ Organization org ->
                     if (org) {
                         render handlebarsTemplate('beer/new-beer.html', [
-                                org: org,
-                                drink: new Drink(),
-                                title: 'CellarHQ : Add New Beer',
-                                pageId: 'beers.new',
-                                availability: Availability.toHandlebars()
+                            org         : org,
+                            drink       : new Drink(),
+                            title       : 'CellarHQ : Add New Beer',
+                            pageId      : 'beers.new',
+                            availability: Availability.toHandlebars()
                         ])
                     } else {
                         clientError 404
@@ -128,10 +133,10 @@ class BeerEndpoint implements Action<Chain> {
                     if (drink && drink.organizationSlug == pathTokens['brewery']) {
                         if (drink.editable) {
                             render handlebarsTemplate('beer/edit-beer.html', [
-                                    drink: drink,
-                                    title: "CellarHQ : Edit ${drink.name}",
-                                    pageId: 'beer.edit',
-                                    availability: Availability.toHandlebars()
+                                drink       : drink,
+                                title       : "CellarHQ : Edit ${drink.name}",
+                                pageId      : 'beer.edit',
+                                availability: Availability.toHandlebars()
                             ])
                         } else {
                             clientError 403
@@ -169,7 +174,7 @@ class BeerEndpoint implements Action<Chain> {
                         }, { Throwable t ->
                             if (t.message.contains('unq_drink_slug')) {
                                 SessionUtil.setFlash(request, FlashMessage.error(
-                                        String.format(Messages.BEER_ADD_ALREADY_EXISTS_ERROR, drink.slug)
+                                    String.format(Messages.BEER_ADD_ALREADY_EXISTS_ERROR, drink.slug)
                                 ))
                             } else {
                                 SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR))
@@ -197,12 +202,21 @@ class BeerEndpoint implements Action<Chain> {
                         String slug = pathTokens['slug']
                         String brewery = pathTokens['brewery']
 
-                        drinkService.findBySlug(brewery, slug).subscribe({ Drink drink ->
-                            if (drink && drink.organizationSlug == pathTokens['brewery']) {
+                        rx.Observable photo = photoService.findByOrganizationAndDrink(brewery, slug)
+                        rx.Observable drink = drinkService.findBySlug(brewery, slug)
+
+                        rx.Observable.zip(photo, drink) { Photo photo1, Drink drink1 ->
+                            [
+                                photo: photo1,
+                                drink: drink1
+                            ]
+                        }.subscribe({ Map map ->
+                            if (map.drink) {
                                 render handlebarsTemplate('beer/show-beer.html',
-                                        [drink : drink,
-                                         title : "CellarHQ : ${drink.name}",
-                                         pageId: 'beer.show'])
+                                    [drink : map.drink,
+                                     photo : map.photo,
+                                     title : "CellarHQ : ${map.drink.name}",
+                                     pageId: 'beer.show'])
                             } else {
                                 clientError 404
                             }
@@ -230,8 +244,8 @@ class BeerEndpoint implements Action<Chain> {
 
                                     if (drinkViolations.empty) {
                                         drinkService.save(drink)
-                                                .single()
-                                                .subscribe { Drink savedDrink ->
+                                            .single()
+                                            .subscribe { Drink savedDrink ->
 
                                             SessionUtil.setFlash(request, FlashMessage.success(Messages.BEER_EDIT_SAVED))
                                             redirect("/breweries/${pathTokens['brewery']}/beers/${savedDrink.slug}")
@@ -239,7 +253,7 @@ class BeerEndpoint implements Action<Chain> {
                                     } else {
                                         List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
                                         SessionUtil.setFlash(request,
-                                                FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)
+                                            FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)
                                         )
                                         redirect("/breweries/${pathTokens['brewery']}/beers/${slug}/edit")
                                     }

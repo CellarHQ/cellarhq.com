@@ -1,7 +1,5 @@
 package com.cellarhq.services.photo
 
-import static ratpack.rx.RxRatpack.observe
-
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.cellarhq.domain.Photo
 import com.cellarhq.generated.Tables
@@ -23,6 +21,8 @@ import javax.imageio.ImageIO
 import javax.sql.DataSource
 import java.awt.image.BufferedImage
 import java.time.LocalDate
+
+import static ratpack.rx.RxRatpack.observe
 
 /**
  * Provides a generic interface for working with photos in the application.
@@ -72,10 +72,23 @@ class PhotoService extends BaseJooqService {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select(Tables.PHOTO.fields())
-                        .from(Tables.PHOTO)
-                        .join(Tables.CELLAR).onKey()
-                        .where(Tables.CELLAR.ID.eq(cellarId))
-                        .fetchOneInto(Photo)
+                    .from(Tables.PHOTO)
+                    .join(Tables.CELLAR).onKey()
+                    .where(Tables.CELLAR.ID.eq(cellarId))
+                    .fetchOneInto(Photo)
+            }
+        }).asObservable()
+    }
+
+    rx.Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(Tables.PHOTO.fields())
+                    .from(Tables.PHOTO)
+                    .join(Tables.DRINK).onKey()
+                    .join(Tables.ORGANIZATION).onKey()
+                    .where(Tables.DRINK.SLUG.eq(beerSlug).and(Tables.ORGANIZATION.SLUG.eq(brewerySlug)))
+                    .fetchOneInto(Photo)
             }
         }).asObservable()
     }
@@ -110,7 +123,7 @@ class PhotoService extends BaseJooqService {
         String fileExtension = Files.getFileExtension(uploadedFile.fileName)
         String key = generateKey(type, fileExtension)
         s3Service.upload(key, uploadedFile.inputStream, new ObjectMetadata(
-                contentLength: uploadedFile.bytes.size()
+            contentLength: uploadedFile.bytes.size()
         ))
 
         PhotoRecord photoRecord = create.newRecord(Tables.PHOTO)
@@ -153,10 +166,10 @@ class PhotoService extends BaseJooqService {
         BufferedImage resized = Scalr.resize(image, command.width)
 
         return new PhotoDetails.Detail(
-                command.size,
-                writeStrategy.write(key, resized),
-                resized.width,
-                resized.height
+            command.size,
+            writeStrategy.write(key, resized),
+            resized.width,
+            resized.height
         )
     }
 
