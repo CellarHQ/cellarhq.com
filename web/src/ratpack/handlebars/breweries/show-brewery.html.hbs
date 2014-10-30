@@ -25,14 +25,27 @@
                     </div>
                 {{/if}}
 
-                {{#if organization.description}}
-                    <div class="row">
+                <div class="row">
+                    <div class="brewery-photo">
+                        {{#if photo}}
+                            <img class="img-thumbnail pull-left"
+                                 src="{{photo.largeUrl}}"
+                                 alt="{{drink.name}} photo"
+                                 width="{{photo.thumbWidth}}"
+                                 height="{{photo.thumbHeight}}"/>
+                        {{else}}
+                            <img class="img-thumbnail pull-left"
+                                 src="/images/icon152.png" alt="no photo"/>
+                        {{/if}}
+                    </div>
+
+                    {{#if organization.description}}
                         <p class="lead"><strong>Description</strong></p>
 
                         <p>{{organization.description}}</p>
-                    </div>
-                {{/if}}
 
+                    {{/if}}
+                </div>
                 <div class="row">
                     <div class="pull-left">
                         <address>

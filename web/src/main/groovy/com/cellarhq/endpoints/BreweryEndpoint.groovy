@@ -3,10 +3,12 @@ package com.cellarhq.endpoints
 import com.cellarhq.Messages
 import com.cellarhq.domain.Organization
 import com.cellarhq.domain.OrganizationType
+import com.cellarhq.domain.Photo
 import com.cellarhq.domain.views.DrinkSearchDisplay
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
+import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -30,15 +32,18 @@ class BreweryEndpoint implements Action<Chain> {
     ValidatorFactory validatorFactory
     OrganizationService organizationService
     DrinkService drinkService
+    PhotoService photoService
 
     @Inject
     public BreweryEndpoint(ValidatorFactory validatorFactory,
                            OrganizationService organizationService,
-                           DrinkService drinkService) {
+                           DrinkService drinkService,
+                           PhotoService photoService) {
 
         this.validatorFactory = validatorFactory
         this.organizationService = organizationService
         this.drinkService = drinkService
+        this.photoService = photoService
     }
 
     @Override
@@ -101,8 +106,8 @@ class BreweryEndpoint implements Action<Chain> {
                             organizationService.save(organization)
                                 .single()
                                 .subscribe({ Organization savedOrganization ->
-                                    redirect("/breweries/${savedOrganization.slug}")
-                                })
+                                redirect("/breweries/${savedOrganization.slug}")
+                            })
                         } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(organizationViolations)
 
@@ -131,13 +136,17 @@ class BreweryEndpoint implements Action<Chain> {
             get('breweries/:slug/edit') {
                 String slug = pathTokens['slug']
                 organizationService.findBySlug(slug).single().subscribe { Organization organization ->
-                    if (organization.editable) {
-                        render handlebarsTemplate('breweries/edit-brewery.html',
-                            [organization: organization,
-                             title       : "CellarHQ : Edit ${organization.name}",
-                             pageId      : 'breweries.edit'])
+                    if (organization) {
+                        if (organization.editable) {
+                            render handlebarsTemplate('breweries/edit-brewery.html',
+                                [organization: organization,
+                                 title       : "CellarHQ : Edit ${organization.name}",
+                                 pageId      : 'breweries.edit'])
+                        } else {
+                            clientError 403
+                        }
                     } else {
-                        clientError 403
+                        clientError 404
                     }
                 }
             }
@@ -150,23 +159,34 @@ class BreweryEndpoint implements Action<Chain> {
                     get {
                         String slug = pathTokens['slug']
 
-                        rx.Observable<Organization> organizationObservable =
-                            organizationService.findBySlug(slug).single()
-                        rx.Observable<List<DrinkSearchDisplay>> drinkObservable =
-                            drinkService.findByOrganizationSlug(slug).toList()
+                        rx.Observable organizationObservable = organizationService.findBySlug(slug).single()
+                        rx.Observable drinksObservable = drinkService.findByOrganizationSlug(slug).toList()
+                        rx.Observable<Photo> photoObservable = photoService.findByOrganization(slug)
 
-                        rx.Observable.zip(organizationObservable, drinkObservable) { Organization org, List drinks ->
-                            [
-                                organization: org,
-                                drinks      : drinks
-                            ]
+                        rx.Observable.zip(organizationObservable, drinksObservable, photoObservable) {
+                            Organization org,
+                            List drinks,
+                            Photo photo ->
+                                [
+                                    organization: org,
+                                    drinks      : drinks,
+                                    photo       : photo
+                                ]
                         }.subscribe({ Map map ->
-                            render handlebarsTemplate('breweries/show-brewery.html',
-                                [organization  : map.organization,
-                                 title         : "CellarHQ : ${map.organization.name}",
-                                 drinks        : map.drinks,
-                                 numberOfDrinks: map.drinks.size(),
-                                 pageId        : 'breweries.show'])
+                            if (map.organization) {
+                                render handlebarsTemplate('breweries/show-brewery.html',
+                                    [
+                                        organization  : map.organization,
+                                        title         : "CellarHQ : ${map.organization.name}",
+                                        drinks        : map.drinks,
+                                        numberOfDrinks: map.drinks?.size() ?: 0,
+                                        photo         : map.photo,
+                                        pageId        : 'breweries.show'
+                                    ])
+                            } else {
+                                clientError 404
+                            }
+
                         })
                     }
 

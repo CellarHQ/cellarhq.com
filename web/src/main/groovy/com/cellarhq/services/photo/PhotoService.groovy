@@ -22,6 +22,9 @@ import javax.sql.DataSource
 import java.awt.image.BufferedImage
 import java.time.LocalDate
 
+import static com.cellarhq.generated.Tables.DRINK
+import static com.cellarhq.generated.Tables.ORGANIZATION
+import static com.cellarhq.generated.Tables.PHOTO
 import static ratpack.rx.RxRatpack.observe
 
 /**
@@ -71,8 +74,8 @@ class PhotoService extends BaseJooqService {
     rx.Observable<Photo> findByCellarId(Long cellarId) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                create.select(Tables.PHOTO.fields())
-                    .from(Tables.PHOTO)
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
                     .join(Tables.CELLAR).onKey()
                     .where(Tables.CELLAR.ID.eq(cellarId))
                     .fetchOneInto(Photo)
@@ -83,11 +86,23 @@ class PhotoService extends BaseJooqService {
     rx.Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                create.select(Tables.PHOTO.fields())
-                    .from(Tables.PHOTO)
-                    .join(Tables.DRINK).onKey()
-                    .join(Tables.ORGANIZATION).onKey()
-                    .where(Tables.DRINK.SLUG.eq(beerSlug).and(Tables.ORGANIZATION.SLUG.eq(brewerySlug)))
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
+                    .join(DRINK).onKey()
+                    .join(ORGANIZATION).onKey()
+                    .where(DRINK.SLUG.eq(beerSlug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
+                    .fetchOneInto(Photo)
+            }
+        }).asObservable()
+    }
+
+    rx.Observable<Photo> findByOrganization(String brewerySlug) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
+                    .join(ORGANIZATION).onKey()
+                    .where(ORGANIZATION.SLUG.eq(brewerySlug))
                     .fetchOneInto(Photo)
             }
         }).asObservable()
@@ -101,7 +116,7 @@ class PhotoService extends BaseJooqService {
                                   String pictureUrl,
                                   List<ResizeCommand> resizeCommands = null) {
 
-        PhotoRecord photoRecord = create.newRecord(Tables.PHOTO)
+        PhotoRecord photoRecord = create.newRecord(PHOTO)
         photoRecord.originalUrl = pictureUrl
 
         if (resizeCommands) {
@@ -126,7 +141,7 @@ class PhotoService extends BaseJooqService {
             contentLength: uploadedFile.bytes.size()
         ))
 
-        PhotoRecord photoRecord = create.newRecord(Tables.PHOTO)
+        PhotoRecord photoRecord = create.newRecord(PHOTO)
         photoRecord.originalUrl = s3Service.getObjectUrl(key)
 
         if (resizeCommands) {

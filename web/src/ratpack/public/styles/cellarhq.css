@@ -120,3 +120,8 @@ ul.cellared-drink-flags {
     color: #fff;
     text-decoration: underline;
 }
+
+.brewery-photo img {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
