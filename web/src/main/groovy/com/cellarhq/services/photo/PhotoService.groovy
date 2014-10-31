@@ -16,6 +16,7 @@ import org.imgscalr.Scalr
 import org.jooq.DSLContext
 import ratpack.exec.ExecControl
 import ratpack.form.UploadedFile
+import rx.Observable
 
 import javax.imageio.ImageIO
 import javax.sql.DataSource
@@ -71,7 +72,7 @@ class PhotoService extends BaseJooqService {
 
     }
 
-    rx.Observable<Photo> findByCellarId(Long cellarId) {
+    Observable<Photo> findByCellarId(Long cellarId) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select(PHOTO.fields())
@@ -83,7 +84,7 @@ class PhotoService extends BaseJooqService {
         }).asObservable()
     }
 
-    rx.Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
+    Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select(PHOTO.fields())
@@ -96,13 +97,25 @@ class PhotoService extends BaseJooqService {
         }).asObservable()
     }
 
-    rx.Observable<Photo> findByOrganization(String brewerySlug) {
+    Observable<Photo> findByOrganization(String brewerySlug) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select(PHOTO.fields())
                     .from(PHOTO)
                     .join(ORGANIZATION).onKey()
                     .where(ORGANIZATION.SLUG.eq(brewerySlug))
+                    .fetchOneInto(Photo)
+            }
+        }).asObservable()
+    }
+
+    Observable<Photo> findByCellarSlug(String cellarSlug) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
+                    .join(Tables.CELLAR).onKey()
+                    .where(Tables.CELLAR.SCREEN_NAME.eq(cellarSlug))
                     .fetchOneInto(Photo)
             }
         }).asObservable()
@@ -194,4 +207,6 @@ class PhotoService extends BaseJooqService {
         String uuid = UUID.randomUUID().toString()
         return "${root}/${now}/${uuid}.${extension}"
     }
+
+
 }

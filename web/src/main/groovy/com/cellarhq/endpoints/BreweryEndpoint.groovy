@@ -4,7 +4,6 @@ import com.cellarhq.Messages
 import com.cellarhq.domain.Organization
 import com.cellarhq.domain.OrganizationType
 import com.cellarhq.domain.Photo
-import com.cellarhq.domain.views.DrinkSearchDisplay
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
@@ -233,7 +232,6 @@ class BreweryEndpoint implements Action<Chain> {
             locality = form.city
             postalCode = form.postalCode
             country = form.country
-            searchable = true
             locked = false
             needsModeration = false
             warningFlag = false

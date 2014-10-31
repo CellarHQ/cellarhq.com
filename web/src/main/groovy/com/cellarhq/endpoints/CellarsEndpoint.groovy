@@ -4,12 +4,14 @@ import com.cellarhq.Messages
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellaredDrink
+import com.cellarhq.domain.Photo
 import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.CellarService
 import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
+import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
@@ -39,18 +41,21 @@ class CellarsEndpoint implements Action<Chain> {
     CellaredDrinkService cellaredDrinkService
     DrinkService drinkService
     OrganizationService organizationService
+    PhotoService photoService
 
     @Inject
     CellarsEndpoint(ValidatorFactory validatorFactory,
                     CellarService cellarService,
                     CellaredDrinkService cellaredDrinkService,
                     DrinkService drinkService,
-                    OrganizationService organizationService) {
+                    OrganizationService organizationService,
+                    PhotoService photoService) {
         this.validatorFactory = validatorFactory
         this.cellarService = cellarService
         this.cellaredDrinkService = cellaredDrinkService
         this.drinkService = drinkService
         this.organizationService = organizationService
+        this.photoService = photoService
     }
 
     @Override
@@ -104,11 +109,13 @@ class CellarsEndpoint implements Action<Chain> {
 
                         rx.Observable.zip(
                                 cellarService.findBySlug(slug).single(),
-                                cellaredDrinkService.all(slug, SortCommand.fromRequest(request)).toList()
-                        ) { Cellar cellar, List cellaredDrinks ->
+                                cellaredDrinkService.all(slug, SortCommand.fromRequest(request)).toList(),
+                                photoService.findByCellarSlug(slug)
+                        ) { Cellar cellar, List cellaredDrinks, Photo photo ->
                             [
                                     cellar        : cellar,
                                     cellaredDrinks: cellaredDrinks,
+                                    photo: photo
                             ]
                         }.subscribe { Map map ->
                             if (map.cellar == null) {
@@ -119,7 +126,7 @@ class CellarsEndpoint implements Action<Chain> {
 
                                 render handlebarsTemplate('cellars/show-cellar.html',
                                         [cellar        : map.cellar,
-                                         photo         : map.cellar.photo,
+                                         photo         : map.photo,
                                          cellaredDrinks: map.cellaredDrinks,
                                          self          : isSelf,
                                          title         : "CellarHQ : ${map.cellar.displayName}",
