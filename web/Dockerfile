@@ -15,12 +15,12 @@ WORKDIR /app
 
 USER daemon
 
+CMD ["java", "-jar", "/app/build/libs/cellarhq.com-all.jar"]
+
+EXPOSE 5050
+
 # this file is copied to build/docker along with the cellarhq.com-all.jar.
 # if you run docker build . from the command line, you need to either copy
 # the jar to the current directory after running gradle shadowJar
 # or update this to build/libs/cellarhq.com-all.jar
 ADD web-all.jar /app/build/libs/cellarhq.com-all.jar
-
-CMD ["java", "-jar", "/app/build/libs/cellarhq.com-all.jar"]
-
-EXPOSE 5050
