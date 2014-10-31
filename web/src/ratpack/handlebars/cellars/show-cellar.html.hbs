@@ -38,9 +38,15 @@
     <h2>Beers</h2>
 
     {{#if self}}
-        <button class="btn btn-primary" data-toggle="modal" data-target="#addBeerModal">
-          <i class="fa fa-plus"></i> Add Beer
-        </button>
+        <div class="block-section">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addBeerModal">
+                        <i class="fa fa-plus"></i> Add Beer
+                    </button>
+                </div>
+            </div>
+        </div>
     {{/if}}
 
       <div class="table-responsive">

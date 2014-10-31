@@ -186,6 +186,7 @@ ratpack {
         get('logout') {
             // TODO Accessing pac4j internals...
             request.get(SessionStorage).remove(SessionConstants.USER_PROFILE)
+            request.get(SessionStorage).remove(SecurityModule.SESSION_CELLAR_ID)
             redirect('/')
         }
 

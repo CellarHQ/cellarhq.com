@@ -12,7 +12,16 @@
 
                 {{#if organization.editable }}
                     <div class="row">
-                        <a id="edit-brewery-button" href="/breweries/{{organization.slug}}/edit" class="btn btn-primary pull-right">Edit</a>
+                        <div class="block-section">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <a id="edit-brewery-button"
+                                       href="/breweries/{{organization.slug}}/edit"
+                                       class="btn btn-effect-ripple  btn-primary pull-right"
+                                       style="overflow: hidden; position: relative;">Edit</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {{/if}}
 
@@ -25,7 +34,7 @@
                 {{/if}}
 
                 <div class="row">
-                    <div class="col-sm-5 col-md-5 cold-lg 5 pull-left">
+                    <div class="pull-left">
                         <address>
                             {{organization.address}}<br/>
                             {{#if organization.address2}}
@@ -42,7 +51,7 @@
                             {{/if}}
                         </address>
                     </div>
-                    <div class="list-group pull-right col-sm-5 col-md-5 cold-lg 5">
+                    <div class="list-group col-sm-5 col-md-5 cold-lg-5 pull-right">
                         <a href="javascript:void(0)" class="list-group-item">
                             <span class="badge">{{organization.totalBeers}}</span>
                             <h4 class="list-group-item-heading">Beers</h4>
@@ -59,8 +68,17 @@
                 </div>
                 <div class="row">
                     {{#if loggedIn}}
-                        <a href="/breweries/{{organization.slug}}/beers/add" class="btn btn-primary pull-right">Add New Beer</a>
+                            <div class="block-section">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <a href="/breweries/{{organization.slug}}/beers/add"
+                                           class="btn btn-effect-ripple  btn-primary pull-right"
+                                           style="overflow: hidden; position: relative;">Add New Beer</a>
+                                    </div>
+                                </div>
+                            </div>
                     {{/if}}
+
                     <div class="table-responsive">
                         <table id="beer-table" class="table table-striped table-bordered table-condensed table-vcenter">
                             <thead>
