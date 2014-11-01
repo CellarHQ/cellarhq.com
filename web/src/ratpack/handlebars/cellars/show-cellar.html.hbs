@@ -9,9 +9,11 @@
     <div class="row">
       <div class="col-sm-9 content-float-hor push-bit-top-bottom">
         {{#if photo}}
-          <img class="img-thumbnail img-thumbnail-avatar-2x pull-left" src="{{photo.largeUrl}}" alt="{{cellar.displayName}}"/>
+          <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+               src="{{photo.largeUrl}}" alt="{{cellar.displayName}}"/>
         {{else}}
-          <img class="img-thumbnail img-thumbnail-avatar-2x pull-left" src="/images/icon152.png" alt="{{cellar.displayName}}"/>
+          <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+               src="/images/icon152.png" alt="{{cellar.displayName}}"/>
         {{/if}}
         <ul class="cellar-bio">
         {{#if cellar.location}}
@@ -68,12 +70,36 @@
             <tr>
               <td>
               {{#if self}}
-                <button class="btn btn-effect-ripple btn-sm btn-success drink-cellared-beer" data-cellar="{{cellar.slug}}" data-cellaredDrinkId="{{id}}" data-toggle="tooltip" data-placement="bottom" title="Drink one of these beers"><i class="fa fa-beer"></i></button>
-                <a class="btn btn-effect-ripple btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" href="/cellars/{{cellar.slug}}/drinks/{{id}}/edit" title="Edit this beer"><i class="fa fa-pencil"></i></a>
-                <button class="btn btn-effect-riffle btn-sm btn-danger delete-cellared-beer" data-cellar="{{cellar.slug}}" data-cellaredDrinkId="{{id}}" data-toggle="tooltip" data-placement="bottom" title="Delete this beer"><i class="fa fa-times"></i></button>
+                <button class="btn btn-effect-ripple btn-sm btn-success drink-cellared-beer"
+                        data-cellar="{{cellar.slug}}"
+                        data-cellaredDrinkId="{{id}}"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Drink one of these beers">
+                    <i class="fa fa-beer"></i>
+                </button>
+                <a class="btn btn-effect-ripple btn-sm btn-primary"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   href="/cellars/{{cellar.slug}}/drinks/{{id}}/edit"
+                   title="Edit this beer">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <button class="btn btn-effect-riffle btn-sm btn-danger delete-cellared-beer"
+                        data-cellar="{{cellar.slug}}"
+                        data-cellaredDrinkId="{{id}}"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Delete this beer">
+                    <i class="fa fa-times"></i>
+                </button>
               {{/if}}
               {{#if hasDetails}}
-                <a class="btn btn-effect-ripple btn-sm view-cellar-details" data-toggle="collapse" data-target="#details{{id}}"><i class="fa fa-chevron-down"></i></a>
+                <a class="btn btn-effect-ripple btn-sm view-cellar-details"
+                   data-toggle="collapse"
+                   data-target="#details{{id}}">
+                    <i class="fa fa-chevron-down"></i>
+                </a>
               {{/if}}
               </td>
               <td>
@@ -128,9 +154,14 @@
                     </div>
                       {{#if tradeable}}
                         <div class="col-sm-6 col-lg-6">
-                          <h3 class="text-info"><i class="fa fa-exchange"></i> <strong>{{numTradeable}} Tradeable!</strong></h3>
-                            {{#if cellar.hasContactInfo}}
-                                <p>This beer is available for a trade! You can arrange a trade by contacting this user via:</p>
+                          <h3 class="text-info">
+                              <i class="fa fa-exchange"></i>
+                              <strong>{{numTradeable}} Tradeable!</strong>
+                          </h3>
+                          {{#if cellar.hasContactInfo}}
+                                <p>This beer is available for a trade! You can arrange a trade
+                                    by contacting this user via:
+                                </p>
                                 <ul>
                                     {{#if cellar.twitter}}
                                         <li>Twitter: {{cellar.twitter}}</li>
@@ -145,9 +176,11 @@
                                         <li>RateBeer: {{cellar.ratebeer}}</li>
                                     {{/if}}
                                 </ul>
-                            {{else}}
-                                <p>This beer is available for a trade! However, there is no contact information provided. :(</p>
-                            {{/if}}
+                          {{else}}
+                                <p>This beer is available for a trade! However, there is no contact
+                                    information provided.
+                                </p>
+                          {{/if}}
                         </div>
                       {{/if}}
                   </div>

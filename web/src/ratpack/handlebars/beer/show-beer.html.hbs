@@ -6,7 +6,8 @@
         <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
             <div class="block">
                 <div class="block-title">
-                    <h2>{{drink.name}}</h2>
+                    <h2>{{drink.name}} - <a href='/breweries/{{drink.organizationSlug}}'>{{drink.organizationName}}</a>
+                    </h2>
                 </div>
 
                 {{#if drink.editable }}
@@ -23,14 +24,25 @@
                     </div>
                 {{/if}}
 
+
                 <div class="row">
+                    {{#if photo}}
+                        <img class="img-thumbnail pull-left"
+                             src="{{photo.largeUrl}}"
+                             alt="{{drink.name}} photo"
+                             width="{{photo.thumbWidth}}"
+                             height="{{photo.thumbHeight}}"/>
+                    {{else}}
+                        <img class="img-thumbnail pull-left"
+                             src="/images/icon152.png" alt="no photo"/>
+                    {{/if}}
+
                     {{#if drink.description}}
                         <div class="col-sm-5 col-md-5 cold-lg 5 pull-left">
                             <p class="lead"><strong>Description</strong></p>
 
                             <p>{{drink.description}}</p>
                         </div>
-
                     {{/if}}
 
                     <div class="list-group pull-right col-sm-5 col-md-5 cold-lg 5 ">

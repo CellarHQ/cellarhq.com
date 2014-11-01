@@ -1,7 +1,5 @@
 package com.cellarhq.services.photo
 
-import static ratpack.rx.RxRatpack.observe
-
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.cellarhq.domain.Photo
 import com.cellarhq.generated.Tables
@@ -18,11 +16,17 @@ import org.imgscalr.Scalr
 import org.jooq.DSLContext
 import ratpack.exec.ExecControl
 import ratpack.form.UploadedFile
+import rx.Observable
 
 import javax.imageio.ImageIO
 import javax.sql.DataSource
 import java.awt.image.BufferedImage
 import java.time.LocalDate
+
+import static com.cellarhq.generated.Tables.DRINK
+import static com.cellarhq.generated.Tables.ORGANIZATION
+import static com.cellarhq.generated.Tables.PHOTO
+import static ratpack.rx.RxRatpack.observe
 
 /**
  * Provides a generic interface for working with photos in the application.
@@ -68,14 +72,51 @@ class PhotoService extends BaseJooqService {
 
     }
 
-    rx.Observable<Photo> findByCellarId(Long cellarId) {
+    Observable<Photo> findByCellarId(Long cellarId) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
-                create.select(Tables.PHOTO.fields())
-                        .from(Tables.PHOTO)
-                        .join(Tables.CELLAR).onKey()
-                        .where(Tables.CELLAR.ID.eq(cellarId))
-                        .fetchOneInto(Photo)
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
+                    .join(Tables.CELLAR).onKey()
+                    .where(Tables.CELLAR.ID.eq(cellarId))
+                    .fetchOneInto(Photo)
+            }
+        }).asObservable()
+    }
+
+    Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
+                    .join(DRINK).onKey()
+                    .join(ORGANIZATION).onKey()
+                    .where(DRINK.SLUG.eq(beerSlug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
+                    .fetchOneInto(Photo)
+            }
+        }).asObservable()
+    }
+
+    Observable<Photo> findByOrganization(String brewerySlug) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
+                    .join(ORGANIZATION).onKey()
+                    .where(ORGANIZATION.SLUG.eq(brewerySlug))
+                    .fetchOneInto(Photo)
+            }
+        }).asObservable()
+    }
+
+    Observable<Photo> findByCellarSlug(String cellarSlug) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select(PHOTO.fields())
+                    .from(PHOTO)
+                    .join(Tables.CELLAR).onKey()
+                    .where(Tables.CELLAR.SCREEN_NAME.eq(cellarSlug))
+                    .fetchOneInto(Photo)
             }
         }).asObservable()
     }
@@ -88,7 +129,7 @@ class PhotoService extends BaseJooqService {
                                   String pictureUrl,
                                   List<ResizeCommand> resizeCommands = null) {
 
-        PhotoRecord photoRecord = create.newRecord(Tables.PHOTO)
+        PhotoRecord photoRecord = create.newRecord(PHOTO)
         photoRecord.originalUrl = pictureUrl
 
         if (resizeCommands) {
@@ -110,10 +151,10 @@ class PhotoService extends BaseJooqService {
         String fileExtension = Files.getFileExtension(uploadedFile.fileName)
         String key = generateKey(type, fileExtension)
         s3Service.upload(key, uploadedFile.inputStream, new ObjectMetadata(
-                contentLength: uploadedFile.bytes.size()
+            contentLength: uploadedFile.bytes.size()
         ))
 
-        PhotoRecord photoRecord = create.newRecord(Tables.PHOTO)
+        PhotoRecord photoRecord = create.newRecord(PHOTO)
         photoRecord.originalUrl = s3Service.getObjectUrl(key)
 
         if (resizeCommands) {
@@ -153,10 +194,10 @@ class PhotoService extends BaseJooqService {
         BufferedImage resized = Scalr.resize(image, command.width)
 
         return new PhotoDetails.Detail(
-                command.size,
-                writeStrategy.write(key, resized),
-                resized.width,
-                resized.height
+            command.size,
+            writeStrategy.write(key, resized),
+            resized.width,
+            resized.height
         )
     }
 
@@ -166,4 +207,6 @@ class PhotoService extends BaseJooqService {
         String uuid = UUID.randomUUID().toString()
         return "${root}/${now}/${uuid}.${extension}"
     }
+
+
 }
