@@ -17,6 +17,7 @@ import com.cellarhq.services.CellarService
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
+import com.zaxxer.hikari.HikariConfig
 import org.pac4j.core.profile.CommonProfile
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
