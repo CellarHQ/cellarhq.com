@@ -52,7 +52,7 @@ class NewReleaseEmailCommand  implements NamedCommand, DatabaseSupport, AmazonSu
         Integer successCount = 0
         Integer errorCount = 0
 
-        List<List<Long>> collateList = accountIds.collate(500)
+        List<List<Long>> collateList = accountIds.collate(5)
         collateList.each { List<Long> emailAccountIds ->
             List<String> emails = create.select(ACCOUNT_EMAIL.EMAIL)
                 .from(ACCOUNT_EMAIL)
@@ -60,6 +60,7 @@ class NewReleaseEmailCommand  implements NamedCommand, DatabaseSupport, AmazonSu
 
             if (sendEmailToBccList(emails)) {
                 successCount++
+                sleep(1000)
             } else {
                 errorCount++
             }
@@ -99,12 +100,14 @@ class NewReleaseEmailCommand  implements NamedCommand, DatabaseSupport, AmazonSu
                                 | Thanks for being a loyal CellarHQ supporter, please let us know what you think of the
                                 | improvements!
                                 |
+                                | If you experience any problems logging in, please email team@cellarhq.com.
+                                |
                                 | Cheers!
                                 | Kyle and Rob
                             """.stripMargin())
             return true
         } catch (all) {
-            println('Error while sending email.', all)
+            println("Error while sending email. ${all.message}")
         }
 
         return false
@@ -119,7 +122,7 @@ class NewReleaseEmailCommand  implements NamedCommand, DatabaseSupport, AmazonSu
             result= client.sendEmail(
                 new SendEmailRequest(
                     source: from,
-                    destination: new Destination([to]),
+                    destination: destination,
                     message: new Message(
                         subject: new Content(subject),
                         body: new Body(new Content(body))
