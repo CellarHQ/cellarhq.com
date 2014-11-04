@@ -12,7 +12,7 @@ class SessionUtilSpec extends Specification {
         profile?.addAttribute(CommonProfile.USERNAME, username)
 
         when:
-        boolean result = SessionUtil.isLoggedIn(profile)
+        boolean result = SessionUtil.isLoggedIn(Optional.ofNullable(profile))
 
         then:
         noExceptionThrown()
