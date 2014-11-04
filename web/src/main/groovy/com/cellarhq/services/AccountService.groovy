@@ -55,7 +55,7 @@ class AccountService extends BaseJooqService {
                     .from(ACCOUNT_OAUTH)
                     .join(CELLAR).onKey()
                     .where(ACCOUNT_OAUTH.CLIENT.eq(client.toString()))
-                        .and(ACCOUNT_OAUTH.USERNAME.eq(username))
+                        .and(ACCOUNT_OAUTH.USERNAME.equalIgnoreCase(username))
                     .fetchOne()
 
             if (result) {
@@ -71,7 +71,7 @@ class AccountService extends BaseJooqService {
         (EmailAccount) jooq { DSLContext create ->
             create.select()
                 .from(ACCOUNT_EMAIL)
-                .where(ACCOUNT_EMAIL.EMAIL.eq(email))
+                .where(ACCOUNT_EMAIL.EMAIL.equalIgnoreCase(email))
                 .fetchOneInto(EmailAccount)
         }
     }
@@ -81,7 +81,7 @@ class AccountService extends BaseJooqService {
             Record result = create.select()
                     .from(ACCOUNT_EMAIL)
                     .join(CELLAR).onKey()
-                    .where(ACCOUNT_EMAIL.EMAIL.eq(email))
+                    .where(ACCOUNT_EMAIL.EMAIL.equalIgnoreCase(email))
                     .fetchOne()
 
             if (result) {
