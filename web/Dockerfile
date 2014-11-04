@@ -15,7 +15,7 @@ WORKDIR /app
 
 USER daemon
 
-CMD ["java", "-jar", "/app/build/libs/cellarhq.com-all.jar"]
+CMD ["java", "-jar", "/app/build/libs/cellarhq.com-all.jar", "-Xmx1G -Xms1G -XX:NewSize=512m -XX:MaxNewSize=512m"]
 
 EXPOSE 5050
 
