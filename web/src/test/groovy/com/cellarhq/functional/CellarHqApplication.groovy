@@ -12,7 +12,7 @@ class CellarHqApplication  extends LocalScriptApplicationUnderTest {
     private static Map<String, String> getOverriddenProperties() {
         def overriddenProperties = [
             'other.remoteControl.enabled': 'true',
-            'other.hikari.dataSourceProperties.databaseName': 'cellarhq_testing'
+            'other.dataSource.databaseName': 'cellarhq_testing'
         ]
 
         overriddenProperties

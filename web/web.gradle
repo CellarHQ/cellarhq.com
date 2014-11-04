@@ -7,13 +7,13 @@ buildscript {
         classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.5'
     }
 }
 
 plugins {
     id 'com.github.johnrengelman.shadow' version '1.1.2'
-    id 'io.ratpack.ratpack-groovy' version '0.9.9'
+    id 'io.ratpack.ratpack-groovy' version '0.9.10'
+    id "com.github.ben-manes.versions" version "0.5"
     id 'groovy'
     id 'idea'
 }

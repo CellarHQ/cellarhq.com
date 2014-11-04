@@ -65,13 +65,14 @@ ratpack {
         String user = getConfig(launchConfig, 'dataSource.user', 'cellarhq')
         String password = getConfig(launchConfig, 'dataSource.password', 'cellarhq')
 
-        add new HikariModule(
-                serverName: serverName,
-                portNumber: portNumber,
-                databaseName: databaseName,
-                user: user,
-                password: password,
-                'org.postgresql.ds.PGSimpleDataSource')
+        add HikariModule, { hikariConfig ->
+            hikariConfig.addDataSourceProperty('serverName', serverName)
+            hikariConfig.addDataSourceProperty('portNumber', portNumber)
+            hikariConfig.addDataSourceProperty('databaseName', databaseName)
+            hikariConfig.addDataSourceProperty('user', user)
+            hikariConfig.addDataSourceProperty('password', password)
+            hikariConfig.dataSourceClassName = 'org.postgresql.ds.PGSimpleDataSource'
+        }
 
         add new JacksonModule()
         add new RemoteControlModule()

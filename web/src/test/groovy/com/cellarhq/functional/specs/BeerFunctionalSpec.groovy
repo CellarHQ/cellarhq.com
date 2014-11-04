@@ -11,8 +11,11 @@ import com.cellarhq.functional.pages.breweries.ShowBreweryPage
 import com.cellarhq.services.OrganizationService
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
+import ratpack.rx.RxRatpack
 import ratpack.test.ApplicationUnderTest
+import ratpack.test.exec.ExecHarness
 import ratpack.test.remote.RemoteControl
+import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
@@ -21,6 +24,7 @@ import javax.sql.DataSource
 
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })
+@Ignore
 class BeerFunctionalSpec extends BaseFunctionalSpecification implements LogInUserTrait {
 
     @Shared
@@ -35,7 +39,9 @@ class BeerFunctionalSpec extends BaseFunctionalSpecification implements LogInUse
                     name: 'the business',
                     slug: 'the-business'
             )
-            get(OrganizationService).save(org).toBlocking().single()
+            ExecHarness.yieldSingle({ execution ->
+                RxRatpack.asPromiseSingle(get(OrganizationService).save(org))
+            }).complete
         }
 
         browser.baseUrl = aut.address.toString()

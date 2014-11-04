@@ -12,8 +12,8 @@ import ratpack.session.store.SessionStorage
 @CompileStatic
 abstract class SessionUtil {
 
-    static boolean isLoggedIn(CommonProfile profile) {
-        return profile?.username != null
+    static boolean isLoggedIn(Optional<CommonProfile> profile) {
+        return profile.map {it.username}.orElse(null) != null
     }
 
     // There's probably a better way, via implementing our own SessionManager, but I don't want to do that until we're
