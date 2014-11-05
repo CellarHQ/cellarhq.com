@@ -35,6 +35,7 @@ trait LiquibaseSupport {
     private Connection connection
 
     void runLiquibase() {
+        printDbConnectionParams()
         if (!ranLiquibase) {
             ranLiquibase = true
 
@@ -127,6 +128,18 @@ trait LiquibaseSupport {
     private Connection getRootConnection() {
         Class.forName('org.postgresql.ds.PGSimpleDataSource')
         return DriverManager.getConnection(getRootJdbcUrl(), getUser(), getPassword())
+    }
+
+    private void printDbConnectionParams() {
+        println """
+Root JDBCUrl: ${getRootJdbcUrl()}
+JDBCUrl: ${getJdbcUrl()}
+Host: ${getHost()}
+Port: ${getPort()}
+Name: ${getName()}
+User: ${getUser()}
+Password: ${getPassword()}
+"""
     }
 
     /**
