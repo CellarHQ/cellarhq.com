@@ -37,8 +37,6 @@ trait LiquibaseSupport {
     void runLiquibase() {
         printDbConnectionParams()
         if (!ranLiquibase) {
-            ranLiquibase = true
-
             valueProvider = new SystemPropertyProvider()
             LiquibaseConfiguration.instance.init(valueProvider)
 
@@ -59,7 +57,7 @@ trait LiquibaseSupport {
                     }
                 }
             }
-
+            ranLiquibase = true
         }
     }
 
@@ -154,11 +152,11 @@ Password: ${getPassword()}
     }
 
     private String getRootJdbcUrl() {
-        "jdbc:postgresql://${getHost()}:${getPort()}/"
+        "jdbc:postgresql://${getHost()}:${getPort()}/postgres"
     }
 
     private String getJdbcUrl() {
-        "${getRootJdbcUrl()}${getName()}"
+        "jdbc:postgresql://${getHost()}:${getPort()}/${getName()}"
     }
 
     private String getHost() {
