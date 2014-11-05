@@ -179,11 +179,11 @@ class CellarsEndpoint implements Action<Chain> {
             }
 
             post('cellars/:slug/drinks/:drinkId') {
-                String slug = pathTokens['slug']
                 Long drinkId = Long.valueOf(pathTokens['drinkId'])
 
-                cellaredDrinkService.findById(slug, drinkId).single().subscribe { drink ->
+                cellaredDrinkService.findById(drinkId).single().subscribe { CellaredDrink drink ->
                     if (drink) {
+
                         CellaredDrink editedDrink = applyForm(drink, parse(Form))
 
                         Validator validator = validatorFactory.validator

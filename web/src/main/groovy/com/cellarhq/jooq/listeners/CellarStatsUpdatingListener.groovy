@@ -27,8 +27,9 @@ class CellarStatsUpdatingListener extends DefaultRecordListener {
             return
         }
 
-        CellarStatsUpdater.update(
+        CellarStatsUpdater.updateAllCounts(
                 ctx.record().getValue(CELLARED_DRINK.CELLAR_ID),
+                ctx.record().getValue(CELLARED_DRINK.DRINK_ID),
                 DSL.using(ctx.configuration())
         )
     }
@@ -41,7 +42,7 @@ class CellarStatsUpdatingListener extends DefaultRecordListener {
             return
         }
 
-        CellarStatsUpdater.update(
+        CellarStatsUpdater.updateCellarCounts(
                 ctx.record().getValue(CELLARED_DRINK.CELLAR_ID),
                 DSL.using(ctx.configuration())
         )
