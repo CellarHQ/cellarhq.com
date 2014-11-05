@@ -128,6 +128,10 @@ test {
         systemProperty 'other.dataSource.portNumber', System.getenv('SNAP_DB_PG_PORT')
         systemProperty 'other.dataSource.user', System.getenv('SNAP_DB_PG_USER')
         systemProperty 'other.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
+        println "SNAP DB Settings:"
+        System.getenv().findAll { it.key.startsWith('SNAP_')}.each {
+            println "${it.key}: ${it.value}"
+        }
     }
 }
 
