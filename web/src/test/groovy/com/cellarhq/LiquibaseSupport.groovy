@@ -35,7 +35,6 @@ trait LiquibaseSupport {
     private Connection connection
 
     void runLiquibase() {
-        printDbConnectionParams()
         if (!ranLiquibase) {
             valueProvider = new SystemPropertyProvider()
             LiquibaseConfiguration.instance.init(valueProvider)
@@ -69,7 +68,6 @@ trait LiquibaseSupport {
     }
 
     private void executeUpdate() {
-        createDatabaseIfNeeded()
         String changeLogFile = valueProvider.getValue(LIQUIBASE_NAMESPACE, LIQUIBASE_CHANGELOG)
         if (changeLogFile == null) {
             throw new RuntimeException("Cannot run Liquibase: 'changeLogFile' is not set")
@@ -104,41 +102,6 @@ trait LiquibaseSupport {
         }
     }
 
-    private void createDatabaseIfNeeded() {
-        Sql sql = new Sql(getRootConnection())
-        boolean exists = false
-        sql.rows("select exists (select * from pg_catalog.pg_database where datname = ${getName()})").each { GroovyRowResult row ->
-            exists = row.getProperty('exists') as boolean
-        }
-        if (!exists) {
-            println 'Creating testing database!'
-            boolean result = sql.execute("CREATE DATABASE ${getName()} WITH OWNER ${getUser()} ENCODING 'UTF8' LC_COLLATE='en_US.utf8' LC_CTYPE='en_US.utf8' TEMPLATE=template0".toString())
-            if (!result) {
-                throw new RuntimeException('Unable to create required database!')
-            }
-            println 'Successfully created database.'
-        } else {
-            println 'Database already exists.'
-        }
-        sql.close()
-    }
-
-    private Connection getRootConnection() {
-        Class.forName('org.postgresql.ds.PGSimpleDataSource')
-        return DriverManager.getConnection(getRootJdbcUrl(), getUser(), getPassword())
-    }
-
-    private void printDbConnectionParams() {
-        println """
-Root JDBCUrl: ${getRootJdbcUrl()}
-JDBCUrl: ${getJdbcUrl()}
-Host: ${getHost()}
-Port: ${getPort()}
-Name: ${getName()}
-User: ${getUser()}
-Password: ${getPassword()}
-"""
-    }
 
     /**
      * @todo Blehhh...
@@ -146,17 +109,15 @@ Password: ${getPassword()}
     private Connection getConnection() {
         if (!connection) {
             Class.forName('org.postgresql.ds.PGSimpleDataSource')
-            connection = DriverManager.getConnection(getJdbcUrl(), getUser(), getPassword())
+            connection = DriverManager.getConnection(getJdbcUrl())
         }
         return connection
     }
 
-    private String getRootJdbcUrl() {
-        "jdbc:postgresql://${getHost()}:${getPort()}/postgres"
-    }
-
     private String getJdbcUrl() {
-        "jdbc:postgresql://${getHost()}:${getPort()}/${getName()}"
+        System.getProperty('other.dataSource.jdbcUrl',
+            "jdbc:postgresql://${getHost()}:${getPort()}/${getName()}?user=${getUser()}&password=${getPassword()}"
+        )
     }
 
     private String getHost() {
