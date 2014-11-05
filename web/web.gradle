@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 buildscript {
     repositories {
         jcenter()
@@ -76,7 +78,6 @@ dependencies {
         exclude module: "groovy-all"
     }
     testCompile "org.gebish:geb-spock:0.9.3"
-    testRuntime "org.objenesis:objenesis:1.2"
     testCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.43.1", {
         exclude module: 'httpclient'
     }
@@ -84,6 +85,9 @@ dependencies {
     testCompile 'cglib:cglib-nodep:3.1'
 
     testCompile 'org.liquibase:liquibase-core:3.2.2'
+    testCompile 'com.github.detro.ghostdriver:phantomjsdriver:1.1.0'
+
+    testRuntime "org.objenesis:objenesis:1.2"
 }
 
 // The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in
@@ -127,3 +131,37 @@ run {
     environment 'CHQ_GA_ID', 'UA-27709782-2' // Local GA tracking code
     environment 'CHQ_HOSTNAME', 'localhost:5050'
 }
+
+task setupPhantom() {
+    def isMac = Os.isFamily(Os.FAMILY_MAC)
+    ext.phantomVersion = '1.9.8'
+    ext.platform = isMac ? 'macosx' : 'linux-x86_64'
+    ext.extension = isMac ? 'zip' : 'tar.bz2'
+    ext.driversPath = "${buildDir}/drivers"
+    ext.phantomDriverHome = "${driversPath}/phantomjs-${phantomVersion}-${platform}"
+    ext.driverExecPath = "${phantomDriverHome}/bin/phantomjs"
+    ext.driverDownloadPath = "${driversPath}/phantomjs-${phantomVersion}-${platform}.${extension}"
+
+    inputs.property('version', phantomVersion)
+    inputs.property('platform', platform)
+    inputs.property('extension', extension)
+    outputs.dir phantomDriverHome
+
+    project.tasks.findByName('test').systemProperty 'phantomjs.binary.path', driverExecPath
+
+    doFirst {
+        file(driversPath).mkdirs()
+        ant.get(
+                src: "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${phantomVersion}-${platform}.${extension}",
+                dest: driverDownloadPath
+        )
+        if (extension == 'zip') {
+            ant.unzip(src: driverDownloadPath, dest: driversPath)
+        } else {
+            ant.untar(src: driverDownloadPath, dest: driversPath, compression: 'bzip2')
+        }
+        ant.chmod(file: file(driverExecPath), perm: '700')
+    }
+}
+
+test.dependsOn setupPhantom
