@@ -122,6 +122,13 @@ test {
     systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
     systemProperty 'liquibase.schema.default', 'public'
     systemProperty 'liquibase.onerror.fail', true
+
+    if (System.getenv('SNAP_CI')) {
+        systemProperty 'other.dataSource.serverName', System.getenv('SNAP_DB_PG_HOST')
+        systemProperty 'other.dataSource.portNumber', System.getenv('SNAP_DB_PG_PORT')
+        systemProperty 'other.dataSource.user', System.getenv('SNAP_DB_PG_USER')
+        systemProperty 'other.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
+    }
 }
 
 
