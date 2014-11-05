@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="organization-locality-sort-field" author="rzienert" dbms="postgresql">
+        <addColumn tableName="organization">
+            <column name="locality_sort" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <sql>
+            UPDATE
+                organization o1
+            SET
+                locality_sort = nullif(trim(both ' ' from concat(o2.locality, ' ', o2.region, ' ', o2.country)), '')
+            FROM
+                organization o2
+            WHERE
+                o1.id = o2.id
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

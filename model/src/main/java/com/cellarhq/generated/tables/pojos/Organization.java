@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = 535653313;
+	private static final long serialVersionUID = -297798210;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -42,6 +42,7 @@ public class Organization implements java.io.Serializable {
 	private java.lang.Short    totalBeers;
 	private java.lang.Short    cellaredBeers;
 	private java.lang.Short    containedInCellars;
+	private java.lang.String   localitySort;
 
 	public Organization() {}
 
@@ -72,7 +73,8 @@ public class Organization implements java.io.Serializable {
 		java.lang.Boolean  warningFlag,
 		java.lang.Short    totalBeers,
 		java.lang.Short    cellaredBeers,
-		java.lang.Short    containedInCellars
+		java.lang.Short    containedInCellars,
+		java.lang.String   localitySort
 	) {
 		this.id = id;
 		this.version = version;
@@ -101,6 +103,7 @@ public class Organization implements java.io.Serializable {
 		this.totalBeers = totalBeers;
 		this.cellaredBeers = cellaredBeers;
 		this.containedInCellars = containedInCellars;
+		this.localitySort = localitySort;
 	}
 
 	@javax.persistence.Id
@@ -345,5 +348,14 @@ public class Organization implements java.io.Serializable {
 
 	public void setContainedInCellars(java.lang.Short containedInCellars) {
 		this.containedInCellars = containedInCellars;
+	}
+
+	@javax.persistence.Column(name = "locality_sort", length = 100)
+	public java.lang.String getLocalitySort() {
+		return this.localitySort;
+	}
+
+	public void setLocalitySort(java.lang.String localitySort) {
+		this.localitySort = localitySort;
 	}
 }

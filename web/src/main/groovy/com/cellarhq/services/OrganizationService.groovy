@@ -104,7 +104,7 @@ class OrganizationService extends BaseJooqService {
                         .from(ORGANIZATION)
                         .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
                                 name: ORGANIZATION.NAME,
-                                location: ORGANIZATION.LOCALITY,
+                                location: ORGANIZATION.LOCALITY_SORT,
                                 established: ORGANIZATION.ESTABLISHED
                         ]))
                         .limit(offset, numberOfRows)
@@ -121,7 +121,7 @@ class OrganizationService extends BaseJooqService {
                         .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
                         .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
                                 name: ORGANIZATION.NAME,
-                                location: ORGANIZATION.LOCALITY,
+                                location: ORGANIZATION.LOCALITY_SORT,
                                 established: ORGANIZATION.ESTABLISHED
                         ]))
                         .limit(offset, numberOfRows)
