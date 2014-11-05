@@ -19,6 +19,6 @@ class LogUtilSpec extends Specification {
         String out = LogUtil.toLog(key, properties)
 
         then:
-        assert out == 'KEY=someKey string=string numberInt=1234 numberFloat=1.234 object=[bar:baz] nullable=null'
+        assert out == 'KEY=someKey, string=string, numberInt=1234, numberFloat=1.234, object=[bar:baz], nullable=null'
     }
 }

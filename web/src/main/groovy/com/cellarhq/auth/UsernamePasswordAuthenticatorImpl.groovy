@@ -3,6 +3,7 @@ package com.cellarhq.auth
 import com.cellarhq.Messages
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
+import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -57,6 +58,15 @@ class UsernamePasswordAuthenticatorImpl implements UsernamePasswordAuthenticator
 
         if (passwordMatches) {
             accountService.resetFailedLoginAttempts(emailAccount)
+
+            if (passwordService.shouldRehashPassword(emailAccount.password)) {
+                log.warn(LogUtil.toLog('AutoPasswordRehash', [
+                        msg: 'Automatically rehashing account password',
+                        account: emailAccount.id
+                ]))
+                emailAccount.password = credentials.password
+                accountService.changePassword(emailAccount, Optional.empty())
+            }
             return
         }
 

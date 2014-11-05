@@ -74,7 +74,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                             Set<ConstraintViolation<EmailAccount>> accountViolations = validator.validate(account)
                             boolean passwordsMatch = account.password == account.passwordConfirm
                             if (accountViolations.size() == 0 && passwordsMatch) {
-                                accountService.changePassword(account, context.pathTokens['id'])
+                                accountService.changePassword(account, Optional.of(context.pathTokens['id']))
                                 result = true
                             }  else {
                                 List<String> messages = []
