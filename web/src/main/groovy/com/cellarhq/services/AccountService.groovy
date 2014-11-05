@@ -228,7 +228,7 @@ class AccountService extends BaseJooqService {
         }
     }
 
-    void changePassword(EmailAccount emailAccount, String requestUuid) {
+    void changePassword(EmailAccount emailAccount, Optional<String> requestUuid) {
         String password = passwordService.hashPassword(emailAccount.password)
         jooq { DSLContext create ->
             create.transaction {
@@ -237,7 +237,11 @@ class AccountService extends BaseJooqService {
                         .where(ACCOUNT_EMAIL.ID.eq(emailAccount.id))
                         .execute()
 
-                create.delete(PASSWORD_CHANGE_REQUEST).where(PASSWORD_CHANGE_REQUEST.ID.eq(requestUuid)).execute()
+                if (requestUuid.isPresent()) {
+                    create.delete(PASSWORD_CHANGE_REQUEST)
+                            .where(PASSWORD_CHANGE_REQUEST.ID.eq(requestUuid.get()))
+                            .execute()
+                }
             }
         }
     }

@@ -67,4 +67,39 @@ class UsernamePasswordAuthenticatorImplSpec extends Specification {
         Throwable t = thrown(CredentialsException)
         assert t.message == UnclaimedAccountException.UNCLAIMED_MESSAGE
     }
+
+    def 'an account with a too-strong password will be rehashed'() {
+        given:
+        PasswordService passwordService = Stub() {
+            checkPassword(_, _) >> {
+                return true
+            }
+            shouldRehashPassword(_) >> { String hash ->
+                new PasswordService().shouldRehashPassword(hash)
+            }
+        }
+        AccountService accountService = Mock() {
+            findByEmail(_) >> {
+                return new EmailAccount(
+                        password: '$2a$160$WBCR3zsCnH20tDjl'
+                )
+            }
+        }
+
+        and:
+        UsernamePasswordAuthenticatorImpl authenticator = new UsernamePasswordAuthenticatorImpl(
+                accountService,
+                passwordService
+        )
+
+        and:
+        Credentials credentials = new UsernamePasswordCredentials('foo', 'foo', 'FormClient')
+
+        when:
+        authenticator.validate(credentials)
+
+        then:
+        noExceptionThrown()
+        1 * accountService.changePassword(_, _)
+    }
 }
