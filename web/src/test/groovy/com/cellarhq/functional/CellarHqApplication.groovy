@@ -10,11 +10,13 @@ class CellarHqApplication  extends LocalScriptApplicationUnderTest {
     }
 
     private static Map<String, String> getOverriddenProperties() {
-        def overriddenProperties = [
-            'other.remoteControl.enabled': 'true',
-            'other.dataSource.databaseName': 'cellarhq_testing'
+        def overrides = [
+                'other.remoteControl.enabled'  : 'true',
         ]
+        if (!System.getenv('CI')) {
+            overrides['other.dataSource.databaseName'] = 'cellarhq_testing'
+        }
 
-        overriddenProperties
+        return overrides
     }
 }
