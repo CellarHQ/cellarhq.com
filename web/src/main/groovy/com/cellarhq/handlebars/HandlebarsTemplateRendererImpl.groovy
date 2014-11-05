@@ -32,6 +32,7 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
     private final static String MODEL_PAGE_URI = 'pageUri'
     private final static String MODEL_REQUEST = 'request'
     private final static String MODEL_GA_TRACKING_CODE = 'gaTrackingCode'
+    private final static String MODEL_HOSTNAME = 'hostname'
 
     @Inject
     HandlebarsTemplateRendererImpl(Handlebars handlebars) {
@@ -68,6 +69,8 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
         }
 
         model[MODEL_REQUEST] = context.request
+
+        model[MODEL_HOSTNAME] = CellarHQModule.hostname
 
         super.render(context, template)
     }
