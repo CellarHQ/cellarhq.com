@@ -3,7 +3,6 @@ package com.cellarhq.util
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
-import java.time.DateTimeException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
@@ -14,6 +13,7 @@ import java.time.temporal.TemporalAccessor
 @CompileStatic
 abstract class DateUtil {
 
+    @SuppressWarnings(['EmptyCatchBlock', 'CatchException'])
     static Optional<LocalDate> parse(String input) {
         if (!input) {
             return Optional.empty()
