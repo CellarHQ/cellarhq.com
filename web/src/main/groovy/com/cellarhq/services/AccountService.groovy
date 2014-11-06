@@ -24,6 +24,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.jooq.exception.DataAccessException
 import org.jooq.impl.DSL
 import ratpack.exec.ExecControl
 import ratpack.form.UploadedFile
@@ -134,8 +135,18 @@ class AccountService extends BaseJooqService {
                     PhotoRecord photoRecord = new PhotoRecordBuilder(pictureUrl).makePhoto(create)
                     if (photoRecord) {
                         photoRecord.description = Photo.DESCRIPTION_TWITTER_UPLOAD
-                        photoRecord.store()
-                        cellarRecord.photoId = photoRecord.id
+
+                        try {
+                            photoRecord.store()
+                            cellarRecord.photoId = photoRecord.id
+                        } catch (DataAccessException dae) {
+                            if (dae.message.contains('unq_photo_original_url')) {
+                                cellarRecord.photoId = create.select(PHOTO.ID)
+                                        .from(PHOTO)
+                                        .where(PHOTO.ORIGINAL_URL.eq(pictureUrl))
+                                        .fetchOneInto(Long)
+                            }
+                        }
                     }
                 }
 
