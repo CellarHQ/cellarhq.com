@@ -21,6 +21,9 @@
     <include file="releases/add-organization-count-fields.xml" relativeToChangelogFile="true"/>
     <include file="releases/drop-drink-constraints.xml" relativeToChangelogFile="true"/>
 
-    <!-- next: -->
+    <!-- 2.1 -->
+    <include file="releases/increase-drink-name-length.xml" relativeToChangelogFile="true"/>
+
+    <!-- next -->
 
 </databaseChangeLog>
