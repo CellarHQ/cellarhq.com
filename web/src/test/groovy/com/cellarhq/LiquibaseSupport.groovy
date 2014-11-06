@@ -115,28 +115,28 @@ trait LiquibaseSupport {
     }
 
     private String getJdbcUrl() {
-        System.getProperty('other.dataSource.jdbcUrl',
+        System.getProperty('ratpack.other.dataSource.jdbcUrl',
             "jdbc:postgresql://${getHost()}:${getPort()}/${getName()}?user=${getUser()}&password=${getPassword()}"
         )
     }
 
     private String getHost() {
-        System.getProperty('other.dataSource.serverName', 'localhost')
+        System.getProperty('ratpack.other.dataSource.serverName', 'localhost')
     }
 
     private String getPort() {
-        System.getProperty('other.dataSource.portNumber', '15432')
+        System.getProperty('ratpack.other.dataSource.portNumber', '15432')
     }
 
     private String getName() {
-        System.getProperty('other.dataSource.databaseName', 'cellarhq_testing')
+        System.getProperty('ratpack.other.dataSource.databaseName', 'cellarhq_testing')
     }
 
     private String getUser() {
-        System.getProperty('other.dataSource.user', 'cellarhq')
+        System.getProperty('ratpack.other.dataSource.user', 'cellarhq')
     }
 
     private String getPassword() {
-        System.getProperty('other.dataSource.password', 'cellarhq')
+        System.getProperty('ratpack.other.dataSource.password', 'cellarhq')
     }
 }
