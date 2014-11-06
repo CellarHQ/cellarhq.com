@@ -65,6 +65,6 @@ class CellarHQCallbackHandler implements Handler {
         } else if (profile instanceof TwitterProfile) {
             return '/auth-twitter'
         }
-        throw new TechnicalException("Could not determine auth handler for profile '${profile.class.simpleName}")
+        throw new TechnicalException("Could not determine auth handler for profile '${profile?.class?.simpleName}")
     }
 }

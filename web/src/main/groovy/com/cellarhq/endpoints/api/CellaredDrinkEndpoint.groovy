@@ -105,7 +105,7 @@ class CellaredDrinkEndpoint implements Action<Chain> {
     void requireSelf(Context context, CellaredDrink cellaredDrink, Closure operation) {
         context.with {
             Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-            boolean isSelf = cellaredDrink.cellarId == cellarId
+            boolean isSelf = cellaredDrink?.cellarId == cellarId
 
             if (isSelf) {
                 operation()

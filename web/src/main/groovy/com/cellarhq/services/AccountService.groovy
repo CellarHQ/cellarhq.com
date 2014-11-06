@@ -24,6 +24,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.jooq.exception.DataAccessException
 import org.jooq.impl.DSL
 import ratpack.exec.ExecControl
 import ratpack.form.UploadedFile
@@ -130,14 +131,7 @@ class AccountService extends BaseJooqService {
             create.transactionResult {
                 CellarRecord cellarRecord = create.newRecord(CELLAR, oAuthAccount.cellar)
 
-                if (pictureUrl) {
-                    PhotoRecord photoRecord = new PhotoRecordBuilder(pictureUrl).makePhoto(create)
-                    if (photoRecord) {
-                        photoRecord.description = Photo.DESCRIPTION_TWITTER_UPLOAD
-                        photoRecord.store()
-                        cellarRecord.photoId = photoRecord.id
-                    }
-                }
+                maybeLinkTwitterPhotoRecord(create, cellarRecord, pictureUrl)
 
                 cellarRecord.reset(CELLAR.ID)
                 cellarRecord.store()
@@ -152,6 +146,27 @@ class AccountService extends BaseJooqService {
                 OAuthAccount resultOAuthAccount = record.into(OAuthAccount)
                 resultOAuthAccount.cellar = cellarRecord.into(Cellar)
                 resultOAuthAccount.id ? resultOAuthAccount : null
+            }
+        }
+    }
+
+    private void maybeLinkTwitterPhotoRecord(DSLContext create, CellarRecord cellarRecord, String pictureUrl) {
+        if (pictureUrl) {
+            PhotoRecord photoRecord = new PhotoRecordBuilder(pictureUrl).makePhoto(create)
+            if (photoRecord) {
+                photoRecord.description = Photo.DESCRIPTION_TWITTER_UPLOAD
+
+                try {
+                    photoRecord.store()
+                    cellarRecord.photoId = photoRecord.id
+                } catch (DataAccessException dae) {
+                    if (dae.message.contains('unq_photo_original_url')) {
+                        cellarRecord.photoId = create.select(PHOTO.ID)
+                                .from(PHOTO)
+                                .where(PHOTO.ORIGINAL_URL.eq(pictureUrl))
+                                .fetchOneInto(Long)
+                    }
+                }
             }
         }
     }
