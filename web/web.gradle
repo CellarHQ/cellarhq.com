@@ -130,10 +130,6 @@ test {
         systemProperty 'ratpack.other.dataSource.user', System.getenv('SNAP_DB_PG_USER')
         systemProperty 'ratpack.other.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
         systemProperty 'ratpack.other.dataSource.databaseName', 'app_test'
-        println "SNAP DB Settings:"
-        System.getenv().findAll { it.key.startsWith('SNAP_DB')}.each {
-            println "${it.key}: ${it.value}"
-        }
     }
 }
 
@@ -160,7 +156,7 @@ task setupPhantom() {
     inputs.property('extension', extension)
     outputs.dir phantomDriverHome
 
-    project.tasks.findByName('test').systemProperty 'phantomjs.binary.path', driverExecPath
+//    project.tasks.findByName('test').systemProperty 'phantomjs.binary.path', driverExecPath
 
     doFirst {
         file(driversPath).mkdirs()

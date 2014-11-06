@@ -59,12 +59,6 @@ ratpack {
         String user = getConfig(launchConfig, 'dataSource.user', 'cellarhq')
         String password = getConfig(launchConfig, 'dataSource.password', 'cellarhq')
 
-//        String serverName = getConfig(launchConfig, 'dataSource.serverName', 'localhost2')
-//        String portNumber =  getConfig(launchConfig, 'dataSource.portNumber', '154321')
-//        String databaseName = getConfig(launchConfig, 'dataSource.databaseName', 'cellarhq2')
-//        String user = getConfig(launchConfig, 'dataSource.user', 'cellarhq2')
-//        String password = getConfig(launchConfig, 'dataSource.password', 'cellarhq2')
-
         add HikariModule, { hikariConfig ->
             hikariConfig.addDataSourceProperty('serverName', serverName)
             hikariConfig.addDataSourceProperty('portNumber', portNumber)
