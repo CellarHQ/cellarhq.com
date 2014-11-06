@@ -43,6 +43,7 @@ class StatsService extends BaseJooqService {
 
                 create.select(organizations, drinks, cellars, cellaredDrinks)
                         .fetchInto(HomepageStatistics)
+
             }
         }).asObservable()
     }

@@ -66,8 +66,8 @@ class DrinkService extends BaseJooqService {
             jooq { DSLContext create ->
                 create.select()
                     .from(DRINK)
-                    .where(DRINK.ORGANIZATION_ID.eq(organizationId))
-                    .and(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
+                    .where(DRINK.ORGANIZATION_ID.eq(organizationId)
+                    .and(DRINK.NAME.likeIgnoreCase("%${searchTerm}%")))
                     .orderBy(DRINK.NAME)
                     .limit(offset, numRows)
                     .fetchInto(Drink)

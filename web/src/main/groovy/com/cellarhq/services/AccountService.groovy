@@ -55,8 +55,8 @@ class AccountService extends BaseJooqService {
             Record result = create.select()
                     .from(ACCOUNT_OAUTH)
                     .join(CELLAR).onKey()
-                    .where(ACCOUNT_OAUTH.CLIENT.eq(client.toString()))
-                        .and(ACCOUNT_OAUTH.USERNAME.equalIgnoreCase(username))
+                    .where(ACCOUNT_OAUTH.CLIENT.eq(client.toString())
+                        .and(ACCOUNT_OAUTH.USERNAME.equalIgnoreCase(username)))
                     .fetchOne()
 
             if (result) {

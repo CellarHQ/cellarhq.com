@@ -46,19 +46,23 @@ class CellaredDrinkService extends BaseJooqService {
                     drinkRecord.store()
                 }
 
-                drinkRecord?.into(CellaredDrink)
+                if (drinkRecord) {
+                    new CellarStatsUpdater().updateAllCounts(drinkRecord.cellarId, drinkRecord.drinkId, create)
+                    return drinkRecord.into(CellaredDrink)
+                }
+
+                return null
+
             }
         }).asObservable()
     }
 
-    rx.Observable<CellaredDrink> findById(String cellarSlug, Long id) {
+    rx.Observable<CellaredDrink> findById(Long id) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 create.select()
                         .from(CELLARED_DRINK)
-                        .join(CELLAR).onKey()
-                        .where(CELLAR.SCREEN_NAME.eq(cellarSlug))
-                            .and(CELLARED_DRINK.ID.eq(id))
+                        .where(CELLARED_DRINK.ID.eq(id))
                         .fetchOneInto(CellaredDrink)
             }
         }).asObservable()
@@ -81,8 +85,8 @@ class CellaredDrinkService extends BaseJooqService {
                         .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
                         .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
                         .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-                        .where(CELLARED_DRINK.ID.eq(id))
-                        .and(CELLAR.SCREEN_NAME.eq(cellarSlug))
+                        .where(CELLARED_DRINK.ID.eq(id)
+                        .and(CELLAR.SCREEN_NAME.eq(cellarSlug)))
                         .fetchOneInto(CellaredDrinkDetails)
             }
         })
@@ -138,19 +142,18 @@ class CellaredDrinkService extends BaseJooqService {
         }
     }
 
-    rx.Observable<Void> delete(String cellarSlug, Long id) {
+    rx.Observable<Void> delete(Long id) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
                 CellaredDrinkRecord drink = create
                         .select()
                         .from(CELLARED_DRINK)
-                        .join(CELLAR).onKey()
-                        .where(CELLAR.SCREEN_NAME.eq(cellarSlug))
-                            .and(CELLARED_DRINK.ID.eq(id))
+                        .where(CELLARED_DRINK.ID.eq(id))
                         .fetchOneInto(CellaredDrinkRecord)
 
                 if (drink) {
                     drink.delete()
+                    new CellarStatsUpdater().updateAllCounts(drink.cellarId, drink.drinkId, create)
                 }
 
                 return Void
@@ -176,7 +179,7 @@ class CellaredDrinkService extends BaseJooqService {
                             .where(CELLARED_DRINK.ID.eq(id))
                             .execute()
 
-                    new CellarStatsUpdater().update(drink.cellarId, create)
+                    new CellarStatsUpdater().updateAllCounts(drink.cellarId, drink.drinkId, create)
 
                     drink.refresh(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.MODIFIED_DATE)
                     return drink.into(CellaredDrink)
