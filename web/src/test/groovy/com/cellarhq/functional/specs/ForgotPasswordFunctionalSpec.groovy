@@ -36,6 +36,7 @@ class ForgotPasswordFunctionalSpec extends BaseFunctionalSpecification {
     def cleanupSpec() {
         remote.exec {
             try {
+                println get(DataSource).properties
                 Sql sql = new Sql(get(DataSource))
                 sql.execute('delete from password_change_request where 1=1')
                 sql.execute('delete from account_email where 1=1')

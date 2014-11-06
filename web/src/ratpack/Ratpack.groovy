@@ -30,9 +30,7 @@ import ratpack.rx.RxRatpack
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
-import ratpack.groovy.markuptemplates.MarkupTemplatingModule
 
-import static ratpack.groovy.Groovy.groovyMarkupTemplate
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
@@ -40,11 +38,7 @@ import static ratpack.jackson.Jackson.json
 String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
     String value = System.getenv(key)
     if (value == null) {
-        if (System.hasProperty(key)) {
-            value = System.getProperty(key)
-        } else {
-            value = defaultValue
-        }
+        value = System.getProperty(key, defaultValue)
         value = launchConfig.getOther(key, value)
     }
 
@@ -64,6 +58,12 @@ ratpack {
         String databaseName = getConfig(launchConfig, 'dataSource.databaseName', 'cellarhq')
         String user = getConfig(launchConfig, 'dataSource.user', 'cellarhq')
         String password = getConfig(launchConfig, 'dataSource.password', 'cellarhq')
+
+//        String serverName = getConfig(launchConfig, 'dataSource.serverName', 'localhost2')
+//        String portNumber =  getConfig(launchConfig, 'dataSource.portNumber', '154321')
+//        String databaseName = getConfig(launchConfig, 'dataSource.databaseName', 'cellarhq2')
+//        String user = getConfig(launchConfig, 'dataSource.user', 'cellarhq2')
+//        String password = getConfig(launchConfig, 'dataSource.password', 'cellarhq2')
 
         add HikariModule, { hikariConfig ->
             hikariConfig.addDataSourceProperty('serverName', serverName)
