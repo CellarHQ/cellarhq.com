@@ -4,7 +4,6 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class DateUtilSpec extends Specification {
 
@@ -24,5 +23,8 @@ class DateUtilSpec extends Specification {
         '2014-01-01' | true
         'sdfa'       | false
         '2014-9-14'  | true
+        '2014-11-2'  | true
+        null         | false
+        ''           | false
     }
 }

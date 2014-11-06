@@ -26,7 +26,9 @@ abstract class DateUtil {
                 'yyyy-MM-dd',
                 'MM/dd/yyyy',
                 'dd/MM/yyyy',
+                // outliers
                 'yyyy-M-dd',
+                'yyyy-MM-d',
                 'yyyy-M-d'
         ]
         for (format in formats) {
