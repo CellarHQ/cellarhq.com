@@ -12,7 +12,6 @@ import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
-import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
@@ -22,7 +21,6 @@ import javax.sql.DataSource
 @Slf4j
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })
-@Ignore
 class ForgotPasswordFunctionalSpec extends BaseFunctionalSpecification {
 
     @Shared
