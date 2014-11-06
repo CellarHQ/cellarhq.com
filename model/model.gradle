@@ -51,7 +51,7 @@ liquibase {
         if (project.hasProperty('cellarhqprodpasswd')) {
             production {
                 changeLogFile "${rootDir}/model/migrations/migrations.xml"
-                url 'jdbc:postgresql://cellarhq-prod.c7ovcjlune88.us-east-1.rds.amazonaws.com:5432/cellarhq'
+                url 'jdbc:postgresql://aabccxwfph30tb.c7ovcjlune88.us-east-1.rds.amazonaws.com:5432/ebdb'
                 username 'cellarhq'
                 password project.cellarhqprodpasswd
             }
