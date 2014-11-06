@@ -22,6 +22,7 @@ class ServerErrorHandlerImpl implements ServerErrorHandler {
         log.error(LogUtil.toLog('ServerError', [
                 correlationId: correlationId,
                 requestPath: context.request.path,
+                method: context.request.method,
                 msg: throwable.message
         ]), throwable)
 

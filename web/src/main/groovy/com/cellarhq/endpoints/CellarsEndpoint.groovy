@@ -13,6 +13,7 @@ import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.session.FlashMessage
+import com.cellarhq.util.DateUtil
 import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
@@ -228,7 +229,6 @@ class CellarsEndpoint implements Action<Chain> {
     }
 
     private CellaredDrink applyForm(CellaredDrink cellaredDrink, Form form) {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern('yyyy-MM-dd')
         return cellaredDrink.with { CellaredDrink self ->
             size = form.size
             quantity = form.quantity ? Long.valueOf(form.quantity) : 0
@@ -236,24 +236,11 @@ class CellarsEndpoint implements Action<Chain> {
             binIdentifier = form.binIdentifier
 
             tradeable = form.tradeable == 'on'
+            numTradeable = form.numTradeable ? Short.valueOf(form.numTradeable) : 0
 
-            if (form.bottleDate) {
-                bottleDate = LocalDate.parse(form.bottleDate, dateFormat)
-            }
-
-            if (form.drinkByDate) {
-                drinkByDate = LocalDate.parse(form.drinkByDate, dateFormat)
-            }
-
-            if (form.numTradeable) {
-                numTradeable = Short.valueOf(form.numTradeable)
-            } else {
-                numTradeable = 0
-            }
-
-            if (form.dateAcquired) {
-                dateAcquired = LocalDate.parse(form.dateAcquired)
-            }
+            DateUtil.parse(form.bottleDate).map { bottleDate = it }
+            DateUtil.parse(form.drinkByDate).map { drinkByDate = it }
+            DateUtil.parse(form.dateAcquired).map { dateAcquired = it }
 
             return self
         }
