@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = -912086485;
+	private static final long serialVersionUID = 1182732153;
 
 	/**
 	 * Setter for <code>public.organization.id</code>.
@@ -421,6 +421,21 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		return (java.lang.Short) getValue(26);
 	}
 
+	/**
+	 * Setter for <code>public.organization.locality_sort</code>.
+	 */
+	public void setLocalitySort(java.lang.String value) {
+		setValue(27, value);
+	}
+
+	/**
+	 * Getter for <code>public.organization.locality_sort</code>.
+	 */
+	@javax.persistence.Column(name = "locality_sort", length = 100)
+	public java.lang.String getLocalitySort() {
+		return (java.lang.String) getValue(27);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -447,7 +462,7 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 	/**
 	 * Create a detached, initialised OrganizationRecord
 	 */
-	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region, java.lang.Boolean warningFlag, java.lang.Short totalBeers, java.lang.Short cellaredBeers, java.lang.Short containedInCellars) {
+	public OrganizationRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String type, java.lang.String slug, java.lang.String name, java.lang.String description, java.lang.Short established, java.lang.String phone, java.lang.String website, java.lang.String address, java.lang.String address2, java.lang.String locality, java.lang.String postalCode, java.lang.String country, java.lang.String breweryDbId, java.sql.Timestamp breweryDbLastUpdated, java.lang.Boolean locked, java.lang.Boolean needsModeration, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.Object data, java.lang.String region, java.lang.Boolean warningFlag, java.lang.Short totalBeers, java.lang.Short cellaredBeers, java.lang.Short containedInCellars, java.lang.String localitySort) {
 		super(com.cellarhq.generated.tables.Organization.ORGANIZATION);
 
 		setValue(0, id);
@@ -477,5 +492,6 @@ public class OrganizationRecord extends org.jooq.impl.UpdatableRecordImpl<com.ce
 		setValue(24, totalBeers);
 		setValue(25, cellaredBeers);
 		setValue(26, containedInCellars);
+		setValue(27, localitySort);
 	}
 }

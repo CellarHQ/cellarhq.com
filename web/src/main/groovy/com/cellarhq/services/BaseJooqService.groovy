@@ -29,12 +29,15 @@ abstract class BaseJooqService {
     }
 
     SortField makeSortField(SortCommand sortCommand, TableField defaultSort, Map<String, TableField> fieldMap) {
-        if (!sortCommand || !sortCommand.isValid() || !fieldMap.containsKey(sortCommand.field)) {
-            return defaultSort.asc()
+        SortField sortField
+        if (sortCommand && sortCommand.isValid() && fieldMap.containsKey(sortCommand.field)) {
+            Field field = fieldMap[sortCommand.field]
+            sortField = sortCommand.order == SortCommand.Order.DESC ? field.desc() : field.asc()
+        } else {
+            sortField = defaultSort.asc()
         }
 
-        Field field = fieldMap[sortCommand.field]
-        return sortCommand.order == SortCommand.Order.DESC ? field.desc() : field.asc()
+        return sortField.nullsLast()
     }
 
     final <T> T jooq(Closure<T> operation) {

@@ -95,9 +95,9 @@ public class DataTableSortingHelper implements NamedHelper<Request> {
     private static String makeIcon(String order, boolean isCurrentField) {
         if (isCurrentField) {
             if (order.equals(ORDER_ASC)) {
-                return "<i class=\"fa fa-sort-alpha-asc\"></i>";
-            } else {
                 return "<i class=\"fa fa-sort-alpha-desc\"></i>";
+            } else {
+                return "<i class=\"fa fa-sort-alpha-asc\"></i>";
             }
         } else {
             return "";
