@@ -83,7 +83,7 @@ class ForgotPasswordFunctionalSpec extends BaseFunctionalSpecification {
 
         then:
         at ForgotPasswordPage
-        ((BasePage) page).successMessages
+        ((BasePage) page).successMessages.displayed
     }
 
     def 'receive hash and submit change password page'() {
