@@ -122,6 +122,7 @@ test {
     systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
     systemProperty 'liquibase.schema.default', 'public'
     systemProperty 'liquibase.onerror.fail', true
+    maxHeapSize '768m'
 
     if (System.getenv('SNAP_CI')) {
         systemProperty 'ratpack.other.dataSource.jdbcUrl', System.getenv('SNAP_DB_PG_JDBC_URL')
@@ -130,7 +131,7 @@ test {
         systemProperty 'ratpack.other.dataSource.user', System.getenv('SNAP_DB_PG_USER')
         systemProperty 'ratpack.other.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
         systemProperty 'ratpack.other.dataSource.databaseName', 'app_test'
-        systemProperty 'noFunc', 'true'
+//        systemProperty 'noFunc', 'true'
     }
 }
 
