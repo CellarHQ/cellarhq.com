@@ -124,12 +124,12 @@ test {
     systemProperty 'liquibase.onerror.fail', true
 
     if (System.getenv('SNAP_CI')) {
-        systemProperty 'ratpack.dataSource.jdbcUrl', System.getenv('SNAP_DB_PG_JDBC_URL')
-        systemProperty 'ratpack.dataSource.serverName', System.getenv('SNAP_DB_PG_HOST')
-        systemProperty 'ratpack.dataSource.portNumber', System.getenv('SNAP_DB_PG_PORT')
-        systemProperty 'ratpack.dataSource.user', System.getenv('SNAP_DB_PG_USER')
-        systemProperty 'ratpack.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
-        systemProperty 'ratpack.dataSource.databaseName', 'app_test'
+        systemProperty 'ratpack.other.dataSource.jdbcUrl', System.getenv('SNAP_DB_PG_JDBC_URL')
+        systemProperty 'ratpack.other.dataSource.serverName', System.getenv('SNAP_DB_PG_HOST')
+        systemProperty 'ratpack.other.dataSource.portNumber', System.getenv('SNAP_DB_PG_PORT')
+        systemProperty 'ratpack.other.dataSource.user', System.getenv('SNAP_DB_PG_USER')
+        systemProperty 'ratpack.other.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
+        systemProperty 'ratpack.other.dataSource.databaseName', 'app_test'
         println "SNAP DB Settings:"
         System.getenv().findAll { it.key.startsWith('SNAP_DB')}.each {
             println "${it.key}: ${it.value}"
