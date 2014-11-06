@@ -1,8 +1,8 @@
-import org.openqa.selenium.Capabilities
-import org.openqa.selenium.Dimension
-import org.openqa.selenium.phantomjs.PhantomJSDriver
-import org.openqa.selenium.phantomjs.PhantomJSDriverService
-import org.openqa.selenium.remote.DesiredCapabilities
+//import org.openqa.selenium.Capabilities
+//import org.openqa.selenium.Dimension
+//import org.openqa.selenium.phantomjs.PhantomJSDriver
+//import org.openqa.selenium.phantomjs.PhantomJSDriverService
+//import org.openqa.selenium.remote.DesiredCapabilities
 
 reportsDir = 'build/geb-reports'
 //driver = {
