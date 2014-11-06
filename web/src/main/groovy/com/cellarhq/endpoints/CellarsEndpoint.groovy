@@ -231,7 +231,7 @@ class CellarsEndpoint implements Action<Chain> {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern('yyyy-MM-dd')
         return cellaredDrink.with { CellaredDrink self ->
             size = form.size
-            quantity = Long.valueOf(form.quantity)
+            quantity = form.quantity ? Long.valueOf(form.quantity) : 0
             notes = form.notes
             binIdentifier = form.binIdentifier
 
