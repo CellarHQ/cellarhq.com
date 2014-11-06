@@ -15,6 +15,7 @@ import com.cellarhq.services.CellarService
 import groovy.sql.Sql
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
+import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
@@ -23,6 +24,7 @@ import javax.sql.DataSource
 
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) || SpecFlags.isTrue(SpecFlags.NO_INTERNET) })
+@Ignore
 class TwitterAuthFunctionalSpec extends BaseFunctionalSpecification {
 
     @Shared

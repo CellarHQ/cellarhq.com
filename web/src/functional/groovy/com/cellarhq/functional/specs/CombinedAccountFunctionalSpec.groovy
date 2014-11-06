@@ -16,6 +16,7 @@ import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
+import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise

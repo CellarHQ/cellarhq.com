@@ -33,6 +33,7 @@ class BreweriesFunctionalSpec extends BaseFunctionalSpecification implements Log
         logInUser('test@example.com', 'password1')
     }
 
+
     def cleanupSpec() {
         cleanUpUsers(remote)
         remote.exec {
