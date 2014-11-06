@@ -24,7 +24,7 @@ abstract class LogUtil {
     }
 
     static String toLog(String key, Map properties = [:]) {
-        return "KEY=${key} " + properties.collect { "${it.key}=${it.value}" }.join(', ')
+        return "KEY=${key}, " + properties.collect { "${it.key}=${it.value}" }.join(', ')
     }
 
     static <T> T withPerformance(String name, Level level, Closure<T> op) {
