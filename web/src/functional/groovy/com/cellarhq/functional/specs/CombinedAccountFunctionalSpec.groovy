@@ -16,7 +16,6 @@ import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
-import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
@@ -102,24 +101,26 @@ class CombinedAccountFunctionalSpec extends BaseFunctionalSpecification {
         at YourCellarPage
     }
 
-    @Ignore('Temporary ignore until figure out why this fails on CI')
     def 'user can authenticate with twitter'() {
         when:
         to LogoutPage
+        LoginPage page = to LoginPage
 
         then:
-        LoginPage page = to LoginPage
-        page.twitterLoginLink.click()
+        at LoginPage
 
         when:
-        TwitterOAuthPage twitter = at TwitterOAuthPage
+        page.twitterLoginLink.click()
 
-        then:
-        twitter.login()
+        if (isAt(TwitterOAuthPage)) {
+            ((TwitterOAuthPage) browser.page).login()
+        }
+
         if (isAt(TwitterAuthorizePage)) {
             ((TwitterAuthorizePage) browser.page).authorize()
         }
 
+        then:
         waitFor 30, { at YourCellarPage }
 
         when:
