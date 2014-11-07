@@ -22,7 +22,7 @@ class GlasswareEndpoint implements Action<Chain> {
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
             get('glassware/live-search') {
-                glasswareService.search(request.queryParams.name, 5, 0)
+                glasswareService.search(request.queryParams.name, 20, 0)
                         .toList()
                         .subscribe { List<Glassware> glassware ->
 

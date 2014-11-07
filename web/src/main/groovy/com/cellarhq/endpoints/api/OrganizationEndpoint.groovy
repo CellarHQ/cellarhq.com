@@ -44,7 +44,7 @@ class OrganizationEndpoint implements Action<Chain> {
             }
 
             get('organizations/live-search') {
-                organizationService.search(request.queryParams.name, null, 5, 0)
+                organizationService.search(request.queryParams.name, null, 20, 0)
                         .toList()
                         .subscribe { List<Organization> orgs ->
 

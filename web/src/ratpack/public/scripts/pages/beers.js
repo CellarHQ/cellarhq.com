@@ -1,10 +1,43 @@
 var Beer = function() {
     return {
         init: function() {
-            this.autoComplete('#add-beer-form', '#style', '/api/styles/live-search');
-            this.autoComplete('#add-beer-form', '#glassware', '/api/glassware/live-search');
-            this.autoComplete('#edit-beer-form', '#style', '/api/styles/live-search');
-            this.autoComplete('#edit-beer-form', '#glassware', '/api/glassware/live-search');
+            var styleLearner = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: '/api/styles/live-search?name=%QUERY'
+            });
+            styleLearner.initialize();
+
+            $('#style').typeahead(null, {
+                displayKey: 'name',
+                source: styleLearner.ttAdapter()
+            }).bind('typeahead:selected', function(obj, datum, name) {
+                $('#styleId').val(datum['id']);
+                styleLearner.clearRemoteCache();
+            }).blur(function() {
+                if (!$('#styleId').val()) {
+                    $(this).val('');
+                }
+            });
+
+            var glasswareLearner = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: '/api/glassware/live-search?name=%QUERY'
+            });
+            glasswareLearner.initialize();
+
+            $('#glassware').typeahead(null, {
+                displayKey: 'name',
+                source: glasswareLearner.ttAdapter()
+            }).bind('typeahead:selected', function(obj, datum, name) {
+                $('#glasswareId').val(datum['id']);
+                glasswareLearner.clearRemoteCache();
+            }).blur(function() {
+                if (!$('#glasswareId').val()) {
+                    $(this).val('');
+                }
+            });
 
             $('#new-beer-form').validate({
                 errorClass: 'help-block animation-slideUp',
@@ -195,46 +228,6 @@ var Beer = function() {
                     }
                 }
             });
-        },
-
-        autoComplete: function(formSelector, selector, url) {
-            $(selector).autocomplete({
-                appendTo: (formSelector),
-                focus: function(event, ui) {
-                    $(selector).val(ui.item.label);
-                },
-                select: function(event, ui) {
-                    $(selector).val(ui.item.label);
-                    $(selector + 'Id').val(ui.item.value);
-                    return false;
-                },
-                source: function(request, response) {
-                    var data = {
-                        name: request.term
-                    };
-
-                    $.ajax(url, {
-                        type: 'GET',
-                        dataType: 'json',
-                        data: data,
-                        success: function(data) {
-                            response($.map(data, function(v, i) {
-                                return {
-                                    label: v.name,
-                                    value: v.id
-                                };
-                            }))
-                        }
-                    });
-
-                    $(selector).blur(function() {
-                        var idField = $(selector + 'Id');
-                        if (!idField.val()) {
-                            $(this).val('');
-                        }
-                    });
-                }
-            })
         }
     }
 }();

@@ -42,9 +42,9 @@ class DrinkEndpoint implements Action<Chain> {
                 if (request.queryParams.organizationId) {
                     observable = drinkService.searchByOrganizationId(
                         Long.valueOf(request.queryParams.organizationId),
-                        request.queryParams.name, 5, 0)
+                        request.queryParams.name, 20, 0)
                 } else {
-                    observable = drinkService.search(request.queryParams.name, null, 5, 0)
+                    observable = drinkService.search(request.queryParams.name, null, 20, 0)
                 }
                 observable.toList().subscribe { List<Drink> drinks ->
                     render json(drinks.collect {

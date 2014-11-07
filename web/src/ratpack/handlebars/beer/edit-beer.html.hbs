@@ -24,14 +24,14 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="style">Style</label>
                         <div class="col-md-6">
-                            <input type="text" id="style" name="style" class="form-control" value="{{drink.styleName}}"/>
+                            <input type="text" id="style" name="style" class="form-control typeahead" value="{{drink.styleName}}"/>
                         </div>
                         <input type="hidden" id="styleId" name="styleId" value="{{drink.styleId}}"/>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="glassware">Glassware</label>
                         <div class="col-md-6">
-                            <input type="text" id="glassware" name="glassware" class="form-control" value="{{drink.glasswareName}}"/>
+                            <input type="text" id="glassware" name="glassware" class="form-control typeahead" value="{{drink.glasswareName}}"/>
                         </div>
                         <input type="hidden" id="glasswareId" name="glasswareId" value="{{drink.glasswareId}}"/>
                     </div>
@@ -84,6 +84,7 @@
 {{/partial}}
 
 {{# partial "extra_includes"}}
+    <script src="/scripts/vendor/typeahead/typeahead.bundle.min.js"></script>
     <script src="/scripts/pages/beers.js"></script>
     <script>$(function () {
         Beer.init();
