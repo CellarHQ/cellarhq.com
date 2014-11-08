@@ -55,7 +55,9 @@ dependencies {
     // It is not part of the app runtime and is not shipped in the distribution.
     //springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
 
-    compile project(':model')
+    compile project(':model'), {
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    }
 
     compile ratpack.dependency('codahale-metrics')
     compile ratpack.dependency('h2')
