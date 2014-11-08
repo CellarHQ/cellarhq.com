@@ -1,6 +1,6 @@
 package com.cellarhq.dbimport.brewerydb
 
-import com.cellarhq.commands.support.ProgressSupport
+import com.cellarhq.support.ProgressSupport
 import com.cellarhq.generated.tables.records.DrinkRecord
 import com.github.slugify.Slugify
 import org.jooq.DSLContext

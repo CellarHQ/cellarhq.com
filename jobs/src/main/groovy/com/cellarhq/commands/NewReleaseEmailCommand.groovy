@@ -7,8 +7,8 @@ import com.amazonaws.services.simpleemail.model.Destination
 import com.amazonaws.services.simpleemail.model.Message
 import com.amazonaws.services.simpleemail.model.SendEmailRequest
 import com.amazonaws.services.simpleemail.model.SendEmailResult
-import com.cellarhq.commands.support.AmazonSupport
-import com.cellarhq.commands.support.DatabaseSupport
+import com.cellarhq.support.AmazonSupport
+import com.cellarhq.support.DatabaseSupport
 import groovy.util.logging.Slf4j
 
 import static com.cellarhq.generated.Tables.ACCOUNT_EMAIL

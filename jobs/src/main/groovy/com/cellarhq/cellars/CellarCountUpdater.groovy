@@ -1,6 +1,6 @@
 package com.cellarhq.cellars
 
-import com.cellarhq.commands.support.ProgressSupport
+import com.cellarhq.support.ProgressSupport
 import com.cellarhq.generated.Keys
 import org.jooq.DSLContext
 import org.jooq.impl.DSL

@@ -1,6 +1,6 @@
 package com.cellarhq.commands
 
-import com.cellarhq.commands.support.DatabaseSupport
+import com.cellarhq.support.DatabaseSupport
 import com.cellarhq.generated.Keys
 import org.jooq.impl.DSL
 

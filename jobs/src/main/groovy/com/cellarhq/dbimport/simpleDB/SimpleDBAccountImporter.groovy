@@ -1,7 +1,7 @@
 package com.cellarhq.dbimport.simpledb
 
 import com.amazonaws.services.simpledb.model.Item
-import com.cellarhq.commands.support.ProgressSupport
+import com.cellarhq.support.ProgressSupport
 import com.cellarhq.generated.tables.pojos.AccountOauth
 import com.cellarhq.generated.tables.pojos.AccountEmail
 import com.cellarhq.generated.tables.pojos.Cellar

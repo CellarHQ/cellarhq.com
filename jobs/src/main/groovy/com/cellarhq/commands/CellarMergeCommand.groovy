@@ -1,14 +1,11 @@
 package com.cellarhq.commands
 
-import static com.cellarhq.generated.Tables.*
+import static com.cellarhq.generated.Tables.CELLAR
 
-import com.cellarhq.commands.support.DatabaseSupport
-import com.cellarhq.generated.tables.records.AccountEmailRecord
-import com.cellarhq.generated.tables.records.AccountOauthRecord
 import com.cellarhq.generated.tables.records.CellarRecord
-
-import java.sql.Timestamp
-import java.time.LocalDateTime
+import com.cellarhq.repair.merger.CellarMerger
+import com.cellarhq.support.DatabaseSupport
+import com.cellarhq.support.DryRunSupport
 
 /**
  * Allows merging one cellar into another.
@@ -16,11 +13,10 @@ import java.time.LocalDateTime
  * This command will not setup redirects; the source Cellar will be removed and any links that lead to it externally
  * will cease to resolve correctly.
  */
-class CellarMergeCommand implements NamedCommand, DatabaseSupport {
+class CellarMergeCommand implements NamedCommand, DatabaseSupport, DryRunSupport {
 
     Long targetCellarId
     Long sourceCellarId
-    boolean dryRun
 
     void configure(String[] args) {
         CliBuilder cli = new CliBuilder(
@@ -52,140 +48,17 @@ class CellarMergeCommand implements NamedCommand, DatabaseSupport {
     }
 
     boolean run() {
-        if (!dryRun) {
-            println('###################################################')
-            println('## THIS IS NOT A DRY RUN (starting in 5 seconds) ##')
-            println('###################################################')
-            sleep(5000)
-        }
+        dryRunBanner(5)
 
         CellarRecord targetCellar = getCellar(targetCellarId)
         CellarRecord sourceCellar = getCellar(sourceCellarId)
 
-        if (!targetCellar || !sourceCellar) {
-            throw new ExecutionFailedException(
-                    "One of the cellars does not exist (target: ${targetCellar}, source: ${sourceCellar})")
-        }
-
-        List<AccountEmailRecord> targetEmailAccounts = getEmailAccounts(targetCellar.id)
-        List<AccountEmailRecord> sourceEmailAccounts = getEmailAccounts(sourceCellar.id)
-        List<AccountEmailRecord> diffEmailAccounts = sourceEmailAccounts.findAll { sourceEmail ->
-            !targetEmailAccounts.any { it.email == sourceEmail.email }
-        }.toList()
-
-        List<AccountOauthRecord> targetOauthAccounts = getOauthAccounts(targetCellar.id)
-        List<AccountOauthRecord> sourceOauthAccounts = getOauthAccounts(sourceCellar.id)
-        List<AccountOauthRecord> diffOauthAccounts = sourceOauthAccounts.findAll { sourceOauth ->
-            !targetOauthAccounts.any { it.username == sourceOauth.username }
-        }.toList()
-
-        Integer cellaredDrinks = create.selectCount()
-                .from(CELLARED_DRINK)
-                .where(CELLARED_DRINK.CELLAR_ID.eq(sourceCellar.id))
-                .fetchOne(0, int)
-
-        boolean result = create.transactionResult {
-            if (diffEmailAccounts) {
-                destructive("Merging ${diffEmailAccounts.size()} email accounts") {
-                    create.update(ACCOUNT_EMAIL)
-                            .set(ACCOUNT_EMAIL.CELLAR_ID, targetCellar.id)
-                            .set(ACCOUNT_EMAIL.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
-                            .where(ACCOUNT_EMAIL.ID.in(diffEmailAccounts.collect { it.id }))
-                            .execute()
-                }
-            }
-
-            if (diffOauthAccounts) {
-                destructive("Merging ${diffOauthAccounts.size()} oauth accounts") {
-                    create.update(ACCOUNT_OAUTH)
-                            .set(ACCOUNT_OAUTH.CELLAR_ID, targetCellar.id)
-                            .set(ACCOUNT_OAUTH.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
-                            .where(ACCOUNT_OAUTH.ID.in(diffOauthAccounts.collect { it.id }))
-                            .execute()
-                }
-            }
-
-            if (cellaredDrinks) {
-                destructive("Merging ${cellaredDrinks} cellared drinks") {
-                    create.update(CELLARED_DRINK)
-                            .set(CELLARED_DRINK.CELLAR_ID, targetCellar.id)
-                            .set(CELLARED_DRINK.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
-                            .where(CELLARED_DRINK.CELLAR_ID.eq(sourceCellar.id))
-                            .execute()
-                }
-            }
-
-            destructive('Deleting source roles') {
-                create.delete(CELLAR_ROLE)
-                        .where(CELLAR_ROLE.CELLAR_ID.eq(sourceCellar.id))
-                        .execute()
-            }
-
-            destructive('Deleting source password recovery requests') {
-                create.delete(PASSWORD_CHANGE_REQUEST)
-                        .where(PASSWORD_CHANGE_REQUEST.ACCOUNT_EMAIL_ID.in(create.select(ACCOUNT_EMAIL.ID)
-                                .from(ACCOUNT_EMAIL)
-                                .join(CELLAR).onKey()
-                                .where(CELLAR.ID.eq(sourceCellar.id))
-                                .fetch(ACCOUNT_EMAIL.ID)
-                        ))
-                        .execute()
-            }
-
-            destructive('Deleting source accounts') {
-                int emails = create.delete(ACCOUNT_EMAIL)
-                        .where(ACCOUNT_EMAIL.CELLAR_ID.eq(sourceCellar.id))
-                        .execute()
-
-                int oauths = create.delete(ACCOUNT_OAUTH)
-                        .where(ACCOUNT_OAUTH.CELLAR_ID.eq(sourceCellar.id))
-                        .execute()
-
-                return emails + oauths
-            }
-
-            destructive('Deleting source cellar') {
-                create.delete(CELLAR)
-                        .where(CELLAR.ID.eq(sourceCellar.id))
-                        .execute()
-            }
-
-            destructive('Updating target cellar metadata') {
-                create.update(CELLAR)
-                        .set(CELLAR.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
-                        .where(CELLAR.ID.eq(targetCellar.id))
-                        .execute()
-            }
-
-            return true
-        }
-
-        return result
+        return new CellarMerger(create).merge(sourceCellar, targetCellar)
     }
 
     CellarRecord getCellar(Long id) {
         create.selectFrom(CELLAR)
                 .where(CELLAR.ID.eq(id))
                 .fetchOne()
-    }
-
-    List<AccountEmailRecord> getEmailAccounts(Long cellarId) {
-        create.selectFrom(ACCOUNT_EMAIL)
-                .where(ACCOUNT_EMAIL.CELLAR_ID.eq(cellarId))
-                .fetch()
-    }
-
-    List<AccountOauthRecord> getOauthAccounts(Long cellarId) {
-        create.selectFrom(ACCOUNT_OAUTH)
-                .where(ACCOUNT_OAUTH.CELLAR_ID.eq(cellarId))
-                .fetch()
-    }
-
-    void destructive(String description, Closure<Integer> operation) {
-        println("## ${description}")
-        if (!dryRun) {
-            int rowsAffected = operation.call()
-            println("  ${rowsAffected} rows affected")
-        }
     }
 }

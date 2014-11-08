@@ -1,4 +1,4 @@
-package com.cellarhq.commands.support
+package com.cellarhq.support
 
 import com.amazonaws.auth.BasicAWSCredentials
 
