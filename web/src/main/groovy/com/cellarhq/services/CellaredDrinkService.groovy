@@ -114,7 +114,8 @@ class CellaredDrinkService extends BaseJooqService {
                     organizationSlug: String,
                     organizationName: String,
                     drinkSlug: String,
-                    drinkName: String
+                    drinkName: String,
+                    styleName: String
             ]))
         }) { DSLContext create ->
             SelectJoinStep selectStep = create.select(JooqUtil.andFields(
@@ -122,12 +123,14 @@ class CellaredDrinkService extends BaseJooqService {
                         ORGANIZATION.SLUG.as('organizationSlug'),
                         ORGANIZATION.NAME.as('organizationName'),
                         DRINK.SLUG.as('drinkSlug'),
-                        DRINK.NAME.as('drinkName')
+                        DRINK.NAME.as('drinkName'),
+                        STYLE.NAME.as('styleName')
                     ))
                     .from(CELLARED_DRINK)
                     .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
                     .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
                     .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+                    .join(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
 
             criteria(selectStep)
                     .and(CELLARED_DRINK.QUANTITY.greaterThan(0))
@@ -136,7 +139,8 @@ class CellaredDrinkService extends BaseJooqService {
                             breweryName: ORGANIZATION.NAME,
                             size: CELLARED_DRINK.SIZE,
                             quantity: CELLARED_DRINK.QUANTITY,
-                            bottleDate: CELLARED_DRINK.BOTTLE_DATE
+                            bottleDate: CELLARED_DRINK.BOTTLE_DATE,
+                            style: STYLE.NAME
                     ]))
                     .fetchInto(CellaredDrinkDetails)
         }

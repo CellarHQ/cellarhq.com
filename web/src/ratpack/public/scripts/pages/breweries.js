@@ -17,8 +17,7 @@ var FormsValidation = function () {
                     $(e).closest('.help-block').remove();
                 },
                 success: function (e) {
-                    // You can use the following if you would like to highlight with green color the input after successful validation!
-                    e.closest('.form-group').removeClass('has-success has-error'); // e.closest('.form-group').removeClass('has-success has-error').addClass('has-success');
+                    e.closest('.form-group').removeClass('has-success has-error');
                     e.closest('.help-block').remove();
                 },
                 rules: {

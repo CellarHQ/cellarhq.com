@@ -9,6 +9,10 @@ var YourCellar = function() {
       $('button.delete-cellared-beer').click(this.confirmDeleteCellaredBeer);
       $('a.confirm-delete-cellared-drink').click(this.deleteCellaredBeer);
 
+      $.validator.addMethod('multidate', function(value, element) {
+        return this.optional(element) || moment(value, ['YYYY', 'YYYY-MM', 'YYYY-MM-DD']).isValid();
+      });
+
       $('#add-beer-form').validate({
         errorClass: 'help-block animation-slideUp',
         errorElement: 'div',
@@ -20,12 +24,8 @@ var YourCellar = function() {
           $(e).closest('.help-block').remove();
         },
         success: function(e) {
-          if (e.closest('.form-group').find('.help-block').length === 2) {
-            e.closest('.help-block').remove();
-          } else {
-            e.closest('.form-group').removeClass('has-success has-error');
-            e.closest('.help-block').remove();
-          }
+          e.closest('.form-group').removeClass('has-success has-error');
+          e.closest('.help-block').remove();
         },
         rules: {
           'brewery': {
@@ -40,16 +40,13 @@ var YourCellar = function() {
             min: 0
           },
           'bottleDate': {
-            required: false,
-            dateISO: true
+            multidate: true
           },
           'dateAcquired': {
-            required: false,
-            dateISO: true
+            multidate: true
           },
           'drinkByDate': {
-            required: false,
-            dateISO: true
+            multidate: true
           },
           'numTradeable': {
             required: false,
