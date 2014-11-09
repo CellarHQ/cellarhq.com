@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class Drink implements java.io.Serializable {
 
-	private static final long serialVersionUID = -106395878;
+	private static final long serialVersionUID = 804940697;
 
 	private java.lang.Long       id;
 	private java.lang.Integer    version;
@@ -170,7 +170,7 @@ public class Drink implements java.io.Serializable {
 		this.slug = slug;
 	}
 
-	@javax.persistence.Column(name = "name", nullable = false, length = 100)
+	@javax.persistence.Column(name = "name", nullable = false, length = 255)
 	public java.lang.String getName() {
 		return this.name;
 	}

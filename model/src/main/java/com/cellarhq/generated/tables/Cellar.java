@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.CellarRecord> {
 
-	private static final long serialVersionUID = 1052672077;
+	private static final long serialVersionUID = 527869676;
 
 	/**
 	 * The singleton instance of <code>public.cellar</code>
@@ -142,6 +142,11 @@ public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.table
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.Boolean> HAS_TRADEABLE_BEERS = createField("has_tradeable_beers", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
+	 * The column <code>public.cellar.slug</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> SLUG = createField("slug", org.jooq.impl.SQLDataType.VARCHAR.length(64).nullable(false), this, "");
+
+	/**
 	 * Create a <code>public.cellar</code> table reference
 	 */
 	public Cellar() {
@@ -184,7 +189,7 @@ public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.table
 	 */
 	@Override
 	public java.util.List<org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRecord>> getKeys() {
-		return java.util.Arrays.<org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRecord>>asList(com.cellarhq.generated.Keys.PK_CELLAR, com.cellarhq.generated.Keys.UNQ_CELLAR_SCREEN_NAME);
+		return java.util.Arrays.<org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRecord>>asList(com.cellarhq.generated.Keys.PK_CELLAR, com.cellarhq.generated.Keys.UNQ_CELLAR_SCREEN_NAME, com.cellarhq.generated.Keys.CELLAR_SLUG_UNIQUE_CONSTRAINT);
 	}
 
 	/**
