@@ -2,7 +2,7 @@ var Register = function() {
 
     return {
         init: function() {
-            $('#register-form').validate({
+            $('#form-register').validate({
                 errorClass: 'help-block animation-slideUp',
                 errorElement: 'div',
                 errorPlacement: function(error, e) {
@@ -25,6 +25,11 @@ var Register = function() {
                         required: true,
                         email: true
                     },
+                    'emailConfirm': {
+                        required: true,
+                        email: true,
+                        equalTo: '#email'
+                    },
                     'password': {
                         required: true,
                         minlength: 5
@@ -40,6 +45,7 @@ var Register = function() {
                 messages: {
                     'username': 'Please enter a username',
                     'email': 'Please enter a valid email address',
+                    'emailConfirm': 'These email addresses must match',
                     'password': {
                         required: 'Please provide a password',
                         minlength: 'Your password must be at least 5 characters long'
