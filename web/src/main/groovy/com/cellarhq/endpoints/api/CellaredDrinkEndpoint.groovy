@@ -3,6 +3,7 @@ package com.cellarhq.endpoints.api
 import com.cellarhq.Messages
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.CellaredDrink
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.CellaredDrinkService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
@@ -31,7 +32,7 @@ class CellaredDrinkEndpoint implements Action<Chain> {
 
             get('cellars/:cellarSlug/drinks') {
                 cellaredDrinkService.all(
-                        pathTokens['cellarSlug']).toList().subscribe { List<CellaredDrink> drinks ->
+                        pathTokens['cellarSlug'], SortCommand.fromRequest(request)).toList().subscribe { List<CellaredDrink> drinks ->
                     render json(drinks)
                 }
             }
