@@ -17,12 +17,8 @@ var Beer = function() {
                     $(e).closest('.help-block').remove();
                 },
                 success: function(e) {
-                    if (e.closest('.form-group').find('.help-block').length === 2) {
-                        e.closest('.help-block').remove();
-                    } else {
-                        e.closest('.form-group').removeClass('has-success has-error');
-                        e.closest('.help-block').remove();
-                    }
+                    e.closest('.form-group').removeClass('has-success has-error');
+                    e.closest('.help-block').remove();
                 },
                 rules: {
                     'style': {

@@ -83,6 +83,7 @@
             <th></th>
             <th>{{tableSort request field='beerName' title='Beer'}}</th>
             <th>{{tableSort request field='breweryName' title='Brewery'}}</th>
+            <th>{{tableSort request field='style' title='Style'}}</th>
             <th>{{tableSort request field='size' title='Size'}}</th>
             <th>{{tableSort request field='quantity' title='Quantity'}}</th>
             <th>{{tableSort request field='bottleDate' title='Bottle Date'}}</th>
@@ -133,6 +134,7 @@
                 </h4>
               </td>
               <td><a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a></td>
+              <td>{{styleName}}</td>
               <td>{{size}}</td>
               <td>{{quantity}}</td>
               <td>{{bottleDate}}</td>
