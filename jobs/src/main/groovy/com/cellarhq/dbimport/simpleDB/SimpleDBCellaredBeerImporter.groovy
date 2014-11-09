@@ -1,7 +1,7 @@
 package com.cellarhq.dbimport.simpledb
 
 import com.amazonaws.services.simpledb.model.Item
-import com.cellarhq.commands.support.ProgressSupport
+import com.cellarhq.support.ProgressSupport
 import com.cellarhq.generated.tables.pojos.CellaredDrink
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
 import org.jooq.DSLContext

@@ -4,7 +4,7 @@ import com.cellarhq.dbimport.brewerydb.BreweryDbBeerImporter
 import com.cellarhq.dbimport.brewerydb.BreweryDbBreweryImporter
 import com.cellarhq.cellars.CellarCountUpdater
 import com.cellarhq.dbimport.cleanup.OrphanedDataRemover
-import com.cellarhq.commands.support.DatabaseSupport
+import com.cellarhq.support.DatabaseSupport
 import com.cellarhq.dbimport.simpledb.SimpleDBAccountImporter
 import com.cellarhq.dbimport.simpledb.SimpleDBBeerImporter
 import com.cellarhq.dbimport.simpledb.SimpleDBBreweryImporter

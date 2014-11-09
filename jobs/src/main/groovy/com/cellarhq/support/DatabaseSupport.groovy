@@ -1,4 +1,4 @@
-package com.cellarhq.commands.support
+package com.cellarhq.support
 
 import groovy.transform.CompileStatic
 import org.jooq.DSLContext
