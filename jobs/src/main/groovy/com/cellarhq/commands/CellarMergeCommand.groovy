@@ -6,6 +6,7 @@ import com.cellarhq.commands.support.DatabaseSupport
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.AccountOauthRecord
 import com.cellarhq.generated.tables.records.CellarRecord
+import com.cellarhq.jooq.CellarStatsUpdater
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
@@ -66,6 +67,16 @@ class CellarMergeCommand implements NamedCommand, DatabaseSupport {
             throw new ExecutionFailedException(
                     "One of the cellars does not exist (target: ${targetCellar}, source: ${sourceCellar})")
         }
+
+        println('')
+        println('## SOURCE #########################################')
+        println("ID: ${sourceCellar.id}")
+        println("Screenname: ${sourceCellar.screenName}")
+        println('## TARGET #########################################')
+        println("ID: ${targetCellar.id}")
+        println("Screenname: ${targetCellar.screenName}")
+        println('###################################################')
+        sleep(20000)
 
         List<AccountEmailRecord> targetEmailAccounts = getEmailAccounts(targetCellar.id)
         List<AccountEmailRecord> sourceEmailAccounts = getEmailAccounts(sourceCellar.id)
@@ -151,6 +162,7 @@ class CellarMergeCommand implements NamedCommand, DatabaseSupport {
             }
 
             destructive('Updating target cellar metadata') {
+                CellarStatsUpdater.updateCellarCounts(targetCellar.id, create)
                 create.update(CELLAR)
                         .set(CELLAR.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
                         .where(CELLAR.ID.eq(targetCellar.id))

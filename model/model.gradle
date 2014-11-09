@@ -15,6 +15,7 @@ plugins {
 }
 
 apply plugin: 'liquibase'
+apply plugin: 'groovy'
 
 repositories {
     jcenter()
@@ -23,6 +24,7 @@ repositories {
 }
 
 dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.6'
     compile databaseDriver
     compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     compile "org.jooq:jooq:${jooqVersion}"
