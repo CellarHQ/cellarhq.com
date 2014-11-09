@@ -25,14 +25,14 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="style">Style</label>
                         <div class="col-md-6">
-                            <input type="text" id="style" name="style" class="form-control" placeholder="American IPA"/>
+                            <input type="text" id="style" name="style" class="form-control typeahead" placeholder="American IPA"/>
                         </div>
                         <input type="hidden" id="styleId" name="styleId"/>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="glassware">Glassware</label>
                         <div class="col-md-6">
-                            <input type="text" id="glassware" name="glassware" class="form-control" placeholder="Pint"/>
+                            <input type="text" id="glassware" name="glassware" class="form-control typeahead" placeholder="Pint"/>
                         </div>
                         <input type="hidden" id="glasswareId" name="glasswareId"/>
                     </div>
@@ -85,6 +85,7 @@
 {{/partial}}
 
 {{# partial "extra_includes"}}
+    <script src="/scripts/vendor/typeahead/typeahead.bundle.min.js"></script>
     <script src="/scripts/pages/beers.js"></script>
     <script>$(function () {
         Beer.init();
