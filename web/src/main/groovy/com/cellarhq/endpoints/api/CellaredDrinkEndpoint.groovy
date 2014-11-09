@@ -32,9 +32,12 @@ class CellaredDrinkEndpoint implements Action<Chain> {
 
             get('cellars/:cellarSlug/drinks') {
                 cellaredDrinkService.all(
-                        pathTokens['cellarSlug'], SortCommand.fromRequest(request)).toList().subscribe { List<CellaredDrink> drinks ->
-                    render json(drinks)
-                }
+                    pathTokens['cellarSlug'],
+                    SortCommand.fromRequest(request))
+                    .toList()
+                    .subscribe { List<CellaredDrink> drinks ->
+                        render json(drinks)
+                    }
             }
 
             put('cellars/:cellarSlug/drinks/:id/drink') {
