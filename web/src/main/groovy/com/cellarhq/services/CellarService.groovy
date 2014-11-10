@@ -74,7 +74,7 @@ class CellarService extends BaseJooqService {
                 Record record = create.select()
                         .from(CELLAR)
                         .join(PHOTO, JoinType.LEFT_OUTER_JOIN).onKey()
-                        .where(CELLAR.SCREEN_NAME.eq(slug))
+                        .where(CELLAR.SLUG.equalIgnoreCase(slug))
                         .fetchOne()
 
                 if (record) {

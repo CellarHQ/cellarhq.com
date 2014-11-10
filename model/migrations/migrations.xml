@@ -24,6 +24,7 @@
     <!-- 2.1 -->
     <include file="releases/increase-drink-name-length.xml" relativeToChangelogFile="true"/>
     <include file="releases/sorting-fixes.xml" relativeToChangelogFile="true"/>
+    <include file="releases/add_cellar_slug.xml" relativeToChangelogFile="true"/>
 
     <!-- next -->
 

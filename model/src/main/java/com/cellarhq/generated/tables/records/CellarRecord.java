@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "cellar", schema = "public")
 public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.CellarRecord> {
 
-	private static final long serialVersionUID = -95434204;
+	private static final long serialVersionUID = -311051821;
 
 	/**
 	 * Setter for <code>public.cellar.id</code>.
@@ -361,6 +361,21 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 		return (java.lang.Boolean) getValue(22);
 	}
 
+	/**
+	 * Setter for <code>public.cellar.slug</code>.
+	 */
+	public void setSlug(java.lang.String value) {
+		setValue(23, value);
+	}
+
+	/**
+	 * Getter for <code>public.cellar.slug</code>.
+	 */
+	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 64)
+	public java.lang.String getSlug() {
+		return (java.lang.String) getValue(23);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -387,7 +402,7 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 	/**
 	 * Create a detached, initialised CellarRecord
 	 */
-	public CellarRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String screenName, java.lang.String displayName, java.lang.String location, java.lang.String website, java.lang.String bio, java.lang.Boolean updateFromNetwork, java.lang.String contactEmail, java.lang.Boolean private_, java.sql.Timestamp lastLogin, java.lang.String lastLoginIp, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.String twitter, java.lang.String reddit, java.lang.String beeradvocate, java.lang.String ratebeer, java.lang.Short totalBeers, java.lang.Short uniqueBeers, java.lang.Short uniqueBreweries, java.lang.Boolean hasTradeableBeers) {
+	public CellarRecord(java.lang.Long id, java.lang.Integer version, java.lang.Long photoId, java.lang.String screenName, java.lang.String displayName, java.lang.String location, java.lang.String website, java.lang.String bio, java.lang.Boolean updateFromNetwork, java.lang.String contactEmail, java.lang.Boolean private_, java.sql.Timestamp lastLogin, java.lang.String lastLoginIp, java.sql.Timestamp createdDate, java.sql.Timestamp modifiedDate, java.lang.String twitter, java.lang.String reddit, java.lang.String beeradvocate, java.lang.String ratebeer, java.lang.Short totalBeers, java.lang.Short uniqueBeers, java.lang.Short uniqueBreweries, java.lang.Boolean hasTradeableBeers, java.lang.String slug) {
 		super(com.cellarhq.generated.tables.Cellar.CELLAR);
 
 		setValue(0, id);
@@ -413,5 +428,6 @@ public class CellarRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq
 		setValue(20, uniqueBeers);
 		setValue(21, uniqueBreweries);
 		setValue(22, hasTradeableBeers);
+		setValue(23, slug);
 	}
 }

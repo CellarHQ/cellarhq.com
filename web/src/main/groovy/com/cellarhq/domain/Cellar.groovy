@@ -3,6 +3,7 @@ package com.cellarhq.domain
 import com.cellarhq.annotations.Sanitize
 import com.cellarhq.auth.Role
 import com.cellarhq.generated.tables.records.CellarRecord
+import com.github.slugify.Slugify
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
 import org.hibernate.validator.constraints.Length
@@ -59,13 +60,15 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
         return super.screenName
     }
 
-    String getSlug() {
-        return screenName
-    }
-
     @Override
     void setUpdateFromNetwork(Boolean updateFromNetwork) {
         super.updateFromNetwork = updateFromNetwork ?: false
+    }
+
+    @Override
+    void setScreenName(String screenName) {
+        super.screenName = screenName
+        slug = new Slugify().slugify(screenName)
     }
 
     @Override

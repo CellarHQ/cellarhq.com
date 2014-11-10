@@ -103,7 +103,7 @@ class CellaredDrinkService extends BaseJooqService {
     rx.Observable<CellaredDrink> all(String cellarSlug, SortCommand sortCommand) {
         observeEach(execControl.blocking {
             allQuery(sortCommand) { SelectJoinStep step ->
-                step.where(CELLAR.SCREEN_NAME.eq(cellarSlug))
+                step.where(CELLAR.SLUG.equalIgnoreCase(cellarSlug))
             }
         })
     }

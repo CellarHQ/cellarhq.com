@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellar", schema = "public")
 public class Cellar implements java.io.Serializable {
 
-	private static final long serialVersionUID = -719788346;
+	private static final long serialVersionUID = -284129998;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -38,6 +38,7 @@ public class Cellar implements java.io.Serializable {
 	private java.lang.Short    uniqueBeers;
 	private java.lang.Short    uniqueBreweries;
 	private java.lang.Boolean  hasTradeableBeers;
+	private java.lang.String   slug;
 
 	public Cellar() {}
 
@@ -64,7 +65,8 @@ public class Cellar implements java.io.Serializable {
 		java.lang.Short    totalBeers,
 		java.lang.Short    uniqueBeers,
 		java.lang.Short    uniqueBreweries,
-		java.lang.Boolean  hasTradeableBeers
+		java.lang.Boolean  hasTradeableBeers,
+		java.lang.String   slug
 	) {
 		this.id = id;
 		this.version = version;
@@ -89,6 +91,7 @@ public class Cellar implements java.io.Serializable {
 		this.uniqueBeers = uniqueBeers;
 		this.uniqueBreweries = uniqueBreweries;
 		this.hasTradeableBeers = hasTradeableBeers;
+		this.slug = slug;
 	}
 
 	@javax.persistence.Id
@@ -297,5 +300,14 @@ public class Cellar implements java.io.Serializable {
 
 	public void setHasTradeableBeers(java.lang.Boolean hasTradeableBeers) {
 		this.hasTradeableBeers = hasTradeableBeers;
+	}
+
+	@javax.persistence.Column(name = "slug", unique = true, nullable = false, length = 64)
+	public java.lang.String getSlug() {
+		return this.slug;
+	}
+
+	public void setSlug(java.lang.String slug) {
+		this.slug = slug;
 	}
 }

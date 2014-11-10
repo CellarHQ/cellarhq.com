@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.records;
 @javax.persistence.Table(name = "drink", schema = "public")
 public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.generated.tables.records.DrinkRecord> {
 
-	private static final long serialVersionUID = -1442333664;
+	private static final long serialVersionUID = -843629503;
 
 	/**
 	 * Setter for <code>public.drink.id</code>.
@@ -146,7 +146,7 @@ public class DrinkRecord extends org.jooq.impl.UpdatableRecordImpl<com.cellarhq.
 	/**
 	 * Getter for <code>public.drink.name</code>.
 	 */
-	@javax.persistence.Column(name = "name", nullable = false, length = 100)
+	@javax.persistence.Column(name = "name", nullable = false, length = 255)
 	public java.lang.String getName() {
 		return (java.lang.String) getValue(8);
 	}

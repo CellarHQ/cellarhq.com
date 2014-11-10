@@ -89,7 +89,7 @@ class RegisterEndpoint extends GroovyHandler {
                             // TODO: Add uploaded file support for settings page
                             accountService.create(emailAccount, null)
                         }.onError { Throwable e ->
-                            if (e.message.contains('unq_cellar_screen_name')) {
+                            if (messageIsForDuplicateCellar(e)) {
                                 SessionUtil.setFlash(request, FlashMessage.error(Messages.REGISTER_SCREEN_NAME_TAKEN))
                             } else if (e.message.contains('unq_account_email_email')) {
                                 SessionUtil.setFlash(
@@ -139,5 +139,9 @@ class RegisterEndpoint extends GroovyHandler {
             addRole(Role.MEMBER.toString())
             return self
         }
+    }
+
+    private boolean messageIsForDuplicateCellar(Throwable e) {
+        e.message.contains('unq_cellar_screen_name') || e.message.contains('cellar_slug_unique_constraint')
     }
 }
