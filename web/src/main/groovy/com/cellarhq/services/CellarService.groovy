@@ -122,6 +122,18 @@ class CellarService extends BaseJooqService {
         })
     }
 
+    rx.Observable<Cellar> validateScreenName(String screenName) {
+        observe(execControl.blocking {
+            jooq { DSLContext create ->
+                create.select()
+                        .from(CELLAR)
+                        .where(CELLAR.SCREEN_NAME.equalIgnoreCase(screenName))
+                        .limit(1)
+                        .fetchOneInto(Cellar)
+            }
+        })
+    }
+
     rx.Observable<Integer> count(String searchTerm = null) {
         observe(execControl.blocking {
             jooq { DSLContext create ->
