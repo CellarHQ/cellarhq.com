@@ -7,20 +7,20 @@
   <meta name='pageId' content='{{pageId}}'/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="/images/favicon.ico">
-  <link rel="apple-touch-icon" href="/img/icon57.png" sizes="57x57">
-  <link rel="apple-touch-icon" href="/img/icon72.png" sizes="72x72">
-  <link rel="apple-touch-icon" href="/img/icon76.png" sizes="76x76">
-  <link rel="apple-touch-icon" href="/img/icon114.png" sizes="114x114">
-  <link rel="apple-touch-icon" href="/img/icon120.png" sizes="120x120">
-  <link rel="apple-touch-icon" href="/img/icon144.png" sizes="144x144">
-  <link rel="apple-touch-icon" href="/img/icon152.png" sizes="152x152">
-  <link rel="stylesheet" href="/styles/bootstrap.min.css">
-  <link rel="stylesheet" href="/styles/plugins.css">
-  <link rel="stylesheet" href="/styles/main.css">
-  <link rel="stylesheet" href="/styles/themes.css">
-  <link rel="stylesheet" href="/styles/themes/creme.css">
-  <link rel="stylesheet" href="/styles/cellarhq.css">
-  <script src="/scripts/vendor/modernizr-2.8.3.js"></script>
+  <link rel="apple-touch-icon" href="{{cdn "/img/icon57.png"}}" sizes="57x57">
+  <link rel="apple-touch-icon" href="{{cdn "/img/icon72.png"}}" sizes="72x72">
+  <link rel="apple-touch-icon" href="{{cdn "/img/icon76.png"}}" sizes="76x76">
+  <link rel="apple-touch-icon" href="{{cdn "/img/icon114.png"}}" sizes="114x114">
+  <link rel="apple-touch-icon" href="{{cdn "/img/icon120.png"}}" sizes="120x120">
+  <link rel="apple-touch-icon" href="{{cdn "/img/icon144.png"}}" sizes="144x144">
+  <link rel="apple-touch-icon" href="{{cdn "/img/icon152.png"}}" sizes="152x152">
+  <link rel="stylesheet" href="{{cdn "/styles/bootstrap.min.css"}}">
+  <link rel="stylesheet" href="{{cdn "/styles/plugins.css"}}">
+  <link rel="stylesheet" href="{{cdn "/styles/main.css"}}">
+  <link rel="stylesheet" href="{{cdn "/styles/themes.css"}}">
+  <link rel="stylesheet" href="{{cdn "/styles/themes/creme.css"}}">
+  <link rel="stylesheet" href="{{cdn "/styles/cellarhq.css"}}">
+  <script src="{{cdn "/scripts/vendor/modernizr-2.8.3.js"}}"></script>
   {{#block "extra_head"}}{{/block}}
   <title>{{ title }}</title>
 </head>
@@ -42,9 +42,9 @@
 {{/if}}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>!window.jQuery && document.write(decodeURI('%3Cscript src="js/vendor/jquery-2.1.1.min.js"%3E%3C/script%3E'));</script>
-<script src="/scripts/vendor/bootstrap.min.js"></script>
-<script src="/scripts/plugins.js"></script>
-<script src="/scripts/app.js"></script>
+<script src="{{cdn "/scripts/vendor/bootstrap.min.js"}}"></script>
+<script src="{{cdn "/scripts/plugins.js"}}"></script>
+<script src="{{cdn "/scripts/app.js"}}"></script>
 {{#block "extra_includes" }}{{/block}}
 </body>
 </html>
