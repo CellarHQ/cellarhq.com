@@ -134,14 +134,14 @@ class CellaredDrinkService extends BaseJooqService {
 
             criteria(selectStep)
                     .and(CELLARED_DRINK.QUANTITY.greaterThan(0))
-                    .orderBy(makeSortField(sortCommand, DRINK.NAME, [
+                    .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
                             beerName: DRINK.NAME,
                             breweryName: ORGANIZATION.NAME,
                             size: CELLARED_DRINK.SIZE,
                             quantity: CELLARED_DRINK.QUANTITY,
                             bottleDate: CELLARED_DRINK.BOTTLE_DATE,
                             style: STYLE.NAME
-                    ]))
+                    ]), DRINK.NAME.asc())
                     .fetchInto(CellaredDrinkDetails)
         }
     }

@@ -35,7 +35,7 @@ public class DataTableSortingHelper implements NamedHelper<Request> {
 
     private static final String ORDER_ASC = "asc";
     private static final String ORDER_DESC = "desc";
-    private static final String DEFAULT_ORDER = ORDER_DESC;
+    private static final String DEFAULT_ORDER = ORDER_ASC;
 
     public static final String HELPER_NAME = "tableSort";
 
