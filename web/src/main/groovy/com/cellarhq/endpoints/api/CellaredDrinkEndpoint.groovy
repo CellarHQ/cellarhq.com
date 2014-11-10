@@ -113,7 +113,6 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                 render json([
                         message: Messages.UNAUTHORIZED_ERROR
                 ])
-                response.send()
             }
         }
     }

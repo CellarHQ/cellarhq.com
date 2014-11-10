@@ -222,7 +222,7 @@ class BreweryEndpoint implements Action<Chain> {
     private Organization updateOrganizationFromForm(Organization organization, Form form) {
         organization.with {
             slug = organization.slug ?: form.name
-            name = organization.slug ?: form.name
+            name = organization.name ?: form.name
             description = form.description
             established = Short.parseShort(form.established)
             phone = form.phone
