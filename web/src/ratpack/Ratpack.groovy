@@ -72,7 +72,7 @@ ratpack {
         add new RemoteControlModule()
 
         add new SessionModule()
-        add new MapSessionsModule(100, 30)
+        add new MapSessionsModule(500, 60)
         add new SecurityModule()
 
         add new HandlebarsModule()
