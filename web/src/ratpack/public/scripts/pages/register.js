@@ -2,7 +2,12 @@ var Register = function() {
 
     return {
         init: function() {
-            $('#register-form').validate({
+            $.ajaxPrefilter(function(options) {
+                if (options.url == '/api/cellars/validate-name') {
+                    options.url = '/api/cellars/validate-name?name=' + $('#screenName').val();
+                }
+            });
+            $('#form-register').validate({
                 errorClass: 'help-block animation-slideUp',
                 errorElement: 'div',
                 errorPlacement: function(error, e) {
@@ -19,11 +24,20 @@ var Register = function() {
                 rules: {
                     'screenName': {
                         required: true,
-                        minlength: 1
+                        minlength: 1,
+                        remote: {
+                            url: '/api/cellars/validate-name',
+                            type: 'put'
+                        }
                     },
                     'email': {
                         required: true,
                         email: true
+                    },
+                    'emailConfirm': {
+                        required: true,
+                        email: true,
+                        equalTo: '#email'
                     },
                     'password': {
                         required: true,
@@ -38,8 +52,12 @@ var Register = function() {
                     }
                 },
                 messages: {
-                    'username': 'Please enter a username',
+                    'screenName': {
+                        required: 'Please enter a username',
+                        remote: 'That screen name has already been taken'
+                    },
                     'email': 'Please enter a valid email address',
+                    'emailConfirm': 'These email addresses must match',
                     'password': {
                         required: 'Please provide a password',
                         minlength: 'Your password must be at least 5 characters long'

@@ -217,13 +217,7 @@ ratpack {
          */
 
         prefix('api') {
-            handler('cellars/:slug?', registry.get(CellarEndpoint))
-            get('cellars') { CellarService cellarService ->
-                cellarService.all().toList().subscribe { List<Cellar> cellar ->
-                    render json(cellar)
-                }
-            }
-
+            handler chain(registry.get(CellarEndpoint))
             handler chain(registry.get(CellaredDrinkEndpoint))
             handler chain(registry.get(OrganizationEndpoint))
             handler chain(registry.get(DrinkEndpoint))

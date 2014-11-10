@@ -1,20 +1,17 @@
 package com.cellarhq.endpoints.api
 
-import static ratpack.jackson.Jackson.fromJson
 import static ratpack.jackson.Jackson.json
 
 import com.cellarhq.domain.Cellar
 import com.cellarhq.services.CellarService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import ratpack.groovy.handling.GroovyContext
-import ratpack.groovy.handling.GroovyHandler
+import ratpack.func.Action
+import ratpack.groovy.Groovy
+import ratpack.handling.Chain
 
-/**
- * @todo Add validation
- */
 @Slf4j
-class CellarEndpoint extends GroovyHandler {
+class CellarEndpoint implements Action<Chain> {
 
     CellarService cellarService
 
@@ -24,37 +21,17 @@ class CellarEndpoint extends GroovyHandler {
     }
 
     @Override
-    protected void handle(GroovyContext context) {
-        context.with {
-            String slug = pathTokens['slug']
-
-            byMethod {
-                get {
-                    cellarService.findBySlug(slug).single().subscribe { Cellar cellar ->
-                        if (cellar == null) {
-                            clientError 404
-                        } else {
-                            render json(cellar)
-                        }
-                    }
+    void execute(Chain chain) throws Exception {
+        Groovy.chain(chain) {
+            put('cellars/validate-name') {
+                if (!request.queryParams.name) {
+                    clientError 400
                 }
 
-                post {
-                    cellarService.save(parse(fromJson(Cellar))
-                    ).single().flatMap {
-                        cellarService.findBySlug(it.slug).single()
-                    } subscribe { Cellar createdCellar ->
-                        render json(createdCellar)
-                    }
-                }
-
-                put {
-                    cellarService.save(parse(fromJson(Cellar))
-                    ).single().flatMap {
-                        cellarService.findBySlug(it.slug).single()
-                    } subscribe { Cellar createdCellar ->
-                        render json(createdCellar)
-                    }
+                cellarService.validateScreenName(request.queryParams.name).single().subscribe { Cellar cellar ->
+                    log.info(request.queryParams.name)
+                    log.info(cellar?.toString())
+                    render json(cellar == null)
                 }
             }
         }
