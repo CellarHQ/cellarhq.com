@@ -4,7 +4,6 @@ import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.BasicAWSCredentials
 import com.cellarhq.auth.PasswordService
 import com.cellarhq.handlebars.HandlebarsTemplateRendererImpl
-import com.cellarhq.handlebars.helpers.CdnHelper
 import com.cellarhq.handlebars.helpers.DataTableSortingHelper
 import com.cellarhq.handlebars.helpers.PaginationHelper
 import com.cellarhq.handlebars.helpers.SelectedOptionHelper
@@ -83,7 +82,6 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(PaginationHelper).in(Scopes.SINGLETON)
         bind(DataTableSortingHelper).in(Scopes.SINGLETON)
         bind(SelectedOptionHelper).in(Scopes.SINGLETON)
-        bind(CdnHelper).in(Scopes.SINGLETON)
         bind(HandlebarsTemplateRenderer).to(HandlebarsTemplateRendererImpl).in(Scopes.SINGLETON)
     }
 
