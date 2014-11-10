@@ -66,7 +66,7 @@ class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
 
         then:
         page.twitterLoginLink
-        page.fillForm(email, screenName, password, password2)
+        page.fillForm(email, emailConfirm, screenName, password, password2)
 
         when:
         page.submitForm()
@@ -81,9 +81,10 @@ class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
         }
 
         where:
-        screenName | email               | password    | password2   | shouldRegister
-        'test'     | 'test@cellarhq.com' | 'password1' | 'invalid'   | false
-        'test'     | 'test@cellarhq.com' | 'password1' | 'password1' | true
+        screenName | email                | emailConfirm        | password    | password2   | shouldRegister
+        'test2'     | 'test@cellarhq.com' | 'test@cellarhq.com' | 'password1' | 'invalid'   | false
+        'test2'     | 'test@cellarhq.com' | 'invalid@cellarhq.com' | 'password1' | 'invalid'   | false
+        'test2'     | 'test@cellarhq.com' | 'test@cellarhq.com' | 'password1' | 'password1' | true
 
         description = shouldRegister ? 'login successfully' : 'show validation errors'
     }

@@ -45,7 +45,7 @@ var Register = function() {
                     },
                     'passwordConfirm': {
                         required: true,
-                        equalTo: '#register-password'
+                        equalTo: '#password'
                     },
                     'register-terms': {
                         required: true

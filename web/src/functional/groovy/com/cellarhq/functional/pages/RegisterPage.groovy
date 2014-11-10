@@ -12,11 +12,13 @@ class RegisterPage extends BasePage {
         errorMessages(required: false) { $('.alert.alert-danger') }
     }
 
-    void fillForm(String email, String username, String password, String password2) {
+    void fillForm(String email, String emailConfirm, String username, String password, String password2) {
         registerForm.email = email
         registerForm.screenName = username
         registerForm.password = password
         registerForm.passwordConfirm = password2
+        registerForm.emailConfirm = emailConfirm
+        registerForm.'register-terms' = true
     }
 
     void submitForm() {
