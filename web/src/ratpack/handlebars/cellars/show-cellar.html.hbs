@@ -1,282 +1,311 @@
 {{#partial "header" }}
-    <h1>{{cellar.displayName}} <small>({{cellar.screenName}})</small></h1>
+    <h1>{{cellar.displayName}}
+        <small>({{cellar.screenName}})</small>
+    </h1>
 {{/partial}}
 {{#partial "content" }}
-  <div class="row">
-  <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-  <div class="block">
-
     <div class="row">
-      <div class="col-sm-9 content-float-hor push-bit-top-bottom">
-        {{#if photo}}
-          <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
-               src="{{photo.largeUrl}}" alt="{{cellar.displayName}}"/>
-        {{else}}
-          <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
-               src="/images/icon152.png" alt="{{cellar.displayName}}"/>
-        {{/if}}
-        <ul class="cellar-bio">
-        {{#if cellar.location}}
-            <li>{{cellar.location}}</li>
-        {{/if}}
-        {{#if cellar.website}}
-            <li><a href="{{cellar.website}}" title="{{cellar.displayName}}'s website">{{cellar.website}}</a></li>
-        {{/if}}
-        </ul>
-        {{#if cellar.bio}}
-            <p>{{cellar.bio}}</p>
-        {{/if}}
-          <a href="http://{{hostname}}/cellars/{{cellar.screenName}}" class="btn btn-effect-ripple btn-sm btn-danger">
-              <i class="fa fa-link"> Permalink</i>
-          </a>
-          <a href="https://twitter.com/share"
-             data-url="http://{{hostname}}/cellars/{{cellar.screenName}}"
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+            <div class="block">
 
-              {{#if self}}
-             data-text="Check out my beer cellar on @cellarhq!"
-              {{else}}
-             data-text="Check out @{{cellar.screenName}}'s beer cellar on @cellarhq!"
-              {{/if}}
-             data-related="cellarhq" data-size="large" data-lang="en" data-count="none"
-             class="btn btn-effect-ripple btn-primary btn-sm"
-             style="overflow: hidden; position: relative;">
-              <i class="fa fa-twitter"></i> Tweet</a>
-          </a>
-          <script>!function ( d, s, id ) {
-              var js, fjs = d.getElementsByTagName( s )[0];
-              if ( !d.getElementById( id ) ) {
-                  js = d.createElement( s );
-                  js.id = id;
-                  js.src = "//platform.twitter.com/widgets.js";
-                  fjs.parentNode.insertBefore( js, fjs );
-              }
-          }( document, "script", "twitter-wjs" );</script>
-      </div>
-      <div class="col-sm-3">
-          <ul>
-              <li><strong>{{cellar.totalBeers}}</strong> Total beers</li>
-              <li><strong>{{cellar.uniqueBeers}}</strong> Unique beers</li>
-              <li><strong>{{cellar.uniqueBreweries}}</strong> Breweries</li>
-          </ul>
+                <div class="row">
+                    <div class="col-sm-9 content-float-hor push-bit-top-bottom">
+                        {{#if photo}}
+                            <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+                                 src="{{photo.largeUrl}}" alt="{{cellar.displayName}}"/>
+                        {{else}}
+                            <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+                                 src="/images/icon152.png" alt="{{cellar.displayName}}"/>
+                        {{/if}}
+                        <ul class="cellar-bio">
+                            {{#if cellar.location}}
+                                <li>{{cellar.location}}</li>
+                            {{/if}}
+                            {{#if cellar.website}}
+                                <li><a href="{{cellar.website}}"
+                                       title="{{cellar.displayName}}'s website">{{cellar.website}}</a></li>
+                            {{/if}}
+                        </ul>
+                        {{#if cellar.bio}}
+                            <p>{{cellar.bio}}</p>
+                        {{/if}}
+                        <a href="http://{{hostname}}/cellars/{{cellar.screenName}}"
+                           class="btn btn-effect-ripple btn-sm btn-danger">
+                            <i class="fa fa-link"> Permalink</i>
+                        </a>
+                        <a href="https://twitter.com/share"
+                           data-url="http://{{hostname}}/cellars/{{cellar.screenName}}"
 
-      </div>
+                            {{#if self}}
+                           data-text="Check out my beer cellar on @cellarhq!"
+                            {{else}}
+                           data-text="Check out @{{cellar.screenName}}'s beer cellar on @cellarhq!"
+                            {{/if}}
+                           data-related="cellarhq" data-size="large" data-lang="en" data-count="none"
+                           class="btn btn-effect-ripple btn-primary btn-sm"
+                           style="overflow: hidden; position: relative;">
+                            <i class="fa fa-twitter"></i> Tweet</a>
+                        </a>
+                        <script>!function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (!d.getElementById(id)) {
+                                js = d.createElement(s);
+                                js.id = id;
+                                js.src = "//platform.twitter.com/widgets.js";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }
+                        }(document, "script", "twitter-wjs");</script>
+                    </div>
+                    <div class="col-sm-3">
+                        <ul>
+                            <li><strong>{{cellar.totalBeers}}</strong> Total beers</li>
+                            <li><strong>{{cellar.uniqueBeers}}</strong> Unique beers</li>
+                            <li><strong>{{cellar.uniqueBreweries}}</strong> Breweries</li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <h2>Beers</h2>
+
+                {{#if self}}
+                    <div class="block-section">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#addBeerModal">
+                                    <i class="fa fa-plus"></i> Add Beer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
+
+                <div class="table-responsive">
+                    <table id="cellared-drinks-table"
+                           class="table table-striped table-bordered table-condensed table-vcenter">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{tableSort request field='breweryName' title='Brewery'}}</th>
+                            <th>{{tableSort request field='beerName' title='Beer'}}</th>
+                            <th>{{tableSort request field='style' title='Style'}}</th>
+                            <th>{{tableSort request field='size' title='Size'}}</th>
+                            <th>{{tableSort request field='quantity' title='#'}}</th>
+                            <th>{{tableSort request field='bottleDate' title='Bottled'}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {{#each cellaredDrinks}}
+                            <tr>
+                                <td>
+                                    {{#if self}}
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button"
+                                                    id="dropdownMenu1" data-toggle="dropdown">
+                                                <i class="fa fa-cog"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                                <li role="presentation">
+                                                    <a role="menuitem"
+                                                       tabindex="-1"
+                                                       data-toggle="tooltip"
+                                                       data-placement="bottom"
+                                                       href="/cellars/{{cellar.slug}}/drinks/{{id}}/edit">
+                                                        Edit {{drinkName}}
+                                                    </a>
+                                                </li>
+                                                <li role="presentation">
+                                                    <a class="drink-cellared-beer"
+                                                       role="menuitem" tabindex="-1" data-cellar="{{cellar.slug}}"
+                                                       data-cellaredDrinkId="{{id}}"
+                                                       data-toggle="tooltip"
+                                                       data-placement="bottom">
+                                                        Drink {{drinkName}}
+                                                    </a>
+                                                </li>
+                                                <li role="presentation">
+                                                    <a class="delete-cellared-beer"
+                                                            data-cellar="{{cellar.slug}}"
+                                                            data-cellaredDrinkId="{{id}}"
+                                                            data-toggle="tooltip"
+                                                            data-placement="bottom"
+                                                            title="Delete this beer">
+                                                        Delete {{drinkName}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+
+                                        </div>
+                                    {{/if}}
+                                    {{#if hasDetails}}
+                                        <a class="btn btn-effect-ripple btn-sm view-cellar-details"
+                                           data-toggle="collapse"
+                                           data-target="#details{{id}}">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </a>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    <a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a>
+
+                                </td>
+                                <td>
+                                    <h4 class="no-padding no-margin">
+                                        <a href="/breweries/{{organizationSlug}}/beers/{{drinkSlug}}">{{drinkName}}</a>
+                                    </h4>
+                                    {{>cellars/_cellared-drink-flags}}
+                                </td>
+                                <td>{{styleName}}</td>
+                                <td>{{size}}</td>
+                                <td>{{quantity}}</td>
+                                <td>{{bottleDate}}</td>
+                            </tr>
+                            {{#if hasDetails}}
+                                <tr id="details{{id}}" class="collapse out">
+                                    <td colspan="7">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-6">
+                                                <h3>Details</h3>
+                                                {{#if notes}}
+                                                    <p><strong>Notes:</strong> {{notes}}</p>
+                                                {{/if}}
+                                                <ul>
+                                                    {{#if binIdentifier}}
+                                                        <li>Bin Identifier: {{binIdentifier}}</li>
+                                                    {{/if}}
+                                                    {{#if dateAcquired}}
+                                                        <li>Date Acquired: {{dateAcquired}}</li>
+                                                    {{/if}}
+                                                    {{#if drinkByDate}}
+                                                        {{#if dangerDrinkByDate}}
+                                                            <li class="text-danger">
+                                                                Drink by Date: {{drinkByDate}}
+                                                                <span class="label label-danger animation-pulse">
+                                <i class="fa fa-exclamation-triangle"></i>
+                              </span>
+                                                            </li>
+                                                        {{else}}
+                                                            {{#if warnDrinkByDate}}
+                                                                <li class="text-warning">
+                                                                    Drink by Date: {{drinkByDate}}
+                                                                    <span class="label label-danger animation-pulse">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                  </span>
+                                                                </li>
+                                                            {{else}}
+                                                                <li>Drink by Date: {{drinkByDate}}</li>
+                                                            {{/if}}
+                                                        {{/if}}
+                                                    {{/if}}
+                                                </ul>
+                                            </div>
+                                            {{#if tradeable}}
+                                                <div class="col-sm-6 col-lg-6">
+                                                    <h3 class="text-info">
+                                                        <i class="fa fa-exchange"></i>
+                                                        <strong>{{numTradeable}} Tradeable!</strong>
+                                                    </h3>
+                                                    {{#if cellar.hasContactInfo}}
+                                                        <p>This beer is available for a trade! You can arrange a trade
+                                                            by contacting this user via:
+                                                        </p>
+                                                        <ul>
+                                                            {{#if cellar.twitter}}
+                                                                <li>Twitter: {{cellar.twitter}}</li>
+                                                            {{/if}}
+                                                            {{#if cellar.reddit}}
+                                                                <li>Reddit: {{cellar.reddit}}</li>
+                                                            {{/if}}
+                                                            {{#if cellar.beeradvocate}}
+                                                                <li>BeerAdvocate: {{cellar.beeradvocate}}</li>
+                                                            {{/if}}
+                                                            {{#if cellar.ratebeer}}
+                                                                <li>RateBeer: {{cellar.ratebeer}}</li>
+                                                            {{/if}}
+                                                        </ul>
+                                                    {{else}}
+                                                        <p>This beer is available for a trade! However, there is no
+                                                            contact
+                                                            information provided.
+                                                        </p>
+                                                    {{/if}}
+                                                </div>
+                                            {{/if}}
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            {{/if}}
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <h2>Beers</h2>
-
     {{#if self}}
-        <div class="block-section">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#addBeerModal">
-                        <i class="fa fa-plus"></i> Add Beer
-                    </button>
+        <div class="modal fade" id="addBeerModal" tabindex="-1" role="dialog"
+             aria-labelledby="addBeerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="addBeerModalLabel">Add Beer</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-beer-form" action="/cellars/{{cellar.slug}}/drinks"
+                              method="post" class="form-horizontal form-bordered">
+                            {{>cellars/_add-cellared-drink-form-fields}}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="confirmDeleteCellaredBeerModal" tabindex="-1"
+             role="dialog" aria-labelledby="confirmDeleteCellaredBeerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title text-danger" id="confirmDeleteCellaredBeerModalLabel">Delete Cellared
+                            Beer?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this cellared beer? You cannot undo this!</p>
+
+                        <p>
+                            <a class="btn btn-danger confirm-delete-cellared-drink" href="#">Yes, delete</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No, keep it</button>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     {{/if}}
 
-      <div class="table-responsive">
-        <table id="cellared-drinks-table" class="table table-striped table-bordered table-condensed table-vcenter">
-          <thead>
-          <tr>
-            <th></th>
-              <th>{{tableSort request field='breweryName' title='Brewery'}}</th>
-              <th>{{tableSort request field='beerName' title='Beer'}}</th>
-            <th>{{tableSort request field='style' title='Style'}}</th>
-            <th>{{tableSort request field='size' title='Size'}}</th>
-            <th>{{tableSort request field='quantity' title='#'}}</th>
-            <th>{{tableSort request field='bottleDate' title='Bottled'}}</th>
-            <th>Flags</th>
-          </tr>
-          </thead>
-          <tbody>
-
-          {{#each cellaredDrinks}}
-            <tr>
-              <td>
-              {{#if self}}
-                <button class="btn btn-effect-ripple btn-sm btn-success drink-cellared-beer"
-                        data-cellar="{{cellar.slug}}"
-                        data-cellaredDrinkId="{{id}}"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Drink one of these beers">
-                    <i class="fa fa-beer"></i>
-                </button>
-                <a class="btn btn-effect-ripple btn-sm btn-primary"
-                   data-toggle="tooltip"
-                   data-placement="bottom"
-                   href="/cellars/{{cellar.slug}}/drinks/{{id}}/edit"
-                   title="Edit this beer">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                <button class="btn btn-effect-riffle btn-sm btn-danger delete-cellared-beer"
-                        data-cellar="{{cellar.slug}}"
-                        data-cellaredDrinkId="{{id}}"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Delete this beer">
-                    <i class="fa fa-times"></i>
-                </button>
-              {{/if}}
-              {{#if hasDetails}}
-                <a class="btn btn-effect-ripple btn-sm view-cellar-details"
-                   data-toggle="collapse"
-                   data-target="#details{{id}}">
-                    <i class="fa fa-chevron-down"></i>
-                </a>
-              {{/if}}
-              </td>
-                <td><a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a></td>
-                <td>
-                <h4 class="no-padding no-margin">
-                  <a href="/breweries/{{organizationSlug}}/beers/{{drinkSlug}}">{{drinkName}}</a>
-                </h4>
-              </td>
-              <td>{{styleName}}</td>
-              <td>{{size}}</td>
-              <td>{{quantity}}</td>
-              <td>{{bottleDate}}</td>
-              <td>{{>cellars/_cellared-drink-flags}}</td>
-            </tr>
-            {{#if hasDetails}}
-              <tr id="details{{id}}" class="collapse out">
-                <td colspan="7">
-                  <div class="row">
-                    <div class="col-sm-6 col-lg-6">
-                      <h3>Details</h3>
-                        {{#if notes}}
-                          <p><strong>Notes:</strong> {{notes}}</p>
-                        {{/if}}
-                      <ul>
-                          {{#if binIdentifier}}
-                            <li>Bin Identifier: {{binIdentifier}}</li>
-                          {{/if}}
-                          {{#if dateAcquired}}
-                            <li>Date Acquired: {{dateAcquired}}</li>
-                          {{/if}}
-                          {{#if drinkByDate}}
-                              {{#if dangerDrinkByDate}}
-                                <li class="text-danger">
-                                  Drink by Date: {{drinkByDate}}
-                                  <span class="label label-danger animation-pulse">
-                                <i class="fa fa-exclamation-triangle"></i>
-                              </span>
-                                </li>
-                              {{else}}
-                                  {{#if warnDrinkByDate}}
-                                    <li class="text-warning">
-                                      Drink by Date: {{drinkByDate}}
-                                      <span class="label label-danger animation-pulse">
-                                    <i class="fa fa-exclamation-triangle"></i>
-                                  </span>
-                                    </li>
-                                  {{else}}
-                                    <li>Drink by Date: {{drinkByDate}}</li>
-                                  {{/if}}
-                              {{/if}}
-                          {{/if}}
-                      </ul>
-                    </div>
-                      {{#if tradeable}}
-                        <div class="col-sm-6 col-lg-6">
-                          <h3 class="text-info">
-                              <i class="fa fa-exchange"></i>
-                              <strong>{{numTradeable}} Tradeable!</strong>
-                          </h3>
-                          {{#if cellar.hasContactInfo}}
-                                <p>This beer is available for a trade! You can arrange a trade
-                                    by contacting this user via:
-                                </p>
-                                <ul>
-                                    {{#if cellar.twitter}}
-                                        <li>Twitter: {{cellar.twitter}}</li>
-                                    {{/if}}
-                                    {{#if cellar.reddit}}
-                                        <li>Reddit: {{cellar.reddit}}</li>
-                                    {{/if}}
-                                    {{#if cellar.beeradvocate}}
-                                        <li>BeerAdvocate: {{cellar.beeradvocate}}</li>
-                                    {{/if}}
-                                    {{#if cellar.ratebeer}}
-                                        <li>RateBeer: {{cellar.ratebeer}}</li>
-                                    {{/if}}
-                                </ul>
-                          {{else}}
-                                <p>This beer is available for a trade! However, there is no contact
-                                    information provided.
-                                </p>
-                          {{/if}}
-                        </div>
-                      {{/if}}
-                  </div>
-
-                </td>
-              </tr>
-            {{/if}}
-          {{/each}}
-          </tbody>
-        </table>
-      </div>
-
-  </div>
-  </div>
-  </div>
-
-  {{#if self}}
-    <div class="modal fade" id="addBeerModal" tabindex="-1" role="dialog"
-         aria-labelledby="addBeerModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-            </button>
-            <h4 class="modal-title" id="addBeerModalLabel">Add Beer</h4>
-          </div>
-          <div class="modal-body">
-            <form id="add-beer-form" action="/cellars/{{cellar.slug}}/drinks"
-                  method="post" class="form-horizontal form-bordered">
-              {{>cellars/_add-cellared-drink-form-fields}}
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="confirmDeleteCellaredBeerModal" tabindex="-1"
-         role="dialog" aria-labelledby="confirmDeleteCellaredBeerModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-            </button>
-            <h4 class="modal-title text-danger" id="confirmDeleteCellaredBeerModalLabel">Delete Cellared Beer?</h4>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure you want to delete this cellared beer? You cannot undo this!</p>
-            <p>
-              <a class="btn btn-danger confirm-delete-cellared-drink" href="#">Yes, delete</a>
-              <button type="button" class="btn btn-default" data-dismiss="modal">No, keep it</button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  {{/if}}
-
 {{/partial}}
 
 {{#partial "extra_includes"}}
     {{#if self}}
-      <script src="/scripts/vendor/typeahead/typeahead.bundle.min.js"></script>
-      <script src="/scripts/pages/yourcellar.js"></script>
-      <script>$(function(){ YourCellar.init(); });</script>
+        <script src="/scripts/vendor/typeahead/typeahead.bundle.min.js"></script>
+        <script src="/scripts/pages/yourcellar.js"></script>
+        <script>$(function () {
+            YourCellar.init();
+        });</script>
     {{/if}}
     <script src="/scripts/pages/cellar-show.js"></script>
-    <script>$(function(){ CellarShow.init(); });</script>
+    <script>$(function () {
+        CellarShow.init();
+    });</script>
 {{/partial}}
 
 {{> layout.html}}
