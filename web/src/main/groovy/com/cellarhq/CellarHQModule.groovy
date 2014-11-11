@@ -7,6 +7,7 @@ import com.cellarhq.handlebars.HandlebarsTemplateRendererImpl
 import com.cellarhq.handlebars.helpers.DataTableSortingHelper
 import com.cellarhq.handlebars.helpers.PaginationHelper
 import com.cellarhq.handlebars.helpers.SelectedOptionHelper
+import com.cellarhq.handlebars.helpers.BottledDateHelper
 import com.cellarhq.handler.RequestLoggingHandler
 import com.cellarhq.services.*
 import com.cellarhq.services.email.AmazonEmailService
@@ -82,6 +83,7 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(PaginationHelper).in(Scopes.SINGLETON)
         bind(DataTableSortingHelper).in(Scopes.SINGLETON)
         bind(SelectedOptionHelper).in(Scopes.SINGLETON)
+        bind(BottledDateHelper).in(Scopes.SINGLETON)
         bind(HandlebarsTemplateRenderer).to(HandlebarsTemplateRendererImpl).in(Scopes.SINGLETON)
     }
 

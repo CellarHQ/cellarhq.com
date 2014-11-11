@@ -89,9 +89,9 @@
                             <th>{{tableSort request field='breweryName' title='Brewery'}}</th>
                             <th>{{tableSort request field='beerName' title='Beer'}}</th>
                             <th>{{tableSort request field='style' title='Style'}}</th>
-                            <th>{{tableSort request field='size' title='Size'}}</th>
-                            <th>{{tableSort request field='quantity' title='#'}}</th>
-                            <th>{{tableSort request field='bottleDate' title='Bottled'}}</th>
+                            <th class="size-column">{{tableSort request field='size' title='Size'}}</th>
+                            <th class="quantity-column">{{tableSort request field='quantity' title='#'}}</th>
+                            <th class="bottleDate-column">{{tableSort request field='bottleDate' title='Bottled'}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -160,7 +160,7 @@
                                 <td>{{styleName}}</td>
                                 <td>{{size}}</td>
                                 <td>{{quantity}}</td>
-                                <td>{{bottleDate}}</td>
+                                <td>{{bottledDate request date=bottleDate}}</td>
                             </tr>
                             {{#if hasDetails}}
                                 <tr id="details{{id}}" class="collapse out">
