@@ -166,3 +166,18 @@ ul.cellared-drink-flags {
 .tt-suggestion p {
     margin: 0;
 }
+
+.size-column {
+    white-space: nowrap;
+    width:75px;
+}
+
+.quantity-column {
+    white-space: nowrap;
+    width:20px;
+}
+
+.bottleDate-column {
+    white-space: nowrap;
+    width:100px;
+}

@@ -3,14 +3,14 @@ var YourCellar = function() {
     init: function() {
       $('label.switch').click(this.checkboxSwitchControl);
       $('#tradeable').change(this.addBeerTradeableChangeControl);
-      $('button.drink-cellared-beer').click(this.drinkCellaredBeer);
-      $('button.delete-cellared-beer').click(this.confirmDeleteCellaredBeer);
+      $('a.drink-cellared-beer').click(this.drinkCellaredBeer);
+      $('a.delete-cellared-beer').click(this.confirmDeleteCellaredBeer);
       $('a.confirm-delete-cellared-drink').click(this.deleteCellaredBeer);
 
       $.validator.addMethod('multidate', function(value, element) {
         return this.optional(element) || moment(value, ['YYYY', 'YYYY-MM', 'YYYY-MM-DD']).isValid();
       });
-      
+
       var breweryLearner = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
