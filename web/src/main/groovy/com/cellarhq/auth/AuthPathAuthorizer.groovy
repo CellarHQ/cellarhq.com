@@ -23,6 +23,7 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             /cellar\/[a-zA-Z0-9\-_]+/,
             'beers',
             /breweries\/(?!add$)[a-zA-Z0-9\-_]+\/beers\/(?!add$)[a-zA-Z0-9\-_]+/,
+            /brewery\/(?!add$)[a-zA-Z0-9\-_]+\/beer\/(?!add$)[a-zA-Z0-9\-_]+/,
             'breweries',
             /breweries\/(?!add$)[a-zA-Z0-9\-_]+/,
             'about',
@@ -30,8 +31,11 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'privacy-policy',
             'register',
             'login',
+            'signin',
+            'signup',
             'forgot-password',
             /forgot-password\/.*/,
+            'forgotpassword',
             /styles\/.*/,
             /images\/.*/,
             /scripts\/.*/,
@@ -43,7 +47,7 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
     ]
 
     final static List<String> ADMIN_ROLE_REQUIRED = [
-            /admin\/.*/
+        'admin/secrets'
     ]
 
     @Override
