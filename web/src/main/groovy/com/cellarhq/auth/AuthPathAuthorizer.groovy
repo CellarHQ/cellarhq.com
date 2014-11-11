@@ -47,7 +47,7 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
     ]
 
     final static List<String> ADMIN_ROLE_REQUIRED = [
-            /admin\/.*/
+        'admin/secrets'
     ]
 
     @Override

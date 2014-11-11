@@ -18,6 +18,8 @@ import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
 import org.pac4j.core.profile.CommonProfile
+import ratpack.codahale.metrics.CodaHaleMetricsModule
+import ratpack.codahale.metrics.MetricsWebsocketBroadcastHandler
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -47,7 +49,7 @@ String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
 
 ratpack {
     bindings {
-        //add new CodaHaleMetricsModule().metrics().jvmMetrics().jmx().websocket().healthChecks()
+        add new CodaHaleMetricsModule().metrics().jvmMetrics().jmx().websocket().healthChecks()
 
         bind ServerErrorHandler, ServerErrorHandlerImpl
         bind ClientErrorHandler, ClientErrorHandlerImpl
@@ -228,13 +230,13 @@ ratpack {
             render json(healthCheckRegistry.runHealthChecks())
         })
 
-//        prefix("admin") {
-//            get("metrics-report", new MetricsWebsocketBroadcastHandler())
-//
-//            get("metrics") {
-//                render handlebarsTemplate("metrics.html", title: "Metrics")
-//            }
-//        }
+        prefix("admin") {
+            get("metrics-report", new MetricsWebsocketBroadcastHandler())
+
+            get("metrics") {
+                render handlebarsTemplate("metrics.html", title: "Metrics")
+            }
+        }
 
         assets "public"
     }

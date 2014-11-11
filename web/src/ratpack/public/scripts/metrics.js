@@ -187,7 +187,6 @@ $(document).ready(function() {
     if (!window.WebSocket) {
         alert("This dashboard will not work in your browser, a browser that supports websockets is required.");
     } else {
-        alert("opening");
         console.log("Opening WebSocket");
         connectWs();
     }
