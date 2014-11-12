@@ -24,7 +24,7 @@ var YourCellar = function() {
         remote: {
           url: '/api/drinks/live-search',
           replace: function(url, query) {
-            return ['/api/drinks/live-search', '?name=', query, '&organizationId=', $('breweryId').val()].join('');
+            return ['/api/drinks/live-search', '?name=', query, '&organizationId=', $('#breweryId').val()].join('');
           }
         }
       });
