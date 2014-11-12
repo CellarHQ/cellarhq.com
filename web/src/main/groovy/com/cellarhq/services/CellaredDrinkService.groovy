@@ -130,7 +130,7 @@ class CellaredDrinkService extends BaseJooqService {
                     .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
                     .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
                     .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-                    .join(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+                    .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
 
             criteria(selectStep)
                     .and(CELLARED_DRINK.QUANTITY.greaterThan(0))
