@@ -119,6 +119,7 @@
                                                     <a class="drink-cellared-beer"
                                                        role="menuitem" tabindex="-1" data-cellar="{{cellar.slug}}"
                                                        data-cellaredDrinkId="{{id}}"
+                                                       data-beerName="{{drinkName}}"
                                                        data-toggle="tooltip"
                                                        data-placement="bottom">
                                                         Drink {{drinkName}}
@@ -128,6 +129,7 @@
                                                     <a class="delete-cellared-beer"
                                                             data-cellar="{{cellar.slug}}"
                                                             data-cellaredDrinkId="{{id}}"
+                                                            data-beerName="{{drinkName}}"
                                                             data-toggle="tooltip"
                                                             data-placement="bottom"
                                                             title="Delete this beer">
@@ -280,7 +282,7 @@
                             Beer?</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to delete this cellared beer? You cannot undo this!</p>
+                        <p>Are you sure you want to delete <span id="delete-beer-name">TEST</span>? You cannot undo this!</p>
 
                         <p>
                             <a class="btn btn-danger confirm-delete-cellared-drink" href="#">Yes, delete</a>

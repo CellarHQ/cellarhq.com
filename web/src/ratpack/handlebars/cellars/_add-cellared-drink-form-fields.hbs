@@ -1,7 +1,9 @@
   <div class="form-group">
     <label class="col-md-3 control-label" for="brewery">Brewery</label>
     <div class="col-md-9">
+        <div class="scrollable-dropdown-menu">
       <input type="text" id="brewery" name="brewery" class="form-control typeahead">
+            </div>
       <span class="help-block">Required</span>
     </div>
     <input type="hidden" id="breweryId" name="breweryId">
@@ -9,7 +11,9 @@
   <div class="form-group">
     <label class="col-md-3 control-label" for="beer">Beer</label>
     <div class="col-md-9">
+        <div class="scrollable-dropdown-menu">
       <input type="text" id="beer" name="beer" class="form-control typeahead">
+            </div>
       <span class="help-block">Required</span>
     </div>
     <input type="hidden" id="beerId" name="beerId">
@@ -26,6 +30,7 @@
           <option>22 oz</option>
           <option>25 oz</option>
           <option>40 oz</option>
+          <option>64 oz</option>
         </optgroup>
         <optgroup label="Metric">
           <option>125 ml</option>

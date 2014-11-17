@@ -7,6 +7,7 @@ import com.cellarhq.domain.DrinkType
 import com.cellarhq.domain.Organization
 import com.cellarhq.domain.Photo
 import com.cellarhq.jooq.SortCommand
+import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.services.StyleService
@@ -37,13 +38,15 @@ class BeerEndpoint implements Action<Chain> {
     StyleService styleService
     OrganizationService organizationService
     PhotoService photoService
+    CellaredDrinkService cellaredDrinkService
 
     @Inject
     BeerEndpoint(ValidatorFactory validatorFactory,
                  DrinkService drinkService,
                  StyleService styleService,
                  OrganizationService organizationService,
-                 PhotoService photoService) {
+                 PhotoService photoService,
+                 CellaredDrinkService cellaredDrinkService) {
 
         this.validatorFactory = validatorFactory
         this.drinkService = drinkService
@@ -204,6 +207,7 @@ class BeerEndpoint implements Action<Chain> {
 
                         rx.Observable photo = photoService.findByOrganizationAndDrink(brewery, slug)
                         rx.Observable drink = drinkService.findBySlug(brewery, slug)
+                        rx.Observable tradeableDrinks = cellaredDrinkService.findTradeableCellaredDrinks()
 
                         rx.Observable.zip(photo, drink) { Photo photo1, Drink drink1 ->
                             [

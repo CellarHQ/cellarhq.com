@@ -193,4 +193,12 @@ class CellaredDrinkService extends BaseJooqService {
             }
         })
     }
+
+    rx.Observable<CellaredDrink> findTradeableCellaredDrinks(Long drinkId, SortCommand sortCommand) {
+        observeEach(execControl.blocking {
+            allQuery(sortCommand) { SelectJoinStep step ->
+                step.where(CELLARED_DRINK.DRINK_ID.eq(drinkId))
+            }
+        })
+    }
 }
