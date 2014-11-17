@@ -8,14 +8,28 @@
                 <div class="block-title">
                     <h2>Add New Beer to {{org.name}}</h2>
                 </div>
-                <form action="/breweries/{{org.slug}}/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
+
+                {{#if org}}
+                    <form action="/breweries/{{org.slug}}/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
+
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="organization">Brewery</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{org.name}}</p>
-                        </div>
-                        <input type="hidden" id="organizationId" name="organizationId" value="{{org.id}}"/>
+                            <label class="col-md-3 control-label" for="organization">Brewery</label>
+                            <div class="col-md-6">
+                                <p class="form-control-static">{{org.name}}</p>
+                            </div>
+                            <input type="hidden" id="organizationId" name="organizationId" value="{{org.id}}"/>
                     </div>
+                {{else}}
+                    <form action="/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="organization">Brewery</label>
+                            <div class="col-md-6">
+                                <input type="text" id="brewery" name="brewery" class="form-control typeahead">
+                                <span class="help-block">Required</span>
+                            </div>
+                            <input type="hidden" id="organizationId" name="organizationId" value="{{org.id}}"/>
+                        </div>
+                {{/if}}
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="name">Name <span class="text-danger">*</span></label>
                         <div class="col-md-6">

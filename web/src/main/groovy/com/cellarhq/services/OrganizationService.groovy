@@ -85,18 +85,6 @@ class OrganizationService extends BaseJooqService {
         }).asObservable()
     }
 
-    Observable<String> findNameByDrink(String drinkSlug) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select(ORGANIZATION.NAME)
-                        .from(ORGANIZATION)
-                        .join(DRINK).onKey()
-                        .where(DRINK.SLUG.eq(drinkSlug))
-                        .fetchOne(ORGANIZATION.NAME)
-            }
-        }).asObservable()
-    }
-
     Observable<Organization> all(SortCommand sortCommand = null, int numberOfRows=20, int offset=0) {
         observeEach(execControl.blocking {
             jooq { DSLContext create ->
