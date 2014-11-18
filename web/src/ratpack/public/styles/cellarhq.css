@@ -36,6 +36,7 @@ ul.cellared-drink-flags {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: inline;
 }
 .cellared-drink-flags li {
     display: inline;
@@ -167,6 +168,11 @@ ul.cellared-drink-flags {
 
 .tt-suggestion p {
     margin: 0;
+}
+
+.action-column {
+    white-space: nowrap;
+    width:50px;
 }
 
 .size-column {
