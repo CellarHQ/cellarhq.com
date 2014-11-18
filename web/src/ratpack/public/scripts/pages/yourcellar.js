@@ -14,6 +14,7 @@ var YourCellar = function() {
       var breweryLearner = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 20,
         remote: '/api/organizations/live-search?name=%QUERY'
       });
       breweryLearner.initialize();
@@ -21,6 +22,7 @@ var YourCellar = function() {
       var beerLearner = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 20,
         remote: {
           url: '/api/drinks/live-search',
           replace: function(url, query) {

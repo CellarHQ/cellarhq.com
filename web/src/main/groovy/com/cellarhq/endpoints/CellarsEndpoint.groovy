@@ -142,7 +142,7 @@ class CellarsEndpoint implements Action<Chain> {
                 Form form = parse(Form)
                 CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
                     cellarId = (long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-                    drinkId = form.beerId ?: Long.valueOf(form.beerId)
+                    drinkId = Long.valueOf(form.beerId)
                     return self
                 }
 

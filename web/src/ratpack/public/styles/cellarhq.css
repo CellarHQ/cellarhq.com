@@ -157,12 +157,12 @@ ul.cellared-drink-flags {
 .tt-suggestion {
     padding: 3px 20px;
     line-height: 24px;
+
 }
 
 .tt-suggestion.tt-cursor {
     color: #fff;
     background-color: #0097cf;
-
 }
 
 .tt-suggestion p {
