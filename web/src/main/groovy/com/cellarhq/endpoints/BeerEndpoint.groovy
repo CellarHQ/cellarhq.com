@@ -1,14 +1,8 @@
 package com.cellarhq.endpoints
 
 import com.cellarhq.Messages
-import com.cellarhq.domain.Availability
-import com.cellarhq.domain.CellaredDrink
-import com.cellarhq.domain.Drink
-import com.cellarhq.domain.DrinkType
-import com.cellarhq.domain.Organization
-import com.cellarhq.domain.Photo
+import com.cellarhq.domain.*
 import com.cellarhq.jooq.SortCommand
-import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.services.StyleService
@@ -19,10 +13,10 @@ import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
+import ratpack.form.Form
 import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
-import ratpack.form.Form
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
@@ -62,7 +56,7 @@ class BeerEndpoint implements Action<Chain> {
                     /**
                      * List all beers; has search.
                      */
-                    get() {
+                    get {
                         Integer requestedPage = request.queryParams.page?.toInteger() ?: 1
                         Integer pageSize = 20
                         Integer offset = (requestedPage - 1) * pageSize
@@ -106,7 +100,7 @@ class BeerEndpoint implements Action<Chain> {
                         })
                     }
 
-                    post() {
+                    post {
                         Form form = parse(Form)
 
                         Drink drink
@@ -145,7 +139,7 @@ class BeerEndpoint implements Action<Chain> {
                         } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
                             SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                            redirect("/beers/add")
+                            redirect('/beers/add')
                         }
                     }
                 }
