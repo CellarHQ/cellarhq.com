@@ -142,7 +142,7 @@ class CellarsEndpoint implements Action<Chain> {
                 Form form = parse(Form)
                 CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
                     cellarId = (long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-                    drinkId = form.beerId ? Long.valueOf(form.beerId) : null
+                    drinkId = Long.valueOf(form.beerId)
                     return self
                 }
 
@@ -189,8 +189,21 @@ class CellarsEndpoint implements Action<Chain> {
                         Validator validator = validatorFactory.validator
                         Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(editedDrink)
                         if (drinkViolations.empty) {
-                            cellaredDrinkService.save(editedDrink).single().subscribe { CellaredDrink savedDrink ->
-                                SessionUtil.setFlash(request, FlashMessage.success(Messages.CELLARED_DRINK_SAVED))
+                            // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
+                            //       queries for two small pieces of data.
+                            rx.Observable.zip(
+                                cellaredDrinkService.save(editedDrink).single(),
+                                drinkService.findNameById(drink.drinkId).single(),
+                                organizationService.findNameByDrink(drink.drinkId).single()
+                            ) { CellaredDrink savedDrink, String drinkName, String orgName ->
+                                [
+                                    cellared: savedDrink,
+                                    drink   : drinkName,
+                                    org     : orgName
+                                ]
+                            }.subscribe { Map map ->
+                                SessionUtil.setFlash(request, FlashMessage.success(
+                                   String.format(Messages.CELLARED_DRINK_SAVED, map.drink, map.org)))
                                 redirect('/yourcellar')
                             }
                         } else {

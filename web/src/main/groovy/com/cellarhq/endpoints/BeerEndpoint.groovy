@@ -1,11 +1,7 @@
 package com.cellarhq.endpoints
 
 import com.cellarhq.Messages
-import com.cellarhq.domain.Availability
-import com.cellarhq.domain.Drink
-import com.cellarhq.domain.DrinkType
-import com.cellarhq.domain.Organization
-import com.cellarhq.domain.Photo
+import com.cellarhq.domain.*
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
@@ -17,10 +13,10 @@ import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
+import ratpack.form.Form
 import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
-import ratpack.form.Form
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
@@ -55,51 +51,112 @@ class BeerEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            /**
-             * List all beers; has search.
-             */
-            get('beers') {
-                Integer requestedPage = request.queryParams.page?.toInteger() ?: 1
-                Integer pageSize = 20
-                Integer offset = (requestedPage - 1) * pageSize
-                String searchTerm = request.queryParams.search
+            handler('beers') {
+                byMethod {
+                    /**
+                     * List all beers; has search.
+                     */
+                    get {
+                        Integer requestedPage = request.queryParams.page?.toInteger() ?: 1
+                        Integer pageSize = 20
+                        Integer offset = (requestedPage - 1) * pageSize
+                        String searchTerm = request.queryParams.search
 
-                rx.Observable<Integer> totalCount = searchTerm ?
-                    drinkService.searchCount(searchTerm).single() :
-                    drinkService.count().single()
+                        rx.Observable<Integer> totalCount = searchTerm ?
+                            drinkService.searchCount(searchTerm).single() :
+                            drinkService.count().single()
 
-                rx.Observable drinks = searchTerm ?
-                    drinkService.search(
-                        searchTerm,
-                        SortCommand.fromRequest(request),
-                        pageSize,
-                        offset).toList() :
-                    drinkService.all(
-                        SortCommand.fromRequest(request),
-                        pageSize,
-                        offset).toList()
+                        rx.Observable drinks = searchTerm ?
+                            drinkService.search(
+                                searchTerm,
+                                SortCommand.fromRequest(request),
+                                pageSize,
+                                offset).toList() :
+                            drinkService.all(
+                                SortCommand.fromRequest(request),
+                                pageSize,
+                                offset).toList()
 
-                rx.Observable.zip(drinks, totalCount) { List list, Integer count ->
-                    [
-                        drinks    : list,
-                        totalCount: count
-                    ]
-                }.subscribe({ Map map ->
-                    Integer pageCount = (map.totalCount / pageSize)
-                    Boolean shouldShowPagination = pageCount != 0
 
-                    render handlebarsTemplate('beer/list-beer.html',
-                        [drinks              : map.drinks,
-                         currentPage         : requestedPage,
-                         totalPageCount      : pageCount,
-                         shouldShowPagination: shouldShowPagination,
-                         title               : 'CellarHQ : Beer',
-                         pageId              : 'beer.list'])
-                }, { Throwable t ->
-                    log.error(LogUtil.toLog('ListBeerError'), t)
-                    clientError 500
-                })
+                        rx.Observable.zip(drinks, totalCount) { List list, Integer count ->
+                            [
+                                drinks    : list,
+                                totalCount: count
+                            ]
+                        }.subscribe({ Map map ->
+                            Integer pageCount = (map.totalCount / pageSize)
+                            Boolean shouldShowPagination = pageCount != 0
+
+                            render handlebarsTemplate('beer/list-beer.html',
+                                [drinks              : map.drinks,
+                                 currentPage         : requestedPage,
+                                 totalPageCount      : pageCount,
+                                 shouldShowPagination: shouldShowPagination,
+                                 title               : 'CellarHQ : Beer',
+                                 pageId              : 'beer.list'])
+                        }, { Throwable t ->
+                            log.error(LogUtil.toLog('ListBeerError'), t)
+                            clientError 500
+                        })
+                    }
+
+                    post {
+                        Form form = parse(Form)
+
+                        Drink drink
+                        try {
+                            drink = applyFrom(new Drink(), form)
+                        } catch (NumberFormatException e) {
+                            SessionUtil.setFlash(request, FlashMessage.warning(Messages.FORM_VALIDATION_ERROR))
+                            return redirect('/beers/add')
+                        }
+
+                        Validator validator = validatorFactory.validator
+                        Set<ConstraintViolation<Drink>> drinkViolations = validator.validate(drink)
+
+                        if (drinkViolations.empty) {
+
+                            rx.Observable.zip(
+                                drinkService.save(drink).single(),
+                                organizationService.get(drink.organizationId).single()
+                            ) { Drink savedDrink, Organization organization ->
+                                [
+                                    savedDrink: savedDrink,
+                                    org     : organization
+                                ]
+                            }.subscribe({ Map map ->
+                                redirect("/breweries/${map.org.slug}/beers/${map.savedDrink.slug}")
+                            }, { Throwable t ->
+                                if (t.message.contains('unq_drink_slug')) {
+                                    SessionUtil.setFlash(request, FlashMessage.error(
+                                        String.format(Messages.BEER_ADD_ALREADY_EXISTS_ERROR, drink.slug)
+                                    ))
+                                } else {
+                                    SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR))
+                                }
+                                return redirect('/beers/add')
+                            })
+                        } else {
+                            List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
+                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                            redirect('/beers/add')
+                        }
+                    }
+                }
             }
+
+
+            get('beers/add') {
+                render handlebarsTemplate('beer/new-beer.html', [
+                    org         : null,
+                    drink       : new Drink(),
+                    title       : 'CellarHQ : Add New Beer',
+                    pageId      : 'beers.new',
+                    availability: Availability.toHandlebars()
+                ])
+
+            }
+
 
             /**
              * HTML page for adding a new beer to a brewery.
@@ -158,7 +215,7 @@ class BeerEndpoint implements Action<Chain> {
                     drink = applyFrom(new Drink(), form)
                 } catch (NumberFormatException e) {
                     SessionUtil.setFlash(request, FlashMessage.warning(Messages.FORM_VALIDATION_ERROR))
-                    return redirect('/beers/add')
+                    return redirect("breweries/${pathTokens['brewery']}/beers/add")
                 }
 
                 Validator validator = validatorFactory.validator
@@ -277,6 +334,7 @@ class BeerEndpoint implements Action<Chain> {
                 drinkType = DrinkType.BEER
                 slug = form.name
                 name = form.name
+                organizationId = form.organizationId.toLong()
             }
         }
 

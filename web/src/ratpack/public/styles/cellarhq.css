@@ -36,6 +36,7 @@ ul.cellared-drink-flags {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: inline;
 }
 .cellared-drink-flags li {
     display: inline;
@@ -150,21 +151,28 @@ ul.cellared-drink-flags {
     -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    max-height: 150px;
+    overflow-y: auto;
 }
 
 .tt-suggestion {
     padding: 3px 20px;
     line-height: 24px;
+
 }
 
 .tt-suggestion.tt-cursor {
     color: #fff;
     background-color: #0097cf;
-
 }
 
 .tt-suggestion p {
     margin: 0;
+}
+
+.action-column {
+    white-space: nowrap;
+    width:50px;
 }
 
 .size-column {

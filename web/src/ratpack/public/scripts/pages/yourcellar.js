@@ -14,6 +14,7 @@ var YourCellar = function() {
       var breweryLearner = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 20,
         remote: '/api/organizations/live-search?name=%QUERY'
       });
       breweryLearner.initialize();
@@ -21,6 +22,7 @@ var YourCellar = function() {
       var beerLearner = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 20,
         remote: {
           url: '/api/drinks/live-search',
           replace: function(url, query) {
@@ -138,7 +140,8 @@ var YourCellar = function() {
     drinkCellaredBeer: function() {
       var
         id = $(this).data('cellareddrinkid'),
-        cellar = $(this).data('cellar');
+        cellar = $(this).data('cellar'),
+        beerName = $(this).data('beername');
 
       $.ajax('/api/cellars/' + cellar + '/drinks/' + id + '/drink', {
         type: 'PUT',
@@ -146,10 +149,10 @@ var YourCellar = function() {
         dataType: 'json'
       })
         .done(function() {
-          window.location = '/yourcellar?success=Tasty. If that was your last beer, we removed it from the list.'
+          window.location = '/yourcellar?success=Hope that ' + beerName  + ' was tasty. If that was your last beer, we removed it from the list.'
         })
         .fail(function() {
-          window.location = '/yourcellar?error=An error occurred while drinking beer. Try again!'
+          window.location = '/yourcellar?error=An error occurred while drinking ' + beerName  + '. Try again!'
         });
     },
 
@@ -157,10 +160,15 @@ var YourCellar = function() {
       var
         id = $(this).data('cellareddrinkid'),
         cellar = $(this).data('cellar'),
-        deleteButton = $('a.confirm-delete-cellared-drink');
+        beerName = $(this).data('beername'),
+        deleteButton = $('a.confirm-delete-cellared-drink'),
+        beerNameSpan = $('#delete-beer-name')[0];
 
       deleteButton.data('cellar', cellar);
       deleteButton.data('cellareddrinkid', id);
+      deleteButton.data('beername', beerName);
+
+      beerNameSpan.innerHTML = beerName;
 
       $('#confirmDeleteCellaredBeerModal').modal();
     },
@@ -168,7 +176,8 @@ var YourCellar = function() {
     deleteCellaredBeer: function() {
       var
         id = $(this).data('cellareddrinkid'),
-        cellar = $(this).data('cellar');
+        cellar = $(this).data('cellar'),
+        beerName = $(this).data('beername');
 
       if (id && cellar) {
         $.ajax('/api/cellars/' + cellar + '/drinks/' + id, {
@@ -177,14 +186,14 @@ var YourCellar = function() {
           dataType: 'json'
         })
           .done(function() {
-            // TODO: Don't refresh, just flash the row red and hide the element.
-            location.reload();
+                //TODO: flash the row, hide it and update the beer counts.
+            window.location = '/yourcellar/?success=' + beerName  + ' was deleted.'
           })
           .fail(function(data) {
             var response = $.parseJSON(data.responseText);
             var message = response.message;
             if (message == null) {
-              message = 'An error occurred while deleting the cellared beer. Try again!';
+              message = 'An error occurred while deleting ' + beerName + '. Try again!';
             }
             window.location = ['/yourcellar/?error=' + message].join();
           })

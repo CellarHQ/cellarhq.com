@@ -1,9 +1,29 @@
 var Beer = function() {
     return {
         init: function() {
+            var breweryLearner = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                limit: 20,
+                remote: '/api/organizations/live-search?name=%QUERY'
+            });
+            breweryLearner.initialize();
+
+            $('#brewery').typeahead(null, {
+                displayKey: 'name',
+                source: breweryLearner.ttAdapter()
+            }).bind('typeahead:selected', function(obj, datum, name) {
+                $('#organizationId').val(datum['id']);
+            }).blur(function() {
+                if (!$('#organizationId').val()) {
+                    $(this).val('');
+                }
+            });
+
             var styleLearner = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
+                limit: 20,
                 remote: '/api/styles/live-search?name=%QUERY'
             });
             styleLearner.initialize();
@@ -23,6 +43,7 @@ var Beer = function() {
             var glasswareLearner = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
+                limit: 20,
                 remote: '/api/glassware/live-search?name=%QUERY'
             });
             glasswareLearner.initialize();
