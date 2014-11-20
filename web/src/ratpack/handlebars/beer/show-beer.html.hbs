@@ -90,6 +90,28 @@
                         </a>
                     </div>
                 </div>
+                {{#if tradableDrinks}}
+                <div class="row">
+                    <div class="table-responsive">
+                        <table id="beer-table" class="table table-striped table-bordered table-condensed table-vcenter">
+                            <thead>
+                            <tr>
+                                <th>Cellar</th>
+                                <th>Available</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each tradableDrinks}}
+                                <tr>
+                                    <td><a href="/cellars/{{cellarSlug}}">{{cellarName}}</a></td>
+                                    <td>{{numTradeable}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {{/if}}
             </div>
         </div>
     </div>
