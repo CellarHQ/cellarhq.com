@@ -113,7 +113,7 @@ ratpack {
         /**
          * Alias to /cellars/:id, auto-loads authenticated user.
          */
-        get('yourcellar', registry.get(YourCellarEndpoint))
+        handler chain(registry.get(YourCellarEndpoint))
 
         handler('import') {
             byMethod {

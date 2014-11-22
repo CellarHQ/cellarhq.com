@@ -5,4 +5,8 @@ class YourCellarPage extends BasePage {
     static url = '/yourcellar'
     static at = { pageId ==~ /yourcellar/ }
 
+    static content = {
+        yourArchiveLink(wait: true) { $('#archive-link') }
+    }
+
 }

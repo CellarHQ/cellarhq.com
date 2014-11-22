@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-sm-9 content-float-hor push-bit-top-bottom">
+        {{#if photo}}
+            <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+                 src="{{photo.largeUrl}}" alt="{{cellar.displayName}}"/>
+        {{else}}
+            <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
+                 src="/images/icon152.png" alt="{{cellar.displayName}}"/>
+        {{/if}}
+        <ul class="cellar-bio">
+            {{#if cellar.location}}
+                <li>{{cellar.location}}</li>
+            {{/if}}
+            {{#if cellar.website}}
+                <li><a href="{{cellar.website}}"
+                       title="{{cellar.displayName}}'s website">{{cellar.website}}</a></li>
+            {{/if}}
+        </ul>
+        {{#if cellar.bio}}
+            <p>{{cellar.bio}}</p>
+        {{/if}}
+        <a href="https://{{hostname}}/cellars/{{cellar.screenName}}"
+           class="btn btn-effect-ripple btn-sm btn-danger">
+            <i class="fa fa-link"> Permalink</i>
+        </a>
+        <a href="https://twitter.com/share"
+           data-url="https://{{hostname}}/cellars/{{cellar.screenName}}"
+
+            {{#if self}}
+           data-text="Check out my beer cellar on @cellarhq!"
+            {{else}}
+           data-text="Check out @{{cellar.screenName}}'s beer cellar on @cellarhq!"
+            {{/if}}
+           data-related="cellarhq" data-size="large" data-lang="en" data-count="none"
+           class="btn btn-effect-ripple btn-primary btn-sm"
+           style="overflow: hidden; position: relative;">
+            <i class="fa fa-twitter"></i> Tweet</a>
+        </a>
+        <script>!function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (!d.getElementById(id)) {
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//platform.twitter.com/widgets.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }
+        }(document, "script", "twitter-wjs");</script>
+    </div>
+    <div class="col-sm-3">
+        <ul>
+            <li><strong>{{cellar.totalBeers}}</strong> Total beers</li>
+            <li><strong>{{cellar.uniqueBeers}}</strong> Unique beers</li>
+            <li><strong>{{cellar.uniqueBreweries}}</strong> Breweries</li>
+        </ul>
+
+    </div>
+</div>

@@ -7,78 +7,26 @@
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
             <div class="block">
-
-                <div class="row">
-                    <div class="col-sm-9 content-float-hor push-bit-top-bottom">
-                        {{#if photo}}
-                            <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
-                                 src="{{photo.largeUrl}}" alt="{{cellar.displayName}}"/>
-                        {{else}}
-                            <img class="img-thumbnail img-thumbnail-avatar-2x pull-left"
-                                 src="/images/icon152.png" alt="{{cellar.displayName}}"/>
-                        {{/if}}
-                        <ul class="cellar-bio">
-                            {{#if cellar.location}}
-                                <li>{{cellar.location}}</li>
-                            {{/if}}
-                            {{#if cellar.website}}
-                                <li><a href="{{cellar.website}}"
-                                       title="{{cellar.displayName}}'s website">{{cellar.website}}</a></li>
-                            {{/if}}
-                        </ul>
-                        {{#if cellar.bio}}
-                            <p>{{cellar.bio}}</p>
-                        {{/if}}
-                        <a href="https://{{hostname}}/cellars/{{cellar.screenName}}"
-                           class="btn btn-effect-ripple btn-sm btn-danger">
-                            <i class="fa fa-link"> Permalink</i>
-                        </a>
-                        <a href="https://twitter.com/share"
-                           data-url="https://{{hostname}}/cellars/{{cellar.screenName}}"
-
-                            {{#if self}}
-                           data-text="Check out my beer cellar on @cellarhq!"
-                            {{else}}
-                           data-text="Check out @{{cellar.screenName}}'s beer cellar on @cellarhq!"
-                            {{/if}}
-                           data-related="cellarhq" data-size="large" data-lang="en" data-count="none"
-                           class="btn btn-effect-ripple btn-primary btn-sm"
-                           style="overflow: hidden; position: relative;">
-                            <i class="fa fa-twitter"></i> Tweet</a>
-                        </a>
-                        <script>!function (d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0];
-                            if (!d.getElementById(id)) {
-                                js = d.createElement(s);
-                                js.id = id;
-                                js.src = "//platform.twitter.com/widgets.js";
-                                fjs.parentNode.insertBefore(js, fjs);
-                            }
-                        }(document, "script", "twitter-wjs");</script>
-                    </div>
-                    <div class="col-sm-3">
-                        <ul>
-                            <li><strong>{{cellar.totalBeers}}</strong> Total beers</li>
-                            <li><strong>{{cellar.uniqueBeers}}</strong> Unique beers</li>
-                            <li><strong>{{cellar.uniqueBreweries}}</strong> Breweries</li>
-                        </ul>
-
-                    </div>
-                </div>
-
+                {{>cellars/_cellar_common}}
                 <h2>Beers</h2>
 
-                {{#if self}}
-                    <div class="block-section">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#addBeerModal">
-                                    <i class="fa fa-plus"></i> Add Beer
-                                </button>
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="pull-left col-xs-5">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#addBeerModal">
+                            <i class="fa fa-plus"></i> Add Beer
+                        </button>
                     </div>
-                {{/if}}
+                    <div class="navbar col-xs-5 pull-right">
+                        <ul class="nav nav-pills pull-right list-inline">
+                            <li class="active"><a href="#">Cellar</a></li>
+                            {{#if self}}
+                                <li><a id="archive-link" href="/yourarchive">Archive</a></li>
+                            {{else}}
+                                <li><a id="archive-link"  href="/cellars/{{cellar.screenName}}/archive">Archive</a></li>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table id="cellared-drinks-table"

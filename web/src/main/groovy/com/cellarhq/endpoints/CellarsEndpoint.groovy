@@ -14,6 +14,7 @@ import com.cellarhq.services.OrganizationService
 import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.DateUtil
+import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.cellarhq.validation.ValidationErrorMapper
 import com.google.inject.Inject
@@ -23,6 +24,7 @@ import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
 import ratpack.handling.Context
+import ratpack.http.Request
 import ratpack.session.store.SessionStorage
 
 import javax.validation.ConstraintViolation
@@ -120,18 +122,48 @@ class CellarsEndpoint implements Action<Chain> {
                             if (map.cellar == null) {
                                 clientError 404
                             } else {
-                                Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-                                boolean isSelf = (cellarId && map.cellar.id == cellarId)
-
                                 render handlebarsTemplate('cellars/show-cellar.html',
                                         [cellar        : map.cellar,
                                          photo         : map.photo,
                                          cellaredDrinks: map.cellaredDrinks,
-                                         self          : isSelf,
+                                         self          : isSelf(request, map.cellar.id),
                                          title         : "CellarHQ : ${map.cellar.displayName}",
                                          pageId        : 'cellars.show'])
                             }
                         }
+                    }
+                }
+            }
+
+            get('cellars/:slug/archive') {
+                String slug = pathTokens['slug']
+
+                rx.Observable.zip(
+                        cellarService.findBySlug(slug).single(),
+                        cellaredDrinkService.archive(slug, SortCommand.fromRequest(request)).toList(),
+                        photoService.findByCellarSlug(slug).single()
+                ) { Cellar cellar, List cellaredDrinks, Photo photo ->
+                    [
+                            cellar : cellar,
+                            archive: cellaredDrinks,
+                            photo  : photo
+                    ]
+                }.subscribe { Map map ->
+                    if (map.cellar == null) {
+                        log.error(LogUtil.toLog('archive', [
+                                msg: 'Could not locate a cellar by slug',
+                                slug : slug
+                        ]))
+                        clientError 404
+                    } else {
+                        render handlebarsTemplate('cellars/show-archive.html',
+                                [cellar : map.cellar,
+                                 photo  : map.photo,
+                                 archive: map.archive,
+                                 self   : isSelf(request, map.cellar.id),
+                                 title  : 'CellarHQ : Your Cellar',
+                                 pageId : 'yourcellar']
+                        )
                     }
                 }
             }
@@ -247,6 +279,11 @@ class CellarsEndpoint implements Action<Chain> {
         }
     }
 
+    private isSelf(Request request, Long requestCellarId) {
+        Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
+        return (cellarId && requestCellarId == cellarId)
+    }
+
     private CellaredDrink applyForm(CellaredDrink cellaredDrink, Form form) {
         return cellaredDrink.with { CellaredDrink self ->
             size = form.size
@@ -267,10 +304,7 @@ class CellarsEndpoint implements Action<Chain> {
 
     void requireSelf(Context context, CellaredDrink cellaredDrink, Closure operation) {
         context.with {
-            Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-            boolean isSelf = (cellarId && cellaredDrink.cellarId == cellarId)
-
-            if (isSelf) {
+            if (isSelf(request, cellaredDrink.cellarId)) {
                 operation()
             } else {
                 SessionUtil.setFlash(request, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR))
