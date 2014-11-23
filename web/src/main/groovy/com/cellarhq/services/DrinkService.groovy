@@ -162,7 +162,7 @@ class DrinkService extends BaseJooqService {
                     .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
                     .leftOuterJoin(GLASSWARE).onKey(Keys.DRINK__FK_DRINK_GLASSWARE_ID)
                     .where(DRINK.SLUG.eq(slug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
-                    .fetchOneInto(Drink)
+                    .fetchInto(Drink)?.first()
             }
         })
     }
