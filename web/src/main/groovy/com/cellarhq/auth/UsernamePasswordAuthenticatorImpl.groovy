@@ -60,7 +60,7 @@ class UsernamePasswordAuthenticatorImpl implements UsernamePasswordAuthenticator
             accountService.resetFailedLoginAttempts(emailAccount)
 
             if (passwordService.shouldRehashPassword(emailAccount.password)) {
-                log.warn(LogUtil.toLog(request, 'AutoPasswordRehash', [
+                log.warn(LogUtil.toLog('AutoPasswordRehash', [
                         msg: 'Automatically rehashing account password',
                         account: emailAccount.id
                 ]))

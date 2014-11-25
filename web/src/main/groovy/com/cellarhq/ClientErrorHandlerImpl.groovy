@@ -29,7 +29,7 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
         ClientErrorMessages messages = getStatusCodeContent(context.request, statusCode)
         context.with {
             response.status(statusCode)
-            if (request.headers.get('Accept').contains('application/json')) {
+            if (request.headers.get('Accept')?.contains('application/json')) {
                 render json([
                         title: messages.headTitle,
                         message: messages.pageTitle
