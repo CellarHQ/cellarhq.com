@@ -95,7 +95,7 @@ class BeerEndpoint implements Action<Chain> {
                                  title               : 'CellarHQ : Beer',
                                  pageId              : 'beer.list'])
                         }, { Throwable t ->
-                            log.error(LogUtil.toLog('ListBeerError'), t)
+                            log.error(LogUtil.toLog(request, 'ListBeerError'), t)
                             clientError 500
                         })
                     }
@@ -175,7 +175,7 @@ class BeerEndpoint implements Action<Chain> {
                         clientError 404
                     }
                 }, { Throwable t ->
-                    log.error(LogUtil.toLog('ShowBeerError'), t)
+                    log.error(LogUtil.toLog(request, 'ShowBeerError'), t)
                     clientError 500
                 })
             }
@@ -202,7 +202,7 @@ class BeerEndpoint implements Action<Chain> {
                         clientError 404
                     }
                 }, { Throwable t ->
-                    log.error(LogUtil.toLog('ShowBeerError'), t)
+                    log.error(LogUtil.toLog(request, 'ShowBeerError'), t)
                     clientError 500
                 })
             }
@@ -239,7 +239,7 @@ class BeerEndpoint implements Action<Chain> {
                             redirect("/breweries/${pathTokens['brewery']}/beers/add")
                         })
                     }, { Throwable t ->
-                        log.error(LogUtil.toLog('ShowBeerError'), t)
+                        log.error(LogUtil.toLog(request, 'ShowBeerError'), t)
                         clientError 500
                     })
                 } else {
@@ -278,7 +278,7 @@ class BeerEndpoint implements Action<Chain> {
                                 clientError 404
                             }
                         }, { Throwable t ->
-                            log.error(LogUtil.toLog('ShowBeerError'), t)
+                            log.error(LogUtil.toLog(request, 'ShowBeerError'), t)
                             clientError 500
                         })
                     }

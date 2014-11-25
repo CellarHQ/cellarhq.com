@@ -38,7 +38,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                     blocking {
                         accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
                     } onError { Throwable t ->
-                        log.error(LogUtil.toLog('ForgotPasswordFailure', [
+                        log.error(LogUtil.toLog(request, 'ForgotPasswordFailure', [
                                 exception: t.toString()
                         ]), t)
 
@@ -64,7 +64,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
 
                         EmailAccount account = accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
                         if (account) {
-                            log.info(LogUtil.toLog('ChangingPassword', [
+                            log.info(LogUtil.toLog(request, 'ChangingPassword', [
                                 accountId: account.id
                             ]))
                             account.password = form.password
@@ -93,7 +93,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
 
                         return result
                     } onError { Throwable t ->
-                        log.error(LogUtil.toLog('ForgotPasswordFailure', [
+                        log.error(LogUtil.toLog(request, 'ForgotPasswordFailure', [
                                 exception: t.toString()
                         ]))
 

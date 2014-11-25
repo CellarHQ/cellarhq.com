@@ -85,7 +85,7 @@ class BreweryEndpoint implements Action<Chain> {
                                  title               : 'CellarHQ : Breweries',
                                  pageId              : 'breweries.list'])
                         }, { Throwable t ->
-                            log.error(LogUtil.toLog('ListBreweriesError'), t)
+                            log.error(LogUtil.toLog(request, 'ListBreweriesError'), t)
                             clientError 500
                         })
                     }

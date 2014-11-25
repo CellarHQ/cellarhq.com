@@ -47,7 +47,7 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
     private ClientErrorMessages getStatusCodeContent(Request request, int statusCode) {
         switch (statusCode) {
             case 400:
-                log.warn(LogUtil.toLog('ClientError', [
+                log.warn(LogUtil.toLog(request, 'ClientError', [
                         statusCode: statusCode,
                         method: request.method,
                         uri: request.uri
@@ -70,7 +70,7 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
                 )
 
             case 404:
-                log.warn(LogUtil.toLog('ClientError', [
+                log.warn(LogUtil.toLog(request, 'ClientError', [
                         statusCode: statusCode,
                         method: request.method,
                         uri: request.uri
@@ -81,7 +81,7 @@ class ClientErrorHandlerImpl implements ClientErrorHandler {
                 )
 
             default:
-                log.warn(LogUtil.toLog('ClientError', [
+                log.warn(LogUtil.toLog(request, 'ClientError', [
                         statusCode: statusCode,
                         method: request.method,
                         uri: request.uri,

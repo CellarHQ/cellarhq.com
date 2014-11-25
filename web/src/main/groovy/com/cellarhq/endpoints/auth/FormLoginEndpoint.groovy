@@ -35,7 +35,7 @@ class FormLoginEndpoint extends GroovyHandler {
             byMethod {
                 get {
                     HttpProfile httpProfile = request.get(HttpProfile)
-                    log.info(LogUtil.toLog('Form Login Attempt', [
+                    log.info(LogUtil.toLog(request, 'Form Login Attempt', [
                         httpProfile: httpProfile.username
                     ]))
 

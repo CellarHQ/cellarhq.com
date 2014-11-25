@@ -18,15 +18,15 @@ class ServerErrorHandlerImpl implements ServerErrorHandler {
 
     @Override
     void error(Context context, Throwable throwable) throws Throwable {
-        String correlationId = UUID.randomUUID().toString().replace('-', '').substring(0, 8)
-        log.error(LogUtil.toLog('ServerError', [
-                correlationId: correlationId,
+        log.error(LogUtil.toLog(context.request, 'ServerError', [
                 requestPath: context.request.path,
                 method: context.request.method,
                 msg: throwable.message
         ]), throwable)
 
         context.with {
+            String correlationId = request.get(UUID).toString()
+
             if (CellarHQModule.productionEnv) {
                 render handlebarsTemplate('error.html',
                         title: 'Error',
