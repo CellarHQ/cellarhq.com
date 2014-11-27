@@ -97,7 +97,7 @@ class RegisterEndpoint extends GroovyHandler {
                                         FlashMessage.error(Messages.REGISTER_EMAIL_ACCOUNT_ALREADY_EXISTS)
                                 )
                             } else {
-                                log.error(LogUtil.toLog('RegistrationFailure'), e)
+                                log.error(LogUtil.toLog(request, 'RegistrationFailure'), e)
                                 SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                             }
 

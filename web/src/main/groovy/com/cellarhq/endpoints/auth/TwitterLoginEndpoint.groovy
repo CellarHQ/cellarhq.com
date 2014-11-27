@@ -50,7 +50,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
                     TwitterProfile twitterProfile = request.get(TwitterProfile)
 
                     blocking {
-                        log.info(LogUtil.toLog('Twitter Login Attempt', [
+                        log.info(LogUtil.toLog(request, 'Twitter Login Attempt', [
                             twitterProfile: twitterProfile.username
                         ]))
                         OAuthAccount account = accountService.findByCredentials(twitterProfile.username)
@@ -79,7 +79,7 @@ class TwitterLoginEndpoint extends GroovyHandler {
 
                         account
                     } onError { Throwable e ->
-                        log.error(LogUtil.toLog('TwitterLoginEndpoint'), e)
+                        log.error(LogUtil.toLog(request, 'TwitterLoginEndpoint'), e)
                         SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                         redirect('/logout')
                     } then { OAuthAccount oAuthAccount ->

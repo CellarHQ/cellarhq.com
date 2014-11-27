@@ -50,7 +50,7 @@ class YourCellarEndpoint extends GroovyHandler {
                     ]
                 }.subscribe { Map map ->
                     if (map.cellar == null) {
-                        log.error(LogUtil.toLog('YourCellar', [
+                        log.error(LogUtil.toLog(request, 'YourCellar', [
                             msg: 'Could not locate a cellar by user session id',
                             id : cellarId
                         ]))

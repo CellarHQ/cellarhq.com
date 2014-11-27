@@ -9,6 +9,8 @@ import com.cellarhq.handlebars.helpers.PaginationHelper
 import com.cellarhq.handlebars.helpers.SelectedOptionHelper
 import com.cellarhq.handlebars.helpers.BottledDateHelper
 import com.cellarhq.handler.RequestLoggingHandler
+import com.cellarhq.handlers.CorrelationIdHandler
+import com.cellarhq.handlers.RequestLoggingHandler
 import com.cellarhq.services.*
 import com.cellarhq.services.email.AmazonEmailService
 import com.cellarhq.services.email.EmailService
@@ -85,6 +87,8 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(SelectedOptionHelper).in(Scopes.SINGLETON)
         bind(BottledDateHelper).in(Scopes.SINGLETON)
         bind(HandlebarsTemplateRenderer).to(HandlebarsTemplateRendererImpl).in(Scopes.SINGLETON)
+
+
     }
 
     @Singleton
@@ -98,6 +102,6 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
 
     @Override
     public Handler decorate(Injector injector, Handler handler) {
-        return new RequestLoggingHandler(handler)
+        return new CorrelationIdHandler(new RequestLoggingHandler(handler))
     }
 }

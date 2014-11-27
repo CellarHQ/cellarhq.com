@@ -45,7 +45,7 @@ class ForgotPasswordEndpoint implements Action<Chain> {
 
                         blocking {
                             String recoveryHash = null
-                            log.info(LogUtil.toLog('ForgotPasswordEmail', [
+                            log.info(LogUtil.toLog(request, 'ForgotPasswordEmail', [
                                 email: form.email
                             ]))
                             EmailAccount emailAccount = accountService.findByEmail(form.email)
@@ -54,7 +54,7 @@ class ForgotPasswordEndpoint implements Action<Chain> {
                             }
                             recoveryHash
                         } onError { Throwable t ->
-                            log.error(LogUtil.toLog('ForgotPasswordFailure', [
+                            log.error(LogUtil.toLog(request, 'ForgotPasswordFailure', [
                                 exception: t.toString()
                             ]), t)
 

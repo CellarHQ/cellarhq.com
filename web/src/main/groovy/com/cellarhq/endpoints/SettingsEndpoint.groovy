@@ -107,7 +107,7 @@ class SettingsEndpoint implements Action<Chain> {
                             }
                             result
                         } onError { Throwable t ->
-                            log.error(LogUtil.toLog('SaveSettingsFailure', [
+                            log.error(LogUtil.toLog(request, 'SaveSettingsFailure', [
                                 exception: t
                             ]), t)
                             SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
