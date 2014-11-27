@@ -115,7 +115,9 @@ class CellaredDrinkService extends BaseJooqService {
                     organizationName: String,
                     drinkSlug: String,
                     drinkName: String,
-                    styleName: String
+                    styleName: String,
+                    cellarSlug: String,
+                    cellarName: String
             ]))
         }) { DSLContext create ->
             SelectJoinStep selectStep = create.select(JooqUtil.andFields(
@@ -124,7 +126,9 @@ class CellaredDrinkService extends BaseJooqService {
                         ORGANIZATION.NAME.as('organizationName'),
                         DRINK.SLUG.as('drinkSlug'),
                         DRINK.NAME.as('drinkName'),
-                        STYLE.NAME.as('styleName')
+                        STYLE.NAME.as('styleName'),
+                        CELLAR.SLUG.as('cellarSlug'),
+                        CELLAR.SCREEN_NAME.as('cellarName')
                     ))
                     .from(CELLARED_DRINK)
                     .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
@@ -194,10 +198,22 @@ class CellaredDrinkService extends BaseJooqService {
         })
     }
 
-    rx.Observable<CellaredDrink> findTradeableCellaredDrinks(Long drinkId, SortCommand sortCommand) {
+    /**
+     * Finds any cellared drink that has been marked as tradable by the cellar owner.
+     *
+     * @param organizationSlug
+     * @param drinkSlug
+     * @param sortCommand
+     * @return
+     */
+    rx.Observable<CellaredDrinkDetails> findTradeableCellaredDrinks(String organizationSlug,
+                                                             String drinkSlug,
+                                                             SortCommand sortCommand) {
         observeEach(execControl.blocking {
             allQuery(sortCommand) { SelectJoinStep step ->
-                step.where(CELLARED_DRINK.DRINK_ID.eq(drinkId))
+                step.where(DRINK.SLUG.eq(drinkSlug))
+                        .and(ORGANIZATION.SLUG.eq(organizationSlug))
+                        .and(CELLARED_DRINK.TRADEABLE.isTrue())
             }
         })
     }

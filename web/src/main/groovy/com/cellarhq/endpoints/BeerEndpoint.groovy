@@ -2,7 +2,9 @@ package com.cellarhq.endpoints
 
 import com.cellarhq.Messages
 import com.cellarhq.domain.*
+import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.jooq.SortCommand
+import com.cellarhq.services.CellaredDrinkService
 import com.cellarhq.services.DrinkService
 import com.cellarhq.services.OrganizationService
 import com.cellarhq.services.StyleService
@@ -33,19 +35,22 @@ class BeerEndpoint implements Action<Chain> {
     StyleService styleService
     OrganizationService organizationService
     PhotoService photoService
+    CellaredDrinkService cellaredDrinkService
 
     @Inject
     BeerEndpoint(ValidatorFactory validatorFactory,
                  DrinkService drinkService,
                  StyleService styleService,
                  OrganizationService organizationService,
-                 PhotoService photoService) {
+                 PhotoService photoService,
+                 CellaredDrinkService cellaredDrinkService) {
 
         this.validatorFactory = validatorFactory
         this.drinkService = drinkService
         this.styleService = styleService
         this.organizationService = organizationService
         this.photoService = photoService
+        this.cellaredDrinkService = cellaredDrinkService
     }
 
     @Override
@@ -259,19 +264,24 @@ class BeerEndpoint implements Action<Chain> {
                         String slug = pathTokens['slug']
                         String brewery = pathTokens['brewery']
 
-                        rx.Observable photo = photoService.findByOrganizationAndDrink(brewery, slug)
-                        rx.Observable drink = drinkService.findBySlug(brewery, slug)
+                        rx.Observable photo = photoService.findByOrganizationAndDrink(brewery, slug).single()
+                        rx.Observable drink = drinkService.findBySlug(brewery, slug).single()
+                        rx.Observable cellaredDrinks = cellaredDrinkService.findTradeableCellaredDrinks(
+                                brewery, slug, SortCommand.fromRequest(request)).toList()
 
-                        rx.Observable.zip(photo, drink) { Photo photo1, Drink drink1 ->
-                            [
-                                photo: photo1,
-                                drink: drink1
-                            ]
+                        rx.Observable.zip(photo, drink, cellaredDrinks)
+                            { Photo photo1, Drink drink1, List<CellaredDrinkDetails> drinks ->
+                                [
+                                    photo: photo1,
+                                    drink: drink1,
+                                    tradableDrinks: drinks
+                                ]
                         }.subscribe({ Map map ->
                             if (map.drink) {
                                 render handlebarsTemplate('beer/show-beer.html',
                                     [drink : map.drink,
                                      photo : map.photo,
+                                     tradableDrinks: map.tradableDrinks,
                                      title : "CellarHQ : ${map.drink.name}",
                                      pageId: 'beer.show'])
                             } else {

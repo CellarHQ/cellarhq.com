@@ -17,6 +17,9 @@ class CellaredDrinkDetails extends CellaredDrink {
     String organizationName
     String organizationSlug
 
+    String cellarSlug
+    String cellarName
+
     String drinkName
     String drinkSlug
 
