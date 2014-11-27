@@ -2,24 +2,15 @@ import com.cellarhq.CellarHQModule
 import com.cellarhq.ClientErrorHandlerImpl
 import com.cellarhq.ServerErrorHandlerImpl
 import com.cellarhq.auth.SecurityModule
-import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.views.HomepageStatistics
 import com.cellarhq.endpoints.*
-import com.cellarhq.endpoints.api.CellarEndpoint
-import com.cellarhq.endpoints.api.CellaredDrinkEndpoint
-import com.cellarhq.endpoints.api.DrinkEndpoint
-import com.cellarhq.endpoints.api.GlasswareEndpoint
-import com.cellarhq.endpoints.api.OrganizationEndpoint
-import com.cellarhq.endpoints.api.StyleEndpoint
+import com.cellarhq.endpoints.api.*
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
-import com.cellarhq.services.CellarService
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
 import org.pac4j.core.profile.CommonProfile
-import ratpack.codahale.metrics.CodaHaleMetricsModule
-import ratpack.codahale.metrics.MetricsWebsocketBroadcastHandler
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -49,8 +40,6 @@ String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
 
 ratpack {
     bindings {
-        add new CodaHaleMetricsModule().metrics().jvmMetrics().jmx().websocket().healthChecks()
-
         bind ServerErrorHandler, ServerErrorHandlerImpl
         bind ClientErrorHandler, ClientErrorHandlerImpl
         bind DatabaseHealthcheck
@@ -229,14 +218,6 @@ ratpack {
         get('health-checks', { HealthCheckRegistry healthCheckRegistry ->
             render json(healthCheckRegistry.runHealthChecks())
         })
-
-        prefix("admin") {
-            get("metrics-report", new MetricsWebsocketBroadcastHandler())
-
-            get("metrics") {
-                render handlebarsTemplate("metrics.html", title: "Metrics")
-            }
-        }
 
         assets "public"
     }
