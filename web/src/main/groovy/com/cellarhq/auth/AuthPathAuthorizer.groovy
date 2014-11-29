@@ -31,6 +31,7 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'privacy-policy',
             'register',
             'login',
+            'logout',
             'signin',
             'signup',
             'forgot-password',

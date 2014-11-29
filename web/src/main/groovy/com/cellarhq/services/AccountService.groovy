@@ -50,6 +50,7 @@ class AccountService extends BaseJooqService {
         this.passwordService = passwordService
     }
 
+    @Deprecated
     OAuthAccount findByCredentials(String username, OAuthClient client = OAuthClient.TWITTER) {
         (OAuthAccount) jooq { DSLContext create ->
             Record result = create.select()

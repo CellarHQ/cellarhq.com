@@ -43,7 +43,7 @@ public class RequestLoggingHandler implements Handler {
         try {
             UUID potentialUUID = request.get(UUID.class);
             if (potentialUUID != null) {
-                sb.append(" CorrelationID: ");
+                sb.append(" correlationId=");
                 sb.append(potentialUUID.toString());
             }
         } catch (NotInRegistryException e) {
