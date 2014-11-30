@@ -36,7 +36,7 @@ public class RequestLoggingHandler implements Handler {
         StringBuilder sb = new StringBuilder();
         sb.append(request.getMethod().toString());
         sb.append(" ");
-        sb.append(request.getPath());
+        sb.append(request.getUri());
         sb.append(" ");
         sb.append(response.getStatus().getCode());
 

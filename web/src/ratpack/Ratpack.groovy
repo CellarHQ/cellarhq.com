@@ -178,6 +178,7 @@ ratpack {
         handler('forgot-password', chain(registry.get(ForgotPasswordEndpoint)))
         handler('forgot-password/:id', registry.get(ChangePasswordEndpoint))
         handler('settings', chain(registry.get(SettingsEndpoint)))
+        handler chain(registry.get(LinkAccountEndpoint))
 
         /**
          * Backwards compatibility endpoints:

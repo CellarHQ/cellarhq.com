@@ -3,7 +3,6 @@ package com.cellarhq.services
 import static com.cellarhq.generated.Tables.*
 
 import com.cellarhq.auth.PasswordService
-import com.cellarhq.auth.Role
 import com.cellarhq.domain.OAuthClient
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
@@ -12,7 +11,6 @@ import com.cellarhq.domain.Photo
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.AccountOauthRecord
 import com.cellarhq.generated.tables.records.CellarRecord
-import com.cellarhq.generated.tables.records.CellarRoleRecord
 import com.cellarhq.generated.tables.records.PasswordChangeRequestRecord
 import com.cellarhq.generated.tables.records.PhotoRecord
 import com.cellarhq.services.photo.PhotoService
@@ -114,14 +112,19 @@ class AccountService extends BaseJooqService {
                 cellarRecord.store()
                 emailAccount.cellarId = cellarRecord.id
 
-                bindRoleToCellar(create, Role.MEMBER, cellarRecord.id)
-
                 AccountEmailRecord accountEmailRecord = create.newRecord(ACCOUNT_EMAIL, emailAccount)
                 accountEmailRecord.reset(ACCOUNT_EMAIL.ID)
                 accountEmailRecord.store()
 
                 EmailAccount resultEmailAccount = accountEmailRecord.into(EmailAccount)
                 resultEmailAccount.cellar = cellarRecord.into(Cellar)
+
+                log.info(LogUtil.toLog('NewAccount', [
+                        type: EmailAccount.simpleName,
+                        account: emailAccount.email,
+                        cellarId: cellarRecord.id
+                ]))
+
                 resultEmailAccount.id ? resultEmailAccount : null
             }
         }
@@ -138,14 +141,19 @@ class AccountService extends BaseJooqService {
                 cellarRecord.store()
                 oAuthAccount.cellarId = cellarRecord.id
 
-                bindRoleToCellar(create, Role.MEMBER, cellarRecord.id)
-
                 AccountOauthRecord record = create.newRecord(ACCOUNT_OAUTH, oAuthAccount)
                 record.reset(ACCOUNT_OAUTH.ID)
                 record.store()
 
                 OAuthAccount resultOAuthAccount = record.into(OAuthAccount)
                 resultOAuthAccount.cellar = cellarRecord.into(Cellar)
+
+                log.info(LogUtil.toLog('NewAccount', [
+                        type: OAuthAccount.simpleName,
+                        account: oAuthAccount.username,
+                        cellarId: cellarRecord.id
+                ]))
+
                 resultOAuthAccount.id ? resultOAuthAccount : null
             }
         }
@@ -192,13 +200,6 @@ class AccountService extends BaseJooqService {
 
             record.into(OAuthAccount)
         }
-    }
-
-    private void bindRoleToCellar(DSLContext create, Role role, long cellarId) {
-        CellarRoleRecord cellarRoleRecord = create.newRecord(CELLAR_ROLE)
-        cellarRoleRecord.cellarId = cellarId
-        cellarRoleRecord.role = role.toString()
-        cellarRoleRecord.store()
     }
 
     void trackFailedLoginAttempt(EmailAccount emailAccount) {

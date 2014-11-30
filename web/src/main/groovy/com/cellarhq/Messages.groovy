@@ -24,6 +24,7 @@ abstract class Messages {
     final static String REGISTER_EMAIL_ACCOUNT_ALREADY_EXISTS = 'An account with that email is already registered.'
 
     final static String SETTINGS_SAVED = "Lookin' good. We've updated your profile."
+    final static String SETTINGS_SCREEN_NAME_CHANGED = 'Your screen name has been updated.'
 
     final static String CELLARED_DRINK_SAVED = "Lookin' good. We've updated %1s by %2s."
     final static String CELLARED_DRINK_SAVED_SOCIAL = 'Added %1s by %2s to my beer cellar!'
