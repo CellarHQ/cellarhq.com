@@ -30,7 +30,9 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'terms-of-service',
             'privacy-policy',
             'register',
+            /settings\/.*/,
             'login',
+            'logout',
             'signin',
             'signup',
             'forgot-password',
@@ -42,12 +44,11 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             /pac4j.*/,
             /favicon\.ico/,
             /api.*/,
-            'health-checks',
-            /admin\/.*/
+            'health-checks'
     ]
 
     final static List<String> ADMIN_ROLE_REQUIRED = [
-        'admin/secrets'
+            /admin\/.*/
     ]
 
     @Override

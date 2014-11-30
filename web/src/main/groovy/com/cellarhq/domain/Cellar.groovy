@@ -8,6 +8,7 @@ import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.NotEmpty
+import org.pac4j.oauth.profile.twitter.TwitterProfile
 
 import javax.persistence.Column
 import javax.validation.constraints.Pattern
@@ -27,6 +28,20 @@ import java.time.LocalDateTime
 @CompileStatic
 @InheritConstructors
 class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
+
+    static Cellar makeFrom(TwitterProfile profile) {
+        return new Cellar().with { Cellar self ->
+            screenName = profile.username
+            displayName = profile.displayName
+            location = profile.location
+            website = profile.profileUrl
+            bio = profile.description
+            lastLogin = Timestamp.valueOf(LocalDateTime.now())
+
+            addRole(Role.MEMBER)
+            return self
+        }
+    }
 
     Set<Role> roles = []
 

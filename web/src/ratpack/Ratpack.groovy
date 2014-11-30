@@ -10,6 +10,7 @@ import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
+import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.CommonProfile
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
@@ -160,12 +161,10 @@ ratpack {
          */
 
         handler('register', registry.get(RegisterEndpoint))
-        handler('auth-twitter', registry.get(TwitterLoginEndpoint))
-        handler('auth-form', registry.get(FormLoginEndpoint))
+
         get('login') {
             render handlebarsTemplate('login.html',
                     title: 'Login',
-                    action: '/pac4j-callback',
                     pageId: 'login')
         }
 
@@ -179,6 +178,7 @@ ratpack {
         handler('forgot-password', chain(registry.get(ForgotPasswordEndpoint)))
         handler('forgot-password/:id', registry.get(ChangePasswordEndpoint))
         handler('settings', chain(registry.get(SettingsEndpoint)))
+        handler chain(registry.get(LinkAccountEndpoint))
 
         /**
          * Backwards compatibility endpoints:

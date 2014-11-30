@@ -25,7 +25,7 @@ class ServerErrorHandlerImpl implements ServerErrorHandler {
         ]), throwable)
 
         context.with {
-            String correlationId = request.get(UUID).toString()
+            String correlationId = request.maybeGet(UUID).map { it.toString() }
 
             if (CellarHQModule.productionEnv) {
                 render handlebarsTemplate('error.html',

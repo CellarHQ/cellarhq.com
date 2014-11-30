@@ -25,8 +25,10 @@ abstract class LogUtil {
     }
 
     static String toLog(Request request, String key, Map properties = [:]) {
-        String correlationId = request.get(UUID).toString()
-        return "KEY=${key}, CORRELATIONID=${correlationId} " + properties.collect { "${it.key}=${it.value}" }.join(', ')
+        Optional<UUID> uuid = request.maybeGet(UUID)
+        String correlationId = uuid.isPresent() ? uuid.get() : 'UNKNOWN'
+
+        return "KEY=${key}, correlationId=${correlationId} " + properties.collect { "${it.key}=${it.value}" }.join(', ')
     }
 
     static String toLog(String key, Map properties = [:]) {

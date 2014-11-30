@@ -1,6 +1,7 @@
 package com.cellarhq.handlebars
 
 import com.cellarhq.CellarHQModule
+import com.cellarhq.auth.CellarHQFormClient
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -8,11 +9,15 @@ import com.github.jknack.handlebars.Handlebars
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.pac4j.core.client.Clients
 import org.pac4j.core.profile.CommonProfile
+import org.pac4j.http.client.FormClient
+import org.pac4j.oauth.client.TwitterClient
 import ratpack.handlebars.Template
 import ratpack.handlebars.internal.HandlebarsTemplateRenderer
 import ratpack.handling.Context
 import ratpack.http.Request
+import ratpack.pac4j.internal.RatpackWebContext
 import ratpack.session.store.SessionStorage
 
 /**
@@ -33,6 +38,8 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
     private final static String MODEL_REQUEST = 'request'
     private final static String MODEL_GA_TRACKING_CODE = 'gaTrackingCode'
     private final static String MODEL_HOSTNAME = 'hostname'
+    private final static String MODEL_AUTH_FORM_URL = 'authFormUrl'
+    private final static String MODEL_AUTH_TWITTER_URL = 'authTwitterUrl'
 
     @Inject
     HandlebarsTemplateRendererImpl(Handlebars handlebars) {
@@ -71,6 +78,11 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
         model[MODEL_REQUEST] = context.request
 
         model[MODEL_HOSTNAME] = CellarHQModule.hostname
+
+        Clients clients = context.request.get(Clients)
+        RatpackWebContext webContext = new RatpackWebContext(context)
+        model[MODEL_AUTH_FORM_URL] = clients.findClient(CellarHQFormClient).getRedirectionUrl(webContext)
+        model[MODEL_AUTH_TWITTER_URL] = clients.findClient(TwitterClient).getRedirectionUrl(webContext)
 
         super.render(context, template)
     }

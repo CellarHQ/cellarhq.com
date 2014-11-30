@@ -36,14 +36,14 @@ public class RequestLoggingHandler implements Handler {
         StringBuilder sb = new StringBuilder();
         sb.append(request.getMethod().toString());
         sb.append(" ");
-        sb.append(request.getPath());
+        sb.append(request.getUri());
         sb.append(" ");
         sb.append(response.getStatus().getCode());
 
         try {
             UUID potentialUUID = request.get(UUID.class);
             if (potentialUUID != null) {
-                sb.append(" CorrelationID: ");
+                sb.append(" correlationId=");
                 sb.append(potentialUUID.toString());
             }
         } catch (NotInRegistryException e) {

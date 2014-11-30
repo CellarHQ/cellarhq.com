@@ -1,6 +1,7 @@
 package com.cellarhq.auth
 
 import groovy.transform.CompileStatic
+import org.pac4j.core.client.Client
 import org.pac4j.core.client.Clients
 import org.pac4j.core.exception.RequiresHttpAction
 import org.pac4j.core.exception.TechnicalException
@@ -53,7 +54,7 @@ class CellarHQAuthenticationHandler extends Pac4jProfileHandler {
         final RatpackWebContext webContext = new RatpackWebContext(context)
 
         context.blocking {
-            clients.findClient(deriveClient(request.path, webContext)).redirect(webContext, true, false)
+            findClient(clients, webContext).redirect(webContext, true, false)
         } onError { Throwable ex ->
             if (ex instanceof RequiresHttpAction) {
                 webContext.sendResponse((RequiresHttpAction) ex)
@@ -65,11 +66,10 @@ class CellarHQAuthenticationHandler extends Pac4jProfileHandler {
         }
     }
 
-    private String deriveClient(String path, RatpackWebContext webContext) throws RequiresHttpAction {
-        if (path.startsWith('auth-twitter')) {
-            return 'TwitterClient'
-        } else if (path.startsWith('auth-form')) {
-            return 'FormClient'
+    private Client findClient(Clients clients, RatpackWebContext webContext) throws RequiresHttpAction {
+        Client client = clients.findClient(webContext)
+        if (client) {
+            return client
         }
         throw RequiresHttpAction.redirect('Unauthorized to view this page', webContext, '/login')
     }
