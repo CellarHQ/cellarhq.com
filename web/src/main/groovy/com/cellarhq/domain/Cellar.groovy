@@ -37,13 +37,9 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
             website = profile.profileUrl
             bio = profile.description
             lastLogin = Timestamp.valueOf(LocalDateTime.now())
-
-            addRole(Role.MEMBER)
             return self
         }
     }
-
-    Set<Role> roles = []
 
     Photo photo
 
@@ -56,6 +52,7 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
         uniqueBeers = 0
         uniqueBreweries = 0
         hasTradeableBeers = false
+        role = Role.MEMBER
     }
 
     @Override
@@ -92,8 +89,8 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
         super.private = private_ ?: false
     }
 
-    void addRole(Role role) {
-        roles << role
+    void setRole(Role role) {
+        super.role = role.toString()
     }
 
     boolean hasContactInfo() {

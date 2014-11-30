@@ -44,11 +44,6 @@ public class Sequences {
 	public static final org.jooq.Sequence<java.lang.Long> CELLAR_ID_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("cellar_id_seq", com.cellarhq.generated.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 
 	/**
-	 * The sequence <code>public.cellar_role_id_seq</code>
-	 */
-	public static final org.jooq.Sequence<java.lang.Long> CELLAR_ROLE_ID_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("cellar_role_id_seq", com.cellarhq.generated.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
-
-	/**
 	 * The sequence <code>public.drink_id_seq</code>
 	 */
 	public static final org.jooq.Sequence<java.lang.Long> DRINK_ID_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("drink_id_seq", com.cellarhq.generated.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));

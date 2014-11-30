@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "cellar", schema = "public")
 public class Cellar implements java.io.Serializable {
 
-	private static final long serialVersionUID = -284129998;
+	private static final long serialVersionUID = 670646156;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -39,6 +39,7 @@ public class Cellar implements java.io.Serializable {
 	private java.lang.Short    uniqueBreweries;
 	private java.lang.Boolean  hasTradeableBeers;
 	private java.lang.String   slug;
+	private java.lang.String   role;
 
 	public Cellar() {}
 
@@ -66,7 +67,8 @@ public class Cellar implements java.io.Serializable {
 		java.lang.Short    uniqueBeers,
 		java.lang.Short    uniqueBreweries,
 		java.lang.Boolean  hasTradeableBeers,
-		java.lang.String   slug
+		java.lang.String   slug,
+		java.lang.String   role
 	) {
 		this.id = id;
 		this.version = version;
@@ -92,6 +94,7 @@ public class Cellar implements java.io.Serializable {
 		this.uniqueBreweries = uniqueBreweries;
 		this.hasTradeableBeers = hasTradeableBeers;
 		this.slug = slug;
+		this.role = role;
 	}
 
 	@javax.persistence.Id
@@ -309,5 +312,14 @@ public class Cellar implements java.io.Serializable {
 
 	public void setSlug(java.lang.String slug) {
 		this.slug = slug;
+	}
+
+	@javax.persistence.Column(name = "role", nullable = false)
+	public java.lang.String getRole() {
+		return this.role;
+	}
+
+	public void setRole(java.lang.String role) {
+		this.role = role;
 	}
 }

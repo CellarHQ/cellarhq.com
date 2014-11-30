@@ -44,11 +44,6 @@ public class Tables {
 	public static final com.cellarhq.generated.tables.CellaredDrink CELLARED_DRINK = com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK;
 
 	/**
-	 * The table public.cellar_role
-	 */
-	public static final com.cellarhq.generated.tables.CellarRole CELLAR_ROLE = com.cellarhq.generated.tables.CellarRole.CELLAR_ROLE;
-
-	/**
 	 * The table public.drink
 	 */
 	public static final com.cellarhq.generated.tables.Drink DRINK = com.cellarhq.generated.tables.Drink.DRINK;

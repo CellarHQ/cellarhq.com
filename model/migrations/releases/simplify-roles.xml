@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="simplify-roles" author="rzienert" dbms="postgresql">
+        <addColumn tableName="cellar">
+            <column name="role" type="varchar" defaultValue="member">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropForeignKeyConstraint baseTableName="cellar_role" constraintName="fk_cellar_role_cellar_id"/>
+        <dropIndex tableName="cellar_role" indexName="idx_cellar_role_role"/>
+        <dropTable tableName="cellar_role"/>
+
+        <sql>
+            update cellar set role = 'member' where 1=1;
+        </sql>
+        <sql>
+            update cellar set role = 'admin' where id in (
+                7329, -- screen_name = kyleboon
+                7384, -- screen_name = rizza
+                8524  -- screen_name = johnrengelman
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>
