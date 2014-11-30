@@ -67,10 +67,18 @@ class CellarHQAuthenticationHandler extends Pac4jProfileHandler {
     }
 
     private Client findClient(Clients clients, RatpackWebContext webContext) throws RequiresHttpAction {
-        Client client = clients.findClient(webContext)
-        if (client) {
-            return client
+        try {
+            Client client = clients.findClient(webContext)
+            if (client) {
+                return client
+            }
+        } catch (TechnicalException ex) {
+           if (ex.message == 'name cannot be blank') {
+               throw RequiresHttpAction.redirect('Expired session', webContext, '/login')
+           }
         }
+
+
         throw RequiresHttpAction.redirect('Unauthorized to view this page', webContext, '/login')
     }
 }
