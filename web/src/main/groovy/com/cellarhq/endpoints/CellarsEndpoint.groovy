@@ -140,6 +140,14 @@ class CellarsEndpoint implements Action<Chain> {
                 String slug = pathTokens['slug']
 
                 Form form = parse(Form)
+
+                if (!form.beerId) {
+                    SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, [
+                            'beerId must be set. Make sure javascript is enabled prior to selecting a beer.'
+                    ]))
+                    redirect('/yourcellar')
+                }
+
                 CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
                     cellarId = (long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
                     drinkId = Long.valueOf(form.beerId)
