@@ -7,6 +7,7 @@ buildscript {
         classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath 'com.bluepapa32:gradle-watch-plugin:0.1.4'
     }
 }
 
@@ -21,11 +22,10 @@ plugins {
 apply plugin: 'com.github.ben-manes.versions'
 apply from: "${rootDir}/gradle/codenarc.gradle"
 apply plugin: 'docker'
-
+apply plugin: 'com.bluepapa32.watch'
 
 repositories {
     jcenter()
-    maven { url "http://repo.springsource.org/repo" } // for springloaded
     maven { url "http://oss.jfrog.org/repo" }
 }
 
@@ -53,7 +53,6 @@ idea {
 dependencies {
     // SpringLoaded enables runtime hot reloading.
     // It is not part of the app runtime and is not shipped in the distribution.
-    //springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
 
     compile project(':model'), {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
@@ -179,6 +178,21 @@ run {
     systemProperty 'DISABLE_SERVICES', true
     environment 'CHQ_GA_ID', 'UA-27709782-2' // Local GA tracking code
     environment 'CHQ_HOSTNAME', 'localhost:5050'
+}
+
+watch {
+    java {
+        files files('src/main/java')
+        tasks 'compileJava'
+    }
+    groovy {
+        files files('src/main/groovy')
+        tasks 'compileGroovy'
+    }
+    resources {
+        files fileTree(dir: 'src/main/resources', include: '**/*')
+        tasks 'processResources'
+    }
 }
 
 codenarcTest.enabled = false

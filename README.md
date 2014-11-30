@@ -41,13 +41,14 @@ can start the container like this:
 SimpleDB Data
 -------------
 
-If you want to work from the SimpleDB (current production) data, you will need to run `$ gradle :model:run`. This will take awhile to run, but at the end you'll have the entire production DB on your machine.
+If you want to work from the SimpleDB (current production) data, you will need to run `$ gradle :model:run`. This will
+take awhile to run, but at the end you'll have the entire production DB on your machine.
 
 Running Local
 -------------
 
-`$ gradle :web:run`
-
+`window 1$ gradle :web:run`
+`window 2$ gradle :web:watch`
 
 Deployments
 -----------
