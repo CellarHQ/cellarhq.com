@@ -172,7 +172,7 @@ class CellarsEndpoint implements Action<Chain> {
                         ]
                     }.subscribe({ Map map ->
                         SessionUtil.setFlash(request, FlashMessage.success(
-                                Messages.CELLARED_DRINK_SAVED,
+                                String.format(Messages.CELLARED_DRINK_SAVED, map.drink, map.org),
                                 new FlashMessage.SocialButton(
                                         String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
                                         "/cellars/${slug}"
@@ -211,7 +211,7 @@ class CellarsEndpoint implements Action<Chain> {
                                 ]
                             }.subscribe { Map map ->
                                 SessionUtil.setFlash(request, FlashMessage.success(
-                                   String.format(Messages.CELLARED_DRINK_SAVED, map.drink, map.org)))
+                                   String.format(Messages.BEER_EDIT_SAVED, map.drink, map.org)))
                                 redirect('/yourcellar')
                             }
                         } else {
