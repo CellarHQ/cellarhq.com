@@ -58,7 +58,6 @@ class SettingsEndpoint implements Action<Chain> {
                         }.subscribe { Map map ->
                             render handlebarsTemplate('settings.html',
                                 [title         : 'Account Settings',
-                                 isOauthAccount: profile instanceof TwitterProfile,
                                  pageId        : 'settings',
                                  cellar        : map.cellar,
                                  photo         : map.photo])
@@ -99,11 +98,11 @@ class SettingsEndpoint implements Action<Chain> {
                                             "${it.propertyPath.toString()} ${it.message}"
                                         })
                                     )
-                                    result.cellar = cellar
                                 } else {
                                     cellarService.saveBlocking(cellar, form.file('photo'))
                                     result.success = true
                                 }
+                                result.cellar = cellar
                             }
                             result
                         } onError { Throwable t ->
@@ -115,6 +114,7 @@ class SettingsEndpoint implements Action<Chain> {
                         } then { Map result ->
                             if (result.success) {
                                 SessionUtil.setFlash(request, FlashMessage.success(Messages.SETTINGS_SAVED))
+                                request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR, result.cellar)
                                 redirect('/settings')
                             } else {
                                 render handlebarsTemplate('settings.html',

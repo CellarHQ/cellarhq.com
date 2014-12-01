@@ -8,14 +8,10 @@
           <h2>Profile</h2>
           <form id="settings-form" class="form-horizontal" role="form" method="post" action="{{action}}" enctype="multipart/form-data">
             <div class="form-group">
-              <label class="col-sm-2 control-label">Account Type</label>
+              <label class="col-sm-2 control-label">Accounts</label>
               <div class="col-sm-10">
                 <p class="form-control-static">
-                    {{#if isOauthAccount}}
-                      Twitter
-                    {{else}}
-                      Email
-                    {{/if}}
+                  <a id="link-email-account" href="/settings/link-email">Link an Email Account</a> or <a id="link-twitter-account" href="/settings/link-twitter">Link a Twitter Account</a>
                 </p>
               </div>
             </div>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="account-linking" author="rzienert" dbms="postgresql">
+        <createTable tableName="account_link_request">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="cellar_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_class" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_identifier" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="account_link_request" baseColumnNames="cellar_id"
+                                 constraintName="fk_account_link_request_cellar_id"
+                                 referencedTableName="cellar"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

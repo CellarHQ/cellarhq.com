@@ -11,7 +11,7 @@ package com.cellarhq.generated;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends org.jooq.impl.SchemaImpl {
 
-	private static final long serialVersionUID = -2010639603;
+	private static final long serialVersionUID = -748435233;
 
 	/**
 	 * The singleton instance of <code>public</code>
@@ -57,6 +57,7 @@ public class Public extends org.jooq.impl.SchemaImpl {
 	private final java.util.List<org.jooq.Table<?>> getTables0() {
 		return java.util.Arrays.<org.jooq.Table<?>>asList(
 			com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL,
+			com.cellarhq.generated.tables.AccountLinkRequest.ACCOUNT_LINK_REQUEST,
 			com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH,
 			com.cellarhq.generated.tables.Activity.ACTIVITY,
 			com.cellarhq.generated.tables.Category.CATEGORY,

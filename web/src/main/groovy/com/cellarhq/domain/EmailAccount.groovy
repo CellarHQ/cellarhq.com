@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 
 @CompileStatic
 @InheritConstructors
-class EmailAccount extends AccountEmail {
+class EmailAccount extends AccountEmail implements Account {
 
     @Transient
     Cellar cellar
@@ -26,6 +26,11 @@ class EmailAccount extends AccountEmail {
         createdDate = Timestamp.valueOf(LocalDateTime.now())
         modifiedDate = createdDate
         loginAttemptCounter = 0
+    }
+
+    @Override
+    void setEmail(String email) {
+        super.setEmail(email.toLowerCase())
     }
 
     @Override

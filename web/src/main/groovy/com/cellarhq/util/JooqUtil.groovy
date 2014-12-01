@@ -43,4 +43,8 @@ class JooqUtil {
         merged.addAll(more)
         return (Field[]) merged.toArray()
     }
+
+    static String uuid() {
+        return UUID.randomUUID().toString().replaceAll(/\W/, '')
+    }
 }

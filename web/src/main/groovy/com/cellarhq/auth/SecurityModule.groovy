@@ -32,6 +32,7 @@ import ratpack.pac4j.internal.Pac4jClientsHandler
 class SecurityModule extends AbstractModule implements HandlerDecoratingModule {
 
     static final String SESSION_CELLAR_ID = 'cellarId'
+    static final String SESSION_CELLAR = 'cellar'
 
     private static final String DEFAULT_CALLBACK_PATH = 'pac4j-callback'
 

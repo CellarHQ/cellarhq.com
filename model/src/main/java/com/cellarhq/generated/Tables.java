@@ -19,6 +19,11 @@ public class Tables {
 	public static final com.cellarhq.generated.tables.AccountEmail ACCOUNT_EMAIL = com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL;
 
 	/**
+	 * The table public.account_link_request
+	 */
+	public static final com.cellarhq.generated.tables.AccountLinkRequest ACCOUNT_LINK_REQUEST = com.cellarhq.generated.tables.AccountLinkRequest.ACCOUNT_LINK_REQUEST;
+
+	/**
 	 * The table public.account_oauth
 	 */
 	public static final com.cellarhq.generated.tables.AccountOauth ACCOUNT_OAUTH = com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH;

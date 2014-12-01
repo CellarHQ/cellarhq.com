@@ -48,6 +48,7 @@ class AmazonEmailService implements EmailService {
                 from: from,
                 subject: subject,
                 to: to,
+                body: body,
                 messageId: result.messageId
         ]))
     }

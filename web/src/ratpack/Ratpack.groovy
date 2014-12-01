@@ -4,6 +4,8 @@ import com.cellarhq.ServerErrorHandlerImpl
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.views.HomepageStatistics
 import com.cellarhq.endpoints.*
+import com.cellarhq.endpoints.settings.LinkEmailAccountEndpoint
+import com.cellarhq.endpoints.settings.LinkTwitterAccountEndpoint
 import com.cellarhq.endpoints.api.*
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
@@ -188,6 +190,8 @@ ratpack {
         handler('forgot-password', chain(registry.get(ForgotPasswordEndpoint)))
         handler('forgot-password/:id', registry.get(ChangePasswordEndpoint))
         handler('settings', chain(registry.get(SettingsEndpoint)))
+        handler chain(registry.get(LinkEmailAccountEndpoint))
+        handler chain(registry.get(LinkTwitterAccountEndpoint))
         handler chain(registry.get(LinkAccountEndpoint))
 
         /**
