@@ -10,7 +10,6 @@ import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
-import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.CommonProfile
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
@@ -82,6 +81,17 @@ ratpack {
     }
 
     handlers {
+        handler {
+            // For production, we want to force SSL on all requests.
+            String forwardedProto = 'X-Forwarded-Proto'
+            if (CellarHQModule.productionEnv
+                    && request.headers.contains('X-Forwarded-Proto')
+                    && request.headers.get(forwardedProto) != 'https') {
+                redirect(301, "https://${request.headers.get('Host')}${request.rawUri}")
+            }
+            next()
+        }
+
         get { StatsService statsService ->
             if (SessionUtil.isLoggedIn(request.maybeGet(CommonProfile))) {
                 redirect(302, '/cellars')
