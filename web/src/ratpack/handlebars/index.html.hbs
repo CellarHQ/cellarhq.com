@@ -165,6 +165,24 @@
         </div>
       </div>
     </div>
+
+    <div id="modal-terms" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center"><strong>Terms of Service</strong> <small><em>(Last updated Sept 12, 2014)</em></small></h3>
+                </div>
+                <div class="modal-body">
+                  {{>common/terms-of-service}}
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-effect-ripple btn-sm btn-primary" data-dismiss="modal">I've read them!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {{/partial}}
 {{#partial "extra_includes"}}
   <script src="/scripts/pages/register.js"></script>
