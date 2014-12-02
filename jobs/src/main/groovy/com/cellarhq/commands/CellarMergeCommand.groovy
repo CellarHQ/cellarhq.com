@@ -48,12 +48,18 @@ class CellarMergeCommand implements NamedCommand, DatabaseSupport, DryRunSupport
     }
 
     boolean run() {
+        CellarRecord sourceCellar = getCellar(sourceCellarId)
+        CellarRecord targetCellar = getCellar(targetCellarId)
+
+        println('SOURCE: ' + sourceCellar.screenName)
+        println('TARGET: ' + targetCellar.screenName)
+
         dryRunBanner(5)
 
-        CellarRecord targetCellar = getCellar(targetCellarId)
-        CellarRecord sourceCellar = getCellar(sourceCellarId)
+        CellarMerger merger = new CellarMerger(create)
+        merger.dryRun = dryRun
 
-        return new CellarMerger(create).merge(sourceCellar, targetCellar)
+        return merger.merge(sourceCellar, targetCellar)
     }
 
     CellarRecord getCellar(Long id) {

@@ -11,6 +11,7 @@ import com.cellarhq.commands.ExecutionFailedException
 import com.cellarhq.generated.tables.records.AccountEmailRecord
 import com.cellarhq.generated.tables.records.AccountOauthRecord
 import com.cellarhq.generated.tables.records.CellarRecord
+import com.cellarhq.jooq.CellarStatsUpdater
 import com.cellarhq.support.DryRunSupport
 import org.jooq.DSLContext
 import org.jooq.Table
@@ -106,7 +107,7 @@ class CellarMerger implements Merger<CellarRecord>, DryRunSupport {
                         'reddit',
                         'beeradvocate',
                         'ratebeer',
-                        'photo'
+                        'photoId'
                 ].each { String fieldName ->
                     if (!targetCellar."$fieldName" && sourceCellar."$fieldName") {
                         targetCellar."$fieldName" = sourceCellar."$fieldName"
