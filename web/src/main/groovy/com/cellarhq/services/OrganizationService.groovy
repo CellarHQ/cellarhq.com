@@ -90,10 +90,12 @@ class OrganizationService extends BaseJooqService {
             jooq { DSLContext create ->
                 create.select()
                         .from(ORGANIZATION)
-                        .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
-                                name: ORGANIZATION.NAME,
-                                location: ORGANIZATION.LOCALITY_SORT,
-                                established: ORGANIZATION.ESTABLISHED
+                        .orderBy(
+                            ORGANIZATION.COLLABORATION.asc(),
+                            makeSortField(sortCommand, ORGANIZATION.NAME, [
+                                    name: ORGANIZATION.NAME,
+                                    location: ORGANIZATION.LOCALITY_SORT,
+                                    established: ORGANIZATION.ESTABLISHED
                         ]))
                         .limit(offset, numberOfRows)
                         .fetchInto(Organization)
@@ -107,10 +109,12 @@ class OrganizationService extends BaseJooqService {
                 create.select()
                         .from(ORGANIZATION)
                         .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
-                        .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
-                                name: ORGANIZATION.NAME,
-                                location: ORGANIZATION.LOCALITY_SORT,
-                                established: ORGANIZATION.ESTABLISHED
+                        .orderBy(
+                            ORGANIZATION.COLLABORATION.asc(),
+                            makeSortField(sortCommand, ORGANIZATION.NAME, [
+                                    name: ORGANIZATION.NAME,
+                                    location: ORGANIZATION.LOCALITY_SORT,
+                                    established: ORGANIZATION.ESTABLISHED
                         ]))
                         .limit(offset, numberOfRows)
                         .fetchInto(Organization)

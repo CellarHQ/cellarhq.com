@@ -26,7 +26,10 @@
     <include file="releases/sorting-fixes.xml" relativeToChangelogFile="true"/>
     <include file="releases/add_cellar_slug.xml" relativeToChangelogFile="true"/>
 
-    <!-- next -->
+    <!-- 2.2 -->
     <include file="releases/simplify-roles.xml" relativeToChangelogFile="true"/>
+    <include file="releases/organization-collaborations.xml" relativeToChangelogFile="true"/>
+
+    <!-- next -->
 
 </databaseChangeLog>

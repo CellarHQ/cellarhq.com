@@ -13,7 +13,7 @@ package com.cellarhq.generated.tables.pojos;
 @javax.persistence.Table(name = "organization", schema = "public")
 public class Organization implements java.io.Serializable {
 
-	private static final long serialVersionUID = -297798210;
+	private static final long serialVersionUID = -408585009;
 
 	private java.lang.Long     id;
 	private java.lang.Integer  version;
@@ -43,6 +43,7 @@ public class Organization implements java.io.Serializable {
 	private java.lang.Short    cellaredBeers;
 	private java.lang.Short    containedInCellars;
 	private java.lang.String   localitySort;
+	private java.lang.Boolean  collaboration;
 
 	public Organization() {}
 
@@ -74,7 +75,8 @@ public class Organization implements java.io.Serializable {
 		java.lang.Short    totalBeers,
 		java.lang.Short    cellaredBeers,
 		java.lang.Short    containedInCellars,
-		java.lang.String   localitySort
+		java.lang.String   localitySort,
+		java.lang.Boolean  collaboration
 	) {
 		this.id = id;
 		this.version = version;
@@ -104,6 +106,7 @@ public class Organization implements java.io.Serializable {
 		this.cellaredBeers = cellaredBeers;
 		this.containedInCellars = containedInCellars;
 		this.localitySort = localitySort;
+		this.collaboration = collaboration;
 	}
 
 	@javax.persistence.Id
@@ -357,5 +360,14 @@ public class Organization implements java.io.Serializable {
 
 	public void setLocalitySort(java.lang.String localitySort) {
 		this.localitySort = localitySort;
+	}
+
+	@javax.persistence.Column(name = "collaboration", nullable = false)
+	public java.lang.Boolean getCollaboration() {
+		return this.collaboration;
+	}
+
+	public void setCollaboration(java.lang.Boolean collaboration) {
+		this.collaboration = collaboration;
 	}
 }

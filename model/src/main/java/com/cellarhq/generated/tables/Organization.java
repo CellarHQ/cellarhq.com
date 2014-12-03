@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.OrganizationRecord> {
 
-	private static final long serialVersionUID = 1168533254;
+	private static final long serialVersionUID = 402163024;
 
 	/**
 	 * The singleton instance of <code>public.organization</code>
@@ -165,6 +165,11 @@ public class Organization extends org.jooq.impl.TableImpl<com.cellarhq.generated
 	 * The column <code>public.organization.locality_sort</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.String> LOCALITY_SORT = createField("locality_sort", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
+
+	/**
+	 * The column <code>public.organization.collaboration</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.OrganizationRecord, java.lang.Boolean> COLLABORATION = createField("collaboration", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.organization</code> table reference

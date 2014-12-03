@@ -223,6 +223,7 @@ class BreweryEndpoint implements Action<Chain> {
         organization.with {
             slug = organization.slug ?: form.name
             name = organization.name ?: form.name
+            collaboration = form.collaboration ?: false
             description = form.description
             established = form.established ? Short.parseShort(form.established)  : null
             phone = form.phone
