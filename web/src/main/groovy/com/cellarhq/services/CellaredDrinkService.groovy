@@ -86,7 +86,7 @@ class CellaredDrinkService extends BaseJooqService {
                         .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
                         .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
                         .where(CELLARED_DRINK.ID.eq(id)
-                        .and(CELLAR.SCREEN_NAME.eq(cellarSlug)))
+                        .and(CELLAR.SLUG.eq(cellarSlug)))
                         .fetchOneInto(CellaredDrinkDetails)
             }
         })
@@ -176,7 +176,7 @@ class CellaredDrinkService extends BaseJooqService {
                         .select()
                         .from(CELLARED_DRINK)
                         .join(CELLAR).onKey()
-                        .where(CELLAR.SCREEN_NAME.eq(cellarSlug))
+                        .where(CELLAR.SLUG.eq(cellarSlug))
                             .and(CELLARED_DRINK.ID.eq(id))
                         .fetchOneInto(CellaredDrinkRecord)
 

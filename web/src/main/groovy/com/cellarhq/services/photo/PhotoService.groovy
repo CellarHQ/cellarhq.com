@@ -115,7 +115,7 @@ class PhotoService extends BaseJooqService {
                 create.select(PHOTO.fields())
                     .from(PHOTO)
                     .join(Tables.CELLAR).onKey()
-                    .where(Tables.CELLAR.SCREEN_NAME.eq(cellarSlug))
+                    .where(Tables.CELLAR.SLUG.eq(cellarSlug))
                     .fetchOneInto(Photo)
             }
         }).asObservable()
