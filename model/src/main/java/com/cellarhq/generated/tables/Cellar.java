@@ -11,7 +11,7 @@ package com.cellarhq.generated.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.tables.records.CellarRecord> {
 
-	private static final long serialVersionUID = 527869676;
+	private static final long serialVersionUID = 113331261;
 
 	/**
 	 * The singleton instance of <code>public.cellar</code>
@@ -145,6 +145,11 @@ public class Cellar extends org.jooq.impl.TableImpl<com.cellarhq.generated.table
 	 * The column <code>public.cellar.slug</code>.
 	 */
 	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> SLUG = createField("slug", org.jooq.impl.SQLDataType.VARCHAR.length(64).nullable(false), this, "");
+
+	/**
+	 * The column <code>public.cellar.role</code>.
+	 */
+	public final org.jooq.TableField<com.cellarhq.generated.tables.records.CellarRecord, java.lang.String> ROLE = createField("role", org.jooq.impl.SQLDataType.VARCHAR.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.cellar</code> table reference

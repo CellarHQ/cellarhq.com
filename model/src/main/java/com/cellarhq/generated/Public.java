@@ -11,7 +11,7 @@ package com.cellarhq.generated;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends org.jooq.impl.SchemaImpl {
 
-	private static final long serialVersionUID = -1061869543;
+	private static final long serialVersionUID = -2010639603;
 
 	/**
 	 * The singleton instance of <code>public</code>
@@ -40,7 +40,6 @@ public class Public extends org.jooq.impl.SchemaImpl {
 			com.cellarhq.generated.Sequences.CATEGORY_ID_SEQ,
 			com.cellarhq.generated.Sequences.CELLARED_DRINK_ID_SEQ,
 			com.cellarhq.generated.Sequences.CELLAR_ID_SEQ,
-			com.cellarhq.generated.Sequences.CELLAR_ROLE_ID_SEQ,
 			com.cellarhq.generated.Sequences.DRINK_ID_SEQ,
 			com.cellarhq.generated.Sequences.GLASSWARE_ID_SEQ,
 			com.cellarhq.generated.Sequences.ORGANIZATION_ID_SEQ,
@@ -63,7 +62,6 @@ public class Public extends org.jooq.impl.SchemaImpl {
 			com.cellarhq.generated.tables.Category.CATEGORY,
 			com.cellarhq.generated.tables.Cellar.CELLAR,
 			com.cellarhq.generated.tables.CellaredDrink.CELLARED_DRINK,
-			com.cellarhq.generated.tables.CellarRole.CELLAR_ROLE,
 			com.cellarhq.generated.tables.Drink.DRINK,
 			com.cellarhq.generated.tables.Glassware.GLASSWARE,
 			com.cellarhq.generated.tables.Organization.ORGANIZATION,

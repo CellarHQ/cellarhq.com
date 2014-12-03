@@ -27,5 +27,6 @@
     <include file="releases/add_cellar_slug.xml" relativeToChangelogFile="true"/>
 
     <!-- next -->
+    <include file="releases/simplify-roles.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

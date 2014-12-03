@@ -36,7 +36,6 @@ class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
             try {
                 Sql sql = new Sql(get(DataSource))
                 sql.execute('delete from account_email where 1=1')
-                sql.execute('delete from cellar_role where 1=1')
                 sql.execute('delete from cellar where 1=1')
                 sql.close()
             } catch (JdbcSQLException e) {

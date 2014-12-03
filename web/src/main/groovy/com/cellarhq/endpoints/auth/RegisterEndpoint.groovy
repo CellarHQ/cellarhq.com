@@ -66,7 +66,6 @@ class RegisterEndpoint extends GroovyHandler {
                         displayName = screenName
                         contactEmail = form.email
                         lastLogin = Timestamp.valueOf(LocalDateTime.now())
-                        addRole(Role.MEMBER)
                         return self
                     }
                     EmailAccount emailAccount = new EmailAccount().with { EmailAccount self ->
