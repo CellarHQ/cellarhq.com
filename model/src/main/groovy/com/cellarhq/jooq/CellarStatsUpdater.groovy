@@ -36,13 +36,13 @@ class CellarStatsUpdater {
         Integer uniqueBeers = create.fetchCount(
             create.selectDistinct(CELLARED_DRINK.DRINK_ID)
                 .from(CELLARED_DRINK)
-                .where(CELLARED_DRINK.CELLAR_ID.eq(cellarId)))
+                .where(CELLARED_DRINK.CELLAR_ID.eq(cellarId)).and(CELLARED_DRINK.QUANTITY.greaterThan(0)))
 
         Integer uniqueBreweries = create.fetchCount(
             create.selectDistinct(DRINK.ORGANIZATION_ID)
                 .from(CELLARED_DRINK)
                 .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
-                .where(CELLARED_DRINK.CELLAR_ID.eq(cellarId)))
+                .where(CELLARED_DRINK.CELLAR_ID.eq(cellarId)).and(CELLARED_DRINK.QUANTITY.greaterThan(0)))
 
         create.update(CELLAR)
             .set(CELLAR.TOTAL_BEERS, totalBeers)
