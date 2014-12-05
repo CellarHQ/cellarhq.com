@@ -1,5 +1,6 @@
 package com.cellarhq.auth
 
+import com.cellarhq.auth.callbacks.AuthFailCallback
 import com.cellarhq.auth.callbacks.AuthSuccessCallback
 import com.cellarhq.auth.callbacks.HttpCallback
 import com.cellarhq.auth.callbacks.TwitterCallback
@@ -71,6 +72,7 @@ class SecurityModule extends AbstractModule implements HandlerDecoratingModule {
         final Pac4jClientsHandler clientsHandler = new Pac4jClientsHandler(callbackPath, twitterClient, formClient)
         final Handler callbackHandler = new Pac4jCallbackHandlerBuilder()
                 .onSuccess(new AuthSuccessCallback<Context, UserProfile>())
+                .onError(new AuthFailCallback<Context, Throwable>())
                 .build()
 
         final CellarHQAuthenticationHandler authenticationHandler = new CellarHQAuthenticationHandler(authorizer)
