@@ -8,8 +8,10 @@ import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.mappers.CustomViewRecordMapperProvider
 import com.cellarhq.util.JooqUtil
+import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import ratpack.exec.ExecControl
@@ -22,6 +24,7 @@ import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
 @CompileStatic
+@Slf4j
 class DrinkService extends BaseJooqService {
 
     @Inject
@@ -151,7 +154,7 @@ class DrinkService extends BaseJooqService {
                         glasswareName: String
                 ]))
             }) { DSLContext create ->
-                create.select(JooqUtil.andFields(
+                List<Drink> drinks = create.select(JooqUtil.andFields(
                         DRINK.fields(),
                         ORGANIZATION.NAME.as('organizationName'),
                         ORGANIZATION.SLUG.as('organizationSlug'),
@@ -162,7 +165,17 @@ class DrinkService extends BaseJooqService {
                     .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
                     .leftOuterJoin(GLASSWARE).onKey(Keys.DRINK__FK_DRINK_GLASSWARE_ID)
                     .where(DRINK.SLUG.eq(slug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
-                    .fetchInto(Drink)?.first()
+                    .fetchInto(Drink)
+
+                if (!drinks) {
+                    return null
+                }
+
+                if (drinks.size() > 1) {
+                    log.error LogUtil.toLog('FindBySlugError', [brewerySlug: brewerySlug, beerSlug: slug])
+                }
+
+                return drinks.first()
             }
         })
     }
