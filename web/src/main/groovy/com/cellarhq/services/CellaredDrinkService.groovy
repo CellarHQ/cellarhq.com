@@ -145,7 +145,7 @@ class CellaredDrinkService extends BaseJooqService {
                             quantity: CELLARED_DRINK.QUANTITY,
                             bottleDate: CELLARED_DRINK.BOTTLE_DATE,
                             style: STYLE.NAME
-                    ]), DRINK.NAME.asc())
+                    ]), DRINK.NAME.asc(), CELLARED_DRINK.BOTTLE_DATE.asc(), CELLARED_DRINK.SIZE.asc())
                     .fetchInto(CellaredDrinkDetails)
         }
     }
