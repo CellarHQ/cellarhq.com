@@ -163,11 +163,6 @@ task functionalTest(type: Test) {
         systemProperty 'ratpack.other.dataSource.user', System.getenv('SNAP_DB_PG_USER')
         systemProperty 'ratpack.other.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
         systemProperty 'ratpack.other.dataSource.databaseName', 'app_test'
-//        systemProperty 'noFunc', 'true'
-
-//        systemProperty 'webdriver.firefox.logfile', '/dev/stdout'
-//        systemProperty 'webdriver.log.file', '/dev/stdout'
-
         testLogging.showStandardStreams = true
     }
 }
