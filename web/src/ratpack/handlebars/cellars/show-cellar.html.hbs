@@ -137,16 +137,15 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                            {{#if hasDetails}}
-                                                <a class="btn btn-effect-ripple btn-sm view-cellar-details"
-                                                   data-toggle="collapse"
-                                                   data-target="#details{{id}}">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </a>
-                                            {{/if}}
                                         </span>
                                     {{/if}}
-
+                                    {{#if hasDetails}}
+                                        <a class="btn btn-effect-ripple btn-sm view-cellar-details"
+                                           data-toggle="collapse"
+                                           data-target="#details{{id}}">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </a>
+                                    {{/if}}
                                 </td>
                                 <td>
                                     <a class="text-info" href="/breweries/{{organizationSlug}}">{{organizationName}}</a>

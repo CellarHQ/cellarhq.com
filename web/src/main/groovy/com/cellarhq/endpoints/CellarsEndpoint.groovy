@@ -121,7 +121,7 @@ class CellarsEndpoint implements Action<Chain> {
                                 clientError 404
                             } else {
                                 Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-                                boolean isSelf = map.cellar.id == cellarId
+                                boolean isSelf = (cellarId && map.cellar.id == cellarId)
 
                                 render handlebarsTemplate('cellars/show-cellar.html',
                                         [cellar        : map.cellar,
@@ -268,7 +268,7 @@ class CellarsEndpoint implements Action<Chain> {
     void requireSelf(Context context, CellaredDrink cellaredDrink, Closure operation) {
         context.with {
             Long cellarId = (Long) request.get(SessionStorage).get(SecurityModule.SESSION_CELLAR_ID)
-            boolean isSelf = cellaredDrink.cellarId == cellarId
+            boolean isSelf = (cellarId && cellaredDrink.cellarId == cellarId)
 
             if (isSelf) {
                 operation()
