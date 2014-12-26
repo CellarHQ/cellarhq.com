@@ -9,6 +9,7 @@ import com.cellarhq.endpoints.settings.LinkTwitterAccountEndpoint
 import com.cellarhq.endpoints.api.*
 import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
+import com.cellarhq.security.WebTokensHandler
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
@@ -221,12 +222,15 @@ ratpack {
          */
 
         prefix('api') {
+            handler chain(registry.get(WebTokensHandler))
+
             handler chain(registry.get(CellarEndpoint))
             handler chain(registry.get(CellaredDrinkEndpoint))
             handler chain(registry.get(OrganizationEndpoint))
             handler chain(registry.get(DrinkEndpoint))
             handler chain(registry.get(StyleEndpoint))
             handler chain(registry.get(GlasswareEndpoint))
+            handler chain(registry.get(JwtDemoEndpoint))
         }
 
         get('health-checks', { HealthCheckRegistry healthCheckRegistry ->

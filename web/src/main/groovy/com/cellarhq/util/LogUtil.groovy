@@ -1,7 +1,9 @@
 package com.cellarhq.util
 
+import com.cellarhq.auth.SecurityModule
 import groovy.util.logging.Slf4j
 import ratpack.http.Request
+import ratpack.session.store.SessionStorage
 
 @Slf4j
 abstract class LogUtil {
@@ -27,6 +29,11 @@ abstract class LogUtil {
     static String toLog(Request request, String key, Map properties = [:]) {
         Optional<UUID> uuid = request.maybeGet(UUID)
         String correlationId = uuid.isPresent() ? uuid.get() : 'UNKNOWN'
+
+        SessionStorage sessionStorage = request.get(SessionStorage)
+        if (sessionStorage.containsKey(SecurityModule.SESSION_CELLAR_ID)) {
+            properties['cellarId'] = sessionStorage.get(SecurityModule.SESSION_CELLAR_ID)
+        }
 
         return "KEY=${key}, correlationId=${correlationId} " + properties.collect { "${it.key}=${it.value}" }.join(', ')
     }
