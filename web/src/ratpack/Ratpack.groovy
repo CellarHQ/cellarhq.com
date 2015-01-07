@@ -209,7 +209,7 @@ ratpack {
             redirect(301, "/breweries/${pathTokens['slug']}")
         }
         handler('brewery/:brewery/beer/:beer') {
-            redirect(301, "/breweries${pathTokens['brewery']}/beers/${pathTokens['beer']}")
+            redirect(301, "/breweries/${pathTokens['brewery']}/beers/${pathTokens['beer']}")
         }
 
         /**************************************************************************************************************
