@@ -6,6 +6,7 @@ import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.services.AccountService
 import com.cellarhq.services.CellarService
+import com.cellarhq.services.account.TwitterAccountVerificationService
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
@@ -28,16 +29,60 @@ class TwitterCallback<C extends Context, P extends TwitterProfile> implements Bi
 
     private final AccountService accountService
     private final CellarService cellarService
+    private final TwitterAccountVerificationService verificationService
 
     @Inject
-    TwitterCallback(AccountService accountService, CellarService cellarService) {
+    TwitterCallback(AccountService accountService,
+                    CellarService cellarService,
+                    TwitterAccountVerificationService verificationService) {
+
         this.accountService = accountService
         this.cellarService = cellarService
+        this.verificationService = verificationService
     }
 
     @Override
     void accept(C context, P profile) {
         Request request = context.request
+
+        if (isLinkAccountAction(request)) {
+            handleAccountLinkRequest(context, request, profile)
+        } else {
+            handleLogin(context, request, profile)
+        }
+    }
+
+    boolean isLinkAccountAction(Request request) {
+        SessionStorage sessionStorage = request.get(SessionStorage)
+        return sessionStorage.getOrDefault(DefaultSuccessCallback.USER_PROFILE, false) &&
+                sessionStorage.getOrDefault(SecurityModule.SESSION_CELLAR, false)
+    }
+
+    @SuppressWarnings('ClosureAsLastMethodParameter')
+    void handleAccountLinkRequest(Context context, Request request, P profile) {
+        SessionStorage sessionStorage = request.get(SessionStorage)
+
+        Cellar cellar = (Cellar) sessionStorage.get(SecurityModule.SESSION_CELLAR)
+        verificationService.commit(cellar, profile).subscribe({ Boolean result ->
+            SessionUtil.setFlash(request, FlashMessage.success(Messages.ACCOUNT_LINK_TWITTER_SUCCESS))
+            context.redirect('/settings')
+        }, { Throwable t ->
+            if (t instanceof DataAccessException && t.message.contains('account_oauth_client_username_key')) {
+                SessionUtil.setFlash(request, FlashMessage.error(String.format(
+                        Messages.ACCOUNT_LINK_TWITTER_SCREEN_NAME_UNAVAILABLE2,
+                        profile.username
+                )))
+            } else {
+                log.error('LinkTwitterAccountFailure', t)
+                SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+            }
+
+            context.redirect('/settings/link-twitter')
+        })
+    }
+
+    void handleLogin(Context context, Request request, P profile) {
+        SessionStorage sessionStorage = request.get(SessionStorage)
 
         context.blocking {
             log.info(LogUtil.toLog(request, 'Twitter Login Attempt', [
@@ -73,12 +118,11 @@ class TwitterCallback<C extends Context, P extends TwitterProfile> implements Bi
             context.redirect('/logout')
         } then { OAuthAccount oAuthAccount ->
             if (oAuthAccount) {
-                context.request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
-                new DefaultSuccessCallback().defaultBehavior(context, profile)
+                sessionStorage.put(SecurityModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
+                new DefaultSuccessCallback().defaultBehavior(context, profile, oAuthAccount.cellar)
             } else {
                 // If we don't have an account, that means there was a screen name conflict. We'll still give them a
                 // session, but it won't be capable of doing a whole lot.
-                SessionStorage sessionStorage = request.get(SessionStorage)
                 sessionStorage.put(DefaultSuccessCallback.USER_PROFILE, profile)
                 sessionStorage.put(REQUIRE_SCREEN_NAME_CHANGE, true)
             }
@@ -91,6 +135,4 @@ class TwitterCallback<C extends Context, P extends TwitterProfile> implements Bi
                 cellar: cellar
         )
     }
-
-
 }

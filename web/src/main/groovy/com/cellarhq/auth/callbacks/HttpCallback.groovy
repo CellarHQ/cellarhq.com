@@ -57,7 +57,7 @@ class HttpCallback<C extends Context, P extends HttpProfile> implements BiConsum
             context.redirect('/logout')
         } then { EmailAccount emailAccount ->
             request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, emailAccount.cellarId)
-            new DefaultSuccessCallback().defaultBehavior(context, profile)
+            new DefaultSuccessCallback().defaultBehavior(context, profile, emailAccount.cellar)
         }
     }
 }

@@ -31,5 +31,6 @@
     <include file="releases/organization-collaborations.xml" relativeToChangelogFile="true"/>
 
     <!-- next -->
+    <include file="releases/account-linking.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

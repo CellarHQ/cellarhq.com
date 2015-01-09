@@ -31,4 +31,13 @@ abstract class Messages {
 
     final static String BEER_ADD_ALREADY_EXISTS_ERROR = "Looks like the beer you're trying to add <a href='/beers/%1s'>already exists</a>."
     final static String BEER_EDIT_SAVED = "Lookin' good. We've updated %1s."
+
+    final static String ACCOUNT_LINK_TWITTER_SCREEN_NAME_UNAVAILABLE = 'The account %1s is currently unavailable for linking. This is probably because it belongs to another account.'
+    final static String ACCOUNT_LINK_TWITTER_SCREEN_NAME_UNAVAILABLE2 = "The account %1s is currently unavailable. If this isn't the account you entered, make sure you log into Twitter with that account."
+    final static String ACCOUNT_LINK_TOKEN_UNKNOWN = "We weren't able to locate the token you entered. Try again?"
+    final static String ACCOUNT_LINK_TWITTER_SUCCESS = "Thanks for verifying your account! We've linked the Twitter account to your Cellar."
+
+    final static String ACCOUNT_LINK_EMAIL_UNAVAILABLE = 'The email %1s is currently unavailable for linking. This is probably because it belongs to another account.'
+    final static String ACCOUNT_LINK_EMAIL_VERIFICATION_SENT = "We've sent you a verification code via email, follow the link inside the email to complete the process."
+    final static String ACCOUNT_LINK_EMAIL_SUCCESS = "Thanks for verifying your account! We've linked the email to your Cellar."
 }

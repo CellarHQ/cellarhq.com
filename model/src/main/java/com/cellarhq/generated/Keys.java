@@ -36,6 +36,7 @@ public class Keys {
 
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountEmailRecord> PK_ACCOUNT_EMAIL = UniqueKeys0.PK_ACCOUNT_EMAIL;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountEmailRecord> UNQ_ACCOUNT_EMAIL_EMAIL = UniqueKeys0.UNQ_ACCOUNT_EMAIL_EMAIL;
+	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountLinkRequestRecord> PK_ACCOUNT_LINK_REQUEST = UniqueKeys0.PK_ACCOUNT_LINK_REQUEST;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> PK_ACCOUNT_OAUTH = UniqueKeys0.PK_ACCOUNT_OAUTH;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> ACCOUNT_OAUTH_CLIENT_USERNAME_KEY = UniqueKeys0.ACCOUNT_OAUTH_CLIENT_USERNAME_KEY;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.ActivityRecord> PK_ACTIVITY = UniqueKeys0.PK_ACTIVITY;
@@ -58,6 +59,7 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.AccountEmailRecord, com.cellarhq.generated.tables.records.CellarRecord> ACCOUNT_EMAIL__FK_ACCOUNT_EMAIL_CELLAR_ID = ForeignKeys0.ACCOUNT_EMAIL__FK_ACCOUNT_EMAIL_CELLAR_ID;
+	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.AccountLinkRequestRecord, com.cellarhq.generated.tables.records.CellarRecord> ACCOUNT_LINK_REQUEST__FK_ACCOUNT_LINK_REQUEST_CELLAR_ID = ForeignKeys0.ACCOUNT_LINK_REQUEST__FK_ACCOUNT_LINK_REQUEST_CELLAR_ID;
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.AccountOauthRecord, com.cellarhq.generated.tables.records.CellarRecord> ACCOUNT_OAUTH__FK_ACCOUNT_OAUTH_CELLAR_ID = ForeignKeys0.ACCOUNT_OAUTH__FK_ACCOUNT_OAUTH_CELLAR_ID;
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.ActivityRecord, com.cellarhq.generated.tables.records.CellarRecord> ACTIVITY__FK_ACTIVITY_CELLAR_ID = ForeignKeys0.ACTIVITY__FK_ACTIVITY_CELLAR_ID;
 	public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.CellarRecord, com.cellarhq.generated.tables.records.PhotoRecord> CELLAR__FK_CELLAR_PHOTO_ID = ForeignKeys0.CELLAR__FK_CELLAR_PHOTO_ID;
@@ -92,6 +94,7 @@ public class Keys {
 	private static class UniqueKeys0 extends org.jooq.impl.AbstractKeys {
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountEmailRecord> PK_ACCOUNT_EMAIL = createUniqueKey(com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL, com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountEmailRecord> UNQ_ACCOUNT_EMAIL_EMAIL = createUniqueKey(com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL, com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL.EMAIL);
+		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountLinkRequestRecord> PK_ACCOUNT_LINK_REQUEST = createUniqueKey(com.cellarhq.generated.tables.AccountLinkRequest.ACCOUNT_LINK_REQUEST, com.cellarhq.generated.tables.AccountLinkRequest.ACCOUNT_LINK_REQUEST.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> PK_ACCOUNT_OAUTH = createUniqueKey(com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> ACCOUNT_OAUTH_CLIENT_USERNAME_KEY = createUniqueKey(com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH.CLIENT, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH.USERNAME);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.ActivityRecord> PK_ACTIVITY = createUniqueKey(com.cellarhq.generated.tables.Activity.ACTIVITY, com.cellarhq.generated.tables.Activity.ACTIVITY.ID);
@@ -112,6 +115,7 @@ public class Keys {
 
 	private static class ForeignKeys0 extends org.jooq.impl.AbstractKeys {
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.AccountEmailRecord, com.cellarhq.generated.tables.records.CellarRecord> ACCOUNT_EMAIL__FK_ACCOUNT_EMAIL_CELLAR_ID = createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL, com.cellarhq.generated.tables.AccountEmail.ACCOUNT_EMAIL.CELLAR_ID);
+		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.AccountLinkRequestRecord, com.cellarhq.generated.tables.records.CellarRecord> ACCOUNT_LINK_REQUEST__FK_ACCOUNT_LINK_REQUEST_CELLAR_ID = createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, com.cellarhq.generated.tables.AccountLinkRequest.ACCOUNT_LINK_REQUEST, com.cellarhq.generated.tables.AccountLinkRequest.ACCOUNT_LINK_REQUEST.CELLAR_ID);
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.AccountOauthRecord, com.cellarhq.generated.tables.records.CellarRecord> ACCOUNT_OAUTH__FK_ACCOUNT_OAUTH_CELLAR_ID = createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH.CELLAR_ID);
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.ActivityRecord, com.cellarhq.generated.tables.records.CellarRecord> ACTIVITY__FK_ACTIVITY_CELLAR_ID = createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, com.cellarhq.generated.tables.Activity.ACTIVITY, com.cellarhq.generated.tables.Activity.ACTIVITY.CELLAR_ID);
 		public static final org.jooq.ForeignKey<com.cellarhq.generated.tables.records.CellarRecord, com.cellarhq.generated.tables.records.PhotoRecord> CELLAR__FK_CELLAR_PHOTO_ID = createForeignKey(com.cellarhq.generated.Keys.PK_PHOTO, com.cellarhq.generated.tables.Cellar.CELLAR, com.cellarhq.generated.tables.Cellar.CELLAR.PHOTO_ID);

@@ -16,6 +16,7 @@ import com.cellarhq.generated.tables.records.PhotoRecord
 import com.cellarhq.services.photo.PhotoService
 import com.cellarhq.services.photo.writer.PhotoWriteFailedException
 import com.cellarhq.services.photo.model.ResizeCommand
+import com.cellarhq.util.JooqUtil
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
@@ -224,7 +225,7 @@ class AccountService extends BaseJooqService {
     }
 
     String startPasswordRecovery(EmailAccount email) {
-        String uuid = UUID.randomUUID().toString().replaceAll(/\W/, '')
+        String uuid = JooqUtil.uuid()
         jooq { DSLContext create ->
             PasswordChangeRequestRecord record = create.newRecord(PASSWORD_CHANGE_REQUEST)
             record.id = uuid

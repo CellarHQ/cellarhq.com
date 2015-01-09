@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 @CompileStatic
 @InheritConstructors
-class OAuthAccount extends AccountOauth {
+class OAuthAccount extends AccountOauth implements Account {
 
     Cellar cellar
 

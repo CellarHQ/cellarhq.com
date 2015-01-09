@@ -31,7 +31,6 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             'terms-of-service',
             'privacy-policy',
             'register',
-            /settings\/.*/,
             'login',
             'logout',
             'signin',
