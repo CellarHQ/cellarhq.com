@@ -32,5 +32,6 @@
 
     <!-- next -->
     <include file="releases/account-linking.xml" relativeToChangelogFile="true"/>
+    <include file="releases/brewerydb-sync.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

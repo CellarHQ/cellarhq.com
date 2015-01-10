@@ -40,6 +40,7 @@ public class Keys {
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> PK_ACCOUNT_OAUTH = UniqueKeys0.PK_ACCOUNT_OAUTH;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> ACCOUNT_OAUTH_CLIENT_USERNAME_KEY = UniqueKeys0.ACCOUNT_OAUTH_CLIENT_USERNAME_KEY;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.ActivityRecord> PK_ACTIVITY = UniqueKeys0.PK_ACTIVITY;
+	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.BrewerydbSyncRecord> PK_BREWERYDB_SYNC = UniqueKeys0.PK_BREWERYDB_SYNC;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CategoryRecord> PK_CATEGORY = UniqueKeys0.PK_CATEGORY;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRecord> PK_CELLAR = UniqueKeys0.PK_CELLAR;
 	public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRecord> UNQ_CELLAR_SCREEN_NAME = UniqueKeys0.UNQ_CELLAR_SCREEN_NAME;
@@ -98,6 +99,7 @@ public class Keys {
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> PK_ACCOUNT_OAUTH = createUniqueKey(com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.AccountOauthRecord> ACCOUNT_OAUTH_CLIENT_USERNAME_KEY = createUniqueKey(com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH.CLIENT, com.cellarhq.generated.tables.AccountOauth.ACCOUNT_OAUTH.USERNAME);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.ActivityRecord> PK_ACTIVITY = createUniqueKey(com.cellarhq.generated.tables.Activity.ACTIVITY, com.cellarhq.generated.tables.Activity.ACTIVITY.ID);
+		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.BrewerydbSyncRecord> PK_BREWERYDB_SYNC = createUniqueKey(com.cellarhq.generated.tables.BrewerydbSync.BREWERYDB_SYNC, com.cellarhq.generated.tables.BrewerydbSync.BREWERYDB_SYNC.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CategoryRecord> PK_CATEGORY = createUniqueKey(com.cellarhq.generated.tables.Category.CATEGORY, com.cellarhq.generated.tables.Category.CATEGORY.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRecord> PK_CELLAR = createUniqueKey(com.cellarhq.generated.tables.Cellar.CELLAR, com.cellarhq.generated.tables.Cellar.CELLAR.ID);
 		public static final org.jooq.UniqueKey<com.cellarhq.generated.tables.records.CellarRecord> UNQ_CELLAR_SCREEN_NAME = createUniqueKey(com.cellarhq.generated.tables.Cellar.CELLAR, com.cellarhq.generated.tables.Cellar.CELLAR.SCREEN_NAME);

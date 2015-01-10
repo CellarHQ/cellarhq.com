@@ -34,6 +34,11 @@ public class Tables {
 	public static final com.cellarhq.generated.tables.Activity ACTIVITY = com.cellarhq.generated.tables.Activity.ACTIVITY;
 
 	/**
+	 * The table public.brewerydb_sync
+	 */
+	public static final com.cellarhq.generated.tables.BrewerydbSync BREWERYDB_SYNC = com.cellarhq.generated.tables.BrewerydbSync.BREWERYDB_SYNC;
+
+	/**
 	 * The table public.category
 	 */
 	public static final com.cellarhq.generated.tables.Category CATEGORY = com.cellarhq.generated.tables.Category.CATEGORY;

@@ -227,6 +227,7 @@ ratpack {
             handler chain(registry.get(DrinkEndpoint))
             handler chain(registry.get(StyleEndpoint))
             handler chain(registry.get(GlasswareEndpoint))
+            handler chain(registry.get(BreweryDbEndpoint))
         }
 
         get('health-checks', { HealthCheckRegistry healthCheckRegistry ->
