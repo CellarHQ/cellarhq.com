@@ -52,10 +52,17 @@ class SecurityModule extends AbstractModule implements HandlerDecoratingModule {
         new CellarHQFormClient('/login', authenticator)
     }
 
+    /**
+     * We need to default the twitter API keys, otherwise things don't inject correctly.
+     * @return
+     */
     @Singleton
     @Provides
     TwitterClient twitterClient() {
-        new TwitterClient('jnvxx2qjluMFdJN5dt4xRw', 'IPRGbYPFlEqfSHFdaNxQtOc755HnGVIGrqpOHWXmI')
+        new TwitterClient(
+                System.getenv('TWITTER_API_TOKEN')?:'YOUR_TWITTER_API_TOKEN',
+                System.getenv('TWITTER_API_SECRET')?:'YOUR_TWITTER_API_SECRET'
+        )
     }
 
     private String getCallbackPath(Injector injector) {

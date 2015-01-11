@@ -15,7 +15,7 @@
         <then>
             <appender name="LE" class="com.logentries.logback.LogentriesAppender">
                 <Debug>False</Debug>
-                <Token>fa564351-d38b-45f0-9ce8-ee5caf0a3ef7</Token>
+                <Token>${LOGENTRIES_TOKEN}</Token>
                 <Ssl>False</Ssl>
                 <facility>USER</facility>
                 <layout>
@@ -42,9 +42,7 @@
                     <OnMatch>DENY</OnMatch>
                 </filter>
 
-                <dsn>
-                    https://640b2f0db70143fa8518aebd0397c36c:1e93be694d8c4363899dfbfda93c7701@app.getsentry.com/30588
-                </dsn>
+                <dsn>${SENTRY_DSN}</dsn>
                 <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
                     <level>ERROR</level>
                 </filter>
