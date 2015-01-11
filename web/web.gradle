@@ -157,13 +157,19 @@ task functionalTest(type: Test) {
     maxHeapSize '768m'
 
     if (System.getenv('SNAP_CI')) {
-        systemProperty 'ratpack.other.dataSource.jdbcUrl', System.getenv('SNAP_DB_PG_JDBC_URL')
-        systemProperty 'ratpack.other.dataSource.serverName', System.getenv('SNAP_DB_PG_HOST')
-        systemProperty 'ratpack.other.dataSource.portNumber', System.getenv('SNAP_DB_PG_PORT')
-        systemProperty 'ratpack.other.dataSource.user', System.getenv('SNAP_DB_PG_USER')
-        systemProperty 'ratpack.other.dataSource.password', System.getenv('SNAP_DB_PG_PASSWORD')
-        systemProperty 'ratpack.other.dataSource.databaseName', 'app_test'
+        environment 'DB_JDBC_URL', System.getenv('SNAP_DB_PG_JDBC_URL')
+        environment 'DB_HOST', System.getenv('SNAP_DB_PG_HOST')
+        environment 'DB_PORT', System.getenv('SNAP_DB_PG_PORT')
+        environment 'DB_USERNAME', System.getenv('SNAP_DB_PG_USER')
+        environment 'DB_PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
+        environment 'DB_NAME', 'app_test'
         testLogging.showStandardStreams = true
+    } else {
+        environment 'DB_HOST', 'localhost'
+        environment 'DB_PORT', '15432'
+        environment 'DB_NAME', 'cellarhq_testing'
+        environment 'DB_USERNAME', 'cellarhq'
+        environment 'DB_PASSWORD', 'cellarhq'
     }
 }
 
@@ -173,6 +179,12 @@ run {
     systemProperty 'DISABLE_SERVICES', true
     environment 'CHQ_GA_ID', 'UA-27709782-2' // Local GA tracking code
     environment 'CHQ_HOSTNAME', 'localhost:5050'
+
+    environment 'DB_HOST', 'localhost'
+    environment 'DB_PORT', '15432'
+    environment 'DB_NAME', 'cellarhq'
+    environment 'DB_USERNAME', 'cellarhq'
+    environment 'DB_PASSWORD', 'cellarhq'
 }
 
 watch {

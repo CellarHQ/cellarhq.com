@@ -7,13 +7,11 @@ import com.amazonaws.services.simpledb.model.SelectRequest
 import com.amazonaws.services.simpledb.model.SelectResult
 
 class SimpleDBItemRetriever {
-    static final String accessKeyId = 'AKIAIXBP2ORLESIX5CIQ'
-    static final String secretKey = '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'
+    final AmazonSimpleDB simpleDB
 
-    static AmazonSimpleDB simpleDB = new AmazonSimpleDBClient(
-        new BasicAWSCredentials(
-            accessKeyId,
-            secretKey))
+    SimpleDBItemRetriever(String accessKey, String secretKey) {
+        simpleDB = new AmazonSimpleDBClient(new BasicAWSCredentials(accessKey, secretKey))
+    }
 
     void withEachItem(String simpleDbQuery, Closure itemHandler) {
         String nextToken = null
