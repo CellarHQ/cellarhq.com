@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
 
@@ -44,7 +44,7 @@
 
                 <dsn>${SENTRY_DSN}</dsn>
                 <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                    <level>ERROR</level>
+                    <level>INFO</level>
                 </filter>
             </appender>
 

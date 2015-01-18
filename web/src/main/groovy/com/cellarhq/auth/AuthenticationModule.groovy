@@ -4,7 +4,15 @@ import com.cellarhq.auth.callbacks.AuthFailCallback
 import com.cellarhq.auth.callbacks.AuthSuccessCallback
 import com.cellarhq.auth.callbacks.HttpCallback
 import com.cellarhq.auth.callbacks.TwitterCallback
-import com.cellarhq.auth.endpoints.*
+import com.cellarhq.auth.endpoints.ChangePasswordEndpoint
+import com.cellarhq.auth.endpoints.ForgotPasswordEndpoint
+import com.cellarhq.auth.endpoints.LinkAccountEndpoint
+import com.cellarhq.auth.endpoints.LinkEmailAccountEndpoint
+import com.cellarhq.auth.endpoints.LinkTwitterAccountEndpoint
+import com.cellarhq.auth.endpoints.RegisterEndpoint
+import com.cellarhq.auth.endpoints.SettingsEndpoint
+import com.cellarhq.auth.rememberme.RememberMeHandler
+import com.cellarhq.auth.rememberme.RememberMeService
 import com.cellarhq.common.CellarHQConfig
 import com.google.inject.Injector
 import com.google.inject.Provides
@@ -48,6 +56,7 @@ class AuthenticationModule extends ConfigurableModule<CellarHQConfig> {
         bind(new TypeLiteral<Client<OAuthCredentials, TwitterProfile>>() {}).to(TwitterClient)
         bind(HttpCallback)
         bind(TwitterCallback)
+        bind(RememberMeService)
 
         [
             ForgotPasswordEndpoint,
@@ -99,15 +108,19 @@ class AuthenticationModule extends ConfigurableModule<CellarHQConfig> {
             final TwitterClient twitterClient = serverRegistry.get(TwitterClient)
             final FormClient formClient = serverRegistry.get(FormClient)
             final Pac4jClientsHandler clientsHandler = new Pac4jClientsHandler(callbackPath, twitterClient, formClient)
+            final RememberMeService rememberMeService = serverRegistry.get(RememberMeService)
             final Handler callbackHandler = new Pac4jCallbackHandlerBuilder()
                     .onSuccess(new AuthSuccessCallback<Context, UserProfile>())
-                    .onError(new AuthFailCallback<Context, Throwable>())
+                    .onError(new AuthFailCallback<Context,
+Throwable>(rememberMeService))
                     .build()
 
             final CellarHQAuthenticationHandler authenticationHandler = new CellarHQAuthenticationHandler(authorizer)
+            final RememberMeHandler rememberMeHandler = new RememberMeHandler(rememberMeService)
 
             return Handlers.chain(clientsHandler,
                     Handlers.path(callbackPath, callbackHandler),
+                    rememberMeHandler,
                     authenticationHandler,
                     rest)
         }
