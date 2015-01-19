@@ -1,14 +1,16 @@
 package com.cellarhq.repair.merger
 
+import com.cellarhq.jooq.CellarStatsUpdater
+import org.jooq.exception.DataAccessException
+
 import static com.cellarhq.generated.Tables.ORGANIZATION
+import static com.cellarhq.generated.Tables.DRINK
 
 import com.cellarhq.commands.ExecutionFailedException
 import com.cellarhq.generated.tables.records.OrganizationRecord
 import com.cellarhq.support.DryRunSupport
 import org.jooq.DSLContext
 import org.jooq.Table
-
-import javax.naming.OperationNotSupportedException
 
 class OrganizationMerger implements Merger<OrganizationRecord>, DryRunSupport {
 
@@ -39,15 +41,60 @@ class OrganizationMerger implements Merger<OrganizationRecord>, DryRunSupport {
                     "One of the organizations does not exist (source: ${source}, target: ${target}")
         }
 
-        throw new OperationNotSupportedException('Organization merger is not complete yet.')
+        if (source == target) {
+            throw new ExecutionFailedException(
+                    "Source and target may not be the same (source: ${source}, target: ${target}")
+        }
 
-        // TODO Merge drinks
-        //  - Fork logic to handle duplicate drinks?
-        //  - Will need to update all cellars to point to the new drink
-        // TODO Merge records
+        try {
+            int changedRecords = moveDrinksFromTargetToSource(source, target)
+
+            println "Updated target ${target.id} and moved ${changedRecords} beers"
+
+            mergeSourceIntoTarget(source, target)
+            deleteSourceOrganization(source)
+            new CellarStatsUpdater().updateOrganizationCounts(target.id, create)
+        } catch (DataAccessException dae) {
+            println "Error merging source: ${source}, target: ${target}."
+            println "Data may be in an inconsistant state for these."
+            dae.printStackTrace()
+            return false
+        }
+
+
         // TODO Add old slug to redirects table
 
-        return false
+        return true
+    }
+
+    void mergeSourceIntoTarget(OrganizationRecord source, OrganizationRecord target) {
+
+        target.address = target.address ?: source.address
+        target.address2 = target.address2 ?: source.address2
+        target.country = target.country ?: source.country
+        target.description = target.description ?: source.description
+        target.established = target.established ?: source.established
+        target.locality = target.locality ?: source.locality
+        target.localitySort = target.localitySort ?: source.localitySort
+        target.phone = target.phone ?: source.phone
+        target.photoId = target.photoId ?: source.photoId
+        target.postalCode = target.postalCode ?: source.postalCode
+        target.region = target.region ?: source.region
+        target.website = target.website ?: source.website
+
+        target.store()
+    }
+
+    void deleteSourceOrganization(OrganizationRecord source) {
+        create.delete(ORGANIZATION).where(ORGANIZATION.ID.eq(source.id)).execute()
+    }
+
+    int moveDrinksFromTargetToSource(OrganizationRecord source, OrganizationRecord target) {
+        create.update(DRINK)
+                .set(DRINK.ORGANIZATION_ID, target.id)
+                .where(DRINK.ORGANIZATION_ID.eq(source.id))
+                .execute()
+
     }
 
     @Override

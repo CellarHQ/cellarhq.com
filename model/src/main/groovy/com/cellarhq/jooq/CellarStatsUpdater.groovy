@@ -23,7 +23,13 @@ class CellarStatsUpdater {
     static void updateAllCounts(Long cellarId, Long drinkId, DSLContext create) {
         updateCellarCounts(cellarId, create)
         updateDrinkCounts(drinkId, create)
-        updateOrganizationCounts(drinkId, create)
+
+        Long organizationId =  create.select(DRINK.ORGANIZATION_ID)
+                .from(DRINK)
+                .where(DRINK.ID.eq(drinkId))
+                .fetchOneInto(Long)
+
+        updateOrganizationCounts(organizationId, create)
 
     }
 
@@ -75,12 +81,7 @@ class CellarStatsUpdater {
             .where(DRINK.ID.eq(drinkId)).execute()
     }
 
-    static void updateOrganizationCounts(Long drinkId, DSLContext create) {
-        Long organizationId =  create.select(DRINK.ORGANIZATION_ID)
-            .from(DRINK)
-            .where(DRINK.ID.eq(drinkId))
-            .fetchOneInto(Long)
-
+    static void updateOrganizationCounts(Long organizationId, DSLContext create) {
         Integer totalBeers = create.fetchCount(
             create.selectDistinct(DRINK.ID)
                 .from(DRINK)
