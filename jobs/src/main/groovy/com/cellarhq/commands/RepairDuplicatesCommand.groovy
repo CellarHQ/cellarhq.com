@@ -1,5 +1,8 @@
 package com.cellarhq.commands
 
+import com.cellarhq.generated.tables.records.OrganizationRecord
+import com.cellarhq.repair.merger.OrganizationMerger
+
 import static com.cellarhq.generated.Tables.*
 
 import com.cellarhq.repair.merger.CellarMerger
@@ -70,32 +73,32 @@ class RepairDuplicatesCommand extends BaseCommand
             }
         })
 
-        // TODO we shouldn't really bother to do organizations until later. This is a pretty daunting task on its own.
-//        onlyIfYes('Do you want to repair organizations?', {
-//            OrganizationMerger organizationMerger = new OrganizationMerger(create)
-//
-//            Map<OrganizationRecord, OrganizationRecord> organizations = organizationMerger.conflicts()
-//            reviewConflicts(OrganizationRecord, organizations, ORGANIZATION.NAME)
-//
-//            organizations.eachWithIndex { Map.Entry<OrganizationRecord, OrganizationRecord> entry, int i ->
-//                println('')
-//                println('Merging - ' + renderPair(entry.key, entry.value, ORGANIZATION.NAME))
-//
-//                List<Record> records = organizationMerger.determineSourceAndTarget(entry.key, entry.value)
-//                if (records.empty) {
-//                    println('## ERR: No organizations found for merging. This should never happen')
-//                    skipped++
-//                    return
-//                }
-//                boolean result = organizationMerger.merge((OrganizationRecord) records[0], (OrganizationRecord) records[1])
-//                if (!result) {
-//                    println('## ERR: Could not merge organizations')
-//                    failures.add(records)
-//                } else {
-//                    successful++
-//                }
-//            }
-//        })
+        //TODO we shouldn't really bother to do organizations until later. This is a pretty daunting task on its own.
+        onlyIfYes('Do you want to repair organizations?', {
+            OrganizationMerger organizationMerger = new OrganizationMerger(create)
+
+            Map<OrganizationRecord, OrganizationRecord> organizations = organizationMerger.conflicts()
+            reviewConflicts(OrganizationRecord, organizations, ORGANIZATION.NAME)
+
+            organizations.eachWithIndex { Map.Entry<OrganizationRecord, OrganizationRecord> entry, int i ->
+                println('')
+                println('Merging - ' + renderPair(entry.key, entry.value, ORGANIZATION.NAME))
+
+                List<Record> records = organizationMerger.determineSourceAndTarget(entry.key, entry.value)
+                if (records.empty) {
+                    println('## ERR: No organizations found for merging. This should never happen')
+                    skipped++
+                    return
+                }
+                boolean result = organizationMerger.merge((OrganizationRecord) records[0], (OrganizationRecord) records[1])
+                if (!result) {
+                    println('## ERR: Could not merge organizations')
+                    failures.add(records)
+                } else {
+                    successful++
+                }
+            }
+        })
 
         println('Done!')
 
