@@ -18,4 +18,9 @@ abstract class SpecFlags {
     static boolean isFalse(String flag) {
         return has(flag) && !isTrue(flag)
     }
+
+    static boolean missingTwitter() {
+        return System.getenv('TWITTER_API_TOKEN') != 'YOUR_TWITTER_API_TOKEN' &&
+                System.getenv('TWITTER_API_SECRET') != 'YOUR_TWITTER_API_SECRET'
+    }
 }

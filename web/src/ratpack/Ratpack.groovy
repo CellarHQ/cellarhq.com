@@ -30,34 +30,18 @@ import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
 
-String getConfig(LaunchConfig launchConfig, String key, String defaultValue) {
-    String value = System.getenv(key)
-    if (value == null) {
-        value = System.getProperty(key, defaultValue)
-        value = launchConfig.getOther(key, value)
-    }
-
-    return value
-}
-
 ratpack {
     bindings {
         bind ServerErrorHandler, ServerErrorHandlerImpl
         bind ClientErrorHandler, ClientErrorHandlerImpl
         bind DatabaseHealthcheck
 
-        String serverName = getConfig(launchConfig, 'dataSource.serverName', 'localhost')
-        String portNumber =  getConfig(launchConfig, 'dataSource.portNumber', '15432')
-        String databaseName = getConfig(launchConfig, 'dataSource.databaseName', 'cellarhq')
-        String user = getConfig(launchConfig, 'dataSource.user', 'cellarhq')
-        String password = getConfig(launchConfig, 'dataSource.password', 'cellarhq')
-
         add HikariModule, { hikariConfig ->
-            hikariConfig.addDataSourceProperty('serverName', serverName)
-            hikariConfig.addDataSourceProperty('portNumber', portNumber)
-            hikariConfig.addDataSourceProperty('databaseName', databaseName)
-            hikariConfig.addDataSourceProperty('user', user)
-            hikariConfig.addDataSourceProperty('password', password)
+            hikariConfig.addDataSourceProperty('serverName', System.getenv('DB_HOST'))
+            hikariConfig.addDataSourceProperty('portNumber', System.getenv('DB_PORT'))
+            hikariConfig.addDataSourceProperty('databaseName', System.getenv('DB_NAME'))
+            hikariConfig.addDataSourceProperty('user', System.getenv('DB_USERNAME'))
+            hikariConfig.addDataSourceProperty('password', System.getenv('DB_PASSWORD'))
             hikariConfig.dataSourceClassName = 'org.postgresql.ds.PGSimpleDataSource'
         }
 
@@ -71,10 +55,9 @@ ratpack {
         add new HandlebarsModule()
 
         // IMPORTANT: Our module must be last, so we can override whatever we need to created by the other modules.
-        // TODO: Remove AWS keys from codebase, generate new ones and inject via env vars.
         add new CellarHQModule(
-                getConfig(launchConfig, 'other.aws.accessKey', 'AKIAJE3VS4JUNXZODG2Q'),
-                getConfig(launchConfig, 'other.aws.secretKey', 'GgPn7vTO3yg15Bq6O66ZMzNub55mKxbkzT6Txnnp')
+                System.getenv('AWS_ACCESS_KEY_ID')?:'YOUR_AWS_ACCESS_KEY_ID',
+                System.getenv('AWS_SECRET_ACCESS_KEY')?:'YOUR_AWS_SECRET_ACCESS_KEY'
         )
 
         init {
@@ -87,7 +70,7 @@ ratpack {
             // For production, we want to force SSL on all requests.
             String forwardedProto = 'X-Forwarded-Proto'
             if (CellarHQModule.productionEnv
-                    && request.headers.contains('X-Forwarded-Proto')
+                    && request.headers.contains(forwardedProto)
                     && request.headers.get(forwardedProto) != 'https') {
                 redirect(301, "https://${request.headers.get('Host')}${request.rawUri}")
             }
