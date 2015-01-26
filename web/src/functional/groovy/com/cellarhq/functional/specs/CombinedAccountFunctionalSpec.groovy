@@ -23,7 +23,11 @@ import spock.lang.Stepwise
 import javax.sql.DataSource
 
 @Stepwise
-@IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) || SpecFlags.isTrue(SpecFlags.NO_INTERNET) })
+@IgnoreIf({
+        SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) ||
+        SpecFlags.isTrue(SpecFlags.NO_INTERNET) ||
+        SpecFlags.missingTwitter()
+})
 class CombinedAccountFunctionalSpec extends BaseFunctionalSpecification {
 
     @Shared
