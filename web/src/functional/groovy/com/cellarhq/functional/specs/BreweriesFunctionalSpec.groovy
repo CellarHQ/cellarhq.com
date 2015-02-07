@@ -10,7 +10,9 @@ import com.cellarhq.functional.pages.breweries.EditBreweryPage
 import com.cellarhq.functional.pages.breweries.ShowBreweryPage
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
+import ratpack.groovy.test.embed.GroovyEmbeddedApp
 import ratpack.test.ApplicationUnderTest
+import ratpack.test.embed.EmbeddedApp
 import ratpack.test.remote.RemoteControl
 import spock.lang.IgnoreIf
 import spock.lang.Shared

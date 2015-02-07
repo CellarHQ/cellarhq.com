@@ -1,9 +1,10 @@
 package com.cellarhq.services.account
 
+import com.cellarhq.CellarHQConfig
+
 import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 
-import com.cellarhq.CellarHQModule
 import com.cellarhq.Messages
 import com.cellarhq.auth.PasswordService
 import com.cellarhq.domain.Cellar
@@ -30,10 +31,17 @@ class EmailAccountVerificationService extends BaseJooqService {
 
     EmailService emailService
 
+    private final String HOSTNAME
+
     @Inject
-    EmailAccountVerificationService(DataSource dataSource, ExecControl execControl, EmailService emailService) {
+    EmailAccountVerificationService(DataSource dataSource,
+                                    ExecControl execControl,
+                                    EmailService emailService,
+                                    CellarHQConfig config) {
         super(dataSource, execControl)
         this.emailService = emailService
+
+        HOSTNAME = config.hostName
     }
 
     Boolean linkAllowed(EmailAccount pendingAccount) {
@@ -79,7 +87,7 @@ class EmailAccountVerificationService extends BaseJooqService {
                 |
                 |To link this email to your account, please follow the link below:
                 |
-                |https://${CellarHQModule.hostname}/settings/link-email/${uuid}
+                |https://${HOSTNAME}/settings/link-email/${uuid}
                 |
                 |Cheers!
                 |Kyle and Rob

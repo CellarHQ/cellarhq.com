@@ -15,7 +15,6 @@ import liquibase.resource.CompositeResourceAccessor
 import liquibase.resource.FileSystemResourceAccessor
 import liquibase.resource.ResourceAccessor
 import liquibase.util.NetUtil
-import org.postgresql.util.PSQLException
 
 import java.sql.Connection
 import java.sql.DriverManager
@@ -33,6 +32,12 @@ trait LiquibaseSupport {
     private String hostName
     private ConfigurationValueProvider valueProvider
     private Connection connection
+
+    CellarHQConfig getCellarHQCOnfig() {
+        remote.exec {
+            get(CellarHQConfig)
+        }
+    }
 
     void runLiquibase() {
         if (!ranLiquibase) {
@@ -116,26 +121,6 @@ trait LiquibaseSupport {
 
 
     private String getJdbcUrl() {
-        System.getenv('DB_JDBC_URL')?:"jdbc:postgresql://${getHost()}:${getPort()}/${getName()}?user=${getUser()}&password=${getPassword()}"
-    }
-
-    private String getHost() {
-        System.getenv('DB_HOST')?:'localhost'
-    }
-
-    private String getPort() {
-        System.getenv('DB_PORT')?:'15432'
-    }
-
-    private String getName() {
-        System.getenv('DB_NAME')?:'cellarhq_testing'
-    }
-
-    private String getUser() {
-        System.getenv('DB_USERNAME')?:'cellarhq'
-    }
-
-    private String getPassword() {
-        System.getenv('DB_PASSWORD')?:'cellarhq'
+        "jdbc:postgresql://${cellarHQCOnfig.databaseServerName}:${cellarHQCOnfig.databasePortNumber}/${cellarHQCOnfig.databaseName}?user=${cellarHQCOnfig.databaseUser}&password=${cellarHQCOnfig.databasePassword}"
     }
 }

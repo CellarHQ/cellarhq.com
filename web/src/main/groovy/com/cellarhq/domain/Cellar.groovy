@@ -55,42 +55,50 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
         role = Role.MEMBER
     }
 
+    //todo: remove when we get to groovy 2.4.1
+    @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
     @Override
     @NotEmpty
     @Length(min = 1, max = 64)
     @Column(name = 'display_name')
     String getDisplayName() {
-        super.displayName
+        super.getDisplayName()
     }
 
+    //todo: remove when we get to groovy 2.4.1
+    @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
     @Override
     @NotEmpty
     @Length(min = 1, max = 64)
     @Pattern(regexp = /[a-zA-Z0-9_-]{1,20}/)
     @Column(name = 'screen_name')
     String getScreenName() {
-        return super.screenName
+        return super.getScreenName()
     }
 
     @Override
     void setUpdateFromNetwork(Boolean updateFromNetwork) {
-        super.updateFromNetwork = updateFromNetwork ?: false
+        //todo: remove when we get to groovy 2.4.1
+        super.setUpdateFromNetwork(updateFromNetwork ?: false)
     }
 
     @Override
     void setScreenName(String screenName) {
-        super.screenName = screenName
+        //todo: remove when we get to groovy 2.4.1
+        super.setScreenName(screenName)
         slug = new Slugify().slugify(screenName)
     }
 
     @Override
     @SuppressWarnings('ParameterName')
     void setPrivate(Boolean private_) {
-        super.private = private_ ?: false
+        //todo: remove when we get to groovy 2.4.1
+        super.setPrivate(private_ ?: false)
     }
 
     void setRole(Role role) {
-        super.role = role.toString()
+        //todo: remove when we get to groovy 2.4.1
+        super.setRole(role.toString())
     }
 
     boolean hasContactInfo() {

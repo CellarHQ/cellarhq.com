@@ -1,6 +1,6 @@
 package com.cellarhq.handlebars
 
-import com.cellarhq.CellarHQModule
+import com.cellarhq.CellarHQConfig
 import com.cellarhq.auth.CellarHQFormClient
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
@@ -41,9 +41,15 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
     private final static String MODEL_AUTH_FORM_URL = 'authFormUrl'
     private final static String MODEL_AUTH_TWITTER_URL = 'authTwitterUrl'
 
+    private final String HOSTNAME
+    private final String GOOGLE_ANALYTICS_CODE
+
     @Inject
-    HandlebarsTemplateRendererImpl(Handlebars handlebars) {
+    HandlebarsTemplateRendererImpl(Handlebars handlebars, CellarHQConfig config) {
         super(handlebars)
+
+        HOSTNAME = config.hostName
+        GOOGLE_ANALYTICS_CODE =  config.googleAnalyticsTrackingCode
     }
 
     @Override
@@ -71,18 +77,23 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
         model[MODEL_LOGGED_IN] = SessionUtil.isLoggedIn(context.request.maybeGet(CommonProfile))
         applyFlashMessages(context.request, model)
 
-        if (System.getenv(CellarHQModule.ENV_GA_TRACKING_CODE)) {
-            model[MODEL_GA_TRACKING_CODE] = System.getenv(CellarHQModule.ENV_GA_TRACKING_CODE)
+        if (GOOGLE_ANALYTICS_CODE) {
+            model[MODEL_GA_TRACKING_CODE] = GOOGLE_ANALYTICS_CODE
         }
 
         model[MODEL_REQUEST] = context.request
 
-        model[MODEL_HOSTNAME] = CellarHQModule.hostname
+        model[MODEL_HOSTNAME] = HOSTNAME
 
         Clients clients = context.request.get(Clients)
         RatpackWebContext webContext = new RatpackWebContext(context)
         model[MODEL_AUTH_FORM_URL] = clients.findClient(CellarHQFormClient).getRedirectionUrl(webContext)
-        model[MODEL_AUTH_TWITTER_URL] = clients.findClient(TwitterClient).getRedirectionUrl(webContext)
+
+        try {
+            model[MODEL_AUTH_TWITTER_URL] = clients.findClient(TwitterClient).getRedirectionUrl(webContext)
+        } catch (e) {
+            log.warn('WTF', e)
+        }
 
         super.render(context, template)
     }

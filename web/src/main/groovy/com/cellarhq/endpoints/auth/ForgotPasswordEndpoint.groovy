@@ -1,6 +1,6 @@
 package com.cellarhq.endpoints.auth
 
-import com.cellarhq.CellarHQModule
+import com.cellarhq.CellarHQConfig
 import com.cellarhq.Messages
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.services.AccountService
@@ -22,11 +22,13 @@ class ForgotPasswordEndpoint implements Action<Chain> {
 
     private final AccountService accountService
     private final EmailService emailService
+    private final CellarHQConfig cellarHQConfig
 
     @Inject
-    ForgotPasswordEndpoint(AccountService accountService, EmailService emailService) {
+    ForgotPasswordEndpoint(AccountService accountService, EmailService emailService, CellarHQConfig cellarHQConfig) {
         this.accountService = accountService
         this.emailService = emailService
+        this.cellarHQConfig = cellarHQConfig
     }
 
     @Override
@@ -69,7 +71,7 @@ class ForgotPasswordEndpoint implements Action<Chain> {
                                 | Forgot your password, huh? Don't worry, we'll help you change it: Follow the link
                                 | below to change it. It will only be valid for 24 hours, so make it quick!
                                 |
-                                | https://${CellarHQModule.hostname}/forgot-password/${recoveryHash}
+                                | https://${cellarHQConfig.hostName}/forgot-password/${recoveryHash}
                                 |
                                 | Cheers!
                                 | Kyle and Rob

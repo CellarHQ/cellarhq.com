@@ -1,5 +1,7 @@
 package com.cellarhq
 
+import com.google.inject.Inject
+
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.util.LogUtil
@@ -16,6 +18,14 @@ import ratpack.handling.Context
 @CompileStatic
 class ServerErrorHandlerImpl implements ServerErrorHandler {
 
+    private final boolean isProduction
+
+    @Inject
+    ServerErrorHandlerImpl(CellarHQConfig config) {
+        isProduction = config.isProductionEnv()
+    }
+
+
     @Override
     void error(Context context, Throwable throwable) throws Throwable {
         log.error(LogUtil.toLog(context.request, 'ServerError', [
@@ -27,7 +37,7 @@ class ServerErrorHandlerImpl implements ServerErrorHandler {
         context.with {
             String correlationId = request.maybeGet(UUID).map { it.toString() }
 
-            if (CellarHQModule.productionEnv) {
+            if (isProduction) {
                 render handlebarsTemplate('error.html',
                         title: 'Error',
                         pageId: 'server.error',
@@ -39,7 +49,7 @@ class ServerErrorHandlerImpl implements ServerErrorHandler {
                         title: 'Exception',
                         pageId: 'server.error',
                         exception: throwable,
-                        development: !CellarHQModule.productionEnv,
+                        development: !isProduction,
                         request: context.request,
                         rootCauseMessage: rootCause.message,
                         rootCauseTrace: rootCause.stackTrace.collect {
