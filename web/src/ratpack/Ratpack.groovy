@@ -11,6 +11,7 @@ import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
 import com.cellarhq.endpoints.auth.RegisterEndpoint
 import com.cellarhq.endpoints.settings.LinkEmailAccountEndpoint
 import com.cellarhq.endpoints.settings.LinkTwitterAccountEndpoint
+import com.cellarhq.handlebars.HandlerbarsRenderableDecorator
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil

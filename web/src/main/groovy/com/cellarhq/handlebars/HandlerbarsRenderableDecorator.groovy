@@ -5,28 +5,20 @@ import com.cellarhq.auth.CellarHQFormClient
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
-import com.github.jknack.handlebars.Handlebars
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.client.Clients
 import org.pac4j.core.profile.CommonProfile
-import org.pac4j.http.client.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import ratpack.handlebars.Template
-import ratpack.handlebars.internal.HandlebarsTemplateRenderer
 import ratpack.handling.Context
 import ratpack.http.Request
 import ratpack.pac4j.internal.RatpackWebContext
+import ratpack.render.RenderableDecorator
 import ratpack.session.store.SessionStorage
 
-/**
- * Adds default variables for handlebar templates into the model.
- */
 @Slf4j
-@CompileStatic
-class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
-
+class HandlerbarsRenderableDecorator implements RenderableDecorator {
     private final static String DEFAULT_PAGE_ID = 'generic'
     private final static String DEFAULT_TITLE = 'CellarHQ'
 
@@ -45,15 +37,18 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
     private final String GOOGLE_ANALYTICS_CODE
 
     @Inject
-    HandlebarsTemplateRendererImpl(Handlebars handlebars, CellarHQConfig config) {
-        super(handlebars)
-
+    HandlerbarsRenderableDecorator(CellarHQConfig config) {
         HOSTNAME = config.hostName
-        GOOGLE_ANALYTICS_CODE =  config.googleAnalyticsTrackingCode
+        GOOGLE_ANALYTICS_CODE = config.googleAnalyticsTrackingCode
     }
 
     @Override
-    void render(Context context, Template template) {
+    Class getType() {
+        return Template
+    }
+
+    @Override
+    Object decorate(Context context, Object template) {
         Map<String, ?> model = (Map<String, ?>) template.model
         if (model == null) {
             model = [:]
@@ -95,7 +90,7 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
             log.warn('WTF', e)
         }
 
-        super.render(context, template)
+        return template
     }
 
     static void applyFlashMessages(Request request, Map<String, ?> model) {

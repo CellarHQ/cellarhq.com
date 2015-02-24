@@ -10,7 +10,7 @@ import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
 import com.cellarhq.endpoints.auth.RegisterEndpoint
 import com.cellarhq.endpoints.settings.LinkEmailAccountEndpoint
 import com.cellarhq.endpoints.settings.LinkTwitterAccountEndpoint
-import com.cellarhq.handlebars.HandlebarsTemplateRendererImpl
+import com.cellarhq.handlebars.HandlerbarsRenderableDecorator
 import com.cellarhq.handlebars.helpers.BottledDateHelper
 import com.cellarhq.handlebars.helpers.DataTableSortingHelper
 import com.cellarhq.handlebars.helpers.PaginationHelper
@@ -27,7 +27,6 @@ import com.google.inject.AbstractModule
 import com.google.inject.Injector
 import groovy.util.logging.Slf4j
 import ratpack.guice.HandlerDecoratingModule
-import ratpack.handlebars.internal.HandlebarsTemplateRenderer
 import ratpack.handling.Handler
 
 import javax.validation.Validation
@@ -69,7 +68,9 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(DataTableSortingHelper).in(SINGLETON)
         bind(SelectedOptionHelper).in(SINGLETON)
         bind(BottledDateHelper).in(SINGLETON)
-        bind(HandlebarsTemplateRenderer).to(HandlebarsTemplateRendererImpl).in(SINGLETON)
+        bind(HandlerbarsRenderableDecorator).in(SINGLETON)
+
+
         bind(AccountService).in(SINGLETON)
         bind(CellarService).in(SINGLETON)
         bind(CellaredDrinkService).in(SINGLETON)
@@ -85,6 +86,7 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
         bind(YourCellarEndpoint).in(SINGLETON)
         bind(CellaredDrinkEndpoint).in(SINGLETON)
         bind(RegisterEndpoint).in(SINGLETON)
+
 
         // api, to be moved to its own module
         [
