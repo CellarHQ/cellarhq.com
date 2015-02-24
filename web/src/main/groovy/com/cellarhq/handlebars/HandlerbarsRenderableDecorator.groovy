@@ -84,11 +84,7 @@ class HandlerbarsRenderableDecorator implements RenderableDecorator {
         RatpackWebContext webContext = new RatpackWebContext(context)
         model[MODEL_AUTH_FORM_URL] = clients.findClient(CellarHQFormClient).getRedirectionUrl(webContext)
 
-        try {
-            model[MODEL_AUTH_TWITTER_URL] = clients.findClient(TwitterClient).getRedirectionUrl(webContext)
-        } catch (e) {
-            log.warn('WTF', e)
-        }
+        model[MODEL_AUTH_TWITTER_URL] = clients.findClient(TwitterClient).getRedirectionUrl(webContext)
 
         return template
     }

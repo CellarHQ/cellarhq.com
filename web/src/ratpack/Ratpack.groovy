@@ -11,7 +11,6 @@ import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
 import com.cellarhq.endpoints.auth.RegisterEndpoint
 import com.cellarhq.endpoints.settings.LinkEmailAccountEndpoint
 import com.cellarhq.endpoints.settings.LinkTwitterAccountEndpoint
-import com.cellarhq.handlebars.HandlerbarsRenderableDecorator
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
@@ -48,6 +47,7 @@ ratpack {
         CellarHQConfig cellarHqConfig = configData.get(CellarHQConfig)
 
         bindInstance(CellarHQConfig, cellarHqConfig)
+        addConfig(CellarHQModule, cellarHqConfig)
 
         add new CodaHaleMetricsModule(), { it.enable(true).jvmMetrics(true).jmx { it.enable(true) }.healthChecks(true) }
 
@@ -66,7 +66,7 @@ ratpack {
         add new SecurityModule(cellarHqConfig)
         add new HandlebarsModule()
 
-        add new CellarHQModule(cellarHqConfig)
+        add new CellarHQModule()
 
         bindInstance Service, new Service() {
             @Override

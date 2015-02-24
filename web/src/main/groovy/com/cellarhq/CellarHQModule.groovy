@@ -23,9 +23,10 @@ import com.cellarhq.services.email.EmailService
 import com.cellarhq.services.email.LogEmailService
 import com.cellarhq.services.photo.writer.AmazonPhotoWriteStrategy
 import com.cellarhq.services.photo.writer.PhotoWriteStrategy
-import com.google.inject.AbstractModule
 import com.google.inject.Injector
+import com.google.inject.Provides
 import groovy.util.logging.Slf4j
+import ratpack.guice.ConfigurableModule
 import ratpack.guice.HandlerDecoratingModule
 import ratpack.handling.Handler
 
@@ -39,27 +40,10 @@ import static com.google.inject.Scopes.SINGLETON
  */
 @SuppressWarnings('AbcMetric')
 @Slf4j
-class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
-
-    private final CellarHQConfig cellarHQConfig
-
-    CellarHQModule(CellarHQConfig cellarHQConfig) {
-        this.cellarHQConfig = cellarHQConfig
-    }
-
+class CellarHQModule extends ConfigurableModule<CellarHQConfig> implements HandlerDecoratingModule {
     @Override
     protected void configure() {
-        bind(AWSCredentials)
-                .toInstance(new BasicAWSCredentials(cellarHQConfig.awsAccessKey, cellarHQConfig.awsSecretKey))
         bind(S3Service).in(SINGLETON)
-
-        if (cellarHQConfig.isProductionEnv()) {
-            log.info('Binding amazon email service')
-            bind(EmailService).to(AmazonEmailService).in(SINGLETON)
-        } else {
-            log.info('Binding log email service')
-            bind(EmailService).to(LogEmailService).in(SINGLETON)
-        }
 
         // common, to kept in cellarhq module
         bind(PhotoWriteStrategy).to(AmazonPhotoWriteStrategy).in(SINGLETON)
@@ -116,5 +100,22 @@ class CellarHQModule extends AbstractModule implements HandlerDecoratingModule {
     @Override
     public Handler decorate(Injector injector, Handler handler) {
         return new CorrelationIdHandler(new RequestLoggingHandler(handler))
+    }
+
+
+    @Provides
+    public AWSCredentials provideAWSCredentials(CellarHQConfig config) {
+        new BasicAWSCredentials(config.awsAccessKey, config.awsSecretKey)
+    }
+
+    @Provides
+    public EmailService provideEmailService(AWSCredentials credentials, CellarHQConfig config) {
+        if (config.isProductionEnv()) {
+            log.info('Binding amazon email service')
+            return new AmazonEmailService(credentials)
+        }
+
+        log.info('Binding log email service')
+        return new LogEmailService()
     }
 }
