@@ -148,17 +148,17 @@ task publish(dependsOn: 'buildDocker') {
 }
 
 test {
-    // IMPortANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
+    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
     systemProperty 'DISABLE_SERVICES', true
 }
 
 task functionalTest(type: Test) {
-    // IMPortANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
+    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
     systemProperty 'DISABLE_SERVICES', true
     systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
     systemProperty 'ratpack.hostName', 'localhost:5050'
     systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
-    systemProperty 'ratpack.envrionment', 'development'
+    systemProperty 'ratpack.environment', 'development'
 
 
     testClassesDir = sourceSets.functional.output.classesDir
@@ -204,13 +204,13 @@ task functionalTest(type: Test) {
 
 
 run {
-    // IMPortANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
+    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
     systemProperty 'DISABLE_SERVICES', true
     systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
     systemProperty 'ratpack.hostName', 'localhost:5050'
 
     systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
-    systemProperty 'ratpack.envrionment', 'development'
+    systemProperty 'ratpack.environment', 'development'
     systemProperty 'ratpack.databaseServerName', 'localHost'  // not sure if should put these in here or not
     systemProperty 'ratpack.databasePortNumber', '15432'
     systemProperty 'ratpack.databaseName', 'cellarhq'

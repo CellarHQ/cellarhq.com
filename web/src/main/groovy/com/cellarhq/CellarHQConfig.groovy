@@ -4,7 +4,7 @@ import groovy.transform.ToString
 
 @ToString
 class CellarHQConfig implements Serializable {
-    String envrionment
+    String environment
     String hostName
     String googleAnalyticsTrackingCode
 
@@ -26,7 +26,7 @@ class CellarHQConfig implements Serializable {
     final static String ENV_HOSTNAME_PRODUCTION = 'www.cellarhq.com'
 
     boolean isProductionEnv() {
-        return envrionment == ENV_DEPLOYMENT_PRODUCTION
+        return environment == ENV_DEPLOYMENT_PRODUCTION
     }
 
 }

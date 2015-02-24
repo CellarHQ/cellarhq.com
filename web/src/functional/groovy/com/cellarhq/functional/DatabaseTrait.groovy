@@ -15,13 +15,13 @@ trait DatabaseTrait {
     DSLContext getCreate() {
         if (!create) {
             Class.forName("org.postgresql.ds.PGSimpleDataSource").newInstance()
-            conn = DriverManager.getConnection(getJdbcUrl(), cellarHQCOnfig.databaseUser, cellarHQCOnfig.databasePassword)
+            conn = DriverManager.getConnection(getJdbcUrl(), cellarHQConfig.databaseUser, cellarHQConfig.databasePassword)
             create = DSL.using(conn, SQLDialect.POSTGRES)
         }
         return create
     }
 
-    CellarHQConfig getCellarHQCOnfig() {
+    CellarHQConfig getCellarHQConfig() {
         remote.exec {
             get(CellarHQConfig)
         }
@@ -29,6 +29,6 @@ trait DatabaseTrait {
 
     private String getJdbcUrl() {
         System.getenv('DB_JDBC_URL') ?:
-                "jdbc:postgresql://${cellarHQCOnfig.databaseServerName}:${cellarHQCOnfig.databasePortNumber}/${cellarHQCOnfig.databaseName}?user=${cellarHQCOnfig.databaseUser}&password=${cellarHQCOnfig.databasePassword}"
+                "jdbc:postgresql://${cellarHQConfig.databaseServerName}:${cellarHQConfig.databasePortNumber}/${cellarHQConfig.databaseName}?user=${cellarHQConfig.databaseUser}&password=${cellarHQConfig.databasePassword}"
     }
 }
