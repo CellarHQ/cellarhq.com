@@ -44,7 +44,8 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             /pac4j.*/,
             /favicon\.ico/,
             /api.*/,
-            'health-checks'
+            'health-checks',
+            'remote-control'
     ]
 
     final static List<String> ADMIN_ROLE_REQUIRED = [

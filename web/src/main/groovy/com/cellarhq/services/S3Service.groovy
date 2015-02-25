@@ -11,6 +11,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.Permission
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.amazonaws.services.s3.model.PutObjectResult
+import com.cellarhq.CellarHQConfig
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 
@@ -24,13 +25,13 @@ class S3Service {
     private final String bucketName
 
     @Inject
-    S3Service(AWSCredentials credentials, String bucketName) {
+    S3Service(AWSCredentials credentials, CellarHQConfig cellarHQConfig) {
         client = new AmazonS3Client(credentials)
 
         // IMPORTANT: Changing this will require changing how getObjectUrl works. We probably shouldn't change it.
         client.region = Region.getRegion(Regions.US_EAST_1)
 
-        this.bucketName = bucketName
+        this.bucketName = cellarHQConfig.s3StorageBucket
     }
 
     PutObjectResult upload(String key, InputStream is, ObjectMetadata metadata) {

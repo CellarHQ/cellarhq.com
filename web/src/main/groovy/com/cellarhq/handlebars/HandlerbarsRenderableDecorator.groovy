@@ -1,32 +1,24 @@
 package com.cellarhq.handlebars
 
-import com.cellarhq.CellarHQModule
+import com.cellarhq.CellarHQConfig
 import com.cellarhq.auth.CellarHQFormClient
 import com.cellarhq.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
-import com.github.jknack.handlebars.Handlebars
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.client.Clients
 import org.pac4j.core.profile.CommonProfile
-import org.pac4j.http.client.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import ratpack.handlebars.Template
-import ratpack.handlebars.internal.HandlebarsTemplateRenderer
 import ratpack.handling.Context
 import ratpack.http.Request
 import ratpack.pac4j.internal.RatpackWebContext
+import ratpack.render.RenderableDecorator
 import ratpack.session.store.SessionStorage
 
-/**
- * Adds default variables for handlebar templates into the model.
- */
 @Slf4j
-@CompileStatic
-class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
-
+class HandlerbarsRenderableDecorator implements RenderableDecorator {
     private final static String DEFAULT_PAGE_ID = 'generic'
     private final static String DEFAULT_TITLE = 'CellarHQ'
 
@@ -41,13 +33,22 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
     private final static String MODEL_AUTH_FORM_URL = 'authFormUrl'
     private final static String MODEL_AUTH_TWITTER_URL = 'authTwitterUrl'
 
+    private final String HOSTNAME
+    private final String GOOGLE_ANALYTICS_CODE
+
     @Inject
-    HandlebarsTemplateRendererImpl(Handlebars handlebars) {
-        super(handlebars)
+    HandlerbarsRenderableDecorator(CellarHQConfig config) {
+        HOSTNAME = config.hostName
+        GOOGLE_ANALYTICS_CODE = config.googleAnalyticsTrackingCode
     }
 
     @Override
-    void render(Context context, Template template) {
+    Class getType() {
+        return Template
+    }
+
+    @Override
+    Object decorate(Context context, Object template) {
         Map<String, ?> model = (Map<String, ?>) template.model
         if (model == null) {
             model = [:]
@@ -71,20 +72,21 @@ class HandlebarsTemplateRendererImpl extends HandlebarsTemplateRenderer {
         model[MODEL_LOGGED_IN] = SessionUtil.isLoggedIn(context.request.maybeGet(CommonProfile))
         applyFlashMessages(context.request, model)
 
-        if (System.getenv(CellarHQModule.ENV_GA_TRACKING_CODE)) {
-            model[MODEL_GA_TRACKING_CODE] = System.getenv(CellarHQModule.ENV_GA_TRACKING_CODE)
+        if (GOOGLE_ANALYTICS_CODE) {
+            model[MODEL_GA_TRACKING_CODE] = GOOGLE_ANALYTICS_CODE
         }
 
         model[MODEL_REQUEST] = context.request
 
-        model[MODEL_HOSTNAME] = CellarHQModule.hostname
+        model[MODEL_HOSTNAME] = HOSTNAME
 
         Clients clients = context.request.get(Clients)
         RatpackWebContext webContext = new RatpackWebContext(context)
         model[MODEL_AUTH_FORM_URL] = clients.findClient(CellarHQFormClient).getRedirectionUrl(webContext)
+
         model[MODEL_AUTH_TWITTER_URL] = clients.findClient(TwitterClient).getRedirectionUrl(webContext)
 
-        super.render(context, template)
+        return template
     }
 
     static void applyFlashMessages(Request request, Map<String, ?> model) {

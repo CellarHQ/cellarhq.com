@@ -1,27 +1,33 @@
+import com.cellarhq.CellarHQConfig
 import com.cellarhq.CellarHQModule
 import com.cellarhq.ClientErrorHandlerImpl
 import com.cellarhq.ServerErrorHandlerImpl
 import com.cellarhq.auth.SecurityModule
 import com.cellarhq.domain.views.HomepageStatistics
 import com.cellarhq.endpoints.*
+import com.cellarhq.endpoints.api.*
+import com.cellarhq.endpoints.auth.ChangePasswordEndpoint
+import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
+import com.cellarhq.endpoints.auth.RegisterEndpoint
 import com.cellarhq.endpoints.settings.LinkEmailAccountEndpoint
 import com.cellarhq.endpoints.settings.LinkTwitterAccountEndpoint
-import com.cellarhq.endpoints.api.*
-import com.cellarhq.endpoints.auth.*
 import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.services.StatsService
 import com.cellarhq.util.SessionUtil
 import com.codahale.metrics.health.HealthCheckRegistry
+import com.zaxxer.hikari.HikariConfig
 import org.pac4j.core.profile.CommonProfile
+import ratpack.codahale.metrics.CodaHaleMetricsModule
+import ratpack.config.ConfigData
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
 import ratpack.hikari.HikariModule
 import ratpack.jackson.JacksonModule
-import ratpack.launch.LaunchConfig
 import ratpack.pac4j.internal.SessionConstants
-import ratpack.remote.RemoteControlModule
 import ratpack.rx.RxRatpack
+import ratpack.server.Service
+import ratpack.server.StartEvent
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
@@ -32,44 +38,53 @@ import static ratpack.jackson.Jackson.json
 
 ratpack {
     bindings {
-        bind ServerErrorHandler, ServerErrorHandlerImpl
-        bind ClientErrorHandler, ClientErrorHandlerImpl
-        bind DatabaseHealthcheck
+        ConfigData configData = ConfigData.of()
+                .props("$serverConfig.baseDir.file/ratpack.properties")
+                .env()
+                .sysProps()
+                .build()
 
-        add HikariModule, { hikariConfig ->
-            hikariConfig.addDataSourceProperty('serverName', System.getenv('DB_HOST')?:'localhost')
-            hikariConfig.addDataSourceProperty('portNumber', System.getenv('DB_PORT')?:'15432')
-            hikariConfig.addDataSourceProperty('databaseName', System.getenv('DB_NAME')?:'cellarhq')
-            hikariConfig.addDataSourceProperty('user', System.getenv('DB_USERNAME')?:'cellarhq')
-            hikariConfig.addDataSourceProperty('password', System.getenv('DB_PASSWORD')?:'cellarhq')
+        CellarHQConfig cellarHqConfig = configData.get(CellarHQConfig)
+
+        bindInstance(CellarHQConfig, cellarHqConfig)
+        addConfig(CellarHQModule, cellarHqConfig)
+
+        add new CodaHaleMetricsModule(), { it.enable(true).jvmMetrics(true).jmx { it.enable(true) }.healthChecks(true) }
+
+        add(HikariModule) { HikariConfig hikariConfig ->
+            hikariConfig.addDataSourceProperty('serverName', cellarHqConfig.databaseServerName)
+            hikariConfig.addDataSourceProperty('portNumber', cellarHqConfig.databasePortNumber)
+            hikariConfig.addDataSourceProperty('databaseName', cellarHqConfig.databaseName)
+            hikariConfig.addDataSourceProperty('user', cellarHqConfig.databaseUser)
+            hikariConfig.addDataSourceProperty('password', cellarHqConfig.databasePassword)
             hikariConfig.dataSourceClassName = 'org.postgresql.ds.PGSimpleDataSource'
         }
 
         add new JacksonModule()
-        add new RemoteControlModule()
-
         add new SessionModule()
         add new MapSessionsModule(500, 60)
-        add new SecurityModule()
-
+        add new SecurityModule(cellarHqConfig)
         add new HandlebarsModule()
 
-        // IMPORTANT: Our module must be last, so we can override whatever we need to created by the other modules.
-        add new CellarHQModule(
-                System.getenv('AWS_ACCESS_KEY_ID')?:'YOUR_AWS_ACCESS_KEY_ID',
-                System.getenv('AWS_SECRET_ACCESS_KEY')?:'YOUR_AWS_SECRET_ACCESS_KEY'
-        )
+        add new CellarHQModule()
 
-        init {
-            RxRatpack.initialize()
+        bindInstance Service, new Service() {
+            @Override
+            void onStart(StartEvent event) throws Exception {
+                RxRatpack.initialize()
+            }
         }
+
+        bind ServerErrorHandler, ServerErrorHandlerImpl
+        bind ClientErrorHandler, ClientErrorHandlerImpl
+        bind DatabaseHealthcheck
     }
 
     handlers {
-        handler {
+        handler { CellarHQConfig cellarHQConfig ->
             // For production, we want to force SSL on all requests.
             String forwardedProto = 'X-Forwarded-Proto'
-            if (CellarHQModule.productionEnv
+            if (cellarHQConfig.isProductionEnv()
                     && request.headers.contains(forwardedProto)
                     && request.headers.get(forwardedProto) != 'https') {
                 redirect(301, "https://${request.headers.get('Host')}${request.rawUri}")

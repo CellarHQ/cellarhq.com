@@ -26,10 +26,12 @@ class CellaredDrink extends com.cellarhq.generated.tables.pojos.CellaredDrink {
         modifiedDate = Timestamp.valueOf(LocalDateTime.now())
     }
 
+    //todo: remove when we get to groovy 2.4.1
+    @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
     @Override
     @Min(0L)
     @Column(name = 'num_tradeable')
     Short getNumTradeable() {
-        return super.numTradeable
+        return super.getNumTradeable()
     }
 }

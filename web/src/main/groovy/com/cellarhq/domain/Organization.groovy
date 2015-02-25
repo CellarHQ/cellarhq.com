@@ -25,15 +25,17 @@ import javax.persistence.Column
 @InheritConstructors
 class Organization  extends com.cellarhq.generated.tables.pojos.Organization {
 
+    //todo: remove when we get to groovy 2.4.1
+    @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
     @Override
     @NotEmpty
     @Column(name = 'name')
     String getName() {
-        return super.name
+        return super.getName()
     }
 
     void setSlug(String slug) {
-        super.slug = new Slugify().slugify(slug)
+        super.setSlug(new Slugify().slugify(slug))
     }
 
     boolean getEditable() {

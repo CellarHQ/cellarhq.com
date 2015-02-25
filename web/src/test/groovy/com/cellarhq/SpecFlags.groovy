@@ -20,7 +20,7 @@ abstract class SpecFlags {
     }
 
     static boolean missingTwitter() {
-        return System.getenv('TWITTER_API_TOKEN') != 'YOUR_TWITTER_API_TOKEN' &&
-                System.getenv('TWITTER_API_SECRET') != 'YOUR_TWITTER_API_SECRET'
+        return System.getenv('ratpack.twitterApiKey') != 'YOUR_TWITTER_API_TOKEN' &&
+                System.getenv('ratpack.twitterApiSecret') != 'YOUR_TWITTER_API_SECRET'
     }
 }
