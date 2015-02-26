@@ -1,6 +1,6 @@
 package com.cellarhq.jooq.listeners
 
-import com.cellarhq.annotations.Sanitize
+import com.cellarhq.jooq.annotations.Sanitize
 import com.cellarhq.util.LogUtil
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

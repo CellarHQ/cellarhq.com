@@ -6,7 +6,7 @@ import com.cellarhq.domain.EmailAccount
 import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.pages.*
-import com.cellarhq.services.AccountService
+import com.cellarhq.auth.services.AccountService
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException

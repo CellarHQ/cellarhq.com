@@ -1,5 +1,6 @@
 package com.cellarhq
 
+import com.cellarhq.common.CellarHQConfig
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
 import liquibase.Contexts

@@ -1,11 +1,11 @@
 package com.cellarhq.auth.callbacks
 
-import com.cellarhq.Messages
-import com.cellarhq.auth.SecurityModule
+import com.cellarhq.common.Messages
+import com.cellarhq.auth.AuthenticationModule
 import com.cellarhq.domain.EmailAccount
-import com.cellarhq.services.AccountService
-import com.cellarhq.services.CellarService
-import com.cellarhq.session.FlashMessage
+import com.cellarhq.auth.services.AccountService
+import com.cellarhq.api.services.CellarService
+import com.cellarhq.common.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -56,7 +56,7 @@ class HttpCallback<C extends Context, P extends HttpProfile> implements BiConsum
             SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
             context.redirect('/logout')
         } then { EmailAccount emailAccount ->
-            request.get(SessionStorage).put(SecurityModule.SESSION_CELLAR_ID, emailAccount.cellarId)
+            request.get(SessionStorage).put(AuthenticationModule.SESSION_CELLAR_ID, emailAccount.cellarId)
             new DefaultSuccessCallback().defaultBehavior(context, profile, emailAccount.cellar)
         }
     }

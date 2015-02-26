@@ -11,7 +11,7 @@ import com.cellarhq.functional.pages.LogoutPage
 import com.cellarhq.functional.pages.YourCellarPage
 import com.cellarhq.functional.pages.thirdparty.TwitterAuthorizePage
 import com.cellarhq.functional.pages.thirdparty.TwitterOAuthPage
-import com.cellarhq.services.AccountService
+import com.cellarhq.auth.services.AccountService
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
 import ratpack.test.ApplicationUnderTest

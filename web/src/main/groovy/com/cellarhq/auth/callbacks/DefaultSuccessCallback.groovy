@@ -1,6 +1,6 @@
 package com.cellarhq.auth.callbacks
 
-import com.cellarhq.auth.SecurityModule
+import com.cellarhq.auth.AuthenticationModule
 import com.cellarhq.domain.Cellar
 import groovy.transform.CompileStatic
 import org.pac4j.core.profile.UserProfile
@@ -23,7 +23,7 @@ class DefaultSuccessCallback<C extends Context, P extends UserProfile> {
         }
 
         if (cellar) {
-            sessionStorage.put(SecurityModule.SESSION_CELLAR, cellar)
+            sessionStorage.put(AuthenticationModule.SESSION_CELLAR, cellar)
         }
 
         String originalUri = (String) sessionStorage.remove(SAVED_URI)
