@@ -1,6 +1,6 @@
 package com.cellarhq.domain
 
-import com.cellarhq.annotations.Sanitize
+import com.cellarhq.jooq.annotations.Sanitize
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors

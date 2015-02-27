@@ -1,13 +1,13 @@
 package com.cellarhq.auth.callbacks
 
-import com.cellarhq.Messages
-import com.cellarhq.auth.SecurityModule
+import com.cellarhq.common.Messages
+import com.cellarhq.auth.AuthenticationModule
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
-import com.cellarhq.services.AccountService
-import com.cellarhq.services.CellarService
-import com.cellarhq.services.account.TwitterAccountVerificationService
-import com.cellarhq.session.FlashMessage
+import com.cellarhq.auth.services.AccountService
+import com.cellarhq.api.services.CellarService
+import com.cellarhq.auth.services.TwitterAccountVerificationService
+import com.cellarhq.common.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -55,14 +55,14 @@ class TwitterCallback<C extends Context, P extends TwitterProfile> implements Bi
     boolean isLinkAccountAction(Request request) {
         SessionStorage sessionStorage = request.get(SessionStorage)
         return sessionStorage.getOrDefault(DefaultSuccessCallback.USER_PROFILE, false) &&
-                sessionStorage.getOrDefault(SecurityModule.SESSION_CELLAR, false)
+                sessionStorage.getOrDefault(AuthenticationModule.SESSION_CELLAR, false)
     }
 
     @SuppressWarnings('ClosureAsLastMethodParameter')
     void handleAccountLinkRequest(Context context, Request request, P profile) {
         SessionStorage sessionStorage = request.get(SessionStorage)
 
-        Cellar cellar = (Cellar) sessionStorage.get(SecurityModule.SESSION_CELLAR)
+        Cellar cellar = (Cellar) sessionStorage.get(AuthenticationModule.SESSION_CELLAR)
         verificationService.commit(cellar, profile).subscribe({ Boolean result ->
             SessionUtil.setFlash(request, FlashMessage.success(Messages.ACCOUNT_LINK_TWITTER_SUCCESS))
             context.redirect('/settings')
@@ -118,7 +118,7 @@ class TwitterCallback<C extends Context, P extends TwitterProfile> implements Bi
             context.redirect('/logout')
         } then { OAuthAccount oAuthAccount ->
             if (oAuthAccount) {
-                sessionStorage.put(SecurityModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
+                sessionStorage.put(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
                 new DefaultSuccessCallback().defaultBehavior(context, profile, oAuthAccount.cellar)
             } else {
                 // If we don't have an account, that means there was a screen name conflict. We'll still give them a

@@ -176,10 +176,10 @@ task functionalTest(type: Test) {
         environment 'RATPACK_DATABASE_NAME', 'app_test'
         environment 'RATPACK_DATABASE_USER', System.getenv('SNAP_DB_PG_USER')
         environment 'RATPACK_DATABASE_PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
-        environment 'RATPACK_AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY')
-        environment 'RATPACK_AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY')
-        environment 'RATPACK_TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN')
-        environment 'RATPACK_TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET')
+        environment 'RATPACK_AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY') ?: 'BAD_KEY'
+        environment 'RATPACK_AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY') ?: 'BAD_KEY'
+        environment 'RATPACK_TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN') ?: 'BAD_KEY'
+        environment 'RATPACK_TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET') ?: 'BAD_KEY'
 
         testLogging.showStandardStreams = true
     } else {

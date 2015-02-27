@@ -1,7 +1,7 @@
 package com.cellarhq.auth
 
 import com.cellarhq.domain.EmailAccount
-import com.cellarhq.services.AccountService
+import com.cellarhq.auth.services.AccountService
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.exception.CredentialsException
 import org.pac4j.http.credentials.UsernamePasswordCredentials

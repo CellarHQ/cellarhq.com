@@ -8,7 +8,7 @@ import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.LogInUserTrait
 import com.cellarhq.functional.pages.beers.AddBeerPage
 import com.cellarhq.functional.pages.breweries.ShowBreweryPage
-import com.cellarhq.services.OrganizationService
+import com.cellarhq.api.services.OrganizationService
 import groovy.sql.Sql
 import org.h2.jdbc.JdbcSQLException
 import ratpack.rx.RxRatpack

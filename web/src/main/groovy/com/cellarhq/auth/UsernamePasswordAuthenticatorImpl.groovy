@@ -1,8 +1,8 @@
 package com.cellarhq.auth
 
-import com.cellarhq.Messages
+import com.cellarhq.common.Messages
 import com.cellarhq.domain.EmailAccount
-import com.cellarhq.services.AccountService
+import com.cellarhq.auth.services.AccountService
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
 import groovy.transform.CompileStatic

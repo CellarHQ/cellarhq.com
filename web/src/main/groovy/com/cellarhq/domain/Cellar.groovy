@@ -1,6 +1,6 @@
 package com.cellarhq.domain
 
-import com.cellarhq.annotations.Sanitize
+import com.cellarhq.jooq.annotations.Sanitize
 import com.cellarhq.auth.Role
 import com.cellarhq.generated.tables.records.CellarRecord
 import com.github.slugify.Slugify

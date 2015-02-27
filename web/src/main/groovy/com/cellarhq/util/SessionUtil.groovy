@@ -1,6 +1,6 @@
 package com.cellarhq.util
 
-import com.cellarhq.session.FlashMessage
+import com.cellarhq.common.session.FlashMessage
 import groovy.transform.CompileStatic
 import org.pac4j.core.profile.CommonProfile
 import ratpack.http.Request

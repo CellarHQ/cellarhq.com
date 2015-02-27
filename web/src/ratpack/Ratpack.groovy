@@ -1,19 +1,31 @@
-import com.cellarhq.CellarHQConfig
-import com.cellarhq.CellarHQModule
-import com.cellarhq.ClientErrorHandlerImpl
-import com.cellarhq.ServerErrorHandlerImpl
-import com.cellarhq.auth.SecurityModule
+import com.cellarhq.api.ApiModule
+import com.cellarhq.common.CellarHQConfig
+import com.cellarhq.common.CommonModule
+import com.cellarhq.common.ClientErrorHandlerImpl
+import com.cellarhq.common.ServerErrorHandlerImpl
+import com.cellarhq.api.CellarEndpoint
+import com.cellarhq.api.CellaredDrinkEndpoint
+import com.cellarhq.api.DrinkEndpoint
+import com.cellarhq.api.GlasswareEndpoint
+import com.cellarhq.api.OrganizationEndpoint
+import com.cellarhq.api.StyleEndpoint
+import com.cellarhq.auth.AuthenticationModule
+import com.cellarhq.auth.endpoints.LinkAccountEndpoint
+import com.cellarhq.auth.endpoints.SettingsEndpoint
 import com.cellarhq.domain.views.HomepageStatistics
-import com.cellarhq.endpoints.*
-import com.cellarhq.endpoints.api.*
-import com.cellarhq.endpoints.auth.ChangePasswordEndpoint
-import com.cellarhq.endpoints.auth.ForgotPasswordEndpoint
-import com.cellarhq.endpoints.auth.RegisterEndpoint
-import com.cellarhq.endpoints.settings.LinkEmailAccountEndpoint
-import com.cellarhq.endpoints.settings.LinkTwitterAccountEndpoint
+import com.cellarhq.auth.endpoints.ChangePasswordEndpoint
+import com.cellarhq.auth.endpoints.ForgotPasswordEndpoint
+import com.cellarhq.auth.endpoints.RegisterEndpoint
+import com.cellarhq.auth.endpoints.LinkEmailAccountEndpoint
+import com.cellarhq.auth.endpoints.LinkTwitterAccountEndpoint
 import com.cellarhq.health.DatabaseHealthcheck
-import com.cellarhq.services.StatsService
+import com.cellarhq.webapp.StatsService
 import com.cellarhq.util.SessionUtil
+import com.cellarhq.webapp.BeerEndpoint
+import com.cellarhq.webapp.BreweryEndpoint
+import com.cellarhq.webapp.CellarsEndpoint
+import com.cellarhq.webapp.WebappModule
+import com.cellarhq.webapp.YourCellarEndpoint
 import com.codahale.metrics.health.HealthCheckRegistry
 import com.zaxxer.hikari.HikariConfig
 import org.pac4j.core.profile.CommonProfile
@@ -45,9 +57,8 @@ ratpack {
                 .build()
 
         CellarHQConfig cellarHqConfig = configData.get(CellarHQConfig)
-
         bindInstance(CellarHQConfig, cellarHqConfig)
-        addConfig(CellarHQModule, cellarHqConfig)
+        addConfig(CommonModule, cellarHqConfig)
 
         add new CodaHaleMetricsModule(), { it.enable(true).jvmMetrics(true).jmx { it.enable(true) }.healthChecks(true) }
 
@@ -63,10 +74,12 @@ ratpack {
         add new JacksonModule()
         add new SessionModule()
         add new MapSessionsModule(500, 60)
-        add new SecurityModule(cellarHqConfig)
         add new HandlebarsModule()
 
-        add new CellarHQModule()
+        add new CommonModule()
+        add new ApiModule()
+        add new WebappModule()
+        add new AuthenticationModule()
 
         bindInstance Service, new Service() {
             @Override
@@ -181,7 +194,7 @@ ratpack {
         get('logout') {
             // TODO Accessing pac4j internals...
             request.get(SessionStorage).remove(SessionConstants.USER_PROFILE)
-            request.get(SessionStorage).remove(SecurityModule.SESSION_CELLAR_ID)
+            request.get(SessionStorage).remove(AuthenticationModule.SESSION_CELLAR_ID)
             redirect('/')
         }
 

@@ -1,6 +1,6 @@
 package com.cellarhq.functional
 
-import com.cellarhq.CellarHQConfig
+import com.cellarhq.common.CellarHQConfig
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL

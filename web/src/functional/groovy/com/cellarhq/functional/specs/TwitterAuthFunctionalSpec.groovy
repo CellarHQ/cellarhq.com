@@ -10,8 +10,8 @@ import com.cellarhq.functional.pages.LoginPage
 import com.cellarhq.functional.pages.YourCellarPage
 import com.cellarhq.functional.pages.thirdparty.TwitterAuthorizePage
 import com.cellarhq.functional.pages.thirdparty.TwitterOAuthPage
-import com.cellarhq.services.AccountService
-import com.cellarhq.services.CellarService
+import com.cellarhq.auth.services.AccountService
+import com.cellarhq.api.services.CellarService
 import groovy.sql.Sql
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
