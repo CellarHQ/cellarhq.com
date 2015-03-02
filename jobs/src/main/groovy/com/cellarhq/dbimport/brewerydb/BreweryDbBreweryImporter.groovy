@@ -13,14 +13,12 @@ class BreweryDbBreweryImporter implements ProgressSupport {
     void importBreweriesFromBDB(DSLContext dslContext) {
         BreweryDbBreweryRetreiver breweryRetreiver = new BreweryDbBreweryRetreiver()
 
+        resetProgressAnts()
         breweryRetreiver.withEachBrewery { Map breweryMap ->
-            String searchSlug = new Slugify().slugify(breweryMap.name.toString())
-
             try {
-                OrganizationRecord organization = dslContext.select(ORGANIZATION.ID)
-                    .from(ORGANIZATION)
-                    .where(ORGANIZATION.SLUG.eq(searchSlug))
-                    .fetchOneInto(OrganizationRecord)
+                OrganizationRecord organization = dslContext.selectFrom(ORGANIZATION)
+                    .where(ORGANIZATION.BREWERY_DB_ID.eq(breweryMap.id))
+                    .fetchAnyInto(OrganizationRecord)
 
                 if (organization) {
                     organization.breweryDbId = breweryMap.id
@@ -28,7 +26,6 @@ class BreweryDbBreweryImporter implements ProgressSupport {
                     organization.website = breweryMap.website
                     organization.description = breweryMap.description
                     organization.name = breweryMap.name
-                    organization.slug = new Slugify().slugify(breweryMap.name)
                     organization.locked = true
                     organization.needsModeration = true
                     organization.address = breweryMap.locations?.getAt(0)?.streetAddress
@@ -49,7 +46,17 @@ class BreweryDbBreweryImporter implements ProgressSupport {
                     newOrganization.website = breweryMap.website
                     newOrganization.description = breweryMap.description
                     newOrganization.name = breweryMap.name
-                    newOrganization.slug = new Slugify().slugify(breweryMap.name)
+
+                    String slug = new Slugify().slugify(breweryMap.name)
+                    OrganizationRecord existingSlug = dslContext.selectFrom(ORGANIZATION)
+                            .where(ORGANIZATION.SLUG.eq(slug))
+                            .fetchAnyInto(OrganizationRecord)
+                    if (existingSlug) {
+                        slug += "-1"
+                    }
+
+                    newOrganization.slug = slug
+
                     newOrganization.locked = true
                     newOrganization.needsModeration = true
                     newOrganization.address = breweryMap.locations?.getAt(0)?.streetAddress

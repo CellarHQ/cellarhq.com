@@ -11,23 +11,29 @@ import java.sql.DriverManager
 /**
  * Adds database support to a command.
  */
-@CompileStatic
 trait DatabaseSupport {
 
-    private DSLContext create
-    private Connection conn
+    protected DSLContext create
+    protected Connection conn
 
     DSLContext getCreate() {
         if (!create) {
-            // TODO Make configurable. Perhaps ENVARS
-            String userName = 'cellarhq'
-            String password = 'cellarhq'
-            String url = 'jdbc:postgresql://localhost:15432/cellarhq'
-
             Class.forName("org.postgresql.ds.PGSimpleDataSource").newInstance()
-            conn = DriverManager.getConnection(url, userName, password)
+            conn = DriverManager.getConnection(jdbcUrl, username, password)
             create = DSL.using(conn, SQLDialect.POSTGRES)
         }
         return create
+    }
+
+    String getJdbcUrl() {
+        System.getProperty('DB_JDBC_URL') ?: 'jdbc:postgresql://localhost:15432/cellarhq'
+    }
+
+    String getUsername() {
+        System.getProperty('DB_USERNAME') ?: 'cellarhq'
+    }
+
+    String getPassword() {
+        System.getProperty('DB_PASSWORD') ?: 'cellarhq'
     }
 }

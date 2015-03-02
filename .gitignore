@@ -26,4 +26,4 @@ assets/AppUI 1.0 by pixelcave/
 phantomjsdriver.log
 
 twitter4j.properties
-
+*.sql
