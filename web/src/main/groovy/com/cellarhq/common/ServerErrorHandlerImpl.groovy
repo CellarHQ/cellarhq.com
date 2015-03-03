@@ -1,6 +1,7 @@
 package com.cellarhq.common
 
 import com.google.inject.Inject
+import ratpack.handling.RequestId
 
 import static ratpack.handlebars.Template.handlebarsTemplate
 
@@ -35,7 +36,8 @@ class ServerErrorHandlerImpl implements ServerErrorHandler {
         ]), throwable)
 
         context.with {
-            String correlationId = request.maybeGet(UUID).map { it.toString() }
+            Optional<RequestId> uuid = request.maybeGet(RequestId)
+            String correlationId = uuid.isPresent() ? uuid.get().id : 'UNKNOWN'
 
             if (isProduction) {
                 render handlebarsTemplate('error.html',

@@ -7,26 +7,28 @@ import com.cellarhq.api.services.CellaredDrinkService
 import com.cellarhq.api.services.OrganizationService
 import com.cellarhq.auth.PasswordService
 import com.cellarhq.auth.services.AccountService
+import com.cellarhq.auth.services.photo.writer.AmazonPhotoWriteStrategy
+import com.cellarhq.auth.services.photo.writer.PhotoWriteStrategy
 import com.cellarhq.common.handlebars.HandlerbarsRenderableDecorator
 import com.cellarhq.common.handlebars.helpers.BottledDateHelper
 import com.cellarhq.common.handlebars.helpers.DataTableSortingHelper
 import com.cellarhq.common.handlebars.helpers.PaginationHelper
 import com.cellarhq.common.handlebars.helpers.SelectedOptionHelper
 import com.cellarhq.common.services.S3Service
-import com.cellarhq.handlers.CorrelationIdHandler
-import com.cellarhq.handlers.RequestLoggingHandler
 import com.cellarhq.common.services.email.AmazonEmailService
 import com.cellarhq.common.services.email.EmailService
 import com.cellarhq.common.services.email.LogEmailService
-import com.cellarhq.auth.services.photo.writer.AmazonPhotoWriteStrategy
-import com.cellarhq.auth.services.photo.writer.PhotoWriteStrategy
 import com.cellarhq.webapp.StatsService
 import com.google.inject.Injector
 import com.google.inject.Provides
+import com.google.inject.Singleton
 import groovy.util.logging.Slf4j
 import ratpack.guice.ConfigurableModule
-import ratpack.guice.HandlerDecoratingModule
 import ratpack.handling.Handler
+import ratpack.handling.HandlerDecorator
+import ratpack.handling.Handlers
+import ratpack.handling.RequestId
+import ratpack.registry.Registry
 
 import javax.validation.Validation
 import javax.validation.ValidatorFactory
@@ -38,7 +40,7 @@ import static com.google.inject.Scopes.SINGLETON
  */
 @SuppressWarnings('AbcMetric')
 @Slf4j
-class CommonModule extends ConfigurableModule<CellarHQConfig> implements HandlerDecoratingModule {
+class CommonModule extends ConfigurableModule<CellarHQConfig> {
     @Override
     protected void configure() {
         bind(S3Service).in(SINGLETON)
@@ -60,17 +62,13 @@ class CommonModule extends ConfigurableModule<CellarHQConfig> implements Handler
         bind(PasswordService).in(SINGLETON)
     }
 
-    @Override
-    public Handler decorate(Injector injector, Handler handler) {
-        return new CorrelationIdHandler(new RequestLoggingHandler(handler))
-    }
-
-
+    @Singleton
     @Provides
     public AWSCredentials provideAWSCredentials(CellarHQConfig config) {
         new BasicAWSCredentials(config.awsAccessKey, config.awsSecretKey)
     }
 
+    @Singleton
     @Provides
     public EmailService provideEmailService(AWSCredentials credentials, CellarHQConfig config) {
         if (config.isProductionEnv()) {
@@ -80,5 +78,26 @@ class CommonModule extends ConfigurableModule<CellarHQConfig> implements Handler
 
         log.info('Binding log email service')
         return new LogEmailService()
+    }
+
+    @Singleton
+    @Provides
+    protected CommonHandlerDecorator commonHandlerDecorator(CellarHQConfig config, Injector injector) {
+        return new CommonHandlerDecorator(config)
+    }
+
+    private static class CommonHandlerDecorator implements HandlerDecorator {
+
+        private final CellarHQConfig config
+
+
+        public CommonHandlerDecorator(CellarHQConfig config) {
+            this.config = config
+        }
+
+        @Override
+        public Handler decorate(Registry serverRegistry, Handler rest) {
+            return Handlers.chain(RequestId.bindAndLog(), rest)
+        }
     }
 }

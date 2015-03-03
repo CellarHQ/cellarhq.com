@@ -1,6 +1,7 @@
 package com.cellarhq.util
 
 import groovy.util.logging.Slf4j
+import ratpack.handling.RequestId
 import ratpack.http.Request
 
 @Slf4j
@@ -25,8 +26,8 @@ abstract class LogUtil {
     }
 
     static String toLog(Request request, String key, Map properties = [:]) {
-        Optional<UUID> uuid = request.maybeGet(UUID)
-        String correlationId = uuid.isPresent() ? uuid.get() : 'UNKNOWN'
+        Optional<RequestId> uuid = request.maybeGet(RequestId)
+        String correlationId = uuid.isPresent() ? uuid.get().id : 'UNKNOWN'
 
         return "KEY=${key}, correlationId=${correlationId} " + properties.collect { "${it.key}=${it.value}" }.join(', ')
     }

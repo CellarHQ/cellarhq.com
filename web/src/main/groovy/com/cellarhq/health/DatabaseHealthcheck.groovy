@@ -3,7 +3,7 @@ package com.cellarhq.health
 import com.codahale.metrics.health.HealthCheck
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
-import ratpack.codahale.metrics.NamedHealthCheck
+import ratpack.codahale.healthcheck.NamedHealthCheck
 
 import javax.sql.DataSource
 
