@@ -38,7 +38,7 @@ class CellarMerger implements Merger<CellarRecord>, DryRunSupport {
                 .where(t1.ID.notEqual(t2.ID))
                 .fetchInto(CellarRecord)
 
-        return (Map<CellarRecord, CellarRecord>) buildConflictMap(records, CELLAR.SCREEN_NAME)
+        return (Map<CellarRecord, CellarRecord>) buildConflictMap(records, [CELLAR.SCREEN_NAME])
     }
 
     @Override

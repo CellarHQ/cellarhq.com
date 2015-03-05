@@ -17,21 +17,6 @@ class DbImportCommand implements NamedCommand, DatabaseSupport {
     @Override
     boolean run() {
         try {
-            println "Importing breweries"
-            new SimpleDBBreweryImporter().importBeersFromS3(create)
-
-            println "Importing beers"
-            new SimpleDBBeerImporter().importBeersFromS3(create)
-
-            println "Importing accounts"
-            new SimpleDBAccountImporter().importAccountsFromS3(create)
-
-            println "Importing cellared beers"
-            new SimpleDBCellaredBeerImporter().importCellaredBeers(create)
-
-            println "Removing unused beers and breweries"
-            new OrphanedDataRemover().deleteOrphans(create)
-
             println "Updating breweries from BreweryDB"
             new BreweryDbBreweryImporter().importBreweriesFromBDB(create)
 

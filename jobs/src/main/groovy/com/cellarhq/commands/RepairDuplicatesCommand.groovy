@@ -1,6 +1,8 @@
 package com.cellarhq.commands
 
+import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.generated.tables.records.OrganizationRecord
+import com.cellarhq.repair.merger.DrinkMerger
 import com.cellarhq.repair.merger.OrganizationMerger
 
 import static com.cellarhq.generated.Tables.*
@@ -54,26 +56,30 @@ class RepairDuplicatesCommand extends BaseCommand
             reviewConflicts(CellarRecord, cellars, CELLAR.SCREEN_NAME)
 
             cellars.eachWithIndex { Map.Entry<CellarRecord, CellarRecord> entry, int i ->
-                println('')
-                println('Merging - ' + renderPair(entry.key, entry.value, CELLAR.SCREEN_NAME))
 
-                List<Record> records = cellarMerger.determineSourceAndTarget(entry.key, entry.value)
-                if (records.empty) {
-                    println('## ERR: No cellars found for merging. This should never happen.')
-                    skipped++
-                    return
-                }
-                boolean result = cellarMerger.merge((CellarRecord) records[0], (CellarRecord) records[1])
-                if (!result) {
-                    println('## ERR: Could not merge cellars')
-                    failures.add(records)
-                } else {
-                    successful++
+                if (entry.key.id != entry.value.id) {
+                    println('')
+                    println('Merging - ' + renderPair(entry.key, entry.value, CELLAR.SCREEN_NAME))
+
+                    List<Record> records = cellarMerger.determineSourceAndTarget(entry.key, entry.value)
+
+
+                    if (records.empty) {
+                        println('## ERR: No cellars found for merging. This should never happen.')
+                        skipped++
+                        return
+                    }
+                    boolean result = cellarMerger.merge((CellarRecord) records[0], (CellarRecord) records[1])
+                    if (!result) {
+                        println('## ERR: Could not merge cellars')
+                        failures.add(records)
+                    } else {
+                        successful++
+                    }
                 }
             }
         })
 
-        //TODO we shouldn't really bother to do organizations until later. This is a pretty daunting task on its own.
         onlyIfYes('Do you want to repair organizations?', {
             OrganizationMerger organizationMerger = new OrganizationMerger(create)
 
@@ -93,6 +99,32 @@ class RepairDuplicatesCommand extends BaseCommand
                 boolean result = organizationMerger.merge((OrganizationRecord) records[0], (OrganizationRecord) records[1])
                 if (!result) {
                     println('## ERR: Could not merge organizations')
+                    failures.add(records)
+                } else {
+                    successful++
+                }
+            }
+        })
+
+        onlyIfYes('Do you want to repair drinks?', {
+            DrinkMerger drinkMerger = new DrinkMerger(create)
+
+            Map<DrinkRecord, DrinkRecord> organizations = drinkMerger.conflicts()
+            reviewConflicts(DrinkRecord, organizations, DRINK.NAME)
+
+            organizations.eachWithIndex { Map.Entry<DrinkRecord, DrinkRecord> entry, int i ->
+                println('')
+                println('Merging - ' + renderPair(entry.key, entry.value, DRINK.NAME))
+
+                List<Record> records = drinkMerger.determineSourceAndTarget(entry.key, entry.value)
+                if (records.empty) {
+                    println('## ERR: No drinks found for merging. This should never happen')
+                    skipped++
+                    return
+                }
+                boolean result = drinkMerger.merge((DrinkRecord) records[0], (DrinkRecord) records[1])
+                if (!result) {
+                    println('## ERR: Could not merge drinks')
                     failures.add(records)
                 } else {
                     successful++

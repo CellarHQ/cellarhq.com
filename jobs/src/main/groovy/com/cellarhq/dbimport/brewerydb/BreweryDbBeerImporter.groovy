@@ -1,8 +1,10 @@
 package com.cellarhq.dbimport.brewerydb
 
-import com.cellarhq.support.ProgressSupport
 import com.cellarhq.generated.tables.records.DrinkRecord
+import com.cellarhq.support.ProgressSupport
 import com.github.slugify.Slugify
+import groovy.json.JsonBuilder
+import org.apache.logging.log4j.core.layout.JacksonFactory
 import org.jooq.DSLContext
 import org.jooq.exception.DataAccessException
 
@@ -13,19 +15,18 @@ class BreweryDbBeerImporter implements ProgressSupport {
         BreweryDbBeerRetreiver beerRetreiver = new BreweryDbBeerRetreiver()
 
         beerRetreiver.withEachBrewery { Map beerMap ->
-            String searchSlug = new Slugify().slugify(beerMap.name.toString())
-
             try {
                 String organizationBrewerDbId = beerMap.breweries?.getAt(0)?.id
+                String organizationName =  beerMap.breweries?.getAt(0)?.name
+
                 Integer organizationId = dslContext.select(ORGANIZATION.ID)
                     .from(ORGANIZATION)
                     .where(ORGANIZATION.BREWERY_DB_ID.eq(organizationBrewerDbId))
-                    .fetchOneInto(Integer)
+                    .fetchAnyInto(Integer)
 
-                DrinkRecord drink = dslContext.select(DRINK.ID)
-                    .from(DRINK)
-                    .where(DRINK.SLUG.eq(searchSlug).and(DRINK.ORGANIZATION_ID.eq(organizationId)))
-                    .fetchOneInto(DrinkRecord)
+                DrinkRecord drink = dslContext.selectFrom(DRINK)
+                    .where(DRINK.BREWERY_DB_ID.eq(beerMap.id))
+                    .fetchAny()
 
                 if (!drink) {
                     drink = dslContext.newRecord(DRINK)
@@ -55,19 +56,20 @@ class BreweryDbBeerImporter implements ProgressSupport {
                     .where(GLASSWARE.NAME.equalIgnoreCase(glasswareName))
                     .fetchOneInto(Integer)
 
-                drink.organizationId = organizationId
+                drink.organizationId = drink.organizationId ?: organizationId
                 drink.glasswareId = glasswareId
                 drink.styleId = styleId
 
-                if (organizationId) {
+                if (drink.organizationId) {
                     drink.store()
                     incrementProgressAnts()
                 }  else {
-                    println "no brewery for ${beerMap.name}"
+                    println "no brewery for beerName:${beerMap.name} orgBreweryDbID:${organizationBrewerDbId} orgName:${organizationName}"
                 }
 
             } catch (DataAccessException e) {
-                println "Data access exception ${e.message} processing ${beerMap.name}"
+                println "Data access exception ${e.message} processing ${beerMap.id}"
+                e.printStackTrace()
             }
         }
     }

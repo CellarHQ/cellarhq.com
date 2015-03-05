@@ -1,6 +1,7 @@
 package com.cellarhq.cli
 
 import com.cellarhq.commands.CellarMergeCommand
+import com.cellarhq.commands.DbImportCommand
 import com.cellarhq.commands.NamedCommand
 import com.cellarhq.commands.RepairDuplicatesCommand
 import com.cellarhq.commands.UpdateCountsCommand
@@ -19,7 +20,8 @@ class CommandApp {
         NamedCommand command = [
                 new CellarMergeCommand(),
                 new UpdateCountsCommand(),
-                new RepairDuplicatesCommand()
+                new RepairDuplicatesCommand(),
+                new DbImportCommand()
         ].find { it.name == args[0] }
         if (!command) {
             throw new IllegalArgumentException("Cannot find command with name '${args[0]}'")

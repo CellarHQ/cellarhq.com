@@ -1,5 +1,6 @@
 package com.cellarhq.repair.merger
 
+import com.cellarhq.generated.tables.records.DrinkRecord
 import com.cellarhq.jooq.CellarStatsUpdater
 import org.jooq.exception.DataAccessException
 
@@ -25,13 +26,21 @@ class OrganizationMerger implements Merger<OrganizationRecord>, DryRunSupport {
         Table t1 = ORGANIZATION.as('t1')
         Table t2 = ORGANIZATION.as('t2')
 
-        List<OrganizationRecord> records = create.select(t1.fields())
+        println "Searching for duplicate organizations"
+
+        List<Long> ids = create.selectDistinct(t1.ID)
                 .from(t1)
                 .join(t2).on(t1.NAME.equalIgnoreCase(t2.NAME))
                 .where(t1.ID.notEqual(t2.ID))
-                .fetchInto(OrganizationRecord)
+                .fetchInto(OrganizationRecord).unique()
 
-        return (Map<OrganizationRecord, OrganizationRecord>) buildConflictMap(records, ORGANIZATION.NAME)
+        List<OrganizationRecord> records = create.selectFrom(ORGANIZATION).where(ORGANIZATION.ID.in(ids)).fetchInto(OrganizationRecord)
+
+        println "Found ${records.size()} with duplicates."
+
+        return (Map<OrganizationRecord, OrganizationRecord>) buildConflictMap(records, [ORGANIZATION.NAME, ORGANIZATION.BREWERY_DB_ID]) { OrganizationRecord left, OrganizationRecord right ->
+            left.id != right.id
+        }
     }
 
     @Override
@@ -60,9 +69,6 @@ class OrganizationMerger implements Merger<OrganizationRecord>, DryRunSupport {
             dae.printStackTrace()
             return false
         }
-
-
-        // TODO Add old slug to redirects table
 
         return true
     }
@@ -101,7 +107,7 @@ class OrganizationMerger implements Merger<OrganizationRecord>, DryRunSupport {
     List<OrganizationRecord> detectSourceAndTarget(OrganizationRecord a, OrganizationRecord b) {
         if (a.breweryDbId && !b.breweryDbId) {
             return [b, a]
-        } else if (b.breweryDbId && !b.breweryDbId) {
+        } else if (b.breweryDbId && !a.breweryDbId) {
             return [a, b]
         } else if (a.breweryDbId && b.breweryDbId) {
             if (a.breweryDbLastUpdated > b.breweryDbLastUpdated) {

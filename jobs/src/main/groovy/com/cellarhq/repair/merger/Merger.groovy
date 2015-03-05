@@ -4,16 +4,20 @@ import com.cellarhq.support.UserInputSupport
 import com.cellarhq.support.userinput.OptionPromptType
 import org.jooq.Field
 import org.jooq.Record
+import org.jooq.Table
+import org.jooq.TableField
 
 trait Merger<T extends Record> extends UserInputSupport {
 
     boolean userInputFallback = true
 
+    private final static defaultPredicate =  { T left, T right -> return true }
+
     abstract Map<T, T> conflicts()
     abstract boolean merge(T source, T target)
     abstract List<T> detectSourceAndTarget(T a, T b)
 
-    public Map<T, T> buildConflictMap(List<T> records, Field matchField) {
+    public Map<T, T> buildConflictMap(List<T> records, List<TableField> matchFields, Closure predicate) {
         Map<T, T> map = [:]
 
         records.each { T left ->
@@ -21,11 +25,14 @@ trait Merger<T extends Record> extends UserInputSupport {
                 return
             }
 
-            String leftValue = left.getValue(matchField).toString().toLowerCase()
+            matchFields.each {
+                String leftValue = left.getValue(it).toString().toLowerCase()
 
-            records.each { T right ->
-                if (leftValue == right.getValue(matchField).toString().toLowerCase()) {
-                    map[left] = right
+                records.each { T right ->
+                    String rightValue = right.getValue(it).toString().toLowerCase()
+                    if (leftValue && rightValue && leftValue == rightValue && predicate(left, right)) {
+                        map[left] = right
+                    }
                 }
             }
         }
@@ -43,10 +50,7 @@ trait Merger<T extends Record> extends UserInputSupport {
 
     private List<T> userDeterminedSourceAndTarget(T a, T b) {
         if (userInputFallback) {
-            println('## 1: #############################################')
-            render(a)
-            println('## 2: #############################################')
-            render(b)
+            render(a, b)
             println('###################################################')
             println('## WARN: Manual conflict resolution: Cannot determine which record to merge into')
             println('## INFO: Both records have been rendered above, select which number should be')
@@ -69,7 +73,9 @@ trait Merger<T extends Record> extends UserInputSupport {
         return []
     }
 
-    private void render(T record) {
-        println(record.toString())
+    private void render(T one, T two) {
+        one.fields().each { Field field ->
+            println "${field.name} - ${one.getValue(field)} - ${two.getValue(field)}"
+        }
     }
 }
