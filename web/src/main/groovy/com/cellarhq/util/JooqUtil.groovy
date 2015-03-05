@@ -4,6 +4,8 @@ import groovy.transform.CompileStatic
 import org.jooq.Field
 import org.jooq.TableField
 
+import java.util.concurrent.ThreadLocalRandom
+
 @CompileStatic
 class JooqUtil {
 
@@ -45,6 +47,7 @@ class JooqUtil {
     }
 
     static String uuid() {
-        return UUID.randomUUID().toString().replaceAll(/\W/, '')
+        Random random = ThreadLocalRandom.current()
+        return new UUID(random.nextLong(), random.nextLong()).toString().replaceAll(/\W/, '')
     }
 }

@@ -38,7 +38,7 @@ class Drink extends com.cellarhq.generated.tables.pojos.Drink {
 
     @Override
     void setSlug(String slug) {
-        super.slug = new Slugify().slugify(slug)
+        super.setSlug(new Slugify().slugify(slug))
     }
 
     boolean getEditable() {

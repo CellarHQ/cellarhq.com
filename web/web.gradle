@@ -10,7 +10,7 @@ buildscript {
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
         classpath 'com.bluepapa32:gradle-watch-plugin:0.1.4'
-        classpath "io.ratpack:ratpack-gradle:0.9.13"
+        classpath "io.ratpack:ratpack-gradle:0.9.14"
     }
 }
 
@@ -100,7 +100,7 @@ dependencies {
     runtime 'com.lmax:disruptor:3.3.0'
     runtime 'net.kencochrane.raven:raven-logback:5.0.1'
 
-    testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
         exclude module: "groovy-all"
     }
 
@@ -115,9 +115,6 @@ dependencies {
         exclude module: 'httpclient'
     }
     functionalCompile 'org.liquibase:liquibase-core:3.2.2'
-    //    functionalCompile 'com.github.detro.ghostdriver:phantomjsdriver:1.1.0'
-
-
 }
 
 // The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in

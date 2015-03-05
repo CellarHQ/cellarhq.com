@@ -29,6 +29,8 @@ import com.cellarhq.webapp.YourCellarEndpoint
 import com.codahale.metrics.health.HealthCheckRegistry
 import com.zaxxer.hikari.HikariConfig
 import org.pac4j.core.profile.CommonProfile
+import ratpack.codahale.healthcheck.CodaHaleHealthCheckModule
+import ratpack.codahale.healthcheck.HealthCheckHandler
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.config.ConfigData
 import ratpack.error.ClientErrorHandler
@@ -60,7 +62,8 @@ ratpack {
         bindInstance(CellarHQConfig, cellarHqConfig)
         addConfig(CommonModule, cellarHqConfig)
 
-        add new CodaHaleMetricsModule(), { it.enable(true).jvmMetrics(true).jmx { it.enable(true) }.healthChecks(true) }
+        addConfig(CodaHaleMetricsModule, configData.get("/metrics", CodaHaleMetricsModule.Config))
+        add CodaHaleHealthCheckModule
 
         add(HikariModule) { HikariConfig hikariConfig ->
             hikariConfig.addDataSourceProperty('serverName', cellarHqConfig.databaseServerName)
@@ -71,15 +74,14 @@ ratpack {
             hikariConfig.dataSourceClassName = 'org.postgresql.ds.PGSimpleDataSource'
         }
 
-        add new JacksonModule()
-        add new SessionModule()
-        add new MapSessionsModule(500, 60)
-        add new HandlebarsModule()
-
-        add new CommonModule()
-        add new ApiModule()
-        add new WebappModule()
-        add new AuthenticationModule()
+        add JacksonModule
+        add SessionModule
+        add new MapSessionsModule(1000, 360)
+        add AuthenticationModule
+        add CommonModule
+        add ApiModule
+        add WebappModule
+        add HandlebarsModule
 
         bindInstance Service, new Service() {
             @Override
