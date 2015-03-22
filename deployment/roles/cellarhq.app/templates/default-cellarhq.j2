@@ -1,0 +1,23 @@
+{# TODO AES encrypt secrets #}
+
+RATPACK_GOOGLE_ANALYTICS_TRACKING_CODE={{ cellarhq_ga_tracking_code }}
+RATPACK_HOST_NAME={{ cellarhq_hostname }}
+RATPACK_S3_STORAGE_BUCKET={{ cellarhq_s3_storage_bucket }}
+RATPACK_ENVIRONMENT={{ cellarhq_environment|default('development') }}
+RATPACK_DATABASE_SERVER_NAME={{ cellarhq_db_server_name }}
+RATPACK_DATABASE_PORT_NUMBER={{ cellarhq_db_port }}
+RATPACK_DATABASE_NAME={{ cellarhq_db_name }}
+RATPACK_DATABASE_USER={{ cellarhq_db_user }}
+RATPACK_DATABASE_PASSWORD={{ cellarhq_db_password }}
+
+{% if cellarhq_enable_services %}
+    {# TODO This isn't necessary - we can just use instance profiles #}
+    RATPACK_AWS_ACCESS_KEY={{ cellarhq_aws_access_key }}
+    RATPACK_AWS_SECRET_KEY={{ cellarhq_aws_secret_key }}
+
+    RATPACK_LOGENTRIES_TOKEN={{ cellarhq_logentries_token }}
+    RATPACK_SENTRY_DSN={{ cellarhq_sentry_dsn }}
+
+    RATPACK_TWITTER_SECRET={{ cellarhq_twitter_secret }}
+    RATPACK_TWITTER_TOKEN={{ cellarhq_twitter_token }}
+{% endif %}

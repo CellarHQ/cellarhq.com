@@ -1,0 +1,5 @@
+---
+cellarhq_environment: production
+cellarhq_hostname: www.cellarhq.com
+cellarhq_s3_storage_bucket: storage-www.cellarhq.com
+cellarhq_enable_services: yes
