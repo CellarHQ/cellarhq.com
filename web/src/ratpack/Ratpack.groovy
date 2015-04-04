@@ -1,4 +1,5 @@
 import com.cellarhq.api.ApiModule
+import com.cellarhq.auth.rememberme.RememberMeService
 import com.cellarhq.common.CellarHQConfig
 import com.cellarhq.common.CommonModule
 import com.cellarhq.common.ClientErrorHandlerImpl
@@ -197,6 +198,7 @@ ratpack {
             // TODO Accessing pac4j internals...
             request.get(SessionStorage).remove(SessionConstants.USER_PROFILE)
             request.get(SessionStorage).remove(AuthenticationModule.SESSION_CELLAR_ID)
+            registry.get(RememberMeService).cancelCookie(request, response)
             redirect('/')
         }
 

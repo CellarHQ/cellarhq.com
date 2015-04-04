@@ -156,6 +156,7 @@ task functionalTest(type: Test) {
     systemProperty 'ratpack.hostName', 'localhost:5050'
     systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
     systemProperty 'ratpack.environment', 'development'
+    systemProperty 'ratpack.secretRememberMeToken', 'topSecretKey'
 
 
     testClassesDir = sourceSets.functional.output.classesDir
@@ -195,8 +196,6 @@ task functionalTest(type: Test) {
             systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
         }
     }
-
-    testLogging.showStandardStreams = true
 }
 
 
@@ -213,7 +212,7 @@ run {
     systemProperty 'ratpack.databaseName', 'cellarhq'
     systemProperty 'ratpack.databaseUser', 'cellarhq'
     systemProperty 'ratpack.databasePassword', 'cellarhq'
-
+    systemProperty 'ratpack.secretRememberMeToken', 'topSecretKey'
 
     if (project.hasProperty('awsAccessKey'))  {
         systemProperty 'ratpack.awsAccessKey', project.awsAccessKey

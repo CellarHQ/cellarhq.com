@@ -1,5 +1,6 @@
 package com.cellarhq.auth.callbacks
 
+import com.cellarhq.auth.rememberme.RememberMeService
 import com.cellarhq.common.Messages
 import com.cellarhq.auth.AuthenticationModule
 import com.cellarhq.domain.Cellar
@@ -29,15 +30,18 @@ class TwitterCallback<C extends Context, P extends TwitterProfile> implements Bi
 
     private final AccountService accountService
     private final CellarService cellarService
+    private final RememberMeService rememberMeService
     private final TwitterAccountVerificationService verificationService
 
     @Inject
     TwitterCallback(AccountService accountService,
                     CellarService cellarService,
-                    TwitterAccountVerificationService verificationService) {
+                    TwitterAccountVerificationService verificationService,
+                    RememberMeService rememberMeService) {
 
         this.accountService = accountService
         this.cellarService = cellarService
+        this.rememberMeService = rememberMeService
         this.verificationService = verificationService
     }
 
@@ -119,7 +123,7 @@ class TwitterCallback<C extends Context, P extends TwitterProfile> implements Bi
         } then { OAuthAccount oAuthAccount ->
             if (oAuthAccount) {
                 sessionStorage.put(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
-                new DefaultSuccessCallback().defaultBehavior(context, profile, oAuthAccount.cellar)
+                new DefaultSuccessCallback(rememberMeService).defaultBehavior(context, profile, oAuthAccount.cellar)
             } else {
                 // If we don't have an account, that means there was a screen name conflict. We'll still give them a
                 // session, but it won't be capable of doing a whole lot.

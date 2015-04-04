@@ -33,12 +33,18 @@
           </div>
         </div>
         <div class="form-group form-actions">
-          <div class="col-xs-6">
-            <button type="submit" class="btn btn-effect-ripple btn-primary"><i class="fa fa-check"></i> Login</button>
-          </div>
-          <div class="col-sx-6 pull-right">
-            <a class="btn" href="/forgot-password">Forgot password?</a>
-          </div>
+            <div class="col-xs-8">
+                <label class="csscheckbox csscheckbox-primary">
+                    <input type="checkbox" id="login-remember-me" name="remember-me">
+                    <span></span>
+                </label>
+                Remember Me?
+            </div>
+            <div class="col-xs-4 text-right">
+                <button type="submit" class="btn btn-effect-ripple btn-medium btn-primary">
+                    <i class="fa fa-check"></i> Login
+                </button>
+            </div>
         </div>
         <input type='hidden' id='client_name' name='client_name' value='FormClient'/>
       </form>

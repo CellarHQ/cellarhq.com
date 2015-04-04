@@ -61,13 +61,17 @@ class CellarService extends BaseJooqService {
 
     rx.Observable<Cellar> get(Long id) {
         observe(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select()
+            getBlocking(id)
+        }).asObservable()
+    }
+
+    Cellar getBlocking(Long id) {
+        jooq { DSLContext create ->
+            create.select()
                     .from(CELLAR)
                     .where(CELLAR.ID.eq(id))
                     .fetchOneInto(Cellar)
-            }
-        }).asObservable()
+        }
     }
 
     rx.Observable<Cellar> findBySlug(String slug) {
@@ -149,15 +153,6 @@ class CellarService extends BaseJooqService {
                 select.fetchOneInto(Integer)
             }
         })
-    }
-
-    Cellar getBlocking(Long id) {
-        (Cellar) jooq { DSLContext create ->
-            create.select()
-                    .from(CELLAR)
-                    .where(CELLAR.ID.eq(id))
-                    .fetchOneInto(Cellar)
-        }
     }
 
     Cellar saveBlocking(Cellar cellar, UploadedFile photo = null) {

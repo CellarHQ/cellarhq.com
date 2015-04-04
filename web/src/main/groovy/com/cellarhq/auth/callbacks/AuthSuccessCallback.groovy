@@ -26,5 +26,7 @@ class AuthSuccessCallback<C extends Context, P extends UserProfile> implements B
                     type: profile.getClass().name
             ]))
         }
+
+
     }
 }

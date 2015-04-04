@@ -1,7 +1,8 @@
 package com.cellarhq.auth.callbacks
 
-import com.cellarhq.common.Messages
 import com.cellarhq.auth.AuthenticationModule
+import com.cellarhq.auth.rememberme.RememberMeService
+import com.cellarhq.common.Messages
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.auth.services.AccountService
 import com.cellarhq.api.services.CellarService
@@ -25,11 +26,13 @@ class HttpCallback<C extends Context, P extends HttpProfile> implements BiConsum
 
     private final AccountService accountService
     private final CellarService cellarService
+    private final RememberMeService rememberMeService
 
     @Inject
-    HttpCallback(AccountService accountService, CellarService cellarService) {
+    HttpCallback(AccountService accountService, CellarService cellarService, RememberMeService rememberMeService) {
         this.accountService = accountService
         this.cellarService = cellarService
+        this.rememberMeService = rememberMeService
     }
 
     @Override
@@ -57,7 +60,7 @@ class HttpCallback<C extends Context, P extends HttpProfile> implements BiConsum
             context.redirect('/logout')
         } then { EmailAccount emailAccount ->
             request.get(SessionStorage).put(AuthenticationModule.SESSION_CELLAR_ID, emailAccount.cellarId)
-            new DefaultSuccessCallback().defaultBehavior(context, profile, emailAccount.cellar)
+            new DefaultSuccessCallback(rememberMeService).defaultBehavior(context, profile, emailAccount.cellar)
         }
     }
 }
