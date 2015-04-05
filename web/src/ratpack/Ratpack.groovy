@@ -30,8 +30,6 @@ import com.cellarhq.webapp.YourCellarEndpoint
 import com.codahale.metrics.health.HealthCheckRegistry
 import com.zaxxer.hikari.HikariConfig
 import org.pac4j.core.profile.CommonProfile
-import ratpack.codahale.healthcheck.CodaHaleHealthCheckModule
-import ratpack.codahale.healthcheck.HealthCheckHandler
 import ratpack.codahale.metrics.CodaHaleMetricsModule
 import ratpack.config.ConfigData
 import ratpack.error.ClientErrorHandler
@@ -64,8 +62,7 @@ ratpack {
         addConfig(CommonModule, cellarHqConfig)
 
         addConfig(CodaHaleMetricsModule, configData.get("/metrics", CodaHaleMetricsModule.Config))
-        add CodaHaleHealthCheckModule
-
+        
         add(HikariModule) { HikariConfig hikariConfig ->
             hikariConfig.addDataSourceProperty('serverName', cellarHqConfig.databaseServerName)
             hikariConfig.addDataSourceProperty('portNumber', cellarHqConfig.databasePortNumber)
