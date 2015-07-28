@@ -25,18 +25,8 @@ databases which are contained in the vagrant image. If you want to run the migra
 RDS instance, you need to run `gradle update -PrunList=production`. This assumes you have set cellarhqprodpasswd in
 `~/.gradle/gradle.properties`. Ask Rob or Kyle for this password if you need it.
 
-`gradle build` will build and test the entire application including creating a docker container for deployment or
-local testing.
+`gradle build` will build and test the entire application
 
-You can run the docker container locally against the production RDS database as well. After running `gradle build` you
-can start the container like this:
-
-```
- docker run -e dataSource.serverName='cellarhq-prod.c7ovcjlune88.us-east-1.rds.amazonaws.com' \
- -e dataSource.port='5432' \
- -e dataSource.password='PASSWORDGOESHERE' \
- -p 5050:5050 com.cellarhq/cellarhq:0.1
-```
 
 Configuration
 -------------
