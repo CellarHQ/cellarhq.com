@@ -1,0 +1,19 @@
+description "CellarHQ"
+author "Rob Zienert <rob@cellarhq.com>"
+
+start on runlevel [2345]
+stop on [!12345]
+
+respawn
+respawn limit 2 5
+
+setuid cellarhq
+setgid cellarhq
+umask 007
+
+console log
+
+script
+    . /etc/default/cellarhq
+    exec java -Dratpack.port={{ cellarhq_port }} -jar {{ cellarhq_home }}/{{ cellarhq_jar_file }} {{ cellarhq_java_opts }}
+end script

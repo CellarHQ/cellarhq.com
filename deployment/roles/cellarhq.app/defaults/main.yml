@@ -1,0 +1,20 @@
+---
+cellarhq_jar_file: web.jar
+cellarhq_build_artifact_path: ./../web/build/libs/{{ cellarhq_jar_file }}
+cellarhq_home: /home/cellarhq
+
+cellarhq_port: 5050
+
+cellarhq_hostname: "localhost:{{ cellarhq_port }}"
+cellarhq_environment: development
+cellarhq_ga_tracking_code: UA-27709782-2
+cellarhq_s3_storage_bucket: 'storage-local.cellarhq.com'
+cellarhq_db_server_name: localhost
+cellarhq_db_port: 15432
+cellarhq_db_name: cellarhq
+cellarhq_db_user: cellarhq
+cellarhq_db_passwowrd: cellarhq
+
+cellarhq_enable_services: no
+
+cellarhq_java_opts: "-Xmx1G -Xms1G -XX:NewSize=512m -XX:MaxNewSize=512m"

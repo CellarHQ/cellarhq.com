@@ -1,0 +1,37 @@
+---
+- name: create cellarhq group
+  sudo: True
+  group: name=cellarhq state=present
+
+- name: create cellarhq user
+  sudo: True
+  user: name=cellarhq group=cellarhq state=present
+
+- name: create app directory
+  sudo: True
+  file: >
+    path={{ cellarhq_home }}
+    state=directory
+    owner=cellarhq
+    group=cellarhq
+
+- name: create defaults file
+  sudo: True
+  template: >
+    src=default-cellarhq.j2
+    dest=/etc/default/cellarhq
+
+- name: create upstart
+  sudo: True
+  template: >
+    src=upstart.conf.j2
+    dest=/etc/init.d/cellarhq.conf
+
+- name: upload artifact
+  sudo: True
+  copy: >
+    src={{ cellarhq_build_artifact_path }}
+    dest={{ cellarhq_home }}/web.jar
+    owner=cellarhq
+    group=cellarhq
+  notify: restart-cellarhq

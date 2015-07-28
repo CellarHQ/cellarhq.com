@@ -1,0 +1,16 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  tasks:
+  - name: check for artifact
+    stat: path={{ cellarhq_build_artifact_path }}
+    register: chq_artifact
+
+  - name: fail if no build
+    fail: msg="Could not find the web fat JAR file: Make sure you build it."
+    when: not chq_artifact.stat.exists
+
+- hosts: all
+  roles:
+  - smola.java
+  - cellarhq.app
