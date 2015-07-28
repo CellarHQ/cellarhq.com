@@ -52,7 +52,7 @@ import static ratpack.jackson.Jackson.json
 ratpack {
     bindings {
         ConfigData configData = ConfigData.of()
-                .props("$serverConfig.baseDir.file/ratpack.properties")
+                .props("app.properties")
                 .env()
                 .sysProps()
                 .build()
@@ -61,7 +61,7 @@ ratpack {
         bindInstance(CellarHQConfig, cellarHqConfig)
         addConfig(CommonModule, cellarHqConfig)
 
-        addConfig(CodaHaleMetricsModule, configData.get("/metrics", CodaHaleMetricsModule.Config))
+        //addConfig(CodaHaleMetricsModule, configData.get("/metrics", CodaHaleMetricsModule.Config))
         
         add(HikariModule) { HikariConfig hikariConfig ->
             hikariConfig.addDataSourceProperty('serverName', cellarHqConfig.databaseServerName)

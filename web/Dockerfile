@@ -1,7 +1,7 @@
 FROM java:8
 MAINTAINER Kyle Boon<kyle@cellarhq.com>
 
-WORKDIR /app
+WORKDIR /app/build/libs
 
 USER daemon
 
@@ -14,3 +14,4 @@ EXPOSE 5050
 # the jar to the current directory after running gradle shadowJar
 # or update this to build/libs/cellarhq.com-all.jar
 ADD web-all.jar /app/build/libs/cellarhq.com-all.jar
+ADD production.properties /app/build/libs/app.properties

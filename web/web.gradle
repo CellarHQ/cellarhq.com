@@ -135,6 +135,7 @@ task buildDocker(type: Docker) {
 
     doFirst {
         addFile project.tasks.shadowJar.archivePath
+        addFile "production.properties"
     }
 
     push =  project.hasProperty('push')
