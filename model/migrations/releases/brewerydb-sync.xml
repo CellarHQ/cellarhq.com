@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="brewerydb-sync" author="rzienert" dbms="postgresql">
+        <createTable tableName="brewerydb_sync">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="attribute" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attribute_id" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_attribute_id" type="varchar(64)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sub_action" type="varchar(32)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="brewerydb_changed" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processed_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="brewerydb_sync" indexName="idx_processed">
+            <column name="brewerydb_changed"/>
+            <column name="processed_at"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
