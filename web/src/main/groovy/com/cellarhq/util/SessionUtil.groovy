@@ -1,26 +1,23 @@
 package com.cellarhq.util
 
 import com.cellarhq.common.session.FlashMessage
-import groovy.transform.CompileStatic
-import org.pac4j.core.profile.CommonProfile
-import ratpack.http.Request
-import ratpack.session.store.SessionStorage
+import groovy.util.logging.Slf4j
+import ratpack.handling.Context
+import ratpack.session.Session
 
 /**
  * Provides utility functions for session operations.
  */
-@CompileStatic
+@Slf4j
 abstract class SessionUtil {
 
-    static boolean isLoggedIn(Optional<CommonProfile> profile) {
-        return profile.map {it.username}.orElse(null) != null
-    }
+  // There's probably a better way, via implementing our own SessionManager, but I don't want to do that until we're
+  // getting in and creating a cookie session store as well. Would be super nice to just "session.setFlash('blah')"
 
-    // There's probably a better way, via implementing our own SessionManager, but I don't want to do that until we're
-    // getting in and creating a cookie session store as well. Would be super nice to just "session.setFlash('blah')"
-
-    static void setFlash(Request request, FlashMessage flashMessage) {
-        SessionStorage session = request.get(SessionStorage)
-        session.put(flashMessage.sessionKey, flashMessage)
+  static void setFlash(Context context, FlashMessage flashMessage) {
+    context.get(Session).getData().then { sessionData ->
+      log.debug("Setting flash ${flashMessage.sessionKey} - ${flashMessage.message}")
+      sessionData.set(flashMessage.sessionKey, flashMessage)
     }
+  }
 }

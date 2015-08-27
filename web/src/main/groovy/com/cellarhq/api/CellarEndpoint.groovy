@@ -13,27 +13,27 @@ import ratpack.handling.Chain
 @Slf4j
 class CellarEndpoint implements Action<Chain> {
 
-    CellarService cellarService
+  CellarService cellarService
 
-    @Inject
-    CellarEndpoint(CellarService cellarService) {
-        this.cellarService = cellarService
-    }
+  @Inject
+  CellarEndpoint(CellarService cellarService) {
+    this.cellarService = cellarService
+  }
 
-    @Override
-    void execute(Chain chain) throws Exception {
-        Groovy.chain(chain) {
-            put('cellars/validate-name') {
-                if (!request.queryParams.name) {
-                    clientError 400
-                }
-
-                cellarService.validateScreenName(request.queryParams.name).single().subscribe { Cellar cellar ->
-                    log.info(request.queryParams.name)
-                    log.info(cellar?.toString())
-                    render json(cellar == null)
-                }
-            }
+  @Override
+  void execute(Chain chain) throws Exception {
+    Groovy.chain(chain) {
+      put('api/cellars/validate-name') {
+        if (!request.queryParams.name) {
+          clientError 400
         }
+
+        cellarService.validateScreenName(request.queryParams.name).single().subscribe { Cellar cellar ->
+          log.info(request.queryParams.name)
+          log.info(cellar?.toString())
+          render json(cellar == null)
+        }
+      }
     }
+  }
 }

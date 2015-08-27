@@ -6,7 +6,8 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <logger name="com.cellarhq" level="debug" />
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
 

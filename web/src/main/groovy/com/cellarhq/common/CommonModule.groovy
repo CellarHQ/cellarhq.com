@@ -79,25 +79,4 @@ class CommonModule extends ConfigurableModule<CellarHQConfig> {
         log.info('Binding log email service')
         return new LogEmailService()
     }
-
-    @Singleton
-    @Provides
-    protected CommonHandlerDecorator commonHandlerDecorator(CellarHQConfig config, Injector injector) {
-        return new CommonHandlerDecorator(config)
-    }
-
-    private static class CommonHandlerDecorator implements HandlerDecorator {
-
-        private final CellarHQConfig config
-
-
-        public CommonHandlerDecorator(CellarHQConfig config) {
-            this.config = config
-        }
-
-        @Override
-        public Handler decorate(Registry serverRegistry, Handler rest) {
-            return Handlers.chain(RequestId.bindAndLog(), rest)
-        }
-    }
 }

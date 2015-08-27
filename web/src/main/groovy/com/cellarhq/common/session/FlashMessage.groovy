@@ -3,7 +3,7 @@ package com.cellarhq.common.session
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class FlashMessage {
+class FlashMessage implements Serializable {
 
     static enum Type {
         ERROR('error'),

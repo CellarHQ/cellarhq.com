@@ -22,11 +22,13 @@ class OrganizationBuilder {
     Organization build(DSLContext create) {
         OrganizationRecord organizationRecord = create.newRecord(ORGANIZATION, organization)
 
-        organizationRecord.reset(ORGANIZATION.DATA)
-        organizationRecord.reset(ORGANIZATION.CREATED_DATE)
-        organizationRecord.reset(ORGANIZATION.MODIFIED_DATE)
-        organizationRecord.reset(ORGANIZATION.ID)
-        organizationRecord.store()
+        organizationRecord.with {
+          reset(ORGANIZATION.DATA)
+          reset(ORGANIZATION.CREATED_DATE)
+          reset(ORGANIZATION.MODIFIED_DATE)
+          reset(ORGANIZATION.ID)
+          store()
+        }
 
         organizationRecord.into(Organization)
     }

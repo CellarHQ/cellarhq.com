@@ -16,7 +16,7 @@ import ratpack.form.Form
 import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
-import ratpack.session.store.SessionStorage
+import ratpack.session.Session
 
 @SuppressWarnings(['LineLength'])
 @Slf4j
@@ -32,7 +32,7 @@ class LinkTwitterAccountEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            handler('settings/link-twitter') {
+            path('settings/link-twitter') {
                 byMethod {
                     get {
                         render handlebarsTemplate('settings/link-twitter-account.html', [
@@ -42,7 +42,7 @@ class LinkTwitterAccountEndpoint implements Action<Chain> {
                     }
 
                     post {
-                        Cellar cellar = (Cellar) request.get(SessionStorage).get(AuthenticationModule.SESSION_CELLAR)
+                        Cellar cellar = (Cellar) request.get(Session).get(AuthenticationModule.SESSION_CELLAR)
 
                         Form form = parse(Form)
                         OAuthAccount pendingAccount = new OAuthAccount(username: form.username)
@@ -63,7 +63,7 @@ class LinkTwitterAccountEndpoint implements Action<Chain> {
                                         cellar: cellar.id,
                                         twitter: form.username
                                 ]))
-                                SessionUtil.setFlash(request, FlashMessage.error(String.format(
+                                SessionUtil.setFlash(context, FlashMessage.error(String.format(
                                         Messages.ACCOUNT_LINK_TWITTER_SCREEN_NAME_UNAVAILABLE,
                                         pendingAccount.username
                                 )))

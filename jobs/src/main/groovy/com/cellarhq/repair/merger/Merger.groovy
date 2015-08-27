@@ -4,7 +4,6 @@ import com.cellarhq.support.UserInputSupport
 import com.cellarhq.support.userinput.OptionPromptType
 import org.jooq.Field
 import org.jooq.Record
-import org.jooq.Table
 import org.jooq.TableField
 
 trait Merger<T extends Record> extends UserInputSupport {

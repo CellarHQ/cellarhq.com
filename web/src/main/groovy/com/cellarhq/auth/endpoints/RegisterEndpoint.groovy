@@ -1,27 +1,31 @@
 package com.cellarhq.auth.endpoints
 
 import com.cellarhq.auth.AuthenticationModule
-import com.cellarhq.common.validation.ValidationErrorMapper
-
-import static ratpack.handlebars.Template.handlebarsTemplate
-
-import com.cellarhq.common.Messages
 import com.cellarhq.auth.Role
+import com.cellarhq.auth.profiles.CellarHQProfile
+import com.cellarhq.auth.profiles.CellarHQProfileCreator
+import com.cellarhq.auth.services.AccountService
+import com.cellarhq.common.Messages
+import com.cellarhq.common.session.FlashMessage
+import com.cellarhq.common.validation.ValidationErrorMapper
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
-import com.cellarhq.auth.services.AccountService
-import com.cellarhq.common.session.FlashMessage
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
+import org.pac4j.core.context.Pac4jConstants
+import org.pac4j.core.context.WebContext
 import org.pac4j.core.profile.UserProfile
+import org.pac4j.http.client.FormClient
 import org.pac4j.http.profile.HttpProfile
+import ratpack.exec.Promise
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
-import ratpack.pac4j.internal.SessionConstants
-import ratpack.session.store.SessionStorage
+import ratpack.pac4j.RatpackPac4j
+import ratpack.pac4j.internal.Pac4jSessionKeys
+import ratpack.session.Session
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
@@ -29,16 +33,22 @@ import javax.validation.ValidatorFactory
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
+import static ratpack.handlebars.Template.handlebarsTemplate
+
 @Slf4j
 class RegisterEndpoint extends GroovyHandler {
 
     private final AccountService accountService
     private final ValidatorFactory validatorFactory
+    private  final CellarHQProfileCreator cellarHQProfileCreator
 
     @Inject
-    RegisterEndpoint(AccountService accountService, ValidatorFactory validatorFactory) {
+    RegisterEndpoint(AccountService accountService,
+                     ValidatorFactory validatorFactory,
+                     CellarHQProfileCreator cellarHQProfileCreator) {
         this.accountService = accountService
         this.validatorFactory = validatorFactory
+      this.cellarHQProfileCreator = cellarHQProfileCreator
     }
 
     @Override
@@ -89,30 +99,24 @@ class RegisterEndpoint extends GroovyHandler {
                             accountService.create(emailAccount, null)
                         }.onError { Throwable e ->
                             if (messageIsForDuplicateCellar(e)) {
-                                SessionUtil.setFlash(request, FlashMessage.error(Messages.REGISTER_SCREEN_NAME_TAKEN))
+                                SessionUtil.setFlash(context, FlashMessage.error(Messages.REGISTER_SCREEN_NAME_TAKEN))
                             } else if (e.message.contains('unq_account_email_email')) {
                                 SessionUtil.setFlash(
-                                        request,
+                                        context,
                                         FlashMessage.error(Messages.REGISTER_EMAIL_ACCOUNT_ALREADY_EXISTS)
                                 )
                             } else {
                                 log.error(LogUtil.toLog(request, 'RegistrationFailure'), e)
-                                SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                                SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                             }
 
                             redirect('/register')
                         } then {
-                            request.get(SessionStorage)
-                                    .put(AuthenticationModule.SESSION_CELLAR_ID, emailAccount.cellarId)
-
-                            // TODO Is there a way to do this without calling into ratpack's internals?
-                            UserProfile userProfile = makeUserProfile(emailAccount)
-
-                            request.add(userProfile)
-                            request.add(UserProfile, userProfile)
-                            request.get(SessionStorage).put(SessionConstants.USER_PROFILE, userProfile)
-
-                            redirect('/yourcellar')
+                          context.get(Session).getData().then { sessionData ->
+                            CellarHQProfile profile = cellarHQProfileCreator.create(emailAccount.email)
+                            sessionData.set(Pac4jSessionKeys.USER_PROFILE, profile);
+                            context.redirect('/yourcellar')
+                          }
                         }
                     } else {
                         List<String> messages = new ValidationErrorMapper().
@@ -122,22 +126,12 @@ class RegisterEndpoint extends GroovyHandler {
                             messages << 'passwords do not match'
                         }
 
-                        SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                        SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
 
                         redirect('/register')
                     }
                 }
             }
-        }
-    }
-
-    UserProfile makeUserProfile(EmailAccount emailAccount) {
-        return new HttpProfile().with { HttpProfile self ->
-            addAttribute('display_name', emailAccount.cellar.displayName)
-            addAttribute('username', emailAccount.email)
-            addAttribute('email', emailAccount.email)
-            addRole(Role.MEMBER.toString())
-            return self
         }
     }
 

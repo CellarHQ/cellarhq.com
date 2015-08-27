@@ -1,11 +1,9 @@
 package com.cellarhq.auth.endpoints
 
-import static ratpack.handlebars.Template.handlebarsTemplate
-
-import com.cellarhq.common.Messages
-import com.cellarhq.domain.EmailAccount
 import com.cellarhq.auth.services.AccountService
+import com.cellarhq.common.Messages
 import com.cellarhq.common.session.FlashMessage
+import com.cellarhq.domain.EmailAccount
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
@@ -17,6 +15,8 @@ import ratpack.groovy.handling.GroovyHandler
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
+
+import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
 class ChangePasswordEndpoint extends GroovyHandler {
@@ -42,7 +42,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                                 exception: t.toString()
                         ]), t)
 
-                        SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                        SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                         redirect('/forgot-password')
                     } then { EmailAccount emailAccount ->
                         if (emailAccount) {
@@ -51,7 +51,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                                     action: "/forgot-password/${context.pathTokens['id']}",
                                     pageId: 'change-password')
                         } else {
-                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
+                            SessionUtil.setFlash(context, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
                             redirect('/forgot-password')
                         }
                     }
@@ -88,7 +88,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                                         FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
                             }
                         } else {
-                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
+                            SessionUtil.setFlash(context, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
                         }
 
                         return result
@@ -101,7 +101,7 @@ class ChangePasswordEndpoint extends GroovyHandler {
                     } then { boolean result ->
                         if (result) {
                             SessionUtil.setFlash(
-                                    request,
+                                    context,
                                     FlashMessage.success(Messages.FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD))
                             redirect('/login')
                         } else {

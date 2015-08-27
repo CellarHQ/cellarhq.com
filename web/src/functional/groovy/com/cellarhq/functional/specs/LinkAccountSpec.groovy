@@ -1,5 +1,6 @@
 package com.cellarhq.functional.specs
 
+import com.amazonaws.services.cloudsearch.model.DescribeStemmingOptionsRequest
 import com.cellarhq.SpecFlags
 import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
@@ -12,14 +13,16 @@ import com.cellarhq.functional.pages.YourCellarPage
 import groovy.sql.Sql
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
+import spock.lang.Ignore
 import spock.lang.IgnoreIf
+import spock.lang.IgnoreRest
 import spock.lang.Shared
 import spock.lang.Stepwise
 
 import javax.sql.DataSource
 
 @Stepwise
-@IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) || SpecFlags.isTrue(SpecFlags.NO_INTERNET) })
+//@IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) || SpecFlags.isTrue(SpecFlags.NO_INTERNET) })
 class LinkAccountSpec extends BaseFunctionalSpecification implements LogInUserTrait {
 
     @Shared
@@ -43,6 +46,8 @@ class LinkAccountSpec extends BaseFunctionalSpecification implements LogInUserTr
         cleanUpUsers(remote)
     }
 
+  @Ignore
+    @IgnoreRest
     def 'link account features displayed'() {
         when:
         SettingsPage settingsPage = to SettingsPage

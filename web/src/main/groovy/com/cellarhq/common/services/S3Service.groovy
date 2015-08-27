@@ -14,8 +14,10 @@ import com.amazonaws.services.s3.model.PutObjectResult
 import com.cellarhq.common.CellarHQConfig
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 @CompileStatic
+@Slf4j
 class S3Service {
 
     static final String BUCKET_PRODUCTION  = 'storage-www.cellarhq.com'

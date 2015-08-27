@@ -4,8 +4,7 @@ import com.cellarhq.common.Messages
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.UserProfile
-import ratpack.handling.Context
-import ratpack.pac4j.AbstractAuthorizer
+import ratpack.handling.Context\
 
 /**
  * Simple path-based authorizer that will blacklist anything not in the anonymous whitelist.
@@ -14,7 +13,7 @@ import ratpack.pac4j.AbstractAuthorizer
  */
 @CompileStatic
 @Slf4j
-class AuthPathAuthorizer extends AbstractAuthorizer {
+class AuthPathAuthorizer  {
 
     final static List<String> ANONYMOUS_WHITELIST = [
             '',
@@ -52,12 +51,10 @@ class AuthPathAuthorizer extends AbstractAuthorizer {
             /admin\/.*/
     ]
 
-    @Override
     boolean isAuthenticationRequired(Context context) {
         return !matchesAnyPath(context.request.path, ANONYMOUS_WHITELIST)
     }
 
-    @Override
     void handleAuthorization(Context context, UserProfile userProfile) throws Exception {
         if (matchesAnyPath(context.request.path, ADMIN_ROLE_REQUIRED) && !userHasRole(userProfile, Role.ADMIN)) {
             context.redirect('/login?error=' + Messages.UNAUTHORIZED_ERROR)

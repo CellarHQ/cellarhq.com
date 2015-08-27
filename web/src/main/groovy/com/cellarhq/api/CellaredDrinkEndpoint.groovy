@@ -1,7 +1,7 @@
 package com.cellarhq.api
 
+import com.cellarhq.auth.profiles.CellarHQProfile
 import com.cellarhq.common.Messages
-import com.cellarhq.auth.AuthenticationModule
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.api.services.CellaredDrinkService
@@ -11,7 +11,6 @@ import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
 import ratpack.handling.Context
-import ratpack.session.store.SessionStorage
 
 import static ratpack.jackson.Jackson.fromJson
 import static ratpack.jackson.Jackson.json
@@ -29,7 +28,6 @@ class CellaredDrinkEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-
             get('cellars/:cellarSlug/drinks') {
                 cellaredDrinkService.all(
                     pathTokens['cellarSlug'],
@@ -40,12 +38,12 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                     }
             }
 
-            put('cellars/:cellarSlug/drinks/:id/drink') {
+            put('cellars/:cellarSlug/drinks/:id/drink') { CellarHQProfile profile ->
                 String slug = pathTokens['cellarSlug']
                 Long id = Long.valueOf(pathTokens['id'])
 
                 cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
-                    requireSelf(context, drink) {
+                    requireSelf(context, profile, drink) {
                         cellaredDrinkService.drink(slug, id).single().subscribe { CellaredDrink drankDrink ->
                             if (drankDrink == null) {
                                 clientError 404
@@ -57,13 +55,13 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                 }
             }
 
-            handler('cellars/:cellarSlug/drinks/:id') {
+            path('cellars/:cellarSlug/drinks/:id') {
                 byMethod {
-                    get {
+                    get { CellarHQProfile profile ->
                         Long id = Long.valueOf(pathTokens['id'])
 
                         cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
-                            requireSelf(context, drink) {
+                            requireSelf(context, profile, drink) {
                                 if (drink) {
                                     render json(drink)
                                 } else {
@@ -73,9 +71,9 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                         }
                     }
 
-                    post {
+                    post { CellarHQProfile profile ->
                         CellaredDrink cellaredDrink = parse(fromJson(CellaredDrink))
-                        requireSelf(context, cellaredDrink) {
+                        requireSelf(context, profile, cellaredDrink) {
                             cellaredDrinkService.save(cellaredDrink)
                                     .single().flatMap {
                                 cellaredDrinkService.findById(it.id).single()
@@ -85,11 +83,11 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                         }
                     }
 
-                    delete {
+                    delete { CellarHQProfile profile ->
                         Long id = Long.valueOf(pathTokens['id'])
 
                         cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
-                            requireSelf(context, drink) {
+                            requireSelf(context, profile, drink) {
                                 cellaredDrinkService.delete(id).subscribe {
                                     response.status(204).send()
                                 }
@@ -101,10 +99,9 @@ class CellaredDrinkEndpoint implements Action<Chain> {
         }
     }
 
-    void requireSelf(Context context, CellaredDrink cellaredDrink, Closure operation) {
+    void requireSelf(Context context, CellarHQProfile profile, CellaredDrink cellaredDrink, Closure operation) {
         context.with {
-            Long cellarId = (Long) request.get(SessionStorage).get(AuthenticationModule.SESSION_CELLAR_ID)
-            boolean isSelf = cellaredDrink?.cellarId == cellarId
+            boolean isSelf = cellaredDrink?.cellarId == profile.cellarId
 
             if (isSelf) {
                 operation()

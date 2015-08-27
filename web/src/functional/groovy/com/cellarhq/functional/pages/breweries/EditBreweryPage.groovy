@@ -13,17 +13,19 @@ class EditBreweryPage extends BasePage {
     }
 
     void fillForm() {
-        editBreweryForm.description = 'descripton'
-        editBreweryForm.established = '2011'
-        editBreweryForm.phone = '513-824-1282'
-        editBreweryForm.website = 'http://kyleboon.org'
-        editBreweryForm.website = 'http://kyleboon.org'
-        editBreweryForm.address = '298 Warwick St.'
-        editBreweryForm.address2 = ''
-        editBreweryForm.city = 'St. Paul'
-        editBreweryForm.state = 'MN'
-        editBreweryForm.country = 'US'
-        editBreweryForm.postalcode = '55105'
+      editBreweryForm.with {
+        description = 'descripton'
+        established = '2011'
+        phone = '513-824-1282'
+        website = 'http://kyleboon.org'
+        website = 'http://kyleboon.org'
+        address = '298 Warwick St.'
+        address2 = ''
+        city = 'St. Paul'
+        state = 'MN'
+        country = 'US'
+        postalcode = '55105'
+      }
     }
 
     void submitForm() {

@@ -1,13 +1,11 @@
 package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
-import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.Drink
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.domain.Organization
 import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
-import com.cellarhq.functional.DatabaseTrait
 import com.cellarhq.functional.LogInUserTrait
 import com.cellarhq.functional.builders.CellaredDrinkBuilder
 import com.cellarhq.functional.builders.DrinkBuilder
@@ -24,7 +22,7 @@ import static com.cellarhq.generated.Tables.*
 
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })
-class YourArchiveFunctionalSpec extends BaseFunctionalSpecification implements DatabaseTrait, LogInUserTrait  {
+class YourArchiveFunctionalSpec extends BaseFunctionalSpecification implements LogInUserTrait  {
     @Shared
     ApplicationUnderTest aut = new CellarHqApplication()
 

@@ -46,7 +46,7 @@ class DrinkEndpoint implements Action<Chain> {
                 } else {
                     observable = drinkService.search(request.queryParams.name, null, 20, 0)
                 }
-                observable.toList().subscribe { List<Drink> drinks ->
+                 observable.toList().subscribe { List<Drink> drinks ->
                     render json(drinks.collect {
                         [
                             id  : it.id,

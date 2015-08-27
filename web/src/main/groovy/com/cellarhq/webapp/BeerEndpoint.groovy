@@ -1,18 +1,18 @@
 package com.cellarhq.webapp
 
-import com.cellarhq.common.Messages
-import com.cellarhq.domain.*
-import com.cellarhq.domain.views.CellaredDrinkDetails
-import com.cellarhq.jooq.SortCommand
 import com.cellarhq.api.services.CellaredDrinkService
 import com.cellarhq.api.services.DrinkService
 import com.cellarhq.api.services.OrganizationService
 import com.cellarhq.api.services.StyleService
 import com.cellarhq.auth.services.photo.PhotoService
+import com.cellarhq.common.Messages
 import com.cellarhq.common.session.FlashMessage
+import com.cellarhq.common.validation.ValidationErrorMapper
+import com.cellarhq.domain.*
+import com.cellarhq.domain.views.CellaredDrinkDetails
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
-import com.cellarhq.common.validation.ValidationErrorMapper
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import ratpack.form.Form
@@ -56,7 +56,7 @@ class BeerEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            handler('beers') {
+            path('beers') {
                 byMethod {
                     /**
                      * List all beers; has search.
@@ -112,7 +112,7 @@ class BeerEndpoint implements Action<Chain> {
                         try {
                             drink = applyFrom(new Drink(), form)
                         } catch (NumberFormatException e) {
-                            SessionUtil.setFlash(request, FlashMessage.warning(Messages.FORM_VALIDATION_ERROR))
+                            SessionUtil.setFlash(context, FlashMessage.warning(Messages.FORM_VALIDATION_ERROR))
                             return redirect('/beers/add')
                         }
 
@@ -133,17 +133,17 @@ class BeerEndpoint implements Action<Chain> {
                                 redirect("/breweries/${map.org.slug}/beers/${map.savedDrink.slug}")
                             }, { Throwable t ->
                                 if (t.message.contains('unq_drink_slug')) {
-                                    SessionUtil.setFlash(request, FlashMessage.error(
+                                    SessionUtil.setFlash(context, FlashMessage.error(
                                         String.format(Messages.BEER_ADD_ALREADY_EXISTS_ERROR, drink.slug)
                                     ))
                                 } else {
-                                    SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR))
+                                    SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR))
                                 }
                                 return redirect('/beers/add')
                             })
                         } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
-                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                            SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
                             redirect('/beers/add')
                         }
                     }
@@ -219,7 +219,7 @@ class BeerEndpoint implements Action<Chain> {
                 try {
                     drink = applyFrom(new Drink(), form)
                 } catch (NumberFormatException e) {
-                    SessionUtil.setFlash(request, FlashMessage.warning(Messages.FORM_VALIDATION_ERROR))
+                    SessionUtil.setFlash(context, FlashMessage.warning(Messages.FORM_VALIDATION_ERROR))
                     return redirect("breweries/${pathTokens['brewery']}/beers/add")
                 }
 
@@ -235,11 +235,11 @@ class BeerEndpoint implements Action<Chain> {
                             redirect("/breweries/${pathTokens['brewery']}/beers/${savedDrink.slug}")
                         }, { Throwable t ->
                             if (t.message.contains('unq_drink_slug')) {
-                                SessionUtil.setFlash(request, FlashMessage.error(
+                                SessionUtil.setFlash(context, FlashMessage.error(
                                     String.format(Messages.BEER_ADD_ALREADY_EXISTS_ERROR, drink.slug)
                                 ))
                             } else {
-                                SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR))
+                                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR))
                             }
                             redirect("/breweries/${pathTokens['brewery']}/beers/add")
                         })
@@ -249,12 +249,12 @@ class BeerEndpoint implements Action<Chain> {
                     })
                 } else {
                     List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
-                    SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                    SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
                     redirect("/breweries/${pathTokens['brewery']}/beers/add")
                 }
             }
 
-            handler('breweries/:brewery/beers/:slug') {
+            path('breweries/:brewery/beers/:slug') {
 
                 byMethod {
                     /**
@@ -314,12 +314,12 @@ class BeerEndpoint implements Action<Chain> {
                                             .single()
                                             .subscribe { Drink savedDrink ->
 
-                                            SessionUtil.setFlash(request, FlashMessage.success(Messages.BEER_EDIT_SAVED))
+                                            SessionUtil.setFlash(context, FlashMessage.success(Messages.BEER_EDIT_SAVED))
                                             redirect("/breweries/${pathTokens['brewery']}/beers/${savedDrink.slug}")
                                         }
                                     } else {
                                         List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
-                                        SessionUtil.setFlash(request,
+                                        SessionUtil.setFlash(context,
                                             FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)
                                         )
                                         redirect("/breweries/${pathTokens['brewery']}/beers/${slug}/edit")

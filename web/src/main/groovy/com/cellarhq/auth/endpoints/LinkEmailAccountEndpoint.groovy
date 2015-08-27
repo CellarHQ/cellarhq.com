@@ -17,7 +17,7 @@ import ratpack.form.Form
 import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
-import ratpack.session.store.SessionStorage
+import ratpack.session.Session
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
@@ -41,8 +41,8 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            handler('settings/link-email/:token') {
-                Cellar cellar = (Cellar) request.get(SessionStorage).get(AuthenticationModule.SESSION_CELLAR)
+            path('settings/link-email/:token') {
+                Cellar cellar = (Cellar) request.get(Session).get(AuthenticationModule.SESSION_CELLAR)
 
                 byMethod {
                     get {
@@ -58,7 +58,7 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                                         cellar: cellar.id,
                                         error: Messages.ACCOUNT_LINK_TOKEN_UNKNOWN
                                 ]))
-                                SessionUtil.setFlash(request, FlashMessage.error(Messages.ACCOUNT_LINK_TOKEN_UNKNOWN))
+                                SessionUtil.setFlash(context, FlashMessage.error(Messages.ACCOUNT_LINK_TOKEN_UNKNOWN))
                                 redirect('/settings/link-email')
                             }
                         }
@@ -83,14 +83,14 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                                     log.info(LogUtil.toLog(request, 'Linked email to existing account', [
                                             cellar: cellar.id
                                     ]))
-                                    SessionUtil.setFlash(request, FlashMessage.success(Messages.ACCOUNT_LINK_EMAIL_SUCCESS))
+                                    SessionUtil.setFlash(context, FlashMessage.success(Messages.ACCOUNT_LINK_EMAIL_SUCCESS))
                                     redirect('/yourcellar')
                                 } else {
                                     log.warn(LogUtil.toLog(request, 'Failed linking email to existing account', [
                                             cellar: cellar.id,
                                             error : result.message
                                     ]))
-                                    SessionUtil.setFlash(request, FlashMessage.error(result.message))
+                                    SessionUtil.setFlash(context, FlashMessage.error(result.message))
                                     redirect('/settings/link-email')
                                 }
                             }
@@ -110,8 +110,8 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                 }
             }
 
-            handler('settings/link-email') {
-                Cellar cellar = (Cellar) request.get(SessionStorage).get(AuthenticationModule.SESSION_CELLAR)
+            path('settings/link-email') {
+                Cellar cellar = (Cellar) request.get(Session).get(AuthenticationModule.SESSION_CELLAR)
 
                 byMethod {
                     get {
@@ -133,7 +133,7 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                                         cellar: cellar.id,
                                         email: form.email
                                 ]))
-                                SessionUtil.setFlash(request, FlashMessage.success(
+                                SessionUtil.setFlash(context, FlashMessage.success(
                                         Messages.ACCOUNT_LINK_EMAIL_VERIFICATION_SENT
                                 ))
                                 // TODO: Should we send them to a landing page instead?
@@ -144,7 +144,7 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                                         cellar: cellar.id,
                                         email: form.email
                                 ]))
-                                SessionUtil.setFlash(request, FlashMessage.error(result.message))
+                                SessionUtil.setFlash(context, FlashMessage.error(result.message))
                                 redirect('/settings/link-email')
                             }
                         }

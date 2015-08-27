@@ -57,7 +57,7 @@ class OrganizationEndpoint implements Action<Chain> {
                 }
             }
 
-            handler('organizations/:slug') {
+            path('organizations/:slug') {
                 String slug = pathTokens['slug']
 
                 byMethod {

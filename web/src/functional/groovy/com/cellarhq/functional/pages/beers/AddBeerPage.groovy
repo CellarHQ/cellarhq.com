@@ -19,14 +19,16 @@ class AddBeerPage extends BasePage {
     }
 
     void fillForm(Organization organization) {
-        addBeerForm.organization = organization?.name
-        addBeerForm.organizationId = organization?.id
-        addBeerForm.name = 'name'
-        addBeerForm.description = 'description'
-        addBeerForm.srm = 1
-        addBeerForm.ibu = 1
-        addBeerForm.abv = 1.0
-        addBeerForm.availability = Availability.LIMITED
+      addBeerForm.with {
+        organization = organization?.name
+        organizationId = organization?.id
+        name = 'name'
+        description = 'description'
+        srm = 1
+        ibu = 1
+        abv = 1.0
+        availability = Availability.LIMITED
+      }
     }
 
     void submitForm() {

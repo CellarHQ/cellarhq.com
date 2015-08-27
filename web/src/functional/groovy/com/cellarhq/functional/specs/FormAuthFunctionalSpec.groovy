@@ -73,7 +73,9 @@ class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
         then:
         noExceptionThrown()
         if (shouldRegister) {
+          waitFor(3) {
             at YourCellarPage
+          }
         } else {
             at RegisterPage
             page.errorMessages

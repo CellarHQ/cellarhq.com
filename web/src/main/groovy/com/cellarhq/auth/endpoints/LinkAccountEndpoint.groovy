@@ -4,7 +4,6 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.common.Messages
 import com.cellarhq.auth.AuthenticationModule
-import com.cellarhq.auth.callbacks.TwitterCallback
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
 import com.cellarhq.auth.services.AccountService
@@ -20,7 +19,7 @@ import ratpack.groovy.Groovy
 import ratpack.handling.Chain
 import ratpack.handling.Context
 import ratpack.registry.NotInRegistryException
-import ratpack.session.store.SessionStorage
+import ratpack.session.Session
 
 @Slf4j
 class LinkAccountEndpoint implements Action<Chain> {
@@ -35,11 +34,11 @@ class LinkAccountEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            handler {
+            path {
                 // If the app has determined the user needs to change their screen name before registering, this
                 // flag will be set and will redirect any identified paths to the screen name conflict page for
                 // resolution.
-                if (request.get(SessionStorage).getOrDefault(TwitterCallback.REQUIRE_SCREEN_NAME_CHANGE, false)) {
+                if (request.get(Session).getOrDefault(TwitterCallback.REQUIRE_SCREEN_NAME_CHANGE, false)) {
                     List<String> redirectPaths = [
                             'yourcellar',
                             'settings'
@@ -51,7 +50,7 @@ class LinkAccountEndpoint implements Action<Chain> {
                 next()
             }
 
-            handler('settings/screen-name-conflict') {
+            path('settings/screen-name-conflict') {
                 byMethod {
                     get {
                         if (isUnauthorized(context)) {
@@ -87,7 +86,7 @@ class LinkAccountEndpoint implements Action<Chain> {
                             return accountService.create(account, profile.pictureUrl?.replace('_normal', ''))
                         } onError { Throwable e ->
                             log.error(LogUtil.toLog(request, 'ScreenNameConflict'), e)
-                            SessionUtil.setFlash(request, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                            SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
 
                             render handlebarsTemplate('settings/screen-name-conflict.html',
                                     title: 'Choose Screen Name',
@@ -98,11 +97,11 @@ class LinkAccountEndpoint implements Action<Chain> {
                                     twitterProfile: profile.username,
                                     screenName: form.screenName
                             ]))
-                            SessionUtil.setFlash(request, FlashMessage.success(Messages.SETTINGS_SCREEN_NAME_CHANGED))
+                            SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SCREEN_NAME_CHANGED))
 
-                            SessionStorage sessionStorage = request.get(SessionStorage)
-                            sessionStorage.put(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
-                            sessionStorage.remove(TwitterCallback.REQUIRE_SCREEN_NAME_CHANGE)
+                            Session Session = request.get(Session)
+                            Session.set(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
+                            //Session.remove(TwitterCallback.REQUIRE_SCREEN_NAME_CHANGE)
 
                             redirect('/yourcellar')
                         }
@@ -118,7 +117,7 @@ class LinkAccountEndpoint implements Action<Chain> {
      * This will change in the future when we support self-service account merging.
      */
     boolean isUnauthorized(Context context) {
-        if (context.request.get(SessionStorage).get(AuthenticationModule.SESSION_CELLAR_ID, false)) {
+        if (context.request.get(Session).get(AuthenticationModule.SESSION_CELLAR_ID, false)) {
             return true
         }
 

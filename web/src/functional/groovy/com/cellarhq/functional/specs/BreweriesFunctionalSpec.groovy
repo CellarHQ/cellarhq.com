@@ -1,6 +1,7 @@
 package com.cellarhq.functional.specs
 
 import com.cellarhq.SpecFlags
+import com.cellarhq.common.CellarHQConfig
 import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
 import com.cellarhq.functional.LogInUserTrait

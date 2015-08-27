@@ -28,3 +28,4 @@ phantomjsdriver.log
 twitter4j.properties
 *.sql
 web/production.properties
+web/app.propertiess

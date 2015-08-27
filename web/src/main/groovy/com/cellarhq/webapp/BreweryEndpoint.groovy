@@ -48,7 +48,7 @@ class BreweryEndpoint implements Action<Chain> {
     @Override
     void execute(Chain chain) throws Exception {
         Groovy.chain(chain) {
-            handler('breweries') {
+            path('breweries') {
                 byMethod {
                     /**
                      * List all breweries; has search.
@@ -110,7 +110,7 @@ class BreweryEndpoint implements Action<Chain> {
                         } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(organizationViolations)
 
-                            SessionUtil.setFlash(request, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                            SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
 
                             redirect('/breweries/add')
                         }
@@ -150,7 +150,7 @@ class BreweryEndpoint implements Action<Chain> {
                 }
             }
 
-            handler('breweries/:slug') {
+            path('breweries/:slug') {
                 byMethod {
                     /**
                      * Get an existing brewery.
