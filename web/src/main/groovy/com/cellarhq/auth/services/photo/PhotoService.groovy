@@ -14,7 +14,7 @@ import com.google.inject.Inject
 import io.netty.buffer.ByteBufInputStream
 import org.imgscalr.Scalr
 import org.jooq.DSLContext
-import ratpack.exec.ExecControl
+import ratpack.exec.Blocking
 import ratpack.form.UploadedFile
 import rx.Observable
 
@@ -62,10 +62,9 @@ class PhotoService extends BaseJooqService {
 
     @Inject
     PhotoService(DataSource dataSource,
-                 ExecControl execControl,
                  S3Service s3Service,
                  PhotoWriteStrategy writeStrategy) {
-        super(dataSource, execControl)
+        super(dataSource)
 
         this.s3Service = s3Service
         this.writeStrategy = writeStrategy
@@ -73,7 +72,7 @@ class PhotoService extends BaseJooqService {
     }
 
     Observable<Photo> findByCellarId(Long cellarId) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select(PHOTO.fields())
                     .from(PHOTO)
@@ -85,7 +84,7 @@ class PhotoService extends BaseJooqService {
     }
 
     Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select(PHOTO.fields())
                     .from(PHOTO)
@@ -98,7 +97,7 @@ class PhotoService extends BaseJooqService {
     }
 
     Observable<Photo> findByOrganization(String brewerySlug) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select(PHOTO.fields())
                     .from(PHOTO)
@@ -110,7 +109,7 @@ class PhotoService extends BaseJooqService {
     }
 
     Observable<Photo> findByCellarSlug(String cellarSlug) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select(PHOTO.fields())
                     .from(PHOTO)

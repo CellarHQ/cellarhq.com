@@ -2,8 +2,6 @@ package com.cellarhq.health
 
 import com.codahale.metrics.health.HealthCheck
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
-import ratpack.exec.ExecControl
 import ratpack.exec.Promise
 import ratpack.registry.Registry
 
@@ -21,8 +19,8 @@ class DatabaseHealthcheck implements ratpack.health.HealthCheck {
     }
 
     @Override
-    Promise<ratpack.health.HealthCheck.Result> check(ExecControl execControl, Registry registry) throws Exception {
-        return execControl.promiseOf(dataSource.connection.isValid(0) ?
+    Promise<ratpack.health.HealthCheck.Result> check(Registry registry) throws Exception {
+        return Promise.of(dataSource.connection.isValid(0) ?
                 HealthCheck.Result.healthy() :
                 HealthCheck.Result.unhealthy('Database connection is invalid'))
     }

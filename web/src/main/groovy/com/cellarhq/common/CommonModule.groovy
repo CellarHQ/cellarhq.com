@@ -19,16 +19,10 @@ import com.cellarhq.common.services.email.AmazonEmailService
 import com.cellarhq.common.services.email.EmailService
 import com.cellarhq.common.services.email.LogEmailService
 import com.cellarhq.webapp.StatsService
-import com.google.inject.Injector
 import com.google.inject.Provides
 import com.google.inject.Singleton
 import groovy.util.logging.Slf4j
 import ratpack.guice.ConfigurableModule
-import ratpack.handling.Handler
-import ratpack.handling.HandlerDecorator
-import ratpack.handling.Handlers
-import ratpack.handling.RequestId
-import ratpack.registry.Registry
 
 import javax.validation.Validation
 import javax.validation.ValidatorFactory

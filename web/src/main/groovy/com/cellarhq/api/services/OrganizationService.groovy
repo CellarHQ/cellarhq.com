@@ -9,7 +9,7 @@ import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
-import ratpack.exec.ExecControl
+import ratpack.exec.Blocking
 import rx.Observable
 
 import javax.sql.DataSource
@@ -23,12 +23,12 @@ import static ratpack.rx.RxRatpack.observeEach
 class OrganizationService extends BaseJooqService {
 
     @Inject
-    OrganizationService(DataSource dataSource, ExecControl execControl) {
-        super(dataSource, execControl)
+    OrganizationService(DataSource dataSource) {
+        super(dataSource)
     }
 
     Observable<Organization> save(Organization organization) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 OrganizationRecord organizationRecord = create.newRecord(ORGANIZATION, organization)
 
@@ -51,7 +51,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<Organization> get(Long id) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(ORGANIZATION)
@@ -63,7 +63,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<Organization> findBySlug(String slug) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(ORGANIZATION)
@@ -75,7 +75,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<String> findNameByDrink(Long drinkId) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select(ORGANIZATION.NAME)
                         .from(ORGANIZATION)
@@ -87,7 +87,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<Organization> all(SortCommand sortCommand = null, int numberOfRows=20, int offset=0) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(ORGANIZATION)
@@ -105,7 +105,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<Organization> search(String searchTerm, SortCommand sortCommand, int numberOfRows=20, int offset=0) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(ORGANIZATION)
@@ -124,7 +124,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<Void> delete(String slug) {
-        observe(execControl.blocking {
+        observe(Blocking.op {
             jooq { DSLContext create ->
                 OrganizationRecord org = create.fetchOne(ORGANIZATION, ORGANIZATION.SLUG.equal(slug))
 
@@ -138,7 +138,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<Integer> count() {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.selectCount().from(ORGANIZATION).fetchOneInto(Integer)
             }
@@ -146,7 +146,7 @@ class OrganizationService extends BaseJooqService {
     }
 
     Observable<Integer> searchCount(String searchTerm) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.selectCount()
                     .from(ORGANIZATION)

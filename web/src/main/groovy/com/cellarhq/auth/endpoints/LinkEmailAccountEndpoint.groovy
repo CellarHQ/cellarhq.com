@@ -65,47 +65,48 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                     }
 
                     post {
-                        Form form = parse(Form)
+                      parse(Form).then { Form form ->
 
                         EmailAccount emailAccount = new EmailAccount().with { EmailAccount self ->
-                            email = 'validation@validation.com'
-                            password = form.password
-                            return self
+                          email = 'validation@validation.com'
+                          password = form.password
+                          return self
                         }
 
                         Validator validator = validatorFactory.validator
                         Set<ConstraintViolation<EmailAccount>> accountViolations = validator.validate(emailAccount)
                         boolean passwordsMatch = form.password == form.passwordConfirm
                         if (accountViolations.size() == 0 && passwordsMatch) {
-                            verificationService
-                                    .verifyAndCommit(cellar, pathTokens['token'], form.password).subscribe { VerificationResult result ->
-                                if (result.success) {
-                                    log.info(LogUtil.toLog(request, 'Linked email to existing account', [
-                                            cellar: cellar.id
-                                    ]))
-                                    SessionUtil.setFlash(context, FlashMessage.success(Messages.ACCOUNT_LINK_EMAIL_SUCCESS))
-                                    redirect('/yourcellar')
-                                } else {
-                                    log.warn(LogUtil.toLog(request, 'Failed linking email to existing account', [
-                                            cellar: cellar.id,
-                                            error : result.message
-                                    ]))
-                                    SessionUtil.setFlash(context, FlashMessage.error(result.message))
-                                    redirect('/settings/link-email')
-                                }
+                          verificationService
+                            .verifyAndCommit(cellar, pathTokens['token'], form.password).subscribe { VerificationResult result ->
+                            if (result.success) {
+                              log.info(LogUtil.toLog(request, 'Linked email to existing account', [
+                                cellar: cellar.id
+                              ]))
+                              SessionUtil.setFlash(context, FlashMessage.success(Messages.ACCOUNT_LINK_EMAIL_SUCCESS))
+                              redirect('/yourcellar')
+                            } else {
+                              log.warn(LogUtil.toLog(request, 'Failed linking email to existing account', [
+                                cellar: cellar.id,
+                                error : result.message
+                              ]))
+                              SessionUtil.setFlash(context, FlashMessage.error(result.message))
+                              redirect('/settings/link-email')
                             }
+                          }
                         } else {
-                            List<String> messages = []
-                            accountViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
-                            if (!passwordsMatch) {
-                                messages << 'passwords do not match'
-                            }
+                          List<String> messages = []
+                          accountViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
+                          if (!passwordsMatch) {
+                            messages << 'passwords do not match'
+                          }
 
-                            SessionUtil.setFlash(
-                                    request,
-                                    FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                            redirect('/settings/link-email/:token')
+                          SessionUtil.setFlash(
+                            request,
+                            FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                          redirect('/settings/link-email/:token')
                         }
+                      }
                     }
                 }
             }
@@ -122,32 +123,33 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                     }
 
                     post {
-                        Form form = parse(Form)
+                      parse(Form).then { Form form ->
 
                         EmailAccount pendingAccount = new EmailAccount(email: form.email)
 
                         verificationService
-                                .sendVerification(cellar, pendingAccount).subscribe { VerificationResult result ->
-                            if (result.success) {
-                                log.info(LogUtil.toLog(request, 'Attempting email account link', [
-                                        cellar: cellar.id,
-                                        email: form.email
-                                ]))
-                                SessionUtil.setFlash(context, FlashMessage.success(
-                                        Messages.ACCOUNT_LINK_EMAIL_VERIFICATION_SENT
-                                ))
-                                // TODO: Should we send them to a landing page instead?
-                                redirect('/yourcellar')
-                            } else {
-                                log.warn(LogUtil.toLog(request, 'Failed attempting to link email account', [
-                                        error: result.message,
-                                        cellar: cellar.id,
-                                        email: form.email
-                                ]))
-                                SessionUtil.setFlash(context, FlashMessage.error(result.message))
-                                redirect('/settings/link-email')
-                            }
+                          .sendVerification(cellar, pendingAccount).subscribe { VerificationResult result ->
+                          if (result.success) {
+                            log.info(LogUtil.toLog(request, 'Attempting email account link', [
+                              cellar: cellar.id,
+                              email : form.email
+                            ]))
+                            SessionUtil.setFlash(context, FlashMessage.success(
+                              Messages.ACCOUNT_LINK_EMAIL_VERIFICATION_SENT
+                            ))
+                            // TODO: Should we send them to a landing page instead?
+                            redirect('/yourcellar')
+                          } else {
+                            log.warn(LogUtil.toLog(request, 'Failed attempting to link email account', [
+                              error : result.message,
+                              cellar: cellar.id,
+                              email : form.email
+                            ]))
+                            SessionUtil.setFlash(context, FlashMessage.error(result.message))
+                            redirect('/settings/link-email')
+                          }
                         }
+                      }
                     }
                 }
             }

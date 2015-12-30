@@ -23,7 +23,7 @@ class CellarHQProfileCreator implements ProfileCreator {
 	 * @return the created profile
 	 */
 	public HttpCellarHQProfile create(final String username) {
-		final HttpCellarHQProfile profile = new HttpCellarHQProfile()
+		HttpCellarHQProfile profile = new HttpCellarHQProfile()
 
 		EmailAccount emailAccount = accountService.findByEmail(username)
 		profile.cellarId = emailAccount.cellarId
@@ -32,6 +32,6 @@ class CellarHQProfileCreator implements ProfileCreator {
 
 		log.info("Created profile for cellar: ${profile.cellarId}")
 
-		return profile;
+		return profile
 	}
 }

@@ -94,25 +94,27 @@ class BreweryEndpoint implements Action<Chain> {
                      * Add a new brewery.
                      */
                     post {
-                        Form form = parse(Form)
+                        parse(Form).then { Form form ->
 
-                        Organization organization = updateOrganizationFromForm(new Organization(), form)
+                          Organization organization = updateOrganizationFromForm(new Organization(), form)
 
-                        Validator validator = validatorFactory.validator
-                        Set<ConstraintViolation<Organization>> organizationViolations = validator.validate(organization)
+                          Validator validator = validatorFactory.validator
+                          Set<ConstraintViolation<Organization>> organizationViolations =
+                            validator.validate(organization)
 
-                        if (organizationViolations.empty) {
+                          if (organizationViolations.empty) {
                             organizationService.save(organization)
-                                .single()
-                                .subscribe({ Organization savedOrganization ->
-                                redirect("/breweries/${savedOrganization.slug}")
+                              .single()
+                              .subscribe({ Organization savedOrganization ->
+                              redirect("/breweries/${savedOrganization.slug}")
                             })
-                        } else {
+                          } else {
                             List<String> messages = new ValidationErrorMapper().buildMessages(organizationViolations)
 
                             SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
 
                             redirect('/breweries/add')
+                          }
                         }
                     }
                 }
@@ -194,25 +196,26 @@ class BreweryEndpoint implements Action<Chain> {
                      */
                     post {
                         String slug = pathTokens['slug']
-                        Form form = parse(Form)
+                      parse(Form).then { Form form ->
 
                         organizationService.findBySlug(slug).single().subscribe { Organization foundOrganization ->
-                            if (foundOrganization) {
-                                if (foundOrganization.editable) {
-                                    updateOrganizationFromForm(foundOrganization, form)
+                          if (foundOrganization) {
+                            if (foundOrganization.editable) {
+                              updateOrganizationFromForm(foundOrganization, form)
 
-                                    organizationService.save(foundOrganization)
-                                        .single()
-                                        .subscribe { Organization savedOrganization ->
-                                        redirect("/breweries/${savedOrganization.slug}")
-                                    }
-                                } else {
-                                    clientError 403
-                                }
+                              organizationService.save(foundOrganization)
+                                .single()
+                                .subscribe { Organization savedOrganization ->
+                                redirect("/breweries/${savedOrganization.slug}")
+                              }
                             } else {
-                                clientError 404
+                              clientError 403
                             }
+                          } else {
+                            clientError 404
+                          }
                         }
+                      }
                     }
                 }
             }

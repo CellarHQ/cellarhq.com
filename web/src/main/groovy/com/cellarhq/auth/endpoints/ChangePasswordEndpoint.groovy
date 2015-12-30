@@ -8,6 +8,7 @@ import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
+import ratpack.exec.Blocking
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
@@ -35,16 +36,16 @@ class ChangePasswordEndpoint extends GroovyHandler {
         context.with {
             byMethod {
                 get {
-                    blocking {
+                    Blocking.get {
                         accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
-                    } onError { Throwable t ->
+                    }.onError { Throwable t ->
                         log.error(LogUtil.toLog(request, 'ForgotPasswordFailure', [
                                 exception: t.toString()
                         ]), t)
 
                         SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                         redirect('/forgot-password')
-                    } then { EmailAccount emailAccount ->
+                    }.then { EmailAccount emailAccount ->
                         if (emailAccount) {
                             render handlebarsTemplate('change-password.html',
                                     title: 'Change Password',
@@ -57,57 +58,58 @@ class ChangePasswordEndpoint extends GroovyHandler {
                     }
                 }
                 post {
-                    Form form = parse(Form)
+                  parse(Form).then { Form form ->
 
-                    blocking {
-                        boolean result = false
+                    Blocking.get {
+                      boolean result = false
 
-                        EmailAccount account = accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
-                        if (account) {
-                            log.info(LogUtil.toLog(request, 'ChangingPassword', [
-                                accountId: account.id
-                            ]))
-                            account.password = form.password
-                            account.passwordConfirm = form.passwordConfirm
-
-                            Validator validator = validatorFactory.validator
-                            Set<ConstraintViolation<EmailAccount>> accountViolations = validator.validate(account)
-                            boolean passwordsMatch = account.password == account.passwordConfirm
-                            if (accountViolations.size() == 0 && passwordsMatch) {
-                                accountService.changePassword(account, Optional.of(context.pathTokens['id']))
-                                result = true
-                            }  else {
-                                List<String> messages = []
-                                accountViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
-                                if (!passwordsMatch) {
-                                    messages << 'passwords do not match'
-                                }
-
-                                SessionUtil.setFlash(
-                                        request,
-                                        FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                            }
-                        } else {
-                            SessionUtil.setFlash(context, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
-                        }
-
-                        return result
-                    } onError { Throwable t ->
-                        log.error(LogUtil.toLog(request, 'ForgotPasswordFailure', [
-                                exception: t.toString()
+                      EmailAccount account = accountService.findByPasswordChangeRequestHash(context.pathTokens['id'])
+                      if (account) {
+                        log.info(LogUtil.toLog(request, 'ChangingPassword', [
+                          accountId: account.id
                         ]))
+                        account.password = form.password
+                        account.passwordConfirm = form.passwordConfirm
 
-                        redirect('/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
-                    } then { boolean result ->
-                        if (result) {
-                            SessionUtil.setFlash(
-                                    context,
-                                    FlashMessage.success(Messages.FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD))
-                            redirect('/login')
+                        Validator validator = validatorFactory.validator
+                        Set<ConstraintViolation<EmailAccount>> accountViolations = validator.validate(account)
+                        boolean passwordsMatch = account.password == account.passwordConfirm
+                        if (accountViolations.size() == 0 && passwordsMatch) {
+                          accountService.changePassword(account, Optional.of(context.pathTokens['id']))
+                          result = true
                         } else {
-                            redirect("/forgot-password/${context.pathTokens['id']}")
+                          List<String> messages = []
+                          accountViolations.each { messages << "${it.propertyPath.toString()} ${it.message}" }
+                          if (!passwordsMatch) {
+                            messages << 'passwords do not match'
+                          }
+
+                          SessionUtil.setFlash(
+                            request,
+                            FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
                         }
+                      } else {
+                        SessionUtil.setFlash(context, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
+                      }
+
+                      return result
+                    }.onError { Throwable t ->
+                      log.error(LogUtil.toLog(request, 'ForgotPasswordFailure', [
+                        exception: t.toString()
+                      ]))
+
+                      redirect('/forgot-password?error=' + Messages.UNEXPECTED_SERVER_ERROR)
+                    }.then { boolean result ->
+                      if (result) {
+                        SessionUtil.setFlash(
+                          context,
+                          FlashMessage.success(Messages.FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD))
+                        redirect('/login')
+                      } else {
+                        redirect("/forgot-password/${context.pathTokens['id']}")
+                      }
                     }
+                  }
                 }
             }
         }

@@ -61,68 +61,68 @@ class SettingsEndpoint extends GroovyHandler {
 
 				post {
           CellarHQProfile profile = context.get(CellarHQProfile)
-					Form form = parse(Form)
-					Validator validator = validatorFactory.validator
+          parse(Form).then { Form form ->
+            Validator validator = validatorFactory.validator
 
-					blocking {
-						Map result = [
-								success: false,
-								cellar : (Cellar) null
-						]
+            Blocking.get {
+              Map result = [
+                success: false,
+                cellar : (Cellar) null
+              ]
 
-						Cellar cellar = cellarService.getBlocking(profile.cellarId)
-						if (cellar) {
-							cellar.with {
-								displayName = form.displayName
-								location = form.location
-								website = form.website
-								bio = form.bio
-								contactEmail = form.contactEmail
-								updateFromNetwork = form.updateFromNetwork
-								setPrivate((Boolean) form.private)
-								reddit = form.reddit
-								twitter = form.twitter
-								beeradvocate = form.beeradvocate
-								ratebeer = form.ratebeer
-							}
+              Cellar cellar = cellarService.getBlocking(profile.cellarId)
+              if (cellar) {
+                cellar.with {
+                  displayName = form.displayName
+                  location = form.location
+                  website = form.website
+                  bio = form.bio
+                  contactEmail = form.contactEmail
+                  updateFromNetwork = form.updateFromNetwork
+                  setPrivate((Boolean) form.private)
+                  reddit = form.reddit
+                  twitter = form.twitter
+                  beeradvocate = form.beeradvocate
+                  ratebeer = form.ratebeer
+                }
 
-							Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(cellar)
-							if (cellarViolations.size() > 0) {
-								SessionUtil.setFlash(
-										context,
-										FlashMessage.error(Messages.FORM_VALIDATION_ERROR, cellarViolations.collect {
-											"${it.propertyPath.toString()} ${it.message}"
-										})
-								)
-							} else {
-								cellarService.saveBlocking(cellar, form.file('photo'))
-								result.success = true
-							}
-							result.cellar = cellar
-						}
-						result
-					} onError { Throwable t ->
-						log.error(LogUtil.toLog(request, 'SaveSettingsFailure', [
-								exception: t
-						]), t)
-						SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-						redirect('/settings')
-					} then { Map result ->
-						if (result.success) {
-							SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SAVED))
-							redirect('/settings')
-						} else {
-							render handlebarsTemplate('settings.html',
-									[title         : 'Account Settings',
-									 pageId        : 'settings',
-									 isOauthAccount: profile instanceof TwitterProfile,
-									 cellar        : result.cellar]
-							)
-						}
-					}
+                Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(cellar)
+                if (cellarViolations.size() > 0) {
+                  SessionUtil.setFlash(
+                    context,
+                    FlashMessage.error(Messages.FORM_VALIDATION_ERROR, cellarViolations.collect {
+                      "${it.propertyPath.toString()} ${it.message}"
+                    })
+                  )
+                } else {
+                  cellarService.saveBlocking(cellar, form.file('photo'))
+                  result.success = true
+                }
+                result.cellar = cellar
+              }
+              result
+            }.onError { Throwable t ->
+              log.error(LogUtil.toLog(request, 'SaveSettingsFailure', [
+                exception: t
+              ]), t)
+              SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+              redirect('/settings')
+            }.then { Map result ->
+              if (result.success) {
+                SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SAVED))
+                redirect('/settings')
+              } else {
+                render handlebarsTemplate('settings.html',
+                  [title         : 'Account Settings',
+                   pageId        : 'settings',
+                   isOauthAccount: profile instanceof TwitterProfile,
+                   cellar        : result.cellar]
+                )
+              }
+            }
+          }
 				}
 			}
-
 		}
 	}
 }

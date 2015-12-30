@@ -64,47 +64,48 @@ class LinkAccountEndpoint implements Action<Chain> {
                     }
 
                     post {
-                        if (!isUnauthorized(context)) {
-                            return redirectOnUnauthorized(context)
-                        }
+                      if (!isUnauthorized(context)) {
+                        return redirectOnUnauthorized(context)
+                      }
 
-                        Form form = parse(Form)
+                      parse(Form).then { Form form ->
 
                         TwitterProfile profile = request.get(TwitterProfile)
 
                         log.info(LogUtil.toLog(request, 'ChangeScreenName', [
-                                msg: 'User is changing their screen name after conflict',
-                                twitterProfile: profile.username,
-                                screenName: form.screenName
+                          msg           : 'User is changing their screen name after conflict',
+                          twitterProfile: profile.username,
+                          screenName    : form.screenName
                         ]))
 
-                        blocking {
-                            Cellar cellar = Cellar.makeFrom(profile)
-                            cellar.screenName = form.screenName
-                            OAuthAccount account = new OAuthAccount(username: profile.username, cellar: cellar)
+                        Blocking.get {
+                          Cellar cellar = Cellar.makeFrom(profile)
+                          cellar.screenName = form.screenName
+                          OAuthAccount account = new OAuthAccount(username: profile.username, cellar: cellar)
 
-                            return accountService.create(account, profile.pictureUrl?.replace('_normal', ''))
-                        } onError { Throwable e ->
-                            log.error(LogUtil.toLog(request, 'ScreenNameConflict'), e)
-                            SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                          return accountService.create(account, profile.pictureUrl?.replace('_normal', ''))
+                        }.onError { Throwable e ->
+                          log.error(LogUtil.toLog(request, 'ScreenNameConflict'), e)
+                          SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
 
-                            render handlebarsTemplate('settings/screen-name-conflict.html',
-                                    title: 'Choose Screen Name',
-                                    pageId: 'screenNameConflict')
-                        } then { OAuthAccount oAuthAccount ->
-                            log.info(LogUtil.toLog(request, 'ChangeScreenName', [
-                                    msg: 'User changed their screen name after a conflict',
-                                    twitterProfile: profile.username,
-                                    screenName: form.screenName
-                            ]))
-                            SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SCREEN_NAME_CHANGED))
+                          render handlebarsTemplate('settings/screen-name-conflict.html',
+                            title: 'Choose Screen Name',
+                            pageId: 'screenNameConflict')
+                        }.then { OAuthAccount oAuthAccount ->
+                          log.info(LogUtil.toLog(request, 'ChangeScreenName', [
+                            msg           : 'User changed their screen name after a conflict',
+                            twitterProfile: profile.username,
+                            screenName    : form.screenName
+                          ]))
+                          SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SCREEN_NAME_CHANGED))
 
-                            Session Session = request.get(Session)
-                            Session.set(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
-                            //Session.remove(TwitterCallback.REQUIRE_SCREEN_NAME_CHANGE)
+                          Session session = request.get(Session)
+                          session.set(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
+                          //Session.remove(TwitterCallback.REQUIRE_SCREEN_NAME_CHANGE)
 
-                            redirect('/yourcellar')
+                          redirect('/yourcellar')
                         }
+                      }
                     }
                 }
             }

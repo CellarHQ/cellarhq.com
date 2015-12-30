@@ -5,11 +5,9 @@ import com.cellarhq.auth.profiles.TwitterCellarHQProfile
 import com.cellarhq.auth.services.AccountService
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
-import com.cellarhq.util.LogUtil
 import com.fasterxml.jackson.databind.JsonNode
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import org.jooq.exception.DataAccessException
 import org.pac4j.oauth.client.TwitterClient
 import org.pac4j.oauth.profile.JsonHelper
 import org.pac4j.oauth.profile.OAuthAttributesDefinitions
@@ -32,11 +30,11 @@ class CustomTwitterClient extends TwitterClient {
     TwitterCellarHQProfile profile = new TwitterCellarHQProfile()
     JsonNode json = JsonHelper.getFirstNode(body)
     if (json != null) {
-      profile.setId(JsonHelper.get(json, "id"))
+      profile.setId(JsonHelper.get(json, 'id'))
 
-      Iterator i$ = OAuthAttributesDefinitions.twitterDefinition.getAllAttributes().iterator()
-      while (i$.hasNext()) {
-        String attribute = (String) i$.next()
+      Iterator i = OAuthAttributesDefinitions.twitterDefinition.allAttributes.iterator()
+      while (i.hasNext()) {
+        String attribute = (String) i.next()
         profile.addAttribute(attribute, JsonHelper.get(json, attribute))
       }
 
@@ -52,12 +50,9 @@ class CustomTwitterClient extends TwitterClient {
 
         accountService.create(oauthAccount, profile.pictureUrl?.replace('_normal', ''))
       }
-
-
     }
 
-
-    return profile;
+    return profile
   }
 
   OAuthAccount makeOauthAccountFrom(TwitterProfile profile, Cellar cellar) {

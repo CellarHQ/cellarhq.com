@@ -13,9 +13,8 @@ abstract class SessionUtil {
 
   // There's probably a better way, via implementing our own SessionManager, but I don't want to do that until we're
   // getting in and creating a cookie session store as well. Would be super nice to just "session.setFlash('blah')"
-
   static void setFlash(Context context, FlashMessage flashMessage) {
-    context.get(Session).getData().then { sessionData ->
+    context.get(Session).data.then { sessionData ->
       log.debug("Setting flash ${flashMessage.sessionKey} - ${flashMessage.message}")
       sessionData.set(flashMessage.sessionKey, flashMessage)
     }

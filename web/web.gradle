@@ -9,7 +9,7 @@ buildscript {
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
         classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
-        classpath "io.ratpack:ratpack-gradle:0.9.19"
+        classpath "io.ratpack:ratpack-gradle:1.1.1"
         classpath "com.github.jengelman.gradle.plugins:shadow:1.2.2"
     }
 }
@@ -62,7 +62,7 @@ dependencies {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
 
-    compile ratpack.dependency('codahale-metrics'), {
+    compile ratpack.dependency('dropwizard-metrics'), {
       exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
     compile ratpack.dependency('h2'), {
@@ -72,9 +72,6 @@ dependencies {
       exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
     compile ratpack.dependency('handlebars'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency('jackson-guice'), {
       exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
     compile ratpack.dependency('pac4j'), {

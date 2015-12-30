@@ -1,6 +1,7 @@
 package com.cellarhq.api.services
 
 import com.cellarhq.jooq.BaseJooqService
+import ratpack.exec.Blocking
 
 import static com.cellarhq.generated.Tables.GLASSWARE
 import static ratpack.rx.RxRatpack.observeEach
@@ -9,7 +10,6 @@ import com.cellarhq.domain.Glassware
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import org.jooq.DSLContext
-import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
 
@@ -17,12 +17,12 @@ import javax.sql.DataSource
 class GlasswareService extends BaseJooqService {
 
     @Inject
-    GlasswareService(DataSource dataSource, ExecControl execControl) {
-        super(dataSource, execControl)
+    GlasswareService(DataSource dataSource) {
+        super(dataSource)
     }
 
     rx.Observable<Glassware> search(String searchTerm, int numRows = 20, int offset = 0) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(GLASSWARE)

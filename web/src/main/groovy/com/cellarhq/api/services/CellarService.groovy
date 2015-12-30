@@ -1,6 +1,7 @@
 package com.cellarhq.api.services
 
 import com.cellarhq.jooq.BaseJooqService
+import ratpack.exec.Blocking
 
 import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
@@ -23,7 +24,6 @@ import org.jooq.JoinType
 import org.jooq.Record
 import org.jooq.SelectJoinStep
 import org.pac4j.oauth.profile.twitter.TwitterProfile
-import ratpack.exec.ExecControl
 import ratpack.form.UploadedFile
 
 import javax.sql.DataSource
@@ -37,13 +37,13 @@ class CellarService extends BaseJooqService {
     private final PhotoService photoService
 
     @Inject
-    CellarService(DataSource dataSource, ExecControl execControl, PhotoService photoService) {
-        super(dataSource, execControl)
+    CellarService(DataSource dataSource, PhotoService photoService) {
+        super(dataSource)
         this.photoService = photoService
     }
 
     rx.Observable<Cellar> save(Cellar cellar) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
 
@@ -60,7 +60,7 @@ class CellarService extends BaseJooqService {
     }
 
     rx.Observable<Cellar> get(Long id) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             getBlocking(id)
         }).asObservable()
     }
@@ -75,7 +75,7 @@ class CellarService extends BaseJooqService {
     }
 
     rx.Observable<Cellar> findBySlug(String slug) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 Record record = create.select()
                         .from(CELLAR)
@@ -94,7 +94,7 @@ class CellarService extends BaseJooqService {
     }
 
     rx.Observable<Cellar> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(CELLAR)
@@ -111,7 +111,7 @@ class CellarService extends BaseJooqService {
     }
 
     rx.Observable<Cellar> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                     .from(CELLAR)
@@ -129,7 +129,7 @@ class CellarService extends BaseJooqService {
     }
 
     rx.Observable<Cellar> validateScreenName(String screenName) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(CELLAR)
@@ -141,7 +141,7 @@ class CellarService extends BaseJooqService {
     }
 
     rx.Observable<Integer> count(String searchTerm = null) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 SelectJoinStep select = create.selectCount()
                         .from(CELLAR)

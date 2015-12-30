@@ -27,7 +27,6 @@ import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.exception.DataAccessException
 import org.jooq.impl.DSL
-import ratpack.exec.ExecControl
 import ratpack.form.UploadedFile
 
 import javax.sql.DataSource
@@ -43,10 +42,9 @@ class AccountService extends BaseJooqService {
 
     @Inject
     AccountService(DataSource dataSource,
-                   ExecControl execControl,
                    PhotoService photoService,
                    PasswordService passwordService) {
-        super(dataSource, execControl)
+        super(dataSource)
         this.photoService = photoService
         this.passwordService = passwordService
     }

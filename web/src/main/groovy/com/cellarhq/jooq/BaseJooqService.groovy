@@ -12,7 +12,6 @@ import org.jooq.TableField
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
 import org.jooq.impl.DefaultRecordListenerProvider
-import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
 
@@ -20,11 +19,9 @@ import javax.sql.DataSource
 abstract class BaseJooqService {
 
     protected final DataSource dataSource
-    protected final ExecControl execControl
 
-    BaseJooqService(DataSource dataSource, ExecControl execControl) {
+    BaseJooqService(DataSource dataSource) {
         this.dataSource = dataSource
-        this.execControl = execControl
     }
 
     SortField makeSortField(SortCommand sortCommand, TableField defaultSort, Map<String, TableField> fieldMap) {

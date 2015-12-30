@@ -1,6 +1,7 @@
 package com.cellarhq.auth.services
 
 import com.cellarhq.common.CellarHQConfig
+import ratpack.exec.Blocking
 
 import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
@@ -18,7 +19,6 @@ import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
-import ratpack.exec.ExecControl
 import rx.Observable
 
 import javax.sql.DataSource
@@ -35,10 +35,9 @@ class EmailAccountVerificationService extends BaseJooqService {
 
     @Inject
     EmailAccountVerificationService(DataSource dataSource,
-                                    ExecControl execControl,
                                     EmailService emailService,
                                     CellarHQConfig config) {
-        super(dataSource, execControl)
+        super(dataSource)
         this.emailService = emailService
 
         HOSTNAME = config.hostName
@@ -56,7 +55,7 @@ class EmailAccountVerificationService extends BaseJooqService {
     }
 
     Observable<VerificationResult> sendVerification(Cellar cellar, EmailAccount pendingAccount) {
-        return observe(execControl.blocking {
+        return observe(Blocking.get {
             if (!linkAllowed(pendingAccount)) {
                 return VerificationResult.failure(String.format(
                         Messages.ACCOUNT_LINK_EMAIL_UNAVAILABLE,
@@ -98,7 +97,7 @@ class EmailAccountVerificationService extends BaseJooqService {
     }
 
     Observable<Boolean> verify(Cellar cellar, String token) {
-        return observe(execControl.blocking {
+        return observe(Blocking.get {
             jooq { DSLContext create ->
                 AccountLinkRequestRecord requestRecord = create.selectFrom(ACCOUNT_LINK_REQUEST)
                         .where(ACCOUNT_LINK_REQUEST.ID.eq(token))
@@ -111,7 +110,7 @@ class EmailAccountVerificationService extends BaseJooqService {
     }
 
     Observable<VerificationResult> verifyAndCommit(Cellar cellar, String token, String rawPassword) {
-        return observe(execControl.blocking {
+        return observe(Blocking.get {
             jooq { DSLContext create ->
                 AccountLinkRequestRecord requestRecord = create.selectFrom(ACCOUNT_LINK_REQUEST)
                         .where(ACCOUNT_LINK_REQUEST.ID.eq(token))

@@ -1,8 +1,9 @@
 package com.cellarhq.webapp
 
 import com.cellarhq.jooq.BaseJooqService
+import ratpack.exec.Blocking
 
-import static ratpack.rx.RxRatpack.observe
+
 import static com.cellarhq.generated.Tables.*
 
 import com.cellarhq.domain.views.HomepageStatistics
@@ -12,20 +13,21 @@ import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.Field
 import org.jooq.impl.DSL
-import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
+
+import static ratpack.rx.RxRatpack.observeEach
 
 @CompileStatic
 class StatsService extends BaseJooqService {
 
     @Inject
-    StatsService(DataSource dataSource, ExecControl execControl) {
-        super(dataSource, execControl)
+    StatsService(DataSource dataSource) {
+        super(dataSource)
     }
 
     rx.Observable<HomepageStatistics> homepageStatistics() {
-        observe(execControl.blocking {
+        observeEach(Blocking.get {
             jooq({ Configuration c ->
                 c.set(new HomepageStatisticsRecordMapperProvider())
             }) { DSLContext create ->

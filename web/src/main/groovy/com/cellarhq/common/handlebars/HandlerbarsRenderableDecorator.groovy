@@ -81,33 +81,31 @@ class HandlerbarsRenderableDecorator implements RenderableDecorator {
     model[MODEL_HOSTNAME] = HOSTNAME
 
     return RatpackPac4j.webContext(context).flatMap { WebContext webContext ->
-
-      final Optional<Clients> optionalClients = context.maybeGet(Clients.class);
-
+      Optional<Clients> optionalClients = context.maybeGet(Clients)
       optionalClients.ifPresent { Clients clients ->
-        final TwitterClient twClient = clients.findClient(TwitterClient.class);
-        final FormClient formClient = clients.findClient(FormClient)
-        final String twUrl = twClient.getRedirectionUrl(webContext);
-        final String formUrl = formClient.getRedirectionUrl(webContext);
-        model.put("twitterUrl", twUrl);
+        TwitterClient twClient = clients.findClient(TwitterClient)
+        FormClient formClient = clients.findClient(FormClient)
+        String twUrl = twClient.getRedirectionUrl(webContext)
+        String formUrl = formClient.getRedirectionUrl(webContext)
+        model.put('twitterUrl', twUrl)
         model[MODEL_AUTH_FORM_URL] = formUrl
         model[MODEL_AUTH_TWITTER_URL] = twUrl
       }
 
-      context.execution.promiseOf(template)
+      Promise.value(template)
     }
   }
 
   static void applyFlashMessages(Context ctx, Map<String, ?> model) {
-    ctx.get(Session).getData().then { sessionData ->
+    ctx.get(Session).data.then { sessionData ->
       if (ctx.request.queryParams.error) {
-        log.debug("Setting error message in session")
+        log.debug('Setting error message in session')
         FlashMessage msg = FlashMessage.error(ctx.request.queryParams.error)
         sessionData.set(msg.type.name, msg)
       }
 
       if (ctx.request.queryParams.success) {
-        log.debug("Setting success message in session")
+        log.debug('Setting success message in session')
         FlashMessage msg = FlashMessage.success(ctx.request.queryParams.success)
         sessionData.set(msg.type.name, msg)
       }

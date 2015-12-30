@@ -1,5 +1,7 @@
 package com.cellarhq.auth.services
 
+import ratpack.exec.Blocking
+
 import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 
@@ -13,7 +15,6 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.pac4j.oauth.profile.twitter.TwitterProfile
-import ratpack.exec.ExecControl
 import rx.Observable
 
 import javax.sql.DataSource
@@ -23,12 +24,12 @@ import javax.sql.DataSource
 class TwitterAccountVerificationService extends BaseJooqService {
 
     @Inject
-    TwitterAccountVerificationService(DataSource dataSource, ExecControl execControl) {
-        super(dataSource, execControl)
+    TwitterAccountVerificationService(DataSource dataSource) {
+        super(dataSource)
     }
 
     Observable<Boolean> linkAllowed(OAuthAccount pendingAccount) {
-        return observe(execControl.blocking {
+        return observe(Blocking.get {
             int count = jooq { DSLContext create ->
                 create.selectCount()
                         .from(ACCOUNT_OAUTH)
@@ -41,7 +42,7 @@ class TwitterAccountVerificationService extends BaseJooqService {
     }
 
     Observable<Boolean> commit(Cellar cellar, TwitterProfile profile) {
-        return observe(execControl.blocking {
+        return observe(Blocking.get {
             jooq { DSLContext create ->
                 create.transactionResult {
                     OAuthAccount oAuthAccount = new OAuthAccount().with { OAuthAccount self ->

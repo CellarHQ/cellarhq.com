@@ -6,7 +6,6 @@ import ratpack.handling.RequestId
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 import com.cellarhq.util.LogUtil
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.codehaus.groovy.runtime.StackTraceUtils
 import ratpack.error.ServerErrorHandler
@@ -16,7 +15,6 @@ import ratpack.handling.Context
  * Standard ErrorHandler for the application.
  */
 @Slf4j
-@CompileStatic
 class ServerErrorHandlerImpl implements ServerErrorHandler {
 
     private final boolean isProduction

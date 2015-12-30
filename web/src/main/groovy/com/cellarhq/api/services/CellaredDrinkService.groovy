@@ -2,6 +2,7 @@ package com.cellarhq.api.services
 
 import com.cellarhq.generated.Keys
 import com.cellarhq.jooq.BaseJooqService
+import ratpack.exec.Blocking
 import rx.Observable
 
 import com.cellarhq.domain.CellaredDrink
@@ -18,7 +19,6 @@ import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.SelectConditionStep
 import org.jooq.SelectJoinStep
-import ratpack.exec.ExecControl
 
 import javax.sql.DataSource
 import java.sql.Timestamp
@@ -32,12 +32,12 @@ import static ratpack.rx.RxRatpack.observeEach
 class CellaredDrinkService extends BaseJooqService {
 
     @Inject
-    CellaredDrinkService(DataSource dataSource, ExecControl execControl) {
-        super(dataSource, execControl)
+    CellaredDrinkService(DataSource dataSource) {
+        super(dataSource)
     }
 
     Observable<CellaredDrink> save(CellaredDrink cellaredDrink) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 CellaredDrinkRecord drinkRecord = create.newRecord(CELLARED_DRINK, cellaredDrink)
 
@@ -60,7 +60,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<CellaredDrink> findById(Long id) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 create.select()
                         .from(CELLARED_DRINK)
@@ -71,7 +71,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<CellaredDrinkDetails> findByIdForEdit(String cellarSlug, Long id) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq({ Configuration c ->
                 c.set(new CustomViewRecordMapperProvider([
                         organizationName: String,
@@ -95,7 +95,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<CellaredDrink> all(Long id, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             allNonZeroQuery(sortCommand) { SelectConditionStep step ->
                 step.and(CELLAR.ID.eq(id))
             }
@@ -103,7 +103,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<CellaredDrinkDetails> all(String cellarSlug, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             allNonZeroQuery(sortCommand) { SelectConditionStep step ->
                 step.and(CELLAR.SLUG.equalIgnoreCase(cellarSlug))
             }
@@ -111,7 +111,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<CellaredDrinkDetails> archive(Long id, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             allQuery(sortCommand) { SelectJoinStep step ->
                 step.where(CELLAR.ID.eq(id)).and(CELLARED_DRINK.QUANTITY.equal(0))
             }
@@ -119,7 +119,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<CellaredDrinkDetails> archive(String cellarSlug, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             allQuery(sortCommand) { SelectJoinStep step ->
                 step.where(CELLAR.SLUG.equalIgnoreCase(cellarSlug)).and(CELLARED_DRINK.QUANTITY.equal(0))
             }
@@ -127,7 +127,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<Void> delete(Long id) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 CellaredDrinkRecord drink = create
                         .select()
@@ -146,7 +146,7 @@ class CellaredDrinkService extends BaseJooqService {
     }
 
     Observable<CellaredDrink> drink(String cellarSlug, Long id) {
-        observe(execControl.blocking {
+        observe(Blocking.get {
             jooq { DSLContext create ->
                 CellaredDrinkRecord drink = create
                         .select()
@@ -185,7 +185,7 @@ class CellaredDrinkService extends BaseJooqService {
     Observable<CellaredDrinkDetails> findTradeableCellaredDrinks(String organizationSlug,
                                                                     String drinkSlug,
                                                                     SortCommand sortCommand) {
-        observeEach(execControl.blocking {
+        observeEach(Blocking.get {
             allQuery(sortCommand) { SelectJoinStep step ->
                 step.where(DRINK.SLUG.eq(drinkSlug))
                         .and(ORGANIZATION.SLUG.eq(organizationSlug))

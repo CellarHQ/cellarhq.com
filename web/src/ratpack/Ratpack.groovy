@@ -20,9 +20,8 @@ import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
 import ratpack.handling.Context
-import ratpack.handling.RequestLog
+import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
-import ratpack.jackson.guice.JacksonModule
 import ratpack.pac4j.RatpackPac4j
 import ratpack.rx.RxRatpack
 import ratpack.server.Service
@@ -38,11 +37,12 @@ final Logger log = LoggerFactory.getLogger(ratpack.class)
 
 ratpack {
   bindings {
-    ConfigData configData = ConfigData.of()
-      .props("app.properties")
+    ConfigData configData = ConfigData.of { c->
+      c.props("$serverConfig.baseDir.file/app.properties")
       .env()
       .sysProps()
       .build()
+    }
 
     CellarHQConfig cellarHqConfig = configData.get(CellarHQConfig)
     bindInstance(CellarHQConfig, cellarHqConfig)
@@ -60,7 +60,6 @@ ratpack {
       hikariConfig.dataSourceClassName = 'org.postgresql.ds.PGSimpleDataSource'
     }
 
-    module JacksonModule
     module AuthenticationModule
     module CommonModule
     module ApiModule
@@ -85,7 +84,7 @@ ratpack {
   }
 
   handlers {
-    all RequestLog.log()
+    all RequestLogger.ncsa(log)
 
     insert(registry.get(CellarEndpoint))
 
