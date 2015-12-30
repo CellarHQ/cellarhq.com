@@ -58,7 +58,7 @@ class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
         emailAccounts == 0
     }
 
-    @Unroll("submitting with '#email' and '#password2' should #description")
+    @Unroll("submitting with '#email' and '#password2'")
     def 'submit registration page'() {
         when:
         RegisterPage page = to RegisterPage
@@ -73,9 +73,7 @@ class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
         then:
         noExceptionThrown()
         if (shouldRegister) {
-          waitFor(3) {
-            at YourCellarPage
-          }
+          at YourCellarPage
         } else {
             at RegisterPage
             page.errorMessages
@@ -86,8 +84,6 @@ class FormAuthFunctionalSpec extends BaseFunctionalSpecification {
         'test2'     | 'test@cellarhq.com' | 'test@cellarhq.com' | 'password1' | 'invalid'   | false
         'test2'     | 'test@cellarhq.com' | 'invalid@cellarhq.com' | 'password1' | 'invalid'   | false
         'test2'     | 'test@cellarhq.com' | 'test@cellarhq.com' | 'password1' | 'password1' | true
-
-        description = shouldRegister ? 'login successfully' : 'show validation errors'
     }
 
     def 'logout takes user back to home page'() {

@@ -74,13 +74,9 @@ class ForgotPasswordEndpoint  extends GroovyHandler {
                                 | Cheers!
                                 | Kyle and Rob
                             """.stripMargin())
-                SessionUtil.setFlash(
-                  context,
-                  FlashMessage.success(Messages.FORGOT_PASSWORD_EMAIL_SENT_NOTICE))
-                context.redirect('/forgot-password')
+                context.redirect("/forgot-password?success=$Messages.FORGOT_PASSWORD_EMAIL_SENT_NOTICE")
               } else {
-                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORGOT_PASSWORD_ERROR))
-                context.redirect('/forgot-password')
+                context.redirect("/forgot-password?error=$Messages.FORGOT_PASSWORD_ERROR")
               }
             }
           }

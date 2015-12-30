@@ -9,18 +9,16 @@ buildscript {
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
         classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
-        classpath "io.ratpack:ratpack-gradle:1.1.1"
-        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.2"
     }
 }
 
 plugins {
-    id 'groovy'
-    id 'idea'
+  id "io.ratpack.ratpack-groovy" version "1.1.1"
+  id "com.github.johnrengelman.shadow" version "1.2.2"
+  id "idea"
+  id "eclipse"
 }
 
-apply plugin: "io.ratpack.ratpack-groovy"
-apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: 'com.github.ben-manes.versions'
 apply from: "${rootDir}/gradle/codenarc.gradle"
 apply plugin: 'docker'
@@ -54,38 +52,16 @@ idea {
 }
 
 dependencies {
-    // SpringLoaded enables runtime hot reloading.
-    // It is not part of the app runtime and is not shipped in the distribution.
-  compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile project(':model')
 
-    compile project(':model'), {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-
-    compile ratpack.dependency('dropwizard-metrics'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency('h2'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency('hikari'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency('handlebars'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency('pac4j'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency('remote'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency("rx"), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    compile ratpack.dependency('session'), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
+    compile ratpack.dependency('dropwizard-metrics')
+    compile ratpack.dependency('h2')
+    compile ratpack.dependency('hikari')
+    compile ratpack.dependency('handlebars')
+    compile ratpack.dependency('pac4j')
+    compile ratpack.dependency('remote')
+    compile ratpack.dependency("rx")
+    compile ratpack.dependency('session')
     compile 'org.pac4j:pac4j-http:1.6.0'
     compile 'org.pac4j:pac4j-oauth:1.6.0'
 
@@ -113,23 +89,17 @@ dependencies {
     runtime 'com.lmax:disruptor:3.3.2'
     runtime 'net.kencochrane.raven:raven-logback:6.0.0'
 
-    testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
-        exclude module: "groovy-all"
-    }
+  testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
+    exclude module: "groovy-all"
+  }
+  testRuntime "org.objenesis:objenesis:1.2"
+  testCompile ratpack.dependency("remote-test")
 
-    testCompile ratpack.dependency("remote-test"), {
-      exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    testCompile 'cglib:cglib-nodep:3.1'
-
-    testRuntime "org.objenesis:objenesis:2.2"
-
-
-    functionalCompile "org.gebish:geb-spock:0.12.2"
-    functionalCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.47.1", {
-        exclude module: 'httpclient'
-    }
-    functionalCompile 'org.liquibase:liquibase-core:3.4.1'
+  functionalCompile "org.gebish:geb-spock:0.10.0"
+  functionalCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.45.0", {
+    exclude module: 'httpclient'
+  }
+  functionalCompile 'org.liquibase:liquibase-core:3.4.1'
 }
 
 // The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in

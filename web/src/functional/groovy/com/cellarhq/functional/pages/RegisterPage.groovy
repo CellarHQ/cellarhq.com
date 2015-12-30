@@ -15,11 +15,11 @@ class RegisterPage extends BasePage {
     void fillForm(String email, String emailConfirm, String username, String password, String password2) {
 
       registerForm.with {
-        email = email
-        screenName = username
-        password = password
-        passwordConfirm = password2
-        emailConfirm = emailConfirm
+        it.email = email
+        it.screenName = username
+        it.password = password
+        it.passwordConfirm = password2
+        it.emailConfirm = emailConfirm
         it.'register-terms' = true
       }
     }
