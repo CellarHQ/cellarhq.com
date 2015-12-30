@@ -22,8 +22,6 @@ class CellarHQConfig implements Serializable {
     String databaseUser
     String databasePassword
 
-    String secretRememberMeToken
-
     final static String ENV_DEPLOYMENT_PRODUCTION = 'production'
     final static String ENV_HOSTNAME_PRODUCTION = 'www.cellarhq.com'
 
