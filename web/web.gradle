@@ -9,7 +9,7 @@ buildscript {
         classpath databaseDriver
         classpath 'se.transmode.gradle:gradle-docker:1.2'
         classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
-        classpath "io.ratpack:ratpack-gradle:0.9.18"
+        classpath "io.ratpack:ratpack-gradle:0.9.19"
         classpath "com.github.jengelman.gradle.plugins:shadow:1.2.2"
     }
 }
