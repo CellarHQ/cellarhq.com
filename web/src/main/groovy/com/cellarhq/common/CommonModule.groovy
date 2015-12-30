@@ -35,42 +35,42 @@ import static com.google.inject.Scopes.SINGLETON
 @SuppressWarnings('AbcMetric')
 @Slf4j
 class CommonModule extends ConfigurableModule<CellarHQConfig> {
-    @Override
-    protected void configure() {
-        bind(S3Service).in(SINGLETON)
+  @Override
+  protected void configure() {
+    bind(S3Service).in(SINGLETON)
 
-        // common, to kept in cellarhq module
-        bind(PhotoWriteStrategy).to(AmazonPhotoWriteStrategy).in(SINGLETON)
-        bind(ValidatorFactory).toInstance(Validation.buildDefaultValidatorFactory())
-        bind(PaginationHelper).in(SINGLETON)
-        bind(DataTableSortingHelper).in(SINGLETON)
-        bind(SelectedOptionHelper).in(SINGLETON)
-        bind(BottledDateHelper).in(SINGLETON)
-        bind(HandlerbarsRenderableDecorator).in(SINGLETON)
+    // common, to kept in cellarhq module
+    bind(PhotoWriteStrategy).to(AmazonPhotoWriteStrategy).in(SINGLETON)
+    bind(ValidatorFactory).toInstance(Validation.buildDefaultValidatorFactory())
+    bind(PaginationHelper).in(SINGLETON)
+    bind(DataTableSortingHelper).in(SINGLETON)
+    bind(SelectedOptionHelper).in(SINGLETON)
+    bind(BottledDateHelper).in(SINGLETON)
+    bind(HandlerbarsRenderableDecorator).in(SINGLETON)
 
-        bind(AccountService).in(SINGLETON)
-        bind(CellarService).in(SINGLETON)
-        bind(CellaredDrinkService).in(SINGLETON)
-        bind(OrganizationService).in(SINGLETON)
-        bind(StatsService).in(SINGLETON)
-        bind(PasswordService).in(SINGLETON)
+    bind(AccountService).in(SINGLETON)
+    bind(CellarService).in(SINGLETON)
+    bind(CellaredDrinkService).in(SINGLETON)
+    bind(OrganizationService).in(SINGLETON)
+    bind(StatsService).in(SINGLETON)
+    bind(PasswordService).in(SINGLETON)
+  }
+
+  @Singleton
+  @Provides
+  public AWSCredentials provideAWSCredentials(CellarHQConfig config) {
+    new BasicAWSCredentials(config.awsAccessKey, config.awsSecretKey)
+  }
+
+  @Singleton
+  @Provides
+  public EmailService provideEmailService(AWSCredentials credentials, CellarHQConfig config) {
+    if (config.isProductionEnv()) {
+      log.info('Binding amazon email service')
+      return new AmazonEmailService(credentials)
     }
 
-    @Singleton
-    @Provides
-    public AWSCredentials provideAWSCredentials(CellarHQConfig config) {
-        new BasicAWSCredentials(config.awsAccessKey, config.awsSecretKey)
-    }
-
-    @Singleton
-    @Provides
-    public EmailService provideEmailService(AWSCredentials credentials, CellarHQConfig config) {
-        if (config.isProductionEnv()) {
-            log.info('Binding amazon email service')
-            return new AmazonEmailService(credentials)
-        }
-
-        log.info('Binding log email service')
-        return new LogEmailService()
-    }
+    log.info('Binding log email service')
+    return new LogEmailService()
+  }
 }

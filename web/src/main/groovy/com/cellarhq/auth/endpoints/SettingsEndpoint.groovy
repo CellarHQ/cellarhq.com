@@ -25,41 +25,41 @@ import static ratpack.handlebars.Template.handlebarsTemplate
 @Slf4j
 class SettingsEndpoint extends GroovyHandler {
 
-	private final CellarService cellarService
-	private final PhotoService photoService
-	private final ValidatorFactory validatorFactory
+  private final CellarService cellarService
+  private final PhotoService photoService
+  private final ValidatorFactory validatorFactory
 
-	@Inject
-	SettingsEndpoint(ValidatorFactory validatorFactory, CellarService cellarService, PhotoService photoService) {
-		this.validatorFactory = validatorFactory
-		this.cellarService = cellarService
-		this.photoService = photoService
-	}
+  @Inject
+  SettingsEndpoint(ValidatorFactory validatorFactory, CellarService cellarService, PhotoService photoService) {
+    this.validatorFactory = validatorFactory
+    this.cellarService = cellarService
+    this.photoService = photoService
+  }
 
-	@Override
-	protected void handle(GroovyContext context) {
-		context.with {
-			byMethod {
-				get {
+  @Override
+  protected void handle(GroovyContext context) {
+    context.with {
+      byMethod {
+        get {
           CellarHQProfile profile = context.get(CellarHQProfile)
-					rx.Observable.zip(
-							cellarService.get(profile.cellarId),
-							photoService.findByCellarId(profile.cellarId)
-					) { Cellar cellar, Photo photo ->
-						[
-								cellar: cellar,
-								photo : photo
-						]
-					}.subscribe { Map map ->
-						render handlebarsTemplate('settings.html',
-								[title : 'Account Settings',
-								 pageId: 'settings',
-								 cellar: map.cellar,
-								 photo : map.photo])
-					}
-				}
+          rx.Observable.zip(
+            cellarService.get(profile.cellarId),
+            photoService.findByCellarId(profile.cellarId)
+          ) { Cellar cellar, Photo photo ->
+            [
+              cellar: cellar,
+              photo : photo
+            ]
+          }.subscribe { Map map ->
+            render handlebarsTemplate('settings.html',
+              [title : 'Account Settings',
+               pageId: 'settings',
+               cellar: map.cellar,
+               photo : map.photo])
+          }
+        }
 
-				post {
+        post {
           CellarHQProfile profile = context.get(CellarHQProfile)
           parse(Form).then { Form form ->
             Validator validator = validatorFactory.validator
@@ -121,8 +121,8 @@ class SettingsEndpoint extends GroovyHandler {
               }
             }
           }
-				}
-			}
-		}
-	}
+        }
+      }
+    }
+  }
 }

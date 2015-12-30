@@ -7,7 +7,7 @@ import groovy.transform.InheritConstructors
 @InheritConstructors
 class Glassware extends com.cellarhq.generated.tables.pojos.Glassware {
 
-    Glassware() {
-        searchable = true
-    }
+  Glassware() {
+    searchable = true
+  }
 }

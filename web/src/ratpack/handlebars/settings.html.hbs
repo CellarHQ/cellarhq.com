@@ -1,130 +1,166 @@
 {{#partial "header"}}
-  <h1>Settings</h1>
+	<h1>Settings</h1>
 {{/partial}}
 {{#partial "content"}}
-    <div class="row">
-      <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-        <div class="block">
-          <h2>Profile</h2>
-          <form id="settings-form" class="form-horizontal" role="form" method="post" action="{{action}}" enctype="multipart/form-data">
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Accounts</label>
-              <div class="col-sm-10">
-                <p class="form-control-static">
-                  <a id="link-email-account" href="/settings/link-email">Link an Email Account</a> or <a id="link-twitter-account" href="/settings/link-twitter">Link a Twitter Account</a>
-                </p>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Screen Name</label>
-              <div class="col-sm-10">
-                <p class="form-control-static">{{cellar.screenName}}</p>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="displayName">Name</label>
-              <div class="col-sm-10">
-                <input type="text" name="displayName" class="form-control" id="displayName" value="{{cellar.displayName}}"/>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="location">Location</label>
-              <div class="col-sm-10">
-                <input type="text" name="location" class="form-control" id="location" value="{{cellar.location}}"/>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="website">Website</label>
-              <div class="col-sm-10">
-                <input type="url" name="website" class="form-control" id="website" value="{{cellar.website}}"/>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="bio">Bio</label>
-              <div class="col-sm-10">
-                <input type="text" name="bio" class="form-control" id="bio" value="{{cellar.bio}}"/>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="contactEmail">Contact Email</label>
-              <div class="col-sm-10">
-                <input type="email" name="contactEmail" class="form-control" id="contactEmail" value="{{cellar.contactEmail}}"/>
-                <p class="help-block">We will not share this information, nor spam you. In case we need to get in
-                  contact with you, this is how we'd do it.</p>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="photo">Picture</label>
-              <div class="col-sm-10 content-float-hor push-bit-top-bottom">
-                <input type="file" id="photo" name="photo">
-                  {{#if photo}}
-                    <img class="img-circle img-thumbnail img-thumbnail-avatar pull-left" src="{{photo.thumbUrl}}"/>
+	<div class="row">
+		<div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+			<div class="block">
+				<h2>Profile</h2>
+
+				<form id="settings-form" class="form-horizontal" role="form" method="post" action="{{action}}"
+				      enctype="multipart/form-data">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Accounts</label>
+
+						<div class="col-sm-10">
+							<p class="form-control-static">
+								<a id="link-email-account" href="/settings/link-email">Link an Email Account</a> or <a
+									id="link-twitter-account" href="/settings/link-twitter">Link a Twitter Account</a>
+							</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Screen Name</label>
+
+						<div class="col-sm-10">
+							<p class="form-control-static">{{cellar.screenName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="displayName">Name</label>
+
+						<div class="col-sm-10">
+							<input type="text" name="displayName" class="form-control" id="displayName"
+							       value="{{cellar.displayName}}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="location">Location</label>
+
+						<div class="col-sm-10">
+							<input type="text" name="location" class="form-control" id="location"
+							       value="{{cellar.location}}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="website">Website</label>
+
+						<div class="col-sm-10">
+							<input type="url" name="website" class="form-control" id="website"
+							       value="{{cellar.website}}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="bio">Bio</label>
+
+						<div class="col-sm-10">
+							<input type="text" name="bio" class="form-control" id="bio" value="{{cellar.bio}}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="contactEmail">Contact Email</label>
+
+						<div class="col-sm-10">
+							<input type="email" name="contactEmail" class="form-control" id="contactEmail"
+							       value="{{cellar.contactEmail}}"/>
+
+							<p class="help-block">We will not share this information, nor spam you. In case we need to
+								get in
+								contact with you, this is how we'd do it.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="photo">Picture</label>
+
+						<div class="col-sm-10 content-float-hor push-bit-top-bottom">
+							<input type="file" id="photo" name="photo">
+                          {{#if photo}}
+							  <img class="img-circle img-thumbnail img-thumbnail-avatar pull-left"
+							       src="{{photo.thumbUrl}}"/>
+                          {{/if}}
+						</div>
+					</div>
+					<h2>Contact Info</h2>
+
+					<p>
+						If you're interested in trading, you can add your contact information. We don't offer messaging
+						in-app yet,
+						so you can arrange as needed through these means.
+					</p>
+                  {{#unless isOauthAccount}}
+					  <div class="form-group">
+						  <label class="col-sm-2 control-label" for="twitter">Twitter</label>
+
+						  <div class="col-sm-10">
+							  <input type="text" name="twitter" class="form-control" id="twitter"
+							         value="{{cellar.twitter}}"/>
+						  </div>
+					  </div>
+                  {{/unless}}
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="reddit">Reddit Username</label>
+
+						<div class="col-sm-10">
+							<input type="text" name="reddit" class="form-control" id="reddit"
+							       value="{{cellar.reddit}}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="beeradvocate">BeerAdvocate Profile URL</label>
+
+						<div class="col-sm-10">
+							<input type="url" name="beeradvocate" class="form-control" id="beeradvocate"
+							       value="{{cellar.beeradvocate}}"/>
+
+							<p class="help-block">This should be the URL of your beer advocate profile.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="ratebeer">RateBeer Profile URL</label>
+
+						<div class="col-sm-10">
+							<input type="url" name="ratebeer" class="form-control" id="ratebeer"
+							       value="{{cellar.ratebeer}}"/>
+
+							<p class="help-block">This should be the URL of your rate beer profile.</p>
+						</div>
+					</div>
+					<h2>Settings</h2>
+                  {{#if isOauthAccount}}
+					  <div class="checkbox col-sm-offset-2">
+						  <label>
+							  <input type="checkbox" name="updateFromNetwork" id="updateFromNetwork"
+							         value="{{cellar.updateFromNetwork}}"/> Update from Network
+						  </label>
+
+						  <p class="help-block">Your name, location, website and bio will update when you login using
+							  Twitter.</p>
+					  </div>
                   {{/if}}
-              </div>
-            </div>
-            <h2>Contact Info</h2>
-            <p>
-              If you're interested in trading, you can add your contact information. We don't offer messaging in-app yet,
-              so you can arrange as needed through these means.
-            </p>
-              {{#unless isOauthAccount}}
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="twitter">Twitter</label>
-                  <div class="col-sm-10">
-                    <input type="text" name="twitter" class="form-control" id="twitter" value="{{cellar.twitter}}"/>
-                  </div>
-                </div>
-              {{/unless}}
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="reddit">Reddit Username</label>
-              <div class="col-sm-10">
-                <input type="text" name="reddit" class="form-control" id="reddit" value="{{cellar.reddit}}"/>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="beeradvocate">BeerAdvocate Profile URL</label>
-              <div class="col-sm-10">
-                <input type="url" name="beeradvocate" class="form-control" id="beeradvocate" value="{{cellar.beeradvocate}}"/>
-                <p class="help-block">This should be the URL of your beer advocate profile.</p>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="ratebeer">RateBeer Profile URL</label>
-              <div class="col-sm-10">
-                <input type="url" name="ratebeer" class="form-control" id="ratebeer" value="{{cellar.ratebeer}}"/>
-                <p class="help-block">This should be the URL of your rate beer profile.</p>
-              </div>
-            </div>
-            <h2>Settings</h2>
-              {{#if isOauthAccount}}
-                <div class="checkbox col-sm-offset-2">
-                  <label>
-                    <input type="checkbox" name="updateFromNetwork" id="updateFromNetwork" value="{{cellar.updateFromNetwork}}"/> Update from Network
-                  </label>
-                  <p class="help-block">Your name, location, website and bio will update when you login using Twitter.</p>
-                </div>
-              {{/if}}
-            <div class="checkbox col-sm-offset-2">
-              <label>
-                <input type="checkbox" name="private" id="private" value="{{cellar.private}}"/> Private
-              </label>
-              <p class="help-block">Your cellar will not be searchable.
-                This is not retroactive: Only future actions will change.</p>
-            </div>
-            <div class="form-group" style="margin-top: 30px">
-              <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="/settings" class="btn btn-link">cancel</a>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+					<div class="checkbox col-sm-offset-2">
+						<label>
+							<input type="checkbox" name="private" id="private" value="{{cellar.private}}"/> Private
+						</label>
+
+						<p class="help-block">Your cellar will not be searchable.
+							This is not retroactive: Only future actions will change.</p>
+					</div>
+					<div class="form-group" style="margin-top: 30px">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary">Update</button>
+							<a href="/settings" class="btn btn-link">cancel</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {{/partial}}
 {{#partial "extra_includes"}}
-  <script src="/scripts/pages/settings.js"></script>
-  <script>$(function(){ CellarSettings.init(); });</script>
+	<script src="/scripts/pages/settings.js"></script>
+	<script>$(function () {
+		CellarSettings.init();
+	});</script>
 {{/partial}}
 
 {{> layout.html}}

@@ -9,19 +9,19 @@ import javax.sql.DataSource
 
 class DatabaseHealthcheck implements ratpack.health.HealthCheck {
 
-    private final DataSource dataSource
+  private final DataSource dataSource
 
-    final String name = 'database'
+  final String name = 'database'
 
-    @Inject
-    DatabaseHealthcheck(DataSource dataSource) {
-        this.dataSource = dataSource
-    }
+  @Inject
+  DatabaseHealthcheck(DataSource dataSource) {
+    this.dataSource = dataSource
+  }
 
-    @Override
-    Promise<ratpack.health.HealthCheck.Result> check(Registry registry) throws Exception {
-        return Promise.of(dataSource.connection.isValid(0) ?
-                HealthCheck.Result.healthy() :
-                HealthCheck.Result.unhealthy('Database connection is invalid'))
-    }
+  @Override
+  Promise<ratpack.health.HealthCheck.Result> check(Registry registry) throws Exception {
+    return Promise.of(dataSource.connection.isValid(0) ?
+      HealthCheck.Result.healthy() :
+      HealthCheck.Result.unhealthy('Database connection is invalid'))
+  }
 }

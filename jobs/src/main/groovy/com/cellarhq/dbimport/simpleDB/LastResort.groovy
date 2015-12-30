@@ -10,36 +10,36 @@ import static com.cellarhq.generated.Tables.ORGANIZATION
 
 
 class LastResort {
-    DrinkRecord insertDrink(String name, Integer organizationId, DSLContext dslContext) {
-        DrinkRecord newDrink = dslContext.newRecord(DRINK)
+  DrinkRecord insertDrink(String name, Integer organizationId, DSLContext dslContext) {
+    DrinkRecord newDrink = dslContext.newRecord(DRINK)
 
-        newDrink.name = name
-        newDrink.slug = new Slugify().slugify(newDrink.name)
-        newDrink.drinkType = 'BEER'
-        newDrink.organizationId = organizationId
-        newDrink.warningFlag = true
-        newDrink.tradableBeers = 0
-        newDrink.cellaredBeers = 0
-        newDrink.containedInCellars = 0
+    newDrink.name = name
+    newDrink.slug = new Slugify().slugify(newDrink.name)
+    newDrink.drinkType = 'BEER'
+    newDrink.organizationId = organizationId
+    newDrink.warningFlag = true
+    newDrink.tradableBeers = 0
+    newDrink.cellaredBeers = 0
+    newDrink.containedInCellars = 0
 
-        newDrink.store()
+    newDrink.store()
 
-        return newDrink
-    }
+    return newDrink
+  }
 
-    OrganizationRecord insertOrganization(String name, DSLContext dslContext) {
-        OrganizationRecord newOrganization = dslContext.newRecord(ORGANIZATION)
+  OrganizationRecord insertOrganization(String name, DSLContext dslContext) {
+    OrganizationRecord newOrganization = dslContext.newRecord(ORGANIZATION)
 
-        newOrganization.name = name
-        newOrganization.slug = new Slugify().slugify(newOrganization.name)
-        newOrganization.type = 'BREWERY'
-        newOrganization.warningFlag = true
-        newOrganization.totalBeers = 0
-        newOrganization.cellaredBeers = 0
-        newOrganization.containedInCellars = 0
+    newOrganization.name = name
+    newOrganization.slug = new Slugify().slugify(newOrganization.name)
+    newOrganization.type = 'BREWERY'
+    newOrganization.warningFlag = true
+    newOrganization.totalBeers = 0
+    newOrganization.cellaredBeers = 0
+    newOrganization.containedInCellars = 0
 
-        newOrganization.store()
+    newOrganization.store()
 
-        return newOrganization
-    }
+    return newOrganization
+  }
 }

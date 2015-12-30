@@ -2,17 +2,17 @@ package com.cellarhq.dbimport.brewerydb
 
 
 class BreweryDbBeerRetreiver {
-    void withEachBrewery(Closure itemHandler) {
-        BreweryDbApi api = BreweryDBApiFactory.buildBreqeryDbApi()
+  void withEachBrewery(Closure itemHandler) {
+    BreweryDbApi api = BreweryDBApiFactory.buildBreqeryDbApi()
 
-        Map firstPageOfResults = api.listBeers(1, 'y')
-        Integer totalPages = firstPageOfResults.numberOfPages
+    Map firstPageOfResults = api.listBeers(1, 'y')
+    Integer totalPages = firstPageOfResults.numberOfPages
 
-        (1..totalPages).each { Integer currentPage ->
+    (1..totalPages).each { Integer currentPage ->
 
-            Map results = api.listBeers(currentPage, 'y')
+      Map results = api.listBeers(currentPage, 'y')
 
-            results.data.each { itemHandler(it) }
-        }
+      results.data.each { itemHandler(it) }
     }
+  }
 }

@@ -16,8 +16,6 @@ import org.pac4j.oauth.client.TwitterClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
-import ratpack.dropwizard.metrics.DropwizardMetricsConfig
-import ratpack.dropwizard.metrics.DropwizardMetricsModule
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -39,7 +37,8 @@ final Logger log = LoggerFactory.getLogger(ratpack.class)
 
 ratpack {
   bindings {
-    ConfigData configData = ConfigData.of { d -> d
+    ConfigData configData = ConfigData.of { d ->
+      d
         .props("$serverConfig.baseDir.file/app.properties")
         .env()
         .sysProps()

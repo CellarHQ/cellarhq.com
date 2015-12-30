@@ -7,7 +7,6 @@ import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
-import org.h2.jdbc.JdbcSQLException
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
@@ -54,11 +53,11 @@ abstract class BaseFunctionalSpecification extends GebReportingSpec implements L
 
   void cleanUpUsers(RemoteControl remote) {
     remote.exec {
-        Sql sql = new Sql(get(DataSource))
-        sql.execute('delete from account_link_request where 1=1')
-        sql.execute('delete from account_email where 1=1')
-        sql.execute('delete from cellar where 1=1')
-        sql.close()
+      Sql sql = new Sql(get(DataSource))
+      sql.execute('delete from account_link_request where 1=1')
+      sql.execute('delete from account_email where 1=1')
+      sql.execute('delete from cellar where 1=1')
+      sql.close()
     }
   }
 }

@@ -1,18 +1,18 @@
-var LinkEmailAccount = function() {
+var LinkEmailAccount = function () {
 
   return {
-    init: function() {
+    init: function () {
       $('#link-email-form').validate({
         errorClass: 'help-block animation-slideUp',
         errorElement: 'div',
-        errorPlacement: function(error, e) {
+        errorPlacement: function (error, e) {
           e.parents('.form-group > div').append(error);
         },
-        highlight: function(e) {
+        highlight: function (e) {
           $(e).closest('.form-group').removeClass('has-success has-error').addClass('has-error');
           $(e).closest('.help-block').remove();
         },
-        success: function(e) {
+        success: function (e) {
           e.closest('.form-group').removeClass('has-success has-error');
           e.closest('.help-block').remove();
         },

@@ -1,25 +1,6 @@
 package com.cellarhq.functional.specs
 
-import com.amazonaws.services.cloudsearch.model.DescribeStemmingOptionsRequest
-import com.cellarhq.SpecFlags
-import com.cellarhq.functional.BaseFunctionalSpecification
-import com.cellarhq.functional.CellarHqApplication
-import com.cellarhq.functional.LogInUserTrait
-import com.cellarhq.functional.pages.LinkEmailAccountPage
-import com.cellarhq.functional.pages.LinkEmailAccountPasswordPage
-import com.cellarhq.functional.pages.LinkTwitterAccountPage
-import com.cellarhq.functional.pages.SettingsPage
-import com.cellarhq.functional.pages.YourCellarPage
-import groovy.sql.Sql
-import ratpack.test.ApplicationUnderTest
-import ratpack.test.remote.RemoteControl
-import spock.lang.Ignore
-import spock.lang.IgnoreIf
-import spock.lang.IgnoreRest
-import spock.lang.Shared
 import spock.lang.Stepwise
-
-import javax.sql.DataSource
 
 @Stepwise
 //@IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) || SpecFlags.isTrue(SpecFlags.NO_INTERNET) })

@@ -1,17 +1,17 @@
 package com.cellarhq.domain
 
 public enum OrganizationType {
-    BREWERY('brewery'),
-    DISTILLERY('distillery'),
-    WINERY('winery')
+  BREWERY('brewery'),
+  DISTILLERY('distillery'),
+  WINERY('winery')
 
-    private final String value
+  private final String value
 
-    OrganizationType(String value) {
-        this.value = value
-    }
+  OrganizationType(String value) {
+    this.value = value
+  }
 
-    String toString() {
-        return value
-    }
+  String toString() {
+    return value
+  }
 }

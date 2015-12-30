@@ -1,7 +1,5 @@
 package com.cellarhq.jooq.listeners
 
-import static com.cellarhq.generated.Tables.*
-
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
 import com.cellarhq.jooq.CellarStatsUpdater
 import groovy.transform.CompileStatic
@@ -9,6 +7,8 @@ import org.jooq.Record
 import org.jooq.RecordContext
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultRecordListener
+
+import static com.cellarhq.generated.Tables.CELLARED_DRINK
 
 /**
  * Responsible for updating a Cellar's drink stats whenever a record is saved or deleted.
@@ -19,42 +19,42 @@ import org.jooq.impl.DefaultRecordListener
 @CompileStatic
 class CellarStatsUpdatingListener extends DefaultRecordListener {
 
-    @Override
-    void storeEnd(RecordContext ctx) {
-        super.storeEnd(ctx)
+  @Override
+  void storeEnd(RecordContext ctx) {
+    super.storeEnd(ctx)
 
-        if (!shouldProcessEvent(ctx.record(), false)) {
-            return
-        }
-
-        CellarStatsUpdater.updateAllCounts(
-                ctx.record().getValue(CELLARED_DRINK.CELLAR_ID),
-                ctx.record().getValue(CELLARED_DRINK.DRINK_ID),
-                DSL.using(ctx.configuration())
-        )
+    if (!shouldProcessEvent(ctx.record(), false)) {
+      return
     }
 
-    @Override
-    void deleteEnd(RecordContext ctx) {
-        super.deleteStart(ctx)
+    CellarStatsUpdater.updateAllCounts(
+      ctx.record().getValue(CELLARED_DRINK.CELLAR_ID),
+      ctx.record().getValue(CELLARED_DRINK.DRINK_ID),
+      DSL.using(ctx.configuration())
+    )
+  }
 
-        if (!shouldProcessEvent(ctx.record(), false)) {
-            return
-        }
+  @Override
+  void deleteEnd(RecordContext ctx) {
+    super.deleteStart(ctx)
 
-        CellarStatsUpdater.updateCellarCounts(
-                ctx.record().getValue(CELLARED_DRINK.CELLAR_ID),
-                DSL.using(ctx.configuration())
-        )
+    if (!shouldProcessEvent(ctx.record(), false)) {
+      return
     }
 
-    boolean shouldProcessEvent(Record record, isWrite = true) {
-        if (record instanceof CellaredDrinkRecord) {
-            if (isWrite) {
-                return record.changed(CELLARED_DRINK.QUANTITY) || record.id == null
-            }
-            return true
-        }
-        return false
+    CellarStatsUpdater.updateCellarCounts(
+      ctx.record().getValue(CELLARED_DRINK.CELLAR_ID),
+      DSL.using(ctx.configuration())
+    )
+  }
+
+  boolean shouldProcessEvent(Record record, isWrite = true) {
+    if (record instanceof CellaredDrinkRecord) {
+      if (isWrite) {
+        return record.changed(CELLARED_DRINK.QUANTITY) || record.id == null
+      }
+      return true
     }
+    return false
+  }
 }

@@ -4,10 +4,9 @@ import com.cellarhq.domain.Drink
 import com.cellarhq.domain.views.DrinkSearchDisplay
 import com.cellarhq.generated.Keys
 import com.cellarhq.generated.tables.records.DrinkRecord
-
-import com.cellarhq.jooq.SortCommand
-import com.cellarhq.jooq.CustomViewRecordMapperProvider
 import com.cellarhq.jooq.BaseJooqService
+import com.cellarhq.jooq.CustomViewRecordMapperProvider
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.util.JooqUtil
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject

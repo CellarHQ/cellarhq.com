@@ -8,19 +8,19 @@ import geb.Page
  */
 class TwitterOAuthPage extends Page {
 
-    final static TWITTER_VALID_USERNAME = 'cellarhqtesting'
-    final static TWITTER_VALID_PASSWORD = 'testingcellarhq'
+  final static TWITTER_VALID_USERNAME = 'cellarhqtesting'
+  final static TWITTER_VALID_PASSWORD = 'testingcellarhq'
 
-    static at = { title ==~ /Twitter \/ Authorize an application/ }
-    static content = {
-        username(wait: true) { $('input#username_or_email') }
-        password(wait: true) { $('input#password') }
-        submitButton(wait: true, to: [TwitterAuthorizePage, YourCellarPage]) { $('input#allow') }
-    }
+  static at = { title ==~ /Twitter \/ Authorize an application/ }
+  static content = {
+    username(wait: true) { $('input#username_or_email') }
+    password(wait: true) { $('input#password') }
+    submitButton(wait: true, to: [TwitterAuthorizePage, YourCellarPage]) { $('input#allow') }
+  }
 
-    void login() {
-        username = TWITTER_VALID_USERNAME
-        password = TWITTER_VALID_PASSWORD
-        submitButton.click()
-    }
+  void login() {
+    username = TWITTER_VALID_USERNAME
+    password = TWITTER_VALID_PASSWORD
+    submitButton.click()
+  }
 }

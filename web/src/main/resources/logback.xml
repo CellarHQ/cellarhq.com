@@ -1,58 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
-        </encoder>
-    </appender>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+    </encoder>
+  </appender>
 
-    <logger name="com.cellarhq" level="debug" />
-    <root level="info">
-        <appender-ref ref="STDOUT"/>
-    </root>
+  <logger name="com.cellarhq" level="debug"/>
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+  </root>
 
-    <!-- We only want the service appenders if we're running in prod -->
-    <if condition='!property("DISABLE_SERVICES").contains("true")'>
-        <then>
-            <appender name="LE" class="com.logentries.logback.LogentriesAppender">
-                <Debug>False</Debug>
-                <Token>${LOGENTRIES_TOKEN}</Token>
-                <Ssl>False</Ssl>
-                <facility>USER</facility>
-                <layout>
-                    <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
-                </layout>
-                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                    <level>INFO</level>
-                </filter>
-            </appender>
+  <!-- We only want the service appenders if we're running in prod -->
+  <if condition='!property("DISABLE_SERVICES").contains("true")'>
+    <then>
+      <appender name="LE" class="com.logentries.logback.LogentriesAppender">
+        <Debug>False</Debug>
+        <Token>${LOGENTRIES_TOKEN}</Token>
+        <Ssl>False</Ssl>
+        <facility>USER</facility>
+        <layout>
+          <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+        </layout>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+          <level>INFO</level>
+        </filter>
+      </appender>
 
-            <appender name="SENTRY" class="net.kencochrane.raven.logback.SentryAppender">
-                <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-                    <evaluator>
-                        <expression>return message.contains("Credentials validation fails -> return to the form with error");</expression>
-                    </evaluator>
-                    <OnMismatch>NEUTRAL</OnMismatch>
-                    <OnMatch>DENY</OnMatch>
-                </filter>
-                <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-                    <evaluator>
-                        <expression>return message.contains("Username and password cannot be blank -> return to the form with error");</expression>
-                    </evaluator>
-                    <OnMismatch>NEUTRAL</OnMismatch>
-                    <OnMatch>DENY</OnMatch>
-                </filter>
+      <appender name="SENTRY" class="net.kencochrane.raven.logback.SentryAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+          <evaluator>
+            <expression>return message.contains("Credentials validation fails -> return to the form with error");
+            </expression>
+          </evaluator>
+          <OnMismatch>NEUTRAL</OnMismatch>
+          <OnMatch>DENY</OnMatch>
+        </filter>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+          <evaluator>
+            <expression>return message.contains("Username and password cannot be blank -> return to the form with
+              error");
+            </expression>
+          </evaluator>
+          <OnMismatch>NEUTRAL</OnMismatch>
+          <OnMatch>DENY</OnMatch>
+        </filter>
 
-                <dsn>${SENTRY_DSN}</dsn>
-                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                    <level>INFO</level>
-                </filter>
-            </appender>
+        <dsn>${SENTRY_DSN}</dsn>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+          <level>INFO</level>
+        </filter>
+      </appender>
 
-            <root level="INFO">
-                <appender-ref ref="LE"/>
-                <appender-ref ref="SENTRY"/>
-            </root>
-        </then>
-    </if>
+      <root level="INFO">
+        <appender-ref ref="LE"/>
+        <appender-ref ref="SENTRY"/>
+      </root>
+    </then>
+  </if>
 </configuration>

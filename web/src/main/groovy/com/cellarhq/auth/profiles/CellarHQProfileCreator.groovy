@@ -9,29 +9,29 @@ import org.pac4j.http.profile.ProfileCreator
 
 @Slf4j
 class CellarHQProfileCreator implements ProfileCreator {
-	AccountService accountService
+  AccountService accountService
 
-	@Inject
-	CellarHQProfileCreator(AccountService accountService) {
-		this.accountService = accountService
-	}
+  @Inject
+  CellarHQProfileCreator(AccountService accountService) {
+    this.accountService = accountService
+  }
 
-	/**
-	 * Create a CellarHQProfile profile.
-	 *
-	 * @param username
-	 * @return the created profile
-	 */
-	public HttpCellarHQProfile create(final String username) {
-		HttpCellarHQProfile profile = new HttpCellarHQProfile()
+  /**
+   * Create a CellarHQProfile profile.
+   *
+   * @param username
+   * @return the created profile
+   */
+  public HttpCellarHQProfile create(final String username) {
+    HttpCellarHQProfile profile = new HttpCellarHQProfile()
 
-		EmailAccount emailAccount = accountService.findByEmail(username)
-		profile.cellarId = emailAccount.cellarId
-		profile.setId(username)
-		profile.addAttribute(CommonProfile.USERNAME, username)
+    EmailAccount emailAccount = accountService.findByEmail(username)
+    profile.cellarId = emailAccount.cellarId
+    profile.setId(username)
+    profile.addAttribute(CommonProfile.USERNAME, username)
 
-		log.info("Created profile for cellar: ${profile.cellarId}")
+    log.info("Created profile for cellar: ${profile.cellarId}")
 
-		return profile
-	}
+    return profile
+  }
 }

@@ -1,9 +1,9 @@
 package com.cellarhq.functional
 
+import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
 import ratpack.guice.Guice
 import ratpack.registry.Registry
 import ratpack.remote.RemoteControl
-import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
 
 class CellarHqApplication extends GroovyRatpackMainApplicationUnderTest {
   protected Registry createOverrides(Registry serverRegistry) throws Exception {

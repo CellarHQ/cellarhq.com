@@ -7,7 +7,7 @@ import groovy.transform.InheritConstructors
 @InheritConstructors
 class Activity extends com.cellarhq.generated.tables.pojos.Activity {
 
-    Activity() {
-        setPrivate(false)
-    }
+  Activity() {
+    setPrivate(false)
+  }
 }

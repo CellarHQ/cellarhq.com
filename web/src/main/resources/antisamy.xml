@@ -8,130 +8,135 @@ allowed tags
 <anti-samy-rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:noNamespaceSchemaLocation="antisamy.xsd">
 
-    <directives>
-        <directive name="omitXmlDeclaration" value="true"/>
-        <directive name="omitDoctypeDeclaration" value="true"/>
-        <directive name="maxInputSize" value="5000"/>
-        <directive name="useXHTML" value="true"/>
-        <directive name="formatOutput" value="true"/>
+  <directives>
+    <directive name="omitXmlDeclaration" value="true"/>
+    <directive name="omitDoctypeDeclaration" value="true"/>
+    <directive name="maxInputSize" value="5000"/>
+    <directive name="useXHTML" value="true"/>
+    <directive name="formatOutput" value="true"/>
 
-        <directive name="embedStyleSheets" value="false"/>
-    </directives>
+    <directive name="embedStyleSheets" value="false"/>
+  </directives>
 
-    <common-regexps>
-
-        <!--
-        From W3C:
-        This attribute assigns a class name or set of class names to an
-        element. Any number of elements may be assigned the same class
-        name or names. Multiple class names must be separated by white
-        space characters.
-        -->
-
-        <regexp name="htmlTitle" value="[\p{L}\p{N}\s\-_',:\[\]!\./\\\(\)&amp;]*"/> <!-- force non-empty with a '+' at the end instead of '*' -->
-        <regexp name="onsiteURL" value="([\p{L}\p{N}\\/\.\?=\#&amp;;\-_~]+|\#(\w)+)"/>
-        <regexp name="offsiteURL" value="(\s)*((ht|f)tp(s?)://|mailto:)[\p{L}\p{N}]+[~\p{L}\p{N}\p{Zs}\-_\.@\#\$%&amp;;:,\?=/\+!\(\)]*(\s)*"/>
-
-    </common-regexps>
+  <common-regexps>
 
     <!--
+	From W3C:
+	This attribute assigns a class name or set of class names to an
+	element. Any number of elements may be assigned the same class
+	name or names. Multiple class names must be separated by white
+	space characters.
+	-->
 
-    Tag.name = a, b, div, body, etc.
-    Tag.action = filter: remove tags, but keep content, validate: keep content as long as it passes rules, remove: remove tag and contents
-    Attribute.name = id, class, href, align, width, etc.
-    Attribute.onInvalid = what to do when the attribute is invalid, e.g., remove the tag (removeTag), remove the attribute (removeAttribute), filter the tag (filterTag)
-    Attribute.description = What rules in English you want to tell the users they can have for this attribute. Include helpful things so they'll be able to tune their HTML
+    <regexp name="htmlTitle" value="[\p{L}\p{N}\s\-_',:\[\]!\./\\\(\)&amp;]*"/>
+    <!-- force non-empty with a '+' at the end instead of '*' -->
+    <regexp name="onsiteURL" value="([\p{L}\p{N}\\/\.\?=\#&amp;;\-_~]+|\#(\w)+)"/>
+    <regexp name="offsiteURL"
+            value="(\s)*((ht|f)tp(s?)://|mailto:)[\p{L}\p{N}]+[~\p{L}\p{N}\p{Zs}\-_\.@\#\$%&amp;;:,\?=/\+!\(\)]*(\s)*"/>
 
-     -->
+  </common-regexps>
 
-    <!--
-    Some attributes are common to all (or most) HTML tags. There aren't many that qualify for this. You have to make sure there's no
-    collisions between any of these attribute names with attribute names of other tags that are for different purposes.
-    -->
+  <!--
 
-    <common-attributes>
-        <attribute name="lang" description="The 'lang' attribute tells the browser what language the element's attribute values and content are written in">
-            <regexp-list>
-                <regexp value="[a-zA-Z]{2,20}"/>
-            </regexp-list>
-        </attribute>
+  Tag.name = a, b, div, body, etc.
+  Tag.action = filter: remove tags, but keep content, validate: keep content as long as it passes rules, remove: remove tag and contents
+  Attribute.name = id, class, href, align, width, etc.
+  Attribute.onInvalid = what to do when the attribute is invalid, e.g., remove the tag (removeTag), remove the attribute (removeAttribute), filter the tag (filterTag)
+  Attribute.description = What rules in English you want to tell the users they can have for this attribute. Include helpful things so they'll be able to tune their HTML
 
-        <attribute name="title" description="The 'title' attribute provides text that shows up in a 'tooltip' when a user hovers their mouse over the element">
-            <regexp-list>
-                <regexp name="htmlTitle"/>
-            </regexp-list>
-        </attribute>
+   -->
 
-        <attribute name="href" onInvalid="filterTag">
-            <regexp-list>
-                <regexp name="onsiteURL"/>
-                <regexp name="offsiteURL"/>
-            </regexp-list>
-        </attribute>
+  <!--
+  Some attributes are common to all (or most) HTML tags. There aren't many that qualify for this. You have to make sure there's no
+  collisions between any of these attribute names with attribute names of other tags that are for different purposes.
+  -->
 
-        <attribute name="align" description="The 'align' attribute of an HTML element is a direction word, like 'left', 'right' or 'center'">
-            <literal-list>
-                <literal value="center"/>
-                <literal value="left"/>
-                <literal value="right"/>
-                <literal value="justify"/>
-                <literal value="char"/>
-            </literal-list>
-        </attribute>
+  <common-attributes>
+    <attribute name="lang"
+               description="The 'lang' attribute tells the browser what language the element's attribute values and content are written in">
+      <regexp-list>
+        <regexp value="[a-zA-Z]{2,20}"/>
+      </regexp-list>
+    </attribute>
 
-    </common-attributes>
+    <attribute name="title"
+               description="The 'title' attribute provides text that shows up in a 'tooltip' when a user hovers their mouse over the element">
+      <regexp-list>
+        <regexp name="htmlTitle"/>
+      </regexp-list>
+    </attribute>
 
-    <tag-rules>
-        <tag name="script" action="remove"/>
-        <tag name="noscript" action="remove"/>
+    <attribute name="href" onInvalid="filterTag">
+      <regexp-list>
+        <regexp name="onsiteURL"/>
+        <regexp name="offsiteURL"/>
+      </regexp-list>
+    </attribute>
 
-        <tag name="iframe" action="remove"/>
-        <tag name="frameset" action="remove"/>
-        <tag name="frame" action="remove"/>
-        <tag name="noframes" action="remove"/>
+    <attribute name="align"
+               description="The 'align' attribute of an HTML element is a direction word, like 'left', 'right' or 'center'">
+      <literal-list>
+        <literal value="center"/>
+        <literal value="left"/>
+        <literal value="right"/>
+        <literal value="justify"/>
+        <literal value="char"/>
+      </literal-list>
+    </attribute>
 
-        <tag name="div" action="remove"/>
-        <tag name="tt" action="remove"/>
+  </common-attributes>
 
-        <tag name="style" action="remove"/>
+  <tag-rules>
+    <tag name="script" action="remove"/>
+    <tag name="noscript" action="remove"/>
 
-        <tag name="p" action="validate">
-            <attribute name="align"/>
-        </tag>
+    <tag name="iframe" action="remove"/>
+    <tag name="frameset" action="remove"/>
+    <tag name="frame" action="remove"/>
+    <tag name="noframes" action="remove"/>
 
-        <tag name="i" action="validate"/>
-        <tag name="b" action="validate"/>
-        <tag name="em" action="validate"/>
-        <tag name="blockquote" action="validate"/>
-        <tag name="strong" action="validate"/>
+    <tag name="div" action="remove"/>
+    <tag name="tt" action="remove"/>
 
-        <tag name="br" action="truncate"/>
+    <tag name="style" action="remove"/>
 
-        <tag name="a" action="validate">
-            <attribute name="href" onInvalid="filterTag"/>
-            <attribute name="nohref">
-                <literal-list>
-                    <literal value="nohref"/>
-                    <literal value=""/>
-                </literal-list>
-            </attribute>
-            <attribute name="rel">
-                <literal-list>
-                    <literal value="nofollow"/>
-                </literal-list>
-            </attribute>
-        </tag>
+    <tag name="p" action="validate">
+      <attribute name="align"/>
+    </tag>
 
-        <tag name="ul" action="remove"/>
-        <tag name="ol" action="remove"/>
-        <tag name="li" action="remove"/>
+    <tag name="i" action="validate"/>
+    <tag name="b" action="validate"/>
+    <tag name="em" action="validate"/>
+    <tag name="blockquote" action="validate"/>
+    <tag name="strong" action="validate"/>
 
-        <tag name="dl" action="remove"/>
-        <tag name="dd" action="remove"/>
-        <tag name="dt" action="remove"/>
-    </tag-rules>
+    <tag name="br" action="truncate"/>
 
-    <css-rules>
-    </css-rules>
+    <tag name="a" action="validate">
+      <attribute name="href" onInvalid="filterTag"/>
+      <attribute name="nohref">
+        <literal-list>
+          <literal value="nohref"/>
+          <literal value=""/>
+        </literal-list>
+      </attribute>
+      <attribute name="rel">
+        <literal-list>
+          <literal value="nofollow"/>
+        </literal-list>
+      </attribute>
+    </tag>
+
+    <tag name="ul" action="remove"/>
+    <tag name="ol" action="remove"/>
+    <tag name="li" action="remove"/>
+
+    <tag name="dl" action="remove"/>
+    <tag name="dd" action="remove"/>
+    <tag name="dt" action="remove"/>
+  </tag-rules>
+
+  <css-rules>
+  </css-rules>
 
 </anti-samy-rules>

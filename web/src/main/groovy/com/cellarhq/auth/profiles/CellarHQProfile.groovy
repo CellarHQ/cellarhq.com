@@ -7,5 +7,5 @@ interface CellarHQProfile {
 }
 
 class HttpCellarHQProfile extends HttpProfile implements CellarHQProfile {
-	Long cellarId
+  Long cellarId
 }

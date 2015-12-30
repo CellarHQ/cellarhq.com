@@ -1,8 +1,8 @@
-var ScreenNameConflict = function() {
+var ScreenNameConflict = function () {
 
   return {
-    init: function() {
-      $.ajaxPrefilter(function(options) {
+    init: function () {
+      $.ajaxPrefilter(function (options) {
         if (options.url == '/api/cellars/validate-name') {
           options.url = '/api/cellars/validate-name?name=' + $('#screenName').val();
         }
@@ -10,14 +10,14 @@ var ScreenNameConflict = function() {
       $('#screen-name-conflict-form').validate({
         errorClass: 'help-block animation-slideUp',
         errorElement: 'div',
-        errorPlacement: function(error, e) {
+        errorPlacement: function (error, e) {
           e.parents('.form-group > div').append(error);
         },
-        highlight: function(e) {
+        highlight: function (e) {
           $(e).closest('.form-group').removeClass('has-success has-error').addClass('has-error');
           $(e).closest('.help-block').remove();
         },
-        success: function(e) {
+        success: function (e) {
           e.closest('.form-group').removeClass('has-success has-error');
           e.closest('.help-block').remove();
         },

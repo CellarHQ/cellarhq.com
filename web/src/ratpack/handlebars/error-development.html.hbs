@@ -1,21 +1,23 @@
 {{#partial "header"}}
-  <h1>Error: <small>{{sanitizedMessage}}</small></h1>
+	<h1>Error:
+		<small>{{sanitizedMessage}}</small>
+	</h1>
 {{/partial}}
 
 {{# partial "content" }}
-  <div class="row">
-    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-      <div class="block">
-        <h2 class="page-header text-danger">
-          <strong>Exception at {{request.path}}: {{sanitizedMessage}}</strong>
-        </h2>
+	<div class="row">
+		<div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+			<div class="block">
+				<h2 class="page-header text-danger">
+					<strong>Exception at {{request.path}}: {{sanitizedMessage}}</strong>
+				</h2>
 
-        <h3>Root Cause</h3>
+				<h3>Root Cause</h3>
         <pre><code>{{#each rootCauseTrace}}{{trace}}
-{{/each}}</code></pre>
-      </div>
-    </div>
-  </div>
+        {{/each}}</code></pre>
+			</div>
+		</div>
+	</div>
 {{/partial}}
 
 {{> layout.html}}

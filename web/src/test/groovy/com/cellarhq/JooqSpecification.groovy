@@ -11,20 +11,22 @@ import java.sql.SQLException
 
 abstract class JooqSpecification extends Specification {
 
-    @Shared MockDataProvider provider
-    @Shared MockConnection connection
+  @Shared
+  MockDataProvider provider
+  @Shared
+  MockConnection connection
 
-    def setupSpec() {
-        provider = createMockDataProvider()
-        connection = new MockConnection(provider)
-    }
+  def setupSpec() {
+    provider = createMockDataProvider()
+    connection = new MockConnection(provider)
+  }
 
-    protected MockDataProvider createMockDataProvider() {
-        return new MockDataProvider() {
-            @Override
-            MockResult[] execute(MockExecuteContext ctx) throws SQLException {
-                return new MockResult[0]
-            }
-        }
+  protected MockDataProvider createMockDataProvider() {
+    return new MockDataProvider() {
+      @Override
+      MockResult[] execute(MockExecuteContext ctx) throws SQLException {
+        return new MockResult[0]
+      }
     }
+  }
 }

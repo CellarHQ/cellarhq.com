@@ -7,7 +7,7 @@ import groovy.transform.InheritConstructors
 @InheritConstructors
 class DrinkCategory extends com.cellarhq.generated.tables.pojos.Category {
 
-    DrinkCategory() {
-        searchable = true
-    }
+  DrinkCategory() {
+    searchable = true
+  }
 }

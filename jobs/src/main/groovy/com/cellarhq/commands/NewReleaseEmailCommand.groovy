@@ -1,12 +1,7 @@
 package com.cellarhq.commands
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient
-import com.amazonaws.services.simpleemail.model.Body
-import com.amazonaws.services.simpleemail.model.Content
-import com.amazonaws.services.simpleemail.model.Destination
-import com.amazonaws.services.simpleemail.model.Message
-import com.amazonaws.services.simpleemail.model.SendEmailRequest
-import com.amazonaws.services.simpleemail.model.SendEmailResult
+import com.amazonaws.services.simpleemail.model.*
 import com.cellarhq.support.AmazonSupport
 import com.cellarhq.support.DatabaseSupport
 import groovy.util.logging.Slf4j
@@ -14,71 +9,70 @@ import groovy.util.logging.Slf4j
 import static com.cellarhq.generated.Tables.ACCOUNT_EMAIL
 
 @Slf4j
-class NewReleaseEmailCommand  implements NamedCommand, DatabaseSupport, AmazonSupport {
+class NewReleaseEmailCommand implements NamedCommand, DatabaseSupport, AmazonSupport {
 
-    boolean dryRun
-    private  AmazonSimpleEmailServiceClient client
+  boolean dryRun
+  private AmazonSimpleEmailServiceClient client
 
-    void configure(String[] args) {
-        CliBuilder cli = new CliBuilder(
-            usage: 'chq cellarMerge [-d|--dryrun] [target_cellar_id] [source_cellar_id]',
-            header: 'This command will merge the given "source" Cellar record and all of its associated data to' +
-                'the "target" cellar. This command will use the target\'s Cellar metadata, and will attempt' +
-                'to keep all associated accounts. In cases where the target and source Cellars share either' +
-                'email or oauth credentials, the target cellar\'s accounts will take precedence and the' +
-                'source accounts will be deleted.'
-        )
+  void configure(String[] args) {
+    CliBuilder cli = new CliBuilder(
+      usage: 'chq cellarMerge [-d|--dryrun] [target_cellar_id] [source_cellar_id]',
+      header: 'This command will merge the given "source" Cellar record and all of its associated data to' +
+        'the "target" cellar. This command will use the target\'s Cellar metadata, and will attempt' +
+        'to keep all associated accounts. In cases where the target and source Cellars share either' +
+        'email or oauth credentials, the target cellar\'s accounts will take precedence and the' +
+        'source accounts will be deleted.'
+    )
 
-        cli.d(longOpt: 'dryrun', required: false, 'Dry run; no actions will be taken')
+    cli.d(longOpt: 'dryrun', required: false, 'Dry run; no actions will be taken')
 
-        OptionAccessor opt = cli.parse(args)
-        dryRun = (boolean) opt.getProperty('d')
+    OptionAccessor opt = cli.parse(args)
+    dryRun = (boolean) opt.getProperty('d')
 
-        client = new AmazonSimpleEmailServiceClient(basicCredentials)
+    client = new AmazonSimpleEmailServiceClient(basicCredentials)
+  }
+
+  boolean run() {
+    if (!dryRun) {
+      println('###################################################')
+      println('## THIS IS NOT A DRY RUN (starting in 5 seconds) ##')
+      println('###################################################')
+      sleep(5000)
     }
 
-    boolean run() {
-        if (!dryRun) {
-            println('###################################################')
-            println('## THIS IS NOT A DRY RUN (starting in 5 seconds) ##')
-            println('###################################################')
-            sleep(5000)
-        }
+    List<Long> accountIds = create.select(ACCOUNT_EMAIL.ID)
+      .from(ACCOUNT_EMAIL)
+      .fetchInto(Long)
 
-        List<Long> accountIds = create.select(ACCOUNT_EMAIL.ID)
-            .from(ACCOUNT_EMAIL)
-            .fetchInto(Long)
+    Integer successCount = 0
+    Integer errorCount = 0
 
-        Integer successCount = 0
-        Integer errorCount = 0
+    List<List<Long>> collateList = accountIds.collate(5)
+    collateList.each { List<Long> emailAccountIds ->
+      List<String> emails = create.select(ACCOUNT_EMAIL.EMAIL)
+        .from(ACCOUNT_EMAIL)
+        .where(ACCOUNT_EMAIL.ID.in(emailAccountIds)).fetchInto(String)
 
-        List<List<Long>> collateList = accountIds.collate(5)
-        collateList.each { List<Long> emailAccountIds ->
-            List<String> emails = create.select(ACCOUNT_EMAIL.EMAIL)
-                .from(ACCOUNT_EMAIL)
-                .where(ACCOUNT_EMAIL.ID.in(emailAccountIds)).fetchInto(String)
-
-            if (sendEmailToBccList(emails)) {
-                successCount++
-                sleep(1000)
-            } else {
-                errorCount++
-            }
-        }
-
-        println("Sent ${successCount} emails succesfully")
-        println("Sent ${errorCount}  emails unsuccesfully")
-
-        return true
-
+      if (sendEmailToBccList(emails)) {
+        successCount++
+        sleep(1000)
+      } else {
+        errorCount++
+      }
     }
 
-    private boolean sendEmailToBccList(List<String> emails) {
+    println("Sent ${successCount} emails succesfully")
+    println("Sent ${errorCount}  emails unsuccesfully")
+
+    return true
+
+  }
+
+  private boolean sendEmailToBccList(List<String> emails) {
 
 
-
-        try {
-            sendEmail('team@cellarhq.com', emails, 'CellarHQ: Huge new release!', """
+    try {
+      sendEmail('team@cellarhq.com', emails, 'CellarHQ: Huge new release!', """
                                 | Hey there!
                                 |
                                 | We wanted to tell you about a brand new version of CellarHQ that has just been
@@ -105,33 +99,33 @@ class NewReleaseEmailCommand  implements NamedCommand, DatabaseSupport, AmazonSu
                                 | Cheers!
                                 | Kyle and Rob
                             """.stripMargin())
-            return true
-        } catch (all) {
-            println("Error while sending email. ${all.message}")
-        }
-
-        return false
+      return true
+    } catch (all) {
+      println("Error while sending email. ${all.message}")
     }
 
-    void sendEmail(String from, List<String> bccEmailAddresses, String subject, String body) {
-        SendEmailResult result
+    return false
+  }
 
-        if (!dryRun) {
-            Destination destination = new Destination()
-            destination.bccAddresses = bccEmailAddresses
-            result= client.sendEmail(
-                new SendEmailRequest(
-                    source: from,
-                    destination: destination,
-                    message: new Message(
-                        subject: new Content(subject),
-                        body: new Body(new Content(body))
-                    )
-                )
-            )
-        }
+  void sendEmail(String from, List<String> bccEmailAddresses, String subject, String body) {
+    SendEmailResult result
 
-        String messageId = result?.messageId ?: 'DRYRUN'
-        println("Sent email via amazon from: ${from} subject: ${subject} to: ${bccEmailAddresses} messageId: ${messageId}")
+    if (!dryRun) {
+      Destination destination = new Destination()
+      destination.bccAddresses = bccEmailAddresses
+      result = client.sendEmail(
+        new SendEmailRequest(
+          source: from,
+          destination: destination,
+          message: new Message(
+            subject: new Content(subject),
+            body: new Body(new Content(body))
+          )
+        )
+      )
     }
+
+    String messageId = result?.messageId ?: 'DRYRUN'
+    println("Sent email via amazon from: ${from} subject: ${subject} to: ${bccEmailAddresses} messageId: ${messageId}")
+  }
 }

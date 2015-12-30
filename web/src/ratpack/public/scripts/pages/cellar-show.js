@@ -1,10 +1,10 @@
-var CellarShow = function() {
+var CellarShow = function () {
   return {
-    init: function() {
+    init: function () {
       $('a.view-cellar-details').click(this.swapDetailsChevron);
     },
 
-    swapDetailsChevron: function() {
+    swapDetailsChevron: function () {
       var chevron = $(this).find('i');
       if (chevron.hasClass('fa-chevron-down')) {
         chevron.removeClass('fa-chevron-down');

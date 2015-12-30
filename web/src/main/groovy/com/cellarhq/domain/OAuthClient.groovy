@@ -4,5 +4,5 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 enum OAuthClient {
-    TWITTER
+  TWITTER
 }

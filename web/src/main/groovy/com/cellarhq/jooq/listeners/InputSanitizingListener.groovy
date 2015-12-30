@@ -24,64 +24,64 @@ import org.reflections.Reflections
 @CompileStatic
 class InputSanitizingListener extends DefaultRecordListener {
 
-    private final static String POLICY_FILE = '/antisamy.xml'
+  private final static String POLICY_FILE = '/antisamy.xml'
 
-    private final Map<Class<? extends Record>, List<String>> recordSanitizations = makeRecordSanitizationMap()
-    private final AntiSamy antiSamy = new AntiSamy(Policy.getInstance(getClass().getResourceAsStream(POLICY_FILE)))
+  private final Map<Class<? extends Record>, List<String>> recordSanitizations = makeRecordSanitizationMap()
+  private final AntiSamy antiSamy = new AntiSamy(Policy.getInstance(getClass().getResourceAsStream(POLICY_FILE)))
 
-    @Override
-    void storeStart(RecordContext ctx) {
-        if (shouldProcessEvent(ctx.type())) {
-            Record record = ctx.record()
-            if (shouldSanitizeRecord(record)) {
-                sanitizeRecord(record)
-            }
+  @Override
+  void storeStart(RecordContext ctx) {
+    if (shouldProcessEvent(ctx.type())) {
+      Record record = ctx.record()
+      if (shouldSanitizeRecord(record)) {
+        sanitizeRecord(record)
+      }
+    }
+
+    super.storeStart(ctx)
+  }
+
+  void sanitizeRecord(Record record) {
+    List<String> fieldsToSanitize = recordSanitizations[record.class]
+    fieldsToSanitize.each { String fieldName ->
+      Field<?> field = record.field(fieldName)
+      if (field) {
+        if (record.changed(field)) {
+          Object value = record.getValue(field)
+          if (value != null) {
+            CleanResults results = antiSamy.scan(value.toString())
+            record.setValue(field, results.cleanHTML.asType(field.type))
+          }
         }
-
-        super.storeStart(ctx)
+      } else {
+        log.warn(LogUtil.toLog('SanitizeRuleFailure', [
+          msg       : 'Field to be sanitized was not found',
+          field     : fieldName,
+          recordType: record.class.simpleName
+        ]))
+      }
     }
+  }
 
-    void sanitizeRecord(Record record) {
-        List<String> fieldsToSanitize = recordSanitizations[record.class]
-        fieldsToSanitize.each { String fieldName ->
-            Field<?> field = record.field(fieldName)
-            if (field) {
-                if (record.changed(field)) {
-                    Object value = record.getValue(field)
-                    if (value != null) {
-                        CleanResults results = antiSamy.scan(value.toString())
-                        record.setValue(field, results.cleanHTML.asType(field.type))
-                    }
-                }
-            } else {
-                log.warn(LogUtil.toLog('SanitizeRuleFailure', [
-                        msg: 'Field to be sanitized was not found',
-                        field: fieldName,
-                        recordType: record.class.simpleName
-                ]))
-            }
-        }
-    }
+  boolean shouldSanitizeRecord(Record record) {
+    return recordSanitizations.keySet().contains(record.class)
+  }
 
-    boolean shouldSanitizeRecord(Record record) {
-        return recordSanitizations.keySet().contains(record.class)
-    }
+  boolean shouldProcessEvent(ExecuteType executeType) {
+    return executeType == ExecuteType.WRITE
+  }
 
-    boolean shouldProcessEvent(ExecuteType executeType) {
-        return executeType == ExecuteType.WRITE
+  Map<Class<? extends Record>, List<String>> makeRecordSanitizationMap() {
+    Set<Class<?>> pojos = new Reflections('com.cellarhq.domain').getTypesAnnotatedWith(Sanitize)
+    return pojos.findAll { Class<?> pojoType ->
+      return pojoType.getAnnotation(Sanitize)
+    }.collectEntries { Class<?> pojoType ->
+      Sanitize annotation = pojoType.getAnnotation(Sanitize)
+      return [
+        annotation.recordType(),
+        annotation.fields().toList()
+      ]
     }
-
-    Map<Class<? extends Record>, List<String>> makeRecordSanitizationMap() {
-        Set<Class<?>> pojos = new Reflections('com.cellarhq.domain').getTypesAnnotatedWith(Sanitize)
-        return pojos.findAll { Class<?> pojoType ->
-            return pojoType.getAnnotation(Sanitize)
-        }.collectEntries { Class<?> pojoType ->
-            Sanitize annotation = pojoType.getAnnotation(Sanitize)
-            return [
-                    annotation.recordType(),
-                    annotation.fields().toList()
-            ]
-        }
-    }
+  }
 
 }

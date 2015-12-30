@@ -22,44 +22,44 @@ import static com.cellarhq.generated.Tables.*
 
 @Stepwise
 @IgnoreIf({ SpecFlags.isTrue(SpecFlags.NO_FUNCTIONAL) })
-class YourArchiveFunctionalSpec extends BaseFunctionalSpecification implements LogInUserTrait  {
-    @Shared
-    ApplicationUnderTest aut = new CellarHqApplication()
+class YourArchiveFunctionalSpec extends BaseFunctionalSpecification implements LogInUserTrait {
+  @Shared
+  ApplicationUnderTest aut = new CellarHqApplication()
 
-    @Shared
-    RemoteControl remote = new RemoteControl(aut)
+  @Shared
+  RemoteControl remote = new RemoteControl(aut)
 
-    def setupSpec() {
-        browser.baseUrl = aut.getAddress().toString()
-        EmailAccount account = anEmailAccountUser(remote, 'someone', 'test@example.com', 'password1')
-        Organization organization = new OrganizationBuilder().build(create)
-        Drink drink = new DrinkBuilder().withOrganization(organization).build(create)
-        new CellaredDrinkBuilder().withCellar(account.cellar).withDrink(drink).build(create)
-        new CellaredDrinkBuilder(quantity: 2).withCellar(account.cellar).withDrink(drink).build(create)
+  def setupSpec() {
+    browser.baseUrl = aut.getAddress().toString()
+    EmailAccount account = anEmailAccountUser(remote, 'someone', 'test@example.com', 'password1')
+    Organization organization = new OrganizationBuilder().build(create)
+    Drink drink = new DrinkBuilder().withOrganization(organization).build(create)
+    new CellaredDrinkBuilder().withCellar(account.cellar).withDrink(drink).build(create)
+    new CellaredDrinkBuilder(quantity: 2).withCellar(account.cellar).withDrink(drink).build(create)
 
-        logInUser('test@example.com', 'password1')
-    }
+    logInUser('test@example.com', 'password1')
+  }
 
-    def cleanupSpec() {
-        create.delete(CELLARED_DRINK).execute()
-        create.delete(ACCOUNT_EMAIL).execute()
-        create.delete(CELLAR).execute()
-        create.delete(DRINK).execute()
-        create.delete(ORGANIZATION).execute()
-    }
+  def cleanupSpec() {
+    create.delete(CELLARED_DRINK).execute()
+    create.delete(ACCOUNT_EMAIL).execute()
+    create.delete(CELLAR).execute()
+    create.delete(DRINK).execute()
+    create.delete(ORGANIZATION).execute()
+  }
 
-    def 'can click link from yourcellar to yourarchive'() {
-        when: 'navigate from the yourcellar page to yourarchive page'
-        YourCellarPage yourCellarPage = to YourCellarPage
+  def 'can click link from yourcellar to yourarchive'() {
+    when: 'navigate from the yourcellar page to yourarchive page'
+    YourCellarPage yourCellarPage = to YourCellarPage
 
-        yourCellarPage.yourArchiveLink.click()
+    yourCellarPage.yourArchiveLink.click()
 
 
-        then: 'at the yourarchive page and there is 1 item in the list'
-        at YourArchivePage
-        YourArchivePage archivePage = page
-        archivePage.archtiveItems.size() == 1
-    }
+    then: 'at the yourarchive page and there is 1 item in the list'
+    at YourArchivePage
+    YourArchivePage archivePage = page
+    archivePage.archtiveItems.size() == 1
+  }
 
 
 }

@@ -11,32 +11,32 @@ import java.time.LocalDate
 @CompileStatic
 class CellaredDrinkDetails extends CellaredDrink {
 
-    final static int DRINK_BY_WARN_DAYS = 30
-    final static int DRINK_BY_DANGER_DAYS = 14
+  final static int DRINK_BY_WARN_DAYS = 30
+  final static int DRINK_BY_DANGER_DAYS = 14
 
-    String organizationName
-    String organizationSlug
+  String organizationName
+  String organizationSlug
 
-    String cellarSlug
-    String cellarName
+  String cellarSlug
+  String cellarName
 
-    String drinkName
-    String drinkSlug
+  String drinkName
+  String drinkSlug
 
-    String styleName
+  String styleName
 
-    boolean getWarnDrinkByDate() {
-        return drinkByDate &&
-                LocalDate.now().isAfter(drinkByDate?.minusDays(DRINK_BY_WARN_DAYS)) &&
-                !dangerDrinkByDate
-    }
+  boolean getWarnDrinkByDate() {
+    return drinkByDate &&
+      LocalDate.now().isAfter(drinkByDate?.minusDays(DRINK_BY_WARN_DAYS)) &&
+      !dangerDrinkByDate
+  }
 
-    boolean getDangerDrinkByDate() {
-        return drinkByDate &&
-                LocalDate.now().isAfter(drinkByDate?.minusDays(DRINK_BY_DANGER_DAYS))
-    }
+  boolean getDangerDrinkByDate() {
+    return drinkByDate &&
+      LocalDate.now().isAfter(drinkByDate?.minusDays(DRINK_BY_DANGER_DAYS))
+  }
 
-    boolean getHasDetails() {
-        return notes || binIdentifier || dateAcquired || drinkByDate || tradeable
-    }
+  boolean getHasDetails() {
+    return notes || binIdentifier || dateAcquired || drinkByDate || tradeable
+  }
 }

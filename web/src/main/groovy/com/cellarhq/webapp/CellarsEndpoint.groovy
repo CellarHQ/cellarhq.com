@@ -1,22 +1,22 @@
 package com.cellarhq.webapp
 
+import com.cellarhq.api.services.CellarService
+import com.cellarhq.api.services.CellaredDrinkService
+import com.cellarhq.api.services.DrinkService
+import com.cellarhq.api.services.OrganizationService
 import com.cellarhq.auth.profiles.CellarHQProfile
+import com.cellarhq.auth.services.photo.PhotoService
 import com.cellarhq.common.Messages
+import com.cellarhq.common.session.FlashMessage
+import com.cellarhq.common.validation.ValidationErrorMapper
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.Photo
 import com.cellarhq.domain.views.CellaredDrinkDetails
 import com.cellarhq.jooq.SortCommand
-import com.cellarhq.api.services.CellarService
-import com.cellarhq.api.services.CellaredDrinkService
-import com.cellarhq.api.services.DrinkService
-import com.cellarhq.api.services.OrganizationService
-import com.cellarhq.auth.services.photo.PhotoService
-import com.cellarhq.common.session.FlashMessage
 import com.cellarhq.util.DateUtil
 import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
-import com.cellarhq.common.validation.ValidationErrorMapper
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import ratpack.form.Form
@@ -253,7 +253,7 @@ class CellarsEndpoint implements Action<Chain> {
               }
             }
           } else {
-              clientError 404
+            clientError 404
           }
         }
       }

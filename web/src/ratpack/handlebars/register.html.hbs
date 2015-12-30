@@ -1,52 +1,59 @@
 {{# partial "body" }}
-  <div id="login-container">
-    <h1 class="h2 text-light text-center push-top-bottom animation-slideDown">
-      <strong>Welcome to CellarHQ</strong>
-    </h1>
+	<div id="login-container">
+		<h1 class="h2 text-light text-center push-top-bottom animation-slideDown">
+			<strong>Welcome to CellarHQ</strong>
+		</h1>
 
-    <div class="block animation-fadeInQuickInv">
-      <div class="block-title">
-        <div class="block-options pull-right">
-          <a href="/login" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Back to login"><i class="fa fa-user"></i></a>
-        </div>
-        <h2>Register</h2>
-      </div>
+		<div class="block animation-fadeInQuickInv">
+			<div class="block-title">
+				<div class="block-options pull-right">
+					<a href="/login" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip"
+					   data-placement="left" title="Back to login"><i class="fa fa-user"></i></a>
+				</div>
+				<h2>Register</h2>
+			</div>
 
-        <a class="btn btn-effect-ripple btn-success" href='{{authTwitterUrl}}' id='twitter-login-btn'>
-          <i class="fa fa-twitter"></i> Sign in with Twitter
-        </a>
+			<a class="btn btn-effect-ripple btn-success" href='{{authTwitterUrl}}' id='twitter-login-btn'>
+				<i class="fa fa-twitter"></i> Sign in with Twitter
+			</a>
 
-      <hr/>
+			<hr/>
 
-      {{>common/messages}}
+          {{>common/messages}}
 
-      {{>common/register-form}}
-    </div>
+          {{>common/register-form}}
+		</div>
 
-    {{>common/footer}}
-  </div>
+      {{>common/footer}}
+	</div>
 
-  <div id="modal-terms" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title text-center"><strong>Terms of Service</strong> <small><em>(Last updated Sept 12, 2014)</em></small></h3>
-        </div>
-        <div class="modal-body">
-          {{>common/terms-of-service}}
-        </div>
-        <div class="modal-footer">
-          <div class="text-center">
-            <button type="button" class="btn btn-effect-ripple btn-sm btn-primary" data-dismiss="modal">I've read them!</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div id="modal-terms" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title text-center"><strong>Terms of Service</strong>
+						<small><em>(Last updated Sept 12, 2014)</em></small>
+					</h3>
+				</div>
+				<div class="modal-body">
+                  {{>common/terms-of-service}}
+				</div>
+				<div class="modal-footer">
+					<div class="text-center">
+						<button type="button" class="btn btn-effect-ripple btn-sm btn-primary" data-dismiss="modal">I've
+							read them!
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {{/partial}}
 {{#partial "extra_includes"}}
-  <script src="/scripts/pages/register.js"></script>
-  <script>$(function(){ Register.init(); });</script>
+	<script src="/scripts/pages/register.js"></script>
+	<script>$(function () {
+		Register.init();
+	});</script>
 {{/partial}}
 
 {{> layout-shell.html}}

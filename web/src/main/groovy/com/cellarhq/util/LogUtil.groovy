@@ -7,49 +7,49 @@ import ratpack.http.Request
 @Slf4j
 abstract class LogUtil {
 
-    static enum Level {
-        TRACE('trace'),
-        DEBUG('debug'),
-        INFO('info'),
-        WARN('warn'),
-        ERROR('error')
+  static enum Level {
+    TRACE('trace'),
+    DEBUG('debug'),
+    INFO('info'),
+    WARN('warn'),
+    ERROR('error')
 
-        final String value
+    final String value
 
-        Level(String value) {
-            this.value = value
-        }
-
-        String toString() {
-            return value
-        }
+    Level(String value) {
+      this.value = value
     }
 
-    static String toLog(Request request, String key, Map properties = [:]) {
-        Optional<RequestId> uuid = request.maybeGet(RequestId)
-        String correlationId = uuid.isPresent() ? uuid.get().id : 'UNKNOWN'
-
-        return "KEY=${key}, correlationId=${correlationId} " + properties.collect { "${it.key}=${it.value}" }.join(', ')
+    String toString() {
+      return value
     }
+  }
 
-    static String toLog(String key, Map properties = [:]) {
-        return "KEY=${key}, " + properties.collect { "${it.key}=${it.value}" }.join(', ')
-    }
+  static String toLog(Request request, String key, Map properties = [:]) {
+    Optional<RequestId> uuid = request.maybeGet(RequestId)
+    String correlationId = uuid.isPresent() ? uuid.get().id : 'UNKNOWN'
 
-    static <T> T withPerformance(String name, Level level, Closure<T> op) {
-        long start = System.currentTimeMillis()
+    return "KEY=${key}, correlationId=${correlationId} " + properties.collect { "${it.key}=${it.value}" }.join(', ')
+  }
 
-        T result = op.call()
+  static String toLog(String key, Map properties = [:]) {
+    return "KEY=${key}, " + properties.collect { "${it.key}=${it.value}" }.join(', ')
+  }
 
-        log."${level}"(toLog('Performance', [
-                name: name,
-                elapsedMs: System.currentTimeMillis() - start
-        ]))
+  static <T> T withPerformance(String name, Level level, Closure<T> op) {
+    long start = System.currentTimeMillis()
 
-        return result
-    }
+    T result = op.call()
 
-    static <T> T withPerformance(String name, Closure<T> op) {
-        return withPerformance(name, Level.DEBUG, op)
-    }
+    log."${level}"(toLog('Performance', [
+      name     : name,
+      elapsedMs: System.currentTimeMillis() - start
+    ]))
+
+    return result
+  }
+
+  static <T> T withPerformance(String name, Closure<T> op) {
+    return withPerformance(name, Level.DEBUG, op)
+  }
 }

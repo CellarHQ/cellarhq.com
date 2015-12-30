@@ -18,7 +18,7 @@ import ratpack.groovy.handling.GroovyHandler
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class ForgotPasswordEndpoint  extends GroovyHandler {
+class ForgotPasswordEndpoint extends GroovyHandler {
 
   private final AccountService accountService
   private final EmailService emailService

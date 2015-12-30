@@ -7,7 +7,7 @@ import groovy.transform.InheritConstructors
 @InheritConstructors
 class Style extends com.cellarhq.generated.tables.pojos.Style {
 
-    Style() {
-        searchable = true
-    }
+  Style() {
+    searchable = true
+  }
 }

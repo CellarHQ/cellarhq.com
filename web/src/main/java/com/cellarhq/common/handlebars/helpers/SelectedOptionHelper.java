@@ -9,41 +9,41 @@ import java.lang.reflect.Method;
 
 /**
  * Simple helper for selecting an option in a select form element.
- *
+ * <p>
  * <code>
- *     {{selectedOption object "getterMethod" "expectedValue"}}
+ * {{selectedOption object "getterMethod" "expectedValue"}}
  * </code>
  */
 public class SelectedOptionHelper implements NamedHelper<Object> {
 
-    public static final String HELPER_NAME = "selectedOption";
+  public static final String HELPER_NAME = "selectedOption";
 
-    @Override
-    public CharSequence apply(Object context, Options options) throws IOException {
-        String getter = options.param(0);
-        String expected = options.param(1);
+  @Override
+  public CharSequence apply(Object context, Options options) throws IOException {
+    String getter = options.param(0);
+    String expected = options.param(1);
 
-        try {
-            Method method = context.getClass().getMethod(getter);
-            method.setAccessible(true);
-            Object actual = method.invoke(context);
+    try {
+      Method method = context.getClass().getMethod(getter);
+      method.setAccessible(true);
+      Object actual = method.invoke(context);
 
-            if (actual != null && expected.equals(actual)) {
-                return "selected";
-            }
-        } catch (NoSuchMethodException e) {
-            return "";
-        } catch (InvocationTargetException e) {
-            return "";
-        } catch (IllegalAccessException e) {
-            return "";
-        }
-
-        return "";
+      if (actual != null && expected.equals(actual)) {
+        return "selected";
+      }
+    } catch (NoSuchMethodException e) {
+      return "";
+    } catch (InvocationTargetException e) {
+      return "";
+    } catch (IllegalAccessException e) {
+      return "";
     }
 
-    @Override
-    public String getName() {
-        return HELPER_NAME;
-    }
+    return "";
+  }
+
+  @Override
+  public String getName() {
+    return HELPER_NAME;
+  }
 }
