@@ -15,6 +15,7 @@ import org.pac4j.http.client.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import ratpack.config.ConfigData
 import ratpack.dropwizard.metrics.DropwizardMetricsConfig
 import ratpack.dropwizard.metrics.DropwizardMetricsModule
 import ratpack.error.ClientErrorHandler
@@ -30,8 +31,6 @@ import ratpack.server.StartEvent
 import ratpack.session.SessionModule
 import ratpack.session.clientside.ClientSideSessionModule
 
-import static com.google.common.io.Resources.asByteSource
-import static com.google.common.io.Resources.getResource
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
@@ -39,17 +38,17 @@ import static ratpack.jackson.Jackson.json
 final Logger log = LoggerFactory.getLogger(ratpack.class)
 
 ratpack {
-  serverConfig { d -> d
-    .props(asByteSource(getResource('app.properties')))
-    .env()
-    .sysProps()
-    .require('/cellarhq', CellarHQConfig)
-    .require('/metrics', DropwizardMetricsConfig)
-  }
-
   bindings {
-    CellarHQConfig cellarHqConfig = getServerConfig().get(CellarHQConfig)
-    moduleConfig(DropwizardMetricsModule, getServerConfig().get(DropwizardMetricsConfig))
+    ConfigData configData = ConfigData.of { d -> d
+        .props("$serverConfig.baseDir.file/app.properties")
+        .env()
+        .sysProps()
+        .build()
+    }
+
+    CellarHQConfig cellarHqConfig = configData.get(CellarHQConfig)
+    bindInstance(CellarHQConfig, cellarHqConfig)
+    moduleConfig(CommonModule, cellarHqConfig)
 
     module(HikariModule) { HikariConfig hikariConfig ->
       hikariConfig.addDataSourceProperty('serverName', cellarHqConfig.databaseServerName)

@@ -172,7 +172,6 @@ task functionalTest(type: Test) {
     systemProperty 'ratpack.hostName', 'localhost:5050'
     systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
     systemProperty 'ratpack.environment', 'development'
-    systemProperty 'ratpack.secretRememberMeToken', 'topSecretKey'
 
 
     testClassesDir = sourceSets.functional.output.classesDir
@@ -182,7 +181,6 @@ task functionalTest(type: Test) {
     systemProperty 'liquibase.schema.default', 'public'
     systemProperty 'liquibase.onerror.fail', true
     maxHeapSize '768m'
-
 
     if (System.getenv('SNAP_CI')) {
         environment 'RATPACK_DATABASE_SERVER_NAME', System.getenv('SNAP_DB_PG_HOST')
@@ -211,30 +209,6 @@ task functionalTest(type: Test) {
             systemProperty 'ratpack.twitterApiKey', project.twitterApiKey
             systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
         }
-    }
-}
-
-
-run {
-    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
-    systemProperty 'DISABLE_SERVICES', true
-    systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
-    systemProperty 'ratpack.hostName', 'localhost:5050'
-
-    systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
-    systemProperty 'ratpack.environment', 'development'
-    systemProperty 'ratpack.databaseServerName', 'localHost'  // not sure if should put these in here or not
-    systemProperty 'ratpack.databasePortNumber', '15432'
-    systemProperty 'ratpack.databaseName', 'cellarhq'
-    systemProperty 'ratpack.databaseUser', 'cellarhq'
-    systemProperty 'ratpack.databasePassword', 'cellarhq'
-    systemProperty 'ratpack.secretRememberMeToken', 'topSecretKey'
-
-    if (project.hasProperty('awsAccessKey'))  {
-        systemProperty 'ratpack.awsAccessKey', project.awsAccessKey
-        systemProperty 'ratpack.awsSecretKey', project.awsSecretKey
-        systemProperty 'ratpack.twitterApiKey', project.twitterApiKey
-        systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
     }
 }
 
