@@ -55,9 +55,9 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                 }
             }
 
-            path('cellars/:cellarSlug/drinks/:id') {
+            path('cellars/:cellarSlug/drinks/:id') { CellarHQProfile profile ->
                 byMethod {
-                    get { CellarHQProfile profile ->
+                    get {
                         Long id = Long.valueOf(pathTokens['id'])
 
                         cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
@@ -71,7 +71,7 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                         }
                     }
 
-                    post { CellarHQProfile profile ->
+                    post {
                         CellaredDrink cellaredDrink = parse(fromJson(CellaredDrink))
                         requireSelf(context, profile, cellaredDrink) {
                             cellaredDrinkService.save(cellaredDrink)
@@ -83,7 +83,7 @@ class CellaredDrinkEndpoint implements Action<Chain> {
                         }
                     }
 
-                    delete { CellarHQProfile profile ->
+                    delete {
                         Long id = Long.valueOf(pathTokens['id'])
 
                         cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
