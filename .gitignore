@@ -29,3 +29,4 @@ twitter4j.properties
 *.sql
 web/production.properties
 web/app.properties
+web/src/main/resources/app.properties
