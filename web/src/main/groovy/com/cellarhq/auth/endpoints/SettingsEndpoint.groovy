@@ -12,6 +12,7 @@ import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.pac4j.oauth.profile.twitter.TwitterProfile
+import ratpack.exec.Blocking
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler

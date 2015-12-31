@@ -23,6 +23,7 @@ import ratpack.form.Form
 import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
+import ratpack.pac4j.RatpackPac4j
 
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
@@ -100,8 +101,8 @@ class CellarsEndpoint implements Action<Chain> {
         }
       }
 
-      path('cellars/:slug') {
-        byMethod { CellarHQProfile profile ->
+      path('cellars/:slug') { CellarHQProfile profile ->
+        byMethod {
           get {
             String slug = pathTokens['slug']
 
@@ -132,9 +133,35 @@ class CellarsEndpoint implements Action<Chain> {
         }
       }
 
-      get('cellars/:slug/archive') { CellarHQProfile profile ->
+      post('cellars/:slug/empty') { CellarHQProfile profile ->
         String slug = pathTokens['slug']
 
+        cellarService.findBySlugPromise(slug).then { Cellar cellar ->
+          cellarService.emptyCellar(cellar).then {
+            log.debug("Deleting cellared beers for ${cellar.screenName}")
+            context.redirect('/yourcellar')
+          }
+        }
+      }
+
+      post('cellars/:slug/delete') { CellarHQProfile profile ->
+        String slug = pathTokens['slug']
+
+        cellarService.findBySlugPromise(slug).then { Cellar cellar ->
+          if (isSelf(profile.cellarId, cellar.id)) {
+            cellarService.deleteCellar(cellar).then {
+              RatpackPac4j.logout(context).then {
+                redirect("/register?success=$Messages.CELLAR_DELETED")
+              }
+            }
+          } else {
+            clientError 405
+          }
+        }
+      }
+
+      get('cellars/:slug/archive') { CellarHQProfile profile ->
+        String slug = pathTokens['slug']
 
         rx.Observable.zip(
           cellarService.findBySlug(slug).single(),
@@ -167,53 +194,57 @@ class CellarsEndpoint implements Action<Chain> {
         }
       }
 
-      post('cellars/:slug/drinks') { CellarHQProfile profile ->
-        String slug = pathTokens['slug']
-        parse(Form).then { Form form ->
+      path('cellars/:slug/drinks') { CellarHQProfile profile ->
+        byMethod {
+          post {
+            String slug = pathTokens['slug']
+            parse(Form).then { Form form ->
 
-          if (!form.beerId) {
-            SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, [
-              'beerId must be set. Make sure javascript is enabled prior to selecting a beer.'
-            ]))
-            redirect('/yourcellar')
-          }
+              if (!form.beerId) {
+                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, [
+                  'beerId must be set. Make sure javascript is enabled prior to selecting a beer.'
+                ]))
+                redirect('/yourcellar')
+              }
 
 
-          CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
-            cellarId = profile.cellarId
-            drinkId = Long.valueOf(form.beerId)
-            return self
-          }
+              CellaredDrink drink = applyForm(new CellaredDrink(), form).with { CellaredDrink self ->
+                cellarId = profile.cellarId
+                drinkId = Long.valueOf(form.beerId)
+                return self
+              }
 
-          Validator validator = validatorFactory.validator
-          Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(drink)
+              Validator validator = validatorFactory.validator
+              Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(drink)
 
-          if (drinkViolations.empty) {
-            // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
-            //       queries for two small pieces of data.
-            rx.Observable.zip(
-              cellaredDrinkService.save(drink).single(),
-              drinkService.findNameById(drink.drinkId).single(),
-              organizationService.findNameByDrink(drink.drinkId).single()
-            ) { CellaredDrink savedDrink, String drinkName, String orgName ->
-              [
-                cellared: savedDrink,
-                drink   : drinkName,
-                org     : orgName
-              ]
-            }.subscribe({ Map map ->
-              SessionUtil.setFlash(context, FlashMessage.success(
-                String.format(Messages.CELLARED_DRINK_SAVED, map.drink, map.org),
-                new FlashMessage.SocialButton(
-                  String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
-                  "/cellars/${slug}"
-                )))
-              redirect('/yourcellar')
-            })
-          } else {
-            List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
-            SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-            redirect('/yourcellar')
+              if (drinkViolations.empty) {
+                // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
+                //       queries for two small pieces of data.
+                rx.Observable.zip(
+                  cellaredDrinkService.save(drink).single(),
+                  drinkService.findNameById(drink.drinkId).single(),
+                  organizationService.findNameByDrink(drink.drinkId).single()
+                ) { CellaredDrink savedDrink, String drinkName, String orgName ->
+                  [
+                    cellared: savedDrink,
+                    drink   : drinkName,
+                    org     : orgName
+                  ]
+                }.subscribe({ Map map ->
+                  SessionUtil.setFlash(context, FlashMessage.success(
+                    String.format(Messages.CELLARED_DRINK_SAVED, map.drink, map.org),
+                    new FlashMessage.SocialButton(
+                      String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
+                      "/cellars/${slug}"
+                    )))
+                  redirect('/yourcellar')
+                })
+              } else {
+                List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
+                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
+                redirect('/yourcellar')
+              }
+            }
           }
         }
       }
@@ -229,8 +260,6 @@ class CellarsEndpoint implements Action<Chain> {
               Validator validator = validatorFactory.validator
               Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(editedDrink)
               if (drinkViolations.empty) {
-                // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
-                //       queries for two small pieces of data.
                 rx.Observable.zip(
                   cellaredDrinkService.save(editedDrink).single(),
                   drinkService.findNameById(drink.drinkId).single(),

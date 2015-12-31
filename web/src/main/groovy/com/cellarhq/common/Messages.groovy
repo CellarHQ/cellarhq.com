@@ -52,4 +52,5 @@ abstract class Messages {
   static String ACCOUNT_LINK_EMAIL_VERIFICATION_SENT = "We've sent you a verification code via email, follow the link inside the email to complete the process."
   final
   static String ACCOUNT_LINK_EMAIL_SUCCESS = "Thanks for verifying your account! We've linked the email to your Cellar."
+  static String CELLAR_DELETED = "Sorry to see you go! Your Cellar has been removed."
 }

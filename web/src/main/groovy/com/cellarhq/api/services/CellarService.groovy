@@ -19,19 +19,19 @@ import org.jooq.Record
 import org.jooq.SelectJoinStep
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.Blocking
+import ratpack.exec.Operation
+import ratpack.exec.Promise
 import ratpack.form.UploadedFile
 
 import javax.sql.DataSource
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
-import static com.cellarhq.generated.Tables.CELLAR
-import static com.cellarhq.generated.Tables.PHOTO
+import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
 @Slf4j
-@CompileStatic
 class CellarService extends BaseJooqService {
 
   private final PhotoService photoService
@@ -75,7 +75,11 @@ class CellarService extends BaseJooqService {
   }
 
   rx.Observable<Cellar> findBySlug(String slug) {
-    observe(Blocking.get {
+    observe(findBySlugPromise(slug)).asObservable()
+  }
+
+  Promise<Cellar> findBySlugPromise(slug) {
+    return Blocking.get {
       jooq { DSLContext create ->
         Record record = create.select()
           .from(CELLAR)
@@ -86,11 +90,12 @@ class CellarService extends BaseJooqService {
         if (record) {
           Cellar cellar = record.into(Cellar)
           cellar.photo = record.into(Photo)
+          cellar.id = record.getValue(CELLAR.ID)
           return cellar
         }
         return (Cellar) null
       }
-    }).asObservable()
+    }
   }
 
   rx.Observable<Cellar> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
@@ -197,5 +202,24 @@ class CellarService extends BaseJooqService {
       }
     }
     saveBlocking(cellar)
+  }
+
+  Operation deleteCellar(Cellar cellar) {
+    Blocking.op {
+      jooq { DSLContext create ->
+        create.delete(CELLARED_DRINK).where(CELLARED_DRINK.CELLAR_ID.eq(cellar.id)).execute()
+        create.delete(ACCOUNT_EMAIL).where(ACCOUNT_EMAIL.CELLAR_ID.eq(cellar.id)).execute()
+        create.delete(ACCOUNT_OAUTH).where(ACCOUNT_OAUTH.CELLAR_ID.eq(cellar.id)).execute()
+        create.delete(CELLAR).where(CELLAR.ID.eq(cellar.id)).execute()
+      }
+    }
+  }
+
+  Operation emptyCellar(Cellar cellar) {
+    Blocking.op {
+      jooq { DSLContext create ->
+        create.delete(CELLARED_DRINK).where(CELLARED_DRINK.CELLAR_ID.eq(cellar.id)).execute()
+      }
+    }
   }
 }
