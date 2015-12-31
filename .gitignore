@@ -27,4 +27,5 @@ phantomjsdriver.log
 
 twitter4j.properties
 *.sql
-web/production.properties
+web/src/ratpack/production.properties
+web/src/ratpack/app.properties

@@ -1,64 +1,80 @@
 {{#if success}}
-    <div class='alert alert-success alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{& success}}
-        {{#if showSuccessSocialButton}}
-          <a href="https://twitter.com/share" class="twitter-share-button"
-            data-url="{{socialButtonUrl}}" data-text="{{successSocialButtonMessage}}"
-            data-related="cellarhq" data-lang="en" data-count="none">Tweet</a>
-          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        {{/if}}
-        {{#if successMessages}}
-            <ul>
-                {{#each successMessages}}
-                    <li>{{message}}</li>
-                {{/each}}
-            </ul>
-        {{/if}}
-    </div>
+	<div class='alert alert-success alert-dismissible'>
+		<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+      {{& success}}
+      {{#if showSuccessSocialButton}}
+		  <a href="https://twitter.com/share" class="twitter-share-button"
+		     data-url="{{socialButtonUrl}}" data-text="{{successSocialButtonMessage}}"
+		     data-related="cellarhq" data-lang="en" data-count="none">Tweet</a>
+		  <script>!function (d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+			  if (!d.getElementById(id)) {
+				  js = d.createElement(s);
+				  js.id = id;
+				  js.src = p + '://platform.twitter.com/widgets.js';
+				  fjs.parentNode.insertBefore(js, fjs);
+			  }
+		  }(document, 'script', 'twitter-wjs');</script>
+      {{/if}}
+      {{#if successMessages}}
+		  <ul>
+            {{#each successMessages}}
+				<li>{{message}}</li>
+            {{/each}}
+		  </ul>
+      {{/if}}
+	</div>
 {{/if}}
 {{#if info}}
-    <div class='alert alert-info alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{& info}}
-        {{#if showInfoSocialButton}}
-          <a href="https://twitter.com/share" class="twitter-share-button"
-            data-url="{{socialButtonUrl}}" data-text="{{successSocialButtonMessage}}"
-            data-related="cellarhq" data-lang="en" data-count="none">Tweet</a>
-          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        {{/if}}
-        {{#if infoMessages}}
-            <ul>
-                {{#each infoMessages}}
-                    <li>{{message}}</li>
-                {{/each}}
-            </ul>
-        {{/if}}
-    </div>
+	<div class='alert alert-info alert-dismissible'>
+		<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+      {{& info}}
+      {{#if showInfoSocialButton}}
+		  <a href="https://twitter.com/share" class="twitter-share-button"
+		     data-url="{{socialButtonUrl}}" data-text="{{successSocialButtonMessage}}"
+		     data-related="cellarhq" data-lang="en" data-count="none">Tweet</a>
+		  <script>!function (d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+			  if (!d.getElementById(id)) {
+				  js = d.createElement(s);
+				  js.id = id;
+				  js.src = p + '://platform.twitter.com/widgets.js';
+				  fjs.parentNode.insertBefore(js, fjs);
+			  }
+		  }(document, 'script', 'twitter-wjs');</script>
+      {{/if}}
+      {{#if infoMessages}}
+		  <ul>
+            {{#each infoMessages}}
+				<li>{{message}}</li>
+            {{/each}}
+		  </ul>
+      {{/if}}
+	</div>
 {{/if}}
 {{#if warning}}
-    <div class='alert alert-warning alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{& warning}}
-        {{#if warningMessages}}
-            <ul>
-                {{#each warningMessages}}
-                    <li>{{message}}</li>
-                {{/each}}
-            </ul>
-        {{/if}}
-    </div>
+	<div class='alert alert-warning alert-dismissible'>
+		<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+      {{& warning}}
+      {{#if warningMessages}}
+		  <ul>
+            {{#each warningMessages}}
+				<li>{{message}}</li>
+            {{/each}}
+		  </ul>
+      {{/if}}
+	</div>
 {{/if}}
 {{#if error}}
-    <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-        {{& error}}
-        {{#if errorMessages}}
-            <ul>
-                {{#each errorMessages}}
-                    <li>{{message}}</li>
-                {{/each}}
-            </ul>
-        {{/if}}
-    </div>
+	<div class='alert alert-danger alert-dismissible'>
+		<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+      {{& error}}
+      {{#if errorMessages}}
+		  <ul>
+            {{#each errorMessages}}
+				<li>{{message}}</li>
+            {{/each}}
+		  </ul>
+      {{/if}}
+	</div>
 {{/if}}

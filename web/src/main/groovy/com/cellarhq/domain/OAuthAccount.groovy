@@ -11,11 +11,11 @@ import java.time.LocalDateTime
 @InheritConstructors
 class OAuthAccount extends AccountOauth implements Account {
 
-    Cellar cellar
+  Cellar cellar
 
-    OAuthAccount() {
-        client = OAuthClient.TWITTER.toString()
-        createdDate = Timestamp.valueOf(LocalDateTime.now())
-        modifiedDate = createdDate
-    }
+  OAuthAccount() {
+    client = OAuthClient.TWITTER.toString()
+    createdDate = Timestamp.valueOf(LocalDateTime.now())
+    modifiedDate = createdDate
+  }
 }

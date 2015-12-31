@@ -1,20 +1,20 @@
 package com.cellarhq.auth.services.photo
 
 import com.amazonaws.services.s3.model.ObjectMetadata
+import com.cellarhq.auth.services.photo.model.PhotoDetails
+import com.cellarhq.auth.services.photo.model.ResizeCommand
+import com.cellarhq.auth.services.photo.writer.PhotoWriteStrategy
+import com.cellarhq.common.services.S3Service
 import com.cellarhq.domain.Photo
 import com.cellarhq.generated.Tables
 import com.cellarhq.generated.tables.records.PhotoRecord
 import com.cellarhq.jooq.BaseJooqService
-import com.cellarhq.common.services.S3Service
-import com.cellarhq.auth.services.photo.model.PhotoDetails
-import com.cellarhq.auth.services.photo.model.ResizeCommand
-import com.cellarhq.auth.services.photo.writer.PhotoWriteStrategy
 import com.google.common.io.Files
 import com.google.inject.Inject
 import io.netty.buffer.ByteBufInputStream
 import org.imgscalr.Scalr
 import org.jooq.DSLContext
-import ratpack.exec.ExecControl
+import ratpack.exec.Blocking
 import ratpack.form.UploadedFile
 import rx.Observable
 
@@ -23,9 +23,7 @@ import javax.sql.DataSource
 import java.awt.image.BufferedImage
 import java.time.LocalDate
 
-import static com.cellarhq.generated.Tables.DRINK
-import static com.cellarhq.generated.Tables.ORGANIZATION
-import static com.cellarhq.generated.Tables.PHOTO
+import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 
 /**
@@ -57,156 +55,155 @@ import static ratpack.rx.RxRatpack.observe
  */
 class PhotoService extends BaseJooqService {
 
-    private final S3Service s3Service
-    private final PhotoWriteStrategy writeStrategy
+  private final S3Service s3Service
+  private final PhotoWriteStrategy writeStrategy
 
-    @Inject
-    PhotoService(DataSource dataSource,
-                 ExecControl execControl,
-                 S3Service s3Service,
-                 PhotoWriteStrategy writeStrategy) {
-        super(dataSource, execControl)
+  @Inject
+  PhotoService(DataSource dataSource,
+               S3Service s3Service,
+               PhotoWriteStrategy writeStrategy) {
+    super(dataSource)
 
-        this.s3Service = s3Service
-        this.writeStrategy = writeStrategy
+    this.s3Service = s3Service
+    this.writeStrategy = writeStrategy
 
+  }
+
+  Observable<Photo> findByCellarId(Long cellarId) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        create.select(PHOTO.fields())
+          .from(PHOTO)
+          .join(Tables.CELLAR).onKey()
+          .where(Tables.CELLAR.ID.eq(cellarId))
+          .fetchOneInto(Photo)
+      }
+    }).asObservable()
+  }
+
+  Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        create.select(PHOTO.fields())
+          .from(PHOTO)
+          .join(DRINK).onKey()
+          .join(ORGANIZATION).onKey()
+          .where(DRINK.SLUG.eq(beerSlug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
+          .fetchOneInto(Photo)
+      }
+    }).asObservable()
+  }
+
+  Observable<Photo> findByOrganization(String brewerySlug) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        create.select(PHOTO.fields())
+          .from(PHOTO)
+          .join(ORGANIZATION).onKey()
+          .where(ORGANIZATION.SLUG.eq(brewerySlug))
+          .fetchOneInto(Photo)
+      }
+    }).asObservable()
+  }
+
+  Observable<Photo> findByCellarSlug(String cellarSlug) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        create.select(PHOTO.fields())
+          .from(PHOTO)
+          .join(Tables.CELLAR).onKey()
+          .where(Tables.CELLAR.SLUG.eq(cellarSlug))
+          .fetchOneInto(Photo)
+      }
+    }).asObservable()
+  }
+
+  /**
+   * Creates a photo record from a remote photo URL. This method does not save the record.
+   */
+  PhotoRecord createPhotoRecord(DSLContext create,
+                                Photo.Type type,
+                                String pictureUrl,
+                                List<ResizeCommand> resizeCommands = null) {
+
+    PhotoRecord photoRecord = create.newRecord(PHOTO)
+    photoRecord.originalUrl = pictureUrl
+
+    if (resizeCommands) {
+      PhotoDetails photoDetails = resize(pictureUrl, type, resizeCommands)
+      photoDetails.applyTo(photoRecord)
     }
 
-    Observable<Photo> findByCellarId(Long cellarId) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select(PHOTO.fields())
-                    .from(PHOTO)
-                    .join(Tables.CELLAR).onKey()
-                    .where(Tables.CELLAR.ID.eq(cellarId))
-                    .fetchOneInto(Photo)
-            }
-        }).asObservable()
+    return photoRecord
+  }
+
+  /**
+   * Creates a photo record from an uploaded file. This method does not save the record.
+   */
+  PhotoRecord createPhotoRecord(DSLContext create,
+                                Photo.Type type,
+                                UploadedFile uploadedFile,
+                                List<ResizeCommand> resizeCommands = null) {
+
+    String fileExtension = Files.getFileExtension(uploadedFile.fileName)
+    String key = generateKey(type, fileExtension)
+    s3Service.upload(key, uploadedFile.inputStream, new ObjectMetadata(
+      contentLength: uploadedFile.bytes.size()
+    ))
+
+    PhotoRecord photoRecord = create.newRecord(PHOTO)
+    photoRecord.originalUrl = s3Service.getObjectUrl(key)
+
+    if (resizeCommands) {
+      PhotoDetails photoDetails = resize(uploadedFile.inputStream, fileExtension, type, resizeCommands)
+      photoDetails.applyTo(photoRecord)
     }
 
-    Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select(PHOTO.fields())
-                    .from(PHOTO)
-                    .join(DRINK).onKey()
-                    .join(ORGANIZATION).onKey()
-                    .where(DRINK.SLUG.eq(beerSlug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
-                    .fetchOneInto(Photo)
-            }
-        }).asObservable()
+    return photoRecord
+  }
+
+  PhotoDetails resize(String photoUrl, Photo.Type type, List<ResizeCommand> resizeCommands) {
+    BufferedImage image = ImageIO.read(new URL(photoUrl))
+    String extension = Files.getFileExtension(photoUrl)
+
+    return new PhotoDetails(resizeCommands.collect { ResizeCommand command ->
+      return resizeAndWrite(generateKey(type, extension), image, command)
+    })
+  }
+
+  PhotoDetails resize(InputStream is, String extension, Photo.Type type, List<ResizeCommand> resizeCommands) {
+    ByteArrayInputStream baos
+    if (is instanceof ByteBufInputStream) {
+      // Something is totally fucked up with file uploads in Ratpack. Haven't figured out what yet, but it seems
+      // that either Ratpack or Netty marks the buffer at the last index, so it can never be read from.
+      baos = new ByteArrayInputStream((byte[]) ((ByteBufInputStream) is).buffer.array())
+    } else {
+      baos = new ByteArrayInputStream(is.bytes)
     }
+    BufferedImage image = ImageIO.read(baos)
 
-    Observable<Photo> findByOrganization(String brewerySlug) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select(PHOTO.fields())
-                    .from(PHOTO)
-                    .join(ORGANIZATION).onKey()
-                    .where(ORGANIZATION.SLUG.eq(brewerySlug))
-                    .fetchOneInto(Photo)
-            }
-        }).asObservable()
-    }
+    return new PhotoDetails(resizeCommands.collect { ResizeCommand command ->
+      return resizeAndWrite(generateKey(type, extension), image, command)
+    })
+  }
 
-    Observable<Photo> findByCellarSlug(String cellarSlug) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select(PHOTO.fields())
-                    .from(PHOTO)
-                    .join(Tables.CELLAR).onKey()
-                    .where(Tables.CELLAR.SLUG.eq(cellarSlug))
-                    .fetchOneInto(Photo)
-            }
-        }).asObservable()
-    }
+  private PhotoDetails.Detail resizeAndWrite(String key, BufferedImage image, ResizeCommand command) {
+    BufferedImage resized = Scalr.resize(image, command.width)
 
-    /**
-     * Creates a photo record from a remote photo URL. This method does not save the record.
-     */
-    PhotoRecord createPhotoRecord(DSLContext create,
-                                  Photo.Type type,
-                                  String pictureUrl,
-                                  List<ResizeCommand> resizeCommands = null) {
+    return new PhotoDetails.Detail(
+      command.size,
+      writeStrategy.write(key, resized),
+      resized.width,
+      resized.height
+    )
+  }
 
-        PhotoRecord photoRecord = create.newRecord(PHOTO)
-        photoRecord.originalUrl = pictureUrl
-
-        if (resizeCommands) {
-            PhotoDetails photoDetails = resize(pictureUrl, type, resizeCommands)
-            photoDetails.applyTo(photoRecord)
-        }
-
-        return photoRecord
-    }
-
-    /**
-     * Creates a photo record from an uploaded file. This method does not save the record.
-     */
-    PhotoRecord createPhotoRecord(DSLContext create,
-                                  Photo.Type type,
-                                  UploadedFile uploadedFile,
-                                  List<ResizeCommand> resizeCommands = null) {
-
-        String fileExtension = Files.getFileExtension(uploadedFile.fileName)
-        String key = generateKey(type, fileExtension)
-        s3Service.upload(key, uploadedFile.inputStream, new ObjectMetadata(
-            contentLength: uploadedFile.bytes.size()
-        ))
-
-        PhotoRecord photoRecord = create.newRecord(PHOTO)
-        photoRecord.originalUrl = s3Service.getObjectUrl(key)
-
-        if (resizeCommands) {
-            PhotoDetails photoDetails = resize(uploadedFile.inputStream, fileExtension, type, resizeCommands)
-            photoDetails.applyTo(photoRecord)
-        }
-
-        return photoRecord
-    }
-
-    PhotoDetails resize(String photoUrl, Photo.Type type, List<ResizeCommand> resizeCommands) {
-        BufferedImage image = ImageIO.read(new URL(photoUrl))
-        String extension = Files.getFileExtension(photoUrl)
-
-        return new PhotoDetails(resizeCommands.collect { ResizeCommand command ->
-            return resizeAndWrite(generateKey(type, extension), image, command)
-        })
-    }
-
-    PhotoDetails resize(InputStream is, String extension, Photo.Type type, List<ResizeCommand> resizeCommands) {
-        ByteArrayInputStream baos
-        if (is instanceof ByteBufInputStream) {
-            // Something is totally fucked up with file uploads in Ratpack. Haven't figured out what yet, but it seems
-            // that either Ratpack or Netty marks the buffer at the last index, so it can never be read from.
-            baos = new ByteArrayInputStream((byte[]) ((ByteBufInputStream) is).buffer.array())
-        } else {
-            baos = new ByteArrayInputStream(is.bytes)
-        }
-        BufferedImage image = ImageIO.read(baos)
-
-        return new PhotoDetails(resizeCommands.collect { ResizeCommand command ->
-            return resizeAndWrite(generateKey(type, extension), image, command)
-        })
-    }
-
-    private PhotoDetails.Detail resizeAndWrite(String key, BufferedImage image, ResizeCommand command) {
-        BufferedImage resized = Scalr.resize(image, command.width)
-
-        return new PhotoDetails.Detail(
-            command.size,
-            writeStrategy.write(key, resized),
-            resized.width,
-            resized.height
-        )
-    }
-
-    private static String generateKey(Photo.Type type, String extension) {
-        String root = type.toString().toLowerCase()
-        LocalDate now = LocalDate.now()
-        String uuid = UUID.randomUUID().toString()
-        return "${root}/${now}/${uuid}.${extension}"
-    }
+  private static String generateKey(Photo.Type type, String extension) {
+    String root = type.toString().toLowerCase()
+    LocalDate now = LocalDate.now()
+    String uuid = UUID.randomUUID().toString()
+    return "${root}/${now}/${uuid}.${extension}"
+  }
 
 
 }

@@ -1,49 +1,49 @@
 <header class="navbar navbar-inverse navbar-fixed-top">
-  <ul class="nav navbar-nav-custom">
-    <li>
-      <a href="/" class="sidebar-title">
-        <i class="fa fa-cube"></i> <span class="sidebar-nav-mini-hide">Cellar<strong>HQ</strong></span>
-      </a>
-    </li>
-  </ul>
+	<ul class="nav navbar-nav-custom">
+		<li>
+			<a href="/" class="sidebar-title">
+				<i class="fa fa-cube"></i> <span class="sidebar-nav-mini-hide">Cellar<strong>HQ</strong></span>
+			</a>
+		</li>
+	</ul>
 
-  <ul class="nav navbar-nav-custom">
-    <li class="hidden-xs animation-fadeInQuick">
-      <a href="/breweries"><strong>Breweries</strong></a>
-    </li>
-    <li class="hidden-xs animation-fadeInQuick">
-      <a href="/beer"><strong>Beer</strong></a>
-    </li>
-    <li class="hidden-xs animation-fadeInQuick">
-      <a href="/styles"><strong>Styles</strong></a>
-    </li>
-    <li class="hidden-xs animation-fadeInQuick">
-      <a href="/cellars"><strong>Cellars</strong></a>
-    </li>
-  </ul>
+	<ul class="nav navbar-nav-custom">
+		<li class="hidden-xs animation-fadeInQuick">
+			<a href="/breweries"><strong>Breweries</strong></a>
+		</li>
+		<li class="hidden-xs animation-fadeInQuick">
+			<a href="/beer"><strong>Beer</strong></a>
+		</li>
+		<li class="hidden-xs animation-fadeInQuick">
+			<a href="/styles"><strong>Styles</strong></a>
+		</li>
+		<li class="hidden-xs animation-fadeInQuick">
+			<a href="/cellars"><strong>Cellars</strong></a>
+		</li>
+	</ul>
 
-    {{#if loggedIn}}
-      <ul id='authenticated-menu' class="nav navbar-nav-custom pull-right">
+  {{#if loggedIn}}
+	  <ul id='authenticated-menu' class="nav navbar-nav-custom pull-right">
 
-        <li class="hidden-xs animation-fadeInQuick">
-          <a href='/yourcellar'>Your Cellar</a>
-        </li>
-        <li>
-          <a href='/settings'>Settings</a>
-        <li class="hidden-xs animation-fadeInQuick">
-        <li>
-          <a href='/logout'>Logout</a>
-        </li>
-      </ul>
-    {{else}}
-      <ul id='unauthenticated-menu' class="nav navbar-nav-custom pull-right">
+		  <li class="hidden-xs animation-fadeInQuick">
+			  <a href='/yourcellar'>Your Cellar</a>
+		  </li>
+		  <li>
+			  <a href='/settings'>Settings</a>
+		  <li class="hidden-xs animation-fadeInQuick">
+		  <li>
+			  <a href='/logout'>Logout</a>
+		  </li>
+	  </ul>
+  {{else}}
+	  <ul id='unauthenticated-menu' class="nav navbar-nav-custom pull-right">
 
-        <li class="hidden-xs animation-fadeInQuick">
-          <a href='/login'>Login</a>
-        </li>
-        <li class="hidden-xs animation-fadeInQuick">
-          <a href='/register'>Register</a>
-        </li>
-      </ul>
-    {{/if}}
+		  <li class="hidden-xs animation-fadeInQuick">
+			  <a href='/login'>Login</a>
+		  </li>
+		  <li class="hidden-xs animation-fadeInQuick">
+			  <a href='/register'>Register</a>
+		  </li>
+	  </ul>
+  {{/if}}
 </header>

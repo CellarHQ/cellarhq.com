@@ -15,14 +15,14 @@ import java.lang.annotation.Target
  *
  * Example:
  * <code>
- * @Sanitize(type=CellarRecord, fields=['displayName', 'bio'])
- * class Cellar { ... }
- * </code>
+ * @Sanitize ( t y p e = C e l l a r R e c o r d , fields=['displayName', 'bio'])
+ * class Cellar { ... }* </code>
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @interface Sanitize {
-    Class<? extends Record> recordType()
-    String[] fields()
+  Class<? extends Record> recordType()
+
+  String[] fields()
 }

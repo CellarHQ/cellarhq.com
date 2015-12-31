@@ -1,13 +1,13 @@
-var YourCellar = function() {
+var YourCellar = function () {
   return {
-    init: function() {
+    init: function () {
       $('label.switch').click(this.checkboxSwitchControl);
       $('#tradeable').change(this.addBeerTradeableChangeControl);
       $('a.drink-cellared-beer').click(this.drinkCellaredBeer);
       $('a.delete-cellared-beer').click(this.confirmDeleteCellaredBeer);
       $('a.confirm-delete-cellared-drink').click(this.deleteCellaredBeer);
 
-      $.validator.addMethod('multidate', function(value, element) {
+      $.validator.addMethod('multidate', function (value, element) {
         return this.optional(element) || moment(value, ['YYYY', 'YYYY-MM', 'YYYY-MM-DD']).isValid();
       });
 
@@ -25,7 +25,7 @@ var YourCellar = function() {
         limit: 20,
         remote: {
           url: '/api/drinks/live-search',
-          replace: function(url, query) {
+          replace: function (url, query) {
             return ['/api/drinks/live-search', '?name=', query, '&organizationId=', $('#breweryId').val()].join('');
           }
         }
@@ -35,10 +35,10 @@ var YourCellar = function() {
       $('#brewery').typeahead(null, {
         displayKey: 'name',
         source: breweryLearner.ttAdapter()
-      }).bind('typeahead:selected', function(obj, datum, name) {
+      }).bind('typeahead:selected', function (obj, datum, name) {
         $('#breweryId').val(datum['id']);
         beerLearner.clearRemoteCache();
-      }).blur(function() {
+      }).blur(function () {
         if (!$('#breweryId').val()) {
           $(this).val('');
         }
@@ -47,9 +47,9 @@ var YourCellar = function() {
       $('#beer').typeahead(null, {
         displayKey: 'name',
         source: beerLearner.ttAdapter()
-      }).bind('typeahead:selected', function(obj, datum, name) {
+      }).bind('typeahead:selected', function (obj, datum, name) {
         $('#beerId').val(datum['id']);
-      }).blur(function() {
+      }).blur(function () {
         if (!$('#beerId').val()) {
           $(this).val('');
         }
@@ -58,14 +58,14 @@ var YourCellar = function() {
       $('#add-beer-form').validate({
         errorClass: 'help-block animation-slideUp',
         errorElement: 'div',
-        errorPlacement: function(error, e) {
+        errorPlacement: function (error, e) {
           e.parents('.form-group > div').append(error);
         },
-        highlight: function(e) {
+        highlight: function (e) {
           $(e).closest('.form-group').removeClass('has-success has-error').addClass('has-error');
           $(e).closest('.help-block').remove();
         },
-        success: function(e) {
+        success: function (e) {
           e.closest('.form-group').removeClass('has-success has-error');
           e.closest('.help-block').remove();
         },
@@ -118,7 +118,7 @@ var YourCellar = function() {
       });
     },
 
-    checkboxSwitchControl: function() {
+    checkboxSwitchControl: function () {
       var checkbox = $(this).closest('input[type=checkbox]');
       if (checkbox.is(':checked')) {
         checkbox.prop('checked', false);
@@ -127,7 +127,7 @@ var YourCellar = function() {
       }
     },
 
-    addBeerTradeableChangeControl: function() {
+    addBeerTradeableChangeControl: function () {
       var numTradeable = $('#numTradeable');
       if ($(this).is(':checked')) {
         numTradeable.prop('disabled', false);
@@ -137,7 +137,7 @@ var YourCellar = function() {
       }
     },
 
-    drinkCellaredBeer: function() {
+    drinkCellaredBeer: function () {
       var
         id = $(this).data('cellareddrinkid'),
         cellar = $(this).data('cellar'),
@@ -148,15 +148,15 @@ var YourCellar = function() {
         cache: false,
         dataType: 'json'
       })
-        .done(function() {
-          window.location = '/yourcellar?success=Hope that ' + beerName  + ' was tasty. If that was your last beer, we removed it from the list.'
+        .done(function () {
+          window.location = '/yourcellar?success=Hope that ' + beerName + ' was tasty. If that was your last beer, we removed it from the list.'
         })
-        .fail(function() {
-          window.location = '/yourcellar?error=An error occurred while drinking ' + beerName  + '. Try again!'
+        .fail(function () {
+          window.location = '/yourcellar?error=An error occurred while drinking ' + beerName + '. Try again!'
         });
     },
 
-    confirmDeleteCellaredBeer: function() {
+    confirmDeleteCellaredBeer: function () {
       var
         id = $(this).data('cellareddrinkid'),
         cellar = $(this).data('cellar'),
@@ -173,7 +173,7 @@ var YourCellar = function() {
       $('#confirmDeleteCellaredBeerModal').modal();
     },
 
-    deleteCellaredBeer: function() {
+    deleteCellaredBeer: function () {
       var
         id = $(this).data('cellareddrinkid'),
         cellar = $(this).data('cellar'),
@@ -185,11 +185,11 @@ var YourCellar = function() {
           cache: false,
           dataType: 'json'
         })
-          .done(function() {
-                //TODO: flash the row, hide it and update the beer counts.
-            window.location = '/yourcellar/?success=' + beerName  + ' was deleted.'
+          .done(function () {
+            //TODO: flash the row, hide it and update the beer counts.
+            window.location = '/yourcellar/?success=' + beerName + ' was deleted.'
           })
-          .fail(function(data) {
+          .fail(function (data) {
             var response = $.parseJSON(data.responseText);
             var message = response.message;
             if (message == null) {

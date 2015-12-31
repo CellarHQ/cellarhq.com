@@ -1,24 +1,22 @@
 buildscript {
-    repositories {
-        jcenter()
-        maven { url 'http://clinker.netty.io/nexus/content/repositories/snapshots' }
-        maven { url "http://oss.jfrog.org/repo" }
-        maven { url 'http://oss.jfrog.org/artifactory/repo' }
-    }
-    dependencies {
-        classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
-        classpath databaseDriver
-        classpath 'se.transmode.gradle:gradle-docker:1.2'
-        classpath 'com.bluepapa32:gradle-watch-plugin:0.1.4'
-        classpath "io.ratpack:ratpack-gradle:0.9.15"
-    }
+  repositories {
+    jcenter()
+    maven { url "http://oss.jfrog.org/repo" }
+    maven { url 'http://oss.jfrog.org/artifactory/repo' }
+  }
+  dependencies {
+    classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
+    classpath databaseDriver
+    classpath 'se.transmode.gradle:gradle-docker:1.2'
+    classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
+  }
 }
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '1.2.1'
-    id "com.github.ben-manes.versions" version "0.5"
-    id 'groovy'
-    id 'idea'
+  id "io.ratpack.ratpack-groovy" version "1.1.1"
+  id "com.github.johnrengelman.shadow" version "1.2.2"
+  id "idea"
+  id "eclipse"
 }
 
 apply plugin: 'com.github.ben-manes.versions'
@@ -26,95 +24,83 @@ apply from: "${rootDir}/gradle/codenarc.gradle"
 apply plugin: 'docker'
 apply plugin: 'com.bluepapa32.watch'
 
-apply plugin: "io.ratpack.ratpack-groovy"
-
 repositories {
-    jcenter()
-    maven { url 'http://clinker.netty.io/nexus/content/repositories/snapshots' }
-    maven { url "http://oss.jfrog.org/repo" }
-    maven { url 'http://oss.jfrog.org/artifactory/repo' }
+  jcenter()
+  maven { url "http://oss.jfrog.org/repo" }
+  maven { url 'http://oss.jfrog.org/artifactory/repo' }
 }
 
 sourceSets {
-    functional {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-    }
+  functional {
+    compileClasspath += main.output + test.output
+    runtimeClasspath += main.output + test.output
+  }
 }
 
 configurations {
-    functionalCompile.extendsFrom configurations.testCompile
-    functionalRuntime.extendsFrom configurations.testRuntime
+  functionalCompile.extendsFrom configurations.testCompile
+  functionalRuntime.extendsFrom configurations.testRuntime
 }
 
 idea {
-    module {
-        testSourceDirs += sourceSets.functional.groovy.srcDirs
-        testSourceDirs += sourceSets.functional.resources.srcDirs
-        scopes.TEST.plus.add(configurations.functionalCompile)
-        scopes.TEST.plus.add(configurations.functionalRuntime)
-    }
+  module {
+    testSourceDirs += sourceSets.functional.groovy.srcDirs
+    testSourceDirs += sourceSets.functional.resources.srcDirs
+    scopes.TEST.plus.add(configurations.functionalCompile)
+    scopes.TEST.plus.add(configurations.functionalRuntime)
+  }
 }
 
 dependencies {
-    // SpringLoaded enables runtime hot reloading.
-    // It is not part of the app runtime and is not shipped in the distribution.
+  compile project(':model')
 
-    compile project(':model'), {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
+  compile ratpack.dependency('dropwizard-metrics')
+  compile ratpack.dependency('h2')
+  compile ratpack.dependency('hikari')
+  compile ratpack.dependency('handlebars')
+  compile ratpack.dependency('pac4j')
+  compile ratpack.dependency('remote')
+  compile ratpack.dependency("rx")
+  compile ratpack.dependency('session')
+  compile 'org.pac4j:pac4j-http:1.6.0'
+  compile 'org.pac4j:pac4j-oauth:1.6.0'
 
-    compile ratpack.dependency("config")
-    compile ratpack.dependency('codahale-metrics')
-    compile ratpack.dependency('h2')
-    compile ratpack.dependency('hikari')
-    compile ratpack.dependency('handlebars')
-    compile ratpack.dependency('jackson')
-    compile ratpack.dependency('pac4j')
-    compile ratpack.dependency('remote')
-    compile ratpack.dependency("rx")
-    compile 'org.pac4j:pac4j-http:1.6.0'
-    compile 'org.pac4j:pac4j-oauth:1.6.0'
+  compile 'org.mindrot:jbcrypt:0.3m'
+  compile 'com.github.slugify:slugify:2.1.3'
 
-    compile 'org.mindrot:jbcrypt:0.3m'
-    compile 'com.github.slugify:slugify:2.1.2'
+  compile 'org.hibernate:hibernate-validator:5.1.2.Final'
+  compile 'javax.el:javax.el-api:3.0.1-b04'
+  compile 'org.glassfish.web:javax.el:2.2.6'
 
-    compile 'org.hibernate:hibernate-validator:5.1.2.Final'
-    compile 'javax.el:javax.el-api:3.0.1-b04'
-    compile 'org.glassfish.web:javax.el:2.2.6'
+  compile 'com.amazonaws:aws-java-sdk:1.10.16', {
+    // selenium requires httpclient-4.3; aws includes 4.2.
+    exclude module: 'httpclient'
+  }
+  compile 'org.apache.httpcomponents:httpclient:4.3.5'
 
-    compile 'com.amazonaws:aws-java-sdk:1.8.11', {
-        // selenium requires httpclient-4.3; aws includes 4.2.
-        exclude module: 'httpclient'
-    }
-    compile 'org.apache.httpcomponents:httpclient:4.3.5'
+  compile 'org.reflections:reflections-maven:0.9.9-RC2'
+  compile 'org.imgscalr:imgscalr-lib:4.2'
+  compile 'org.owasp.antisamy:antisamy:1.5.3'
 
-    compile 'org.reflections:reflections-maven:0.9.9-RC2'
-    compile 'org.imgscalr:imgscalr-lib:4.2'
-    compile 'org.owasp.antisamy:antisamy:1.5.3'
+  runtime 'org.codehaus.janino:janino:2.7.6'
+  runtime 'com.logentries:logentries-appender:1.1.30'
+  runtime 'org.slf4j:slf4j-api:1.7.7'
+  runtime 'ch.qos.logback:logback-classic:1.1.3'
+  runtime 'com.lmax:disruptor:3.3.2'
+  runtime 'net.kencochrane.raven:raven-logback:6.0.0'
 
-    runtime 'org.codehaus.janino:janino:2.7.6'
-    runtime 'com.logentries:logentries-appender:1.1.27'
-    runtime 'org.slf4j:slf4j-api:1.7.7'
-    runtime 'ch.qos.logback:logback-classic:1.1.2'
-    runtime 'com.lmax:disruptor:3.3.0'
-    runtime 'net.kencochrane.raven:raven-logback:5.0.1'
+  testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
+    exclude module: "groovy-all"
+  }
+  testCompile 'cglib:cglib-nodep:3.1'
+  testRuntime "org.objenesis:objenesis:1.2"
+  testCompile ratpack.dependency("remote-test")
 
-    testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
-        exclude module: "groovy-all"
-    }
-
-    testCompile ratpack.dependency("remote-test")
-    testCompile 'cglib:cglib-nodep:3.1'
-
-    testRuntime "org.objenesis:objenesis:1.2"
-
-    functionalCompile ratpack.dependency("remote-test")
-    functionalCompile "org.gebish:geb-spock:0.10.0"
-    functionalCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.45.0", {
-        exclude module: 'httpclient'
-    }
-    functionalCompile 'org.liquibase:liquibase-core:3.2.2'
+  functionalCompile "org.gebish:geb-spock:0.10.0"
+  functionalCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.45.0", {
+    exclude module: 'httpclient'
+  }
+  functionalCompile 'org.liquibase:liquibase-core:3.4.1'
 }
 
 // The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in
@@ -122,23 +108,23 @@ dependencies {
 configurations.testCompile.dependencies.find { it.name == "ratpack-groovy-test" }.exclude(group: "org.codehaus.groovy")
 
 docker {
-    apiUsername project.hasProperty('dockerUser') ? project.dockerUser : 'invalid'
-    apiPassword project.hasProperty('dockerApiPassword') ? project.dockerApiPassword : 'invalid'
-    apiEmail project.hasProperty('dockerApiEmail') ? project.dockerApiEmail : 'invalid'
+  apiUsername project.hasProperty('dockerUser') ? project.dockerUser : 'invalid'
+  apiPassword project.hasProperty('dockerApiPassword') ? project.dockerApiPassword : 'invalid'
+  apiEmail project.hasProperty('dockerApiEmail') ? project.dockerApiEmail : 'invalid'
 }
 
 task buildDocker(type: Docker) {
-    registry 'kyleboon'
-    applicationName = 'cellarhq'
-    tagVersion = 'latest'
-    dockerfile = project.file('Dockerfile')
+  registry 'kyleboon'
+  applicationName = 'cellarhq'
+  tagVersion = 'latest'
+  dockerfile = project.file('Dockerfile')
 
-    doFirst {
-        addFile project.tasks.shadowJar.archivePath
-        addFile "production.properties"
-    }
+  doFirst {
+    addFile project.tasks.shadowJar.archivePath
+    addFile "production.properties"
+  }
 
-    push =  project.hasProperty('push')
+  push = project.hasProperty('push')
 }
 
 task publish(dependsOn: 'buildDocker') {
@@ -146,96 +132,70 @@ task publish(dependsOn: 'buildDocker') {
 }
 
 test {
-    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
-    systemProperty 'DISABLE_SERVICES', true
+  // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
+  systemProperty 'DISABLE_SERVICES', true
 }
 
 task functionalTest(type: Test) {
-    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
-    systemProperty 'DISABLE_SERVICES', true
-    systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
-    systemProperty 'ratpack.hostName', 'localhost:5050'
-    systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
-    systemProperty 'ratpack.environment', 'development'
-    systemProperty 'ratpack.secretRememberMeToken', 'topSecretKey'
+  // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
+  systemProperty 'DISABLE_SERVICES', true
+  systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
+  systemProperty 'ratpack.hostName', 'localhost:5050'
+  systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
+  systemProperty 'ratpack.environment', 'development'
 
 
-    testClassesDir = sourceSets.functional.output.classesDir
-    classpath = sourceSets.functional.runtimeClasspath
+  testClassesDir = sourceSets.functional.output.classesDir
+  classpath = sourceSets.functional.runtimeClasspath
 
-    systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
-    systemProperty 'liquibase.schema.default', 'public'
-    systemProperty 'liquibase.onerror.fail', true
-    maxHeapSize '768m'
+  systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
+  systemProperty 'liquibase.schema.default', 'public'
+  systemProperty 'liquibase.onerror.fail', true
+  maxHeapSize '768m'
 
+  if (System.getenv('SNAP_CI')) {
+    environment 'RATPACK_DATABASE_SERVER_NAME', System.getenv('SNAP_DB_PG_HOST')
+    environment 'RATPACK_DATABASE_PORT_NUMBER', System.getenv('SNAP_DB_PG_PORT')
+    environment 'RATPACK_DATABASE_NAME', 'app_test'
+    environment 'RATPACK_DATABASE_USER', System.getenv('SNAP_DB_PG_USER')
+    environment 'RATPACK_DATABASE_PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
+    environment 'RATPACK_AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY') ?: 'BAD_KEY'
+    environment 'RATPACK_AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY') ?: 'BAD_KEY'
+    environment 'RATPACK_TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN') ?: 'BAD_KEY'
+    environment 'RATPACK_TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET') ?: 'BAD_KEY'
 
-    if (System.getenv('SNAP_CI')) {
-        environment 'RATPACK_DATABASE_SERVER_NAME', System.getenv('SNAP_DB_PG_HOST')
-        environment 'RATPACK_DATABASE_PORT_NUMBER', System.getenv('SNAP_DB_PG_PORT')
-        environment 'RATPACK_DATABASE_NAME', 'app_test'
-        environment 'RATPACK_DATABASE_USER', System.getenv('SNAP_DB_PG_USER')
-        environment 'RATPACK_DATABASE_PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
-        environment 'RATPACK_AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY') ?: 'BAD_KEY'
-        environment 'RATPACK_AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY') ?: 'BAD_KEY'
-        environment 'RATPACK_TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN') ?: 'BAD_KEY'
-        environment 'RATPACK_TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET') ?: 'BAD_KEY'
-
-        testLogging.showStandardStreams = true
-    } else {
-        systemProperty 'ratpack.databaseServerName', 'localHost'  // not sure if should put these in here or not
-        systemProperty 'ratpack.databasePortNumber', '15432'
-        systemProperty 'ratpack.databaseName', 'cellarhq_testing'
-        systemProperty 'ratpack.databaseUser', 'cellarhq'
-        systemProperty 'ratpack.databasePassword', 'cellarhq'
-
-        if (project.hasProperty('awsAccessKey'))  {
-            systemProperty 'ratpack.awsAccessKey', project.awsAccessKey
-            systemProperty 'ratpack.awsSecretKey', project.awsSecretKey
-
-
-            systemProperty 'ratpack.twitterApiKey', project.twitterApiKey
-            systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
-        }
-    }
-}
-
-
-run {
-    // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
-    systemProperty 'DISABLE_SERVICES', true
-    systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
-    systemProperty 'ratpack.hostName', 'localhost:5050'
-
-    systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
-    systemProperty 'ratpack.environment', 'development'
+    testLogging.showStandardStreams = true
+  } else {
     systemProperty 'ratpack.databaseServerName', 'localHost'  // not sure if should put these in here or not
     systemProperty 'ratpack.databasePortNumber', '15432'
-    systemProperty 'ratpack.databaseName', 'cellarhq'
+    systemProperty 'ratpack.databaseName', 'cellarhq_testing'
     systemProperty 'ratpack.databaseUser', 'cellarhq'
     systemProperty 'ratpack.databasePassword', 'cellarhq'
-    systemProperty 'ratpack.secretRememberMeToken', 'topSecretKey'
 
-    if (project.hasProperty('awsAccessKey'))  {
-        systemProperty 'ratpack.awsAccessKey', project.awsAccessKey
-        systemProperty 'ratpack.awsSecretKey', project.awsSecretKey
-        systemProperty 'ratpack.twitterApiKey', project.twitterApiKey
-        systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
+    if (project.hasProperty('awsAccessKey')) {
+      systemProperty 'ratpack.awsAccessKey', project.awsAccessKey
+      systemProperty 'ratpack.awsSecretKey', project.awsSecretKey
+
+
+      systemProperty 'ratpack.twitterApiKey', project.twitterApiKey
+      systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
     }
+  }
 }
 
 watch {
-    java {
-        files files('src/main/java')
-        tasks 'compileJava'
-    }
-    groovy {
-        files files('src/main/groovy')
-        tasks 'compileGroovy'
-    }
-    resources {
-        files fileTree(dir: 'src/main/resources', include: '**/*')
-        tasks 'processResources'
-    }
+  java {
+    files files('src/main/java')
+    tasks 'compileJava'
+  }
+  groovy {
+    files files('src/main/groovy')
+    tasks 'compileGroovy'
+  }
+  resources {
+    files fileTree(dir: 'src/main/resources', include: '**/*')
+    tasks 'processResources'
+  }
 }
 
 codenarcTest.enabled = false

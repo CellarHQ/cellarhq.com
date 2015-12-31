@@ -5,6 +5,6 @@ import com.cellarhq.functional.pages.BasePage
 
 class BreweriesPage extends BasePage {
 
-    static url = '/breweries'
-    static at = { pageId ==~ /breweries.list/ }
+  static url = '/breweries'
+  static at = { pageId ==~ /breweries.list/ }
 }

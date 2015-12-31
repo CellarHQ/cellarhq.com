@@ -1,60 +1,62 @@
 {{# partial "body" }}
-  <div id="login-container">
-    <h1 class="h2 text-light text-center push-top-bottom animation-slideDown">
-      <strong>Welcome to CellarHQ</strong>
-    </h1>
+	<div id="login-container">
+		<h1 class="h2 text-light text-center push-top-bottom animation-slideDown">
+			<strong>Welcome to CellarHQ</strong>
+		</h1>
 
-    <div class="block animation-fadeInQuickInv">
-      <div class="block-title">
-        <div class="block-options pull-right">
-          <a href="/forgot-password" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Forgot your password?"><i class="fa fa-exclamation-circle"></i></a>
-          <a href="/register" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Create new account"><i class="fa fa-plus"> Register</i></a>
-        </div>
-        <h2>Please Log in</h2>
-      </div>
+		<div class="block animation-fadeInQuickInv">
+			<div class="block-title">
+				<div class="block-options pull-right">
+					<a href="/forgot-password" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip"
+					   data-placement="left" title="Forgot your password?"><i class="fa fa-exclamation-circle"></i></a>
+					<a href="/register" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip"
+					   data-placement="left" title="Create new account"><i class="fa fa-plus"> Register</i></a>
+				</div>
+				<h2>Please Log in</h2>
+			</div>
 
-      <a class="btn btn-effect-ripple btn-primary" href='{{authTwitterUrl}}' id='twitter-login-btn'>
-        <i class="fa fa-twitter"></i> Sign in with Twitter
-      </a>
+			<a class="btn btn-effect-ripple btn-primary" href='{{authTwitterUrl}}' id='twitter-login-btn'>
+				<i class="fa fa-twitter"></i> Sign in with Twitter
+			</a>
 
-      <hr>
+			<hr>
 
-      {{>common/messages}}
+          {{>common/messages}}
 
-      <form id="form-login" action="/pac4j-callback" method="post" class="form-horizontal">
-        <div class="form-group">
-          <div class="col-xs-12">
-            <input type="text" id="username" name="username" class="form-control" placeholder="Your email...">
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-xs-12">
-            <input type="password" id="password" name="password" class="form-control" placeholder="Your password...">
-          </div>
-        </div>
-        <div class="form-group form-actions">
-            <div class="col-xs-8">
-                <label class="csscheckbox csscheckbox-primary">
-                    <input type="checkbox" id="login-remember-me" name="remember-me">
-                    <span></span>
-                </label>
-                Remember Me?
-            </div>
-            <div class="col-xs-4 text-right">
-                <button type="submit" class="btn btn-effect-ripple btn-medium btn-primary">
-                    <i class="fa fa-check"></i> Login
-                </button>
-            </div>
-        </div>
-        <input type='hidden' id='client_name' name='client_name' value='FormClient'/>
-      </form>
-    </div>
+			<form id="form-login" action="authenticator" method="post" class="form-horizontal">
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input type="text" id="username" name="username" class="form-control"
+						       placeholder="Your email...">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input type="password" id="password" name="password" class="form-control"
+						       placeholder="Your password...">
+					</div>
+				</div>
+				<div class="form-group form-actions">
+					<div class="col-xs-6">
+						<button type="submit" class="btn btn-effect-ripple btn-primary"><i class="fa fa-check"></i>
+							Login
+						</button>
+					</div>
+					<div class="col-sx-6 pull-right">
+						<a class="btn" href="/forgot-password">Forgot password?</a>
+					</div>
+				</div>
+				<input type='hidden' id='client_name' name='client_name' value='FormClient'/>
+			</form>
+		</div>
 
-    {{>common/footer}}
-  </div>
+      {{>common/footer}}
+	</div>
 {{/partial}}
 {{#partial "extra_includes"}}
-  <script src="/scripts/pages/login.js"></script>
-  <script>$(function(){ Login.init(); });</script>
+	<script src="/scripts/pages/login.js"></script>
+	<script>$(function () {
+		Login.init();
+	});</script>
 {{/partial}}
 {{> layout-shell.html}}

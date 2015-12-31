@@ -1,196 +1,205 @@
 footer ul {
-    list-style: none;
-    margin: 0 0 20px;
-    padding: 0;
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
 }
 
 footer li {
-    border-left: 1px solid #ccc;
-    display: inline;
-    margin-left: 10px;
-    padding-left: 10px;
+  border-left: 1px solid #ccc;
+  display: inline;
+  margin-left: 10px;
+  padding-left: 10px;
 }
 
 footer li:first-child {
-    border: none;
-    margin-left: 0;
+  border: none;
+  margin-left: 0;
 }
 
 #header-ad {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .no-padding {
-    padding: 0;
+  padding: 0;
 }
+
 .no-margin {
-    margin: 0;
+  margin: 0;
 }
 
 ul.cellar-bio {
-    list-style: none;
+  list-style: none;
 }
 
 ul.cellared-drink-flags {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: inline;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline;
 }
+
 .cellared-drink-flags li {
-    display: inline;
-    margin: 3px;
+  display: inline;
+  margin: 3px;
 }
+
 .cellared-drink-flags li:last-child {
-    margin: 0;
+  margin: 0;
 }
 
 #cellared-drinks-table td:nth-child(2) {
-    max-width: 400px;
+  max-width: 400px;
 }
 
 .servererror pre {
-    background: none;
+  background: none;
 }
 
 .servererror pre code {
-    border: none;
+  border: none;
 }
 
 .roadmap {
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
 }
 
 .roadmap-behind {
-    border-left-color: #deb25c;
+  border-left-color: #deb25c;
 }
+
 .roadmap-behind h4 {
-    color: #deb25c;
-    margin-top: 0;
+  color: #deb25c;
+  margin-top: 0;
 }
+
 .roadmap-behind h4::before {
-    content: "Behind: ";
-    font-weight: bold;
+  content: "Behind: ";
+  font-weight: bold;
 }
 
 .roadmap-scheduled {
-    border-left-color: #5cafde;
+  border-left-color: #5cafde;
 }
+
 .roadmap-scheduled h4 {
-    color: #5cafde;
-    margin-top: 0;
+  color: #5cafde;
+  margin-top: 0;
 }
+
 .roadmap-scheduled h4::before {
-    content: "Scheduled: ";
-    font-weight: bold;
+  content: "Scheduled: ";
+  font-weight: bold;
 }
 
 .roadmap-ontrack {
-    border-left-color: #afde5c;
+  border-left-color: #afde5c;
 }
+
 .roadmap-ontrack h4 {
-    color: #afde5c;
-    margin-top: 0;
+  color: #afde5c;
+  margin-top: 0;
 }
+
 .roadmap-ontrack h4::before {
-    content: "On Track: ";
-    font-weight: bold;
+  content: "On Track: ";
+  font-weight: bold;
 }
 
 .alert-danger a {
-    color: #fff;
-    text-decoration: underline;
+  color: #fff;
+  text-decoration: underline;
 }
 
 .brewery-photo img {
-    margin-right: 10px;
-    margin-bottom: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .beer-photo img {
-    margin-right: 10px;
-    margin-bottom: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .typeahead,
 .tt-query,
 .tt-hint {
-    width: 396px;
-    height: 30px;
-    outline: none;
+  width: 396px;
+  height: 30px;
+  outline: none;
 }
 
 .typeahead {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .tt-query {
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .tt-hint {
-    color: #999
+  color: #999
 }
 
 .tt-dropdown-menu {
-    width: 396px;
-    padding: 8px 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    max-height: 150px;
-    overflow-y: auto;
+  width: 396px;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 .tt-suggestion {
-    padding: 3px 20px;
-    line-height: 24px;
+  padding: 3px 20px;
+  line-height: 24px;
 
 }
 
 .tt-suggestion.tt-cursor {
-    color: #fff;
-    background-color: #0097cf;
+  color: #fff;
+  background-color: #0097cf;
 }
 
 .tt-suggestion p {
-    margin: 0;
+  margin: 0;
 }
 
 .action-column {
-    white-space: nowrap;
-    width:50px;
+  white-space: nowrap;
+  width: 50px;
 }
 
 .size-column {
-    white-space: nowrap;
-    width:75px;
+  white-space: nowrap;
+  width: 75px;
 }
 
 .quantity-column {
-    white-space: nowrap;
-    width:20px;
+  white-space: nowrap;
+  width: 20px;
 }
 
 .bottleDate-column {
-    white-space: nowrap;
-    width:100px;
+  white-space: nowrap;
+  width: 100px;
 }
 
 .alert-info a {
-    color: #fff;
-    text-decoration: underline;
+  color: #fff;
+  text-decoration: underline;
 }

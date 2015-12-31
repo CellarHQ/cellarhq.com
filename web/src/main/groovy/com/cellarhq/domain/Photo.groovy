@@ -10,23 +10,23 @@ import java.time.LocalDateTime
 @InheritConstructors
 class Photo extends com.cellarhq.generated.tables.pojos.Photo {
 
-    enum Size {
-        THUMB,
-        LARGE
-    }
+  enum Size {
+    THUMB,
+    LARGE
+  }
 
-    enum Type {
-        CELLAR,
-        DRINK,
-        ORGANIZATION
-    }
+  enum Type {
+    CELLAR,
+    DRINK,
+    ORGANIZATION
+  }
 
-    final static String DESCRIPTION_TWITTER_UPLOAD = 'added by twitter profile'
-    final static String DESCRIPTION_SETTINGS_UPLOAD = 'added by settings page'
+  final static String DESCRIPTION_TWITTER_UPLOAD = 'added by twitter profile'
+  final static String DESCRIPTION_SETTINGS_UPLOAD = 'added by settings page'
 
-    Photo() {
-        version = 0
-        createdDate = Timestamp.valueOf(LocalDateTime.now())
-        modifiedDate = createdDate
-    }
+  Photo() {
+    version = 0
+    createdDate = Timestamp.valueOf(LocalDateTime.now())
+    modifiedDate = createdDate
+  }
 }

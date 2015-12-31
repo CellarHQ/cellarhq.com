@@ -1,108 +1,110 @@
 {{#partial "body"}}
-  <div id="page-wrapper">
-    <div id="page-container" class="header-fixed-top">
-    <!-- Main Container -->
-    <div id="main-container">
-        <!-- Header -->
-        <header class="navbar navbar-inverse navbar-fixed-top">
-            <ul class="nav navbar-nav-custom">
-                <li>
-                    <a href="/" class="sidebar-title">
-                        <i class="fa fa-cube"></i> <span class="sidebar-nav-mini-hide">Cellar<strong>HQ</strong></span>
-                    </a>
-                </li>
-            </ul>
+	<div id="page-wrapper">
+		<div id="page-container" class="header-fixed-top">
+			<!-- Main Container -->
+			<div id="main-container">
+				<!-- Header -->
+				<header class="navbar navbar-inverse navbar-fixed-top">
+					<ul class="nav navbar-nav-custom">
+						<li>
+							<a href="/" class="sidebar-title">
+								<i class="fa fa-cube"></i> <span class="sidebar-nav-mini-hide">Cellar<strong>HQ</strong></span>
+							</a>
+						</li>
+					</ul>
 
-            <!-- Left Header Navigation -->
-            <ul class="nav navbar-nav-custom">
-                <!-- Header Link -->
-                <li class="hidden-xs animation-fadeInQuick">
-                    <a href="/breweries"><strong>Breweries</strong></a>
-                </li>
-                <li class="hidden-xs animation-fadeInQuick">
-                    <a href="/beers"><strong>Beer</strong></a>
-                </li>
-                <li class="hidden-xs animation-fadeInQuick">
-                    <a href="/cellars"><strong>Cellars</strong></a>
-                </li>
-                {{#if loggedIn}}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            Add <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/breweries/add">Brewery</a></li>
-                            <li><a href="/beers/add">Beer</a></li>
-                        </ul>
-                    </li>
-                {{/if}}
-            </ul>
+					<!-- Left Header Navigation -->
+					<ul class="nav navbar-nav-custom">
+						<!-- Header Link -->
+						<li class="hidden-xs animation-fadeInQuick">
+							<a href="/breweries"><strong>Breweries</strong></a>
+						</li>
+						<li class="hidden-xs animation-fadeInQuick">
+							<a href="/beers"><strong>Beer</strong></a>
+						</li>
+						<li class="hidden-xs animation-fadeInQuick">
+							<a href="/cellars"><strong>Cellars</strong></a>
+						</li>
+                      {{#if loggedIn}}
+						  <li class="dropdown">
+							  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+							     aria-expanded="false">
+								  Add <span class="caret"></span>
+							  </a>
+							  <ul class="dropdown-menu" role="menu">
+								  <li><a href="/breweries/add">Brewery</a></li>
+								  <li><a href="/beers/add">Beer</a></li>
+							  </ul>
+						  </li>
+                      {{/if}}
+					</ul>
 
-            {{#if loggedIn}}
-                <ul id='authenticated-menu' class="nav navbar-nav-custom pull-right">
+                  {{#if loggedIn}}
+					  <ul id='authenticated-menu' class="nav navbar-nav-custom pull-right">
 
-                    <li class="hidden-xs animation-fadeInQuick">
-                        <a href='/yourcellar'>Your Cellar</a>
-                    </li>
-                    <li>
-                        <a href='/settings'>Settings</a>
-                    <li class="hidden-xs animation-fadeInQuick">
-                    <li>
-                        <a href='/logout'>Logout</a>
-                    </li>
-                </ul>
-            {{else}}
-                <ul id='unauthenticated-menu' class="nav navbar-nav-custom pull-right">
+						  <li class="hidden-xs animation-fadeInQuick">
+							  <a href='/yourcellar'>Your Cellar</a>
+						  </li>
+						  <li>
+							  <a href='/settings'>Settings</a>
+						  <li class="hidden-xs animation-fadeInQuick">
+						  <li>
+							  <a href='/logout'>Logout</a>
+						  </li>
+					  </ul>
+                  {{else}}
+					  <ul id='unauthenticated-menu' class="nav navbar-nav-custom pull-right">
 
-                    <li class="hidden-xs animation-fadeInQuick">
-                        <a href='/login'>Login</a>
-                    </li>
-                    <li class="hidden-xs animation-fadeInQuick">
-                        <a href='/register'>Register</a>
-                    </li>
-                </ul>
-            {{/if}}
-            <!-- END Left Header Navigation -->
-        </header>
-        <div id="page-content">
-          <div class="content-header">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="header-section">
-                  {{#block "header"}}{{/block}}
-                </div>
-              </div>
-            </div>
-          </div>
+						  <li class="hidden-xs animation-fadeInQuick">
+							  <a href='/login'>Login</a>
+						  </li>
+						  <li class="hidden-xs animation-fadeInQuick">
+							  <a href='/register'>Register</a>
+						  </li>
+					  </ul>
+                  {{/if}}
+					<!-- END Left Header Navigation -->
+				</header>
+				<div id="page-content">
+					<div class="content-header">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="header-section">
+                                  {{#block "header"}}{{/block}}
+								</div>
+							</div>
+						</div>
+					</div>
 
-          <div id="header-ad">
-              <script type="text/javascript">
-                <!--
-                google_ad_client = "ca-pub-0146558179277695";
-                /* Top Banner */
-                google_ad_slot = "9274883423";
-                google_ad_width = 728;
-                google_ad_height = 90;
-                //-->
-              </script>
-              <script type="text/javascript" src="//pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-          </div>
+					<div id="header-ad">
+						<script type="text/javascript">
+							<!--
+							google_ad_client = "ca-pub-0146558179277695";
+							/* Top Banner */
+							google_ad_slot = "9274883423";
+							google_ad_width = 728;
+							google_ad_height = 90;
+							//-->
+						</script>
+						<script type="text/javascript"
+						        src="//pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+					</div>
 
 
-            {{>common/messages}}
+                  {{>common/messages}}
 
-            {{#block "content" }}
-            {{/block}}
+                  {{#block "content" }}
+                  {{/block}}
 
-            {{>common/footer}}
-        </div>
-        <!-- END Page Content -->
-    </div>
-    <!-- END Main Container -->
-</div>
-<!-- END Page Container -->
-</div>
-<!-- END Page Wrapper -->
+                  {{>common/footer}}
+				</div>
+				<!-- END Page Content -->
+			</div>
+			<!-- END Main Container -->
+		</div>
+		<!-- END Page Container -->
+	</div>
+	<!-- END Page Wrapper -->
 
 {{/partial}}
 

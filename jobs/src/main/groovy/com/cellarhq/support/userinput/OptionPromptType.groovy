@@ -5,9 +5,9 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class OptionPromptType implements PromptType {
 
-    Map<String, Class> allowedValues
+  Map<String, Class> allowedValues
 
-    String getHint() {
-        return allowedValues.keySet().join(',')
-    }
+  String getHint() {
+    return allowedValues.keySet().join(',')
+  }
 }

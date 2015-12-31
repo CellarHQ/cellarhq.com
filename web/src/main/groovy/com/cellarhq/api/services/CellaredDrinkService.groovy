@@ -1,16 +1,13 @@
 package com.cellarhq.api.services
 
-import com.cellarhq.generated.Keys
-import com.cellarhq.jooq.BaseJooqService
-import rx.Observable
-
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.views.CellaredDrinkDetails
+import com.cellarhq.generated.Keys
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
+import com.cellarhq.jooq.BaseJooqService
 import com.cellarhq.jooq.CellarStatsUpdater
-
-import com.cellarhq.jooq.SortCommand
 import com.cellarhq.jooq.CustomViewRecordMapperProvider
+import com.cellarhq.jooq.SortCommand
 import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
@@ -18,7 +15,8 @@ import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.SelectConditionStep
 import org.jooq.SelectJoinStep
-import ratpack.exec.ExecControl
+import ratpack.exec.Blocking
+import rx.Observable
 
 import javax.sql.DataSource
 import java.sql.Timestamp
@@ -31,213 +29,213 @@ import static ratpack.rx.RxRatpack.observeEach
 @Slf4j
 class CellaredDrinkService extends BaseJooqService {
 
-    @Inject
-    CellaredDrinkService(DataSource dataSource, ExecControl execControl) {
-        super(dataSource, execControl)
-    }
+  @Inject
+  CellaredDrinkService(DataSource dataSource) {
+    super(dataSource)
+  }
 
-    Observable<CellaredDrink> save(CellaredDrink cellaredDrink) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                CellaredDrinkRecord drinkRecord = create.newRecord(CELLARED_DRINK, cellaredDrink)
+  Observable<CellaredDrink> save(CellaredDrink cellaredDrink) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        CellaredDrinkRecord drinkRecord = create.newRecord(CELLARED_DRINK, cellaredDrink)
 
-                if (drinkRecord.id) {
-                    drinkRecord.update()
-                } else {
-                    drinkRecord.reset(CELLARED_DRINK.ID)
-                    drinkRecord.store()
-                }
-
-                if (drinkRecord) {
-                    new CellarStatsUpdater().updateAllCounts(drinkRecord.cellarId, drinkRecord.drinkId, create)
-                    return drinkRecord.into(CellaredDrink)
-                }
-
-                return null
-
-            }
-        }).asObservable()
-    }
-
-    Observable<CellaredDrink> findById(Long id) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                create.select()
-                        .from(CELLARED_DRINK)
-                        .where(CELLARED_DRINK.ID.eq(id))
-                        .fetchOneInto(CellaredDrink)
-            }
-        }).asObservable()
-    }
-
-    Observable<CellaredDrinkDetails> findByIdForEdit(String cellarSlug, Long id) {
-        observe(execControl.blocking {
-            jooq({ Configuration c ->
-                c.set(new CustomViewRecordMapperProvider([
-                        organizationName: String,
-                        drinkName       : String
-                ]))
-            }) { DSLContext create ->
-                create.select(JooqUtil.andFields(
-                        CELLARED_DRINK.fields(),
-                        ORGANIZATION.NAME.as('organizationName'),
-                        DRINK.NAME.as('drinkName')
-                ))
-                        .from(CELLARED_DRINK)
-                        .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
-                        .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
-                        .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-                        .where(CELLARED_DRINK.ID.eq(id)
-                        .and(CELLAR.SLUG.eq(cellarSlug)))
-                        .fetchOneInto(CellaredDrinkDetails)
-            }
-        })
-    }
-
-    Observable<CellaredDrink> all(Long id, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
-            allNonZeroQuery(sortCommand) { SelectConditionStep step ->
-                step.and(CELLAR.ID.eq(id))
-            }
-        })
-    }
-
-    Observable<CellaredDrinkDetails> all(String cellarSlug, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
-            allNonZeroQuery(sortCommand) { SelectConditionStep step ->
-                step.and(CELLAR.SLUG.equalIgnoreCase(cellarSlug))
-            }
-        })
-    }
-
-    Observable<CellaredDrinkDetails> archive(Long id, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
-            allQuery(sortCommand) { SelectJoinStep step ->
-                step.where(CELLAR.ID.eq(id)).and(CELLARED_DRINK.QUANTITY.equal(0))
-            }
-        })
-    }
-
-    Observable<CellaredDrinkDetails> archive(String cellarSlug, SortCommand sortCommand) {
-        observeEach(execControl.blocking {
-            allQuery(sortCommand) { SelectJoinStep step ->
-                step.where(CELLAR.SLUG.equalIgnoreCase(cellarSlug)).and(CELLARED_DRINK.QUANTITY.equal(0))
-            }
-        })
-    }
-
-    Observable<Void> delete(Long id) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                CellaredDrinkRecord drink = create
-                        .select()
-                        .from(CELLARED_DRINK)
-                        .where(CELLARED_DRINK.ID.eq(id))
-                        .fetchOneInto(CellaredDrinkRecord)
-
-                if (drink) {
-                    drink.delete()
-                    new CellarStatsUpdater().updateAllCounts(drink.cellarId, drink.drinkId, create)
-                }
-
-                return Void
-            }
-        })
-    }
-
-    Observable<CellaredDrink> drink(String cellarSlug, Long id) {
-        observe(execControl.blocking {
-            jooq { DSLContext create ->
-                CellaredDrinkRecord drink = create
-                        .select()
-                        .from(CELLARED_DRINK)
-                        .join(CELLAR).onKey()
-                        .where(CELLAR.SLUG.eq(cellarSlug))
-                        .and(CELLARED_DRINK.ID.eq(id))
-                        .fetchOneInto(CellaredDrinkRecord)
-
-                if (drink && drink.quantity > 0) {
-                    create.update(CELLARED_DRINK)
-                            .set(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.QUANTITY.minus(1))
-                            .set(CELLARED_DRINK.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
-                            .where(CELLARED_DRINK.ID.eq(id))
-                            .execute()
-
-                    new CellarStatsUpdater().updateAllCounts(drink.cellarId, drink.drinkId, create)
-
-                    drink.refresh(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.MODIFIED_DATE)
-                    return drink.into(CellaredDrink)
-                }
-
-                return null
-            }
-        })
-    }
-
-    /**
-     * Finds any cellared drink that has been marked as tradable by the cellar owner.
-     *
-     * @param organizationSlug
-     * @param drinkSlug
-     * @param sortCommand
-     * @return
-     */
-    Observable<CellaredDrinkDetails> findTradeableCellaredDrinks(String organizationSlug,
-                                                                    String drinkSlug,
-                                                                    SortCommand sortCommand) {
-        observeEach(execControl.blocking {
-            allQuery(sortCommand) { SelectJoinStep step ->
-                step.where(DRINK.SLUG.eq(drinkSlug))
-                        .and(ORGANIZATION.SLUG.eq(organizationSlug))
-                        .and(CELLARED_DRINK.TRADEABLE.isTrue())
-            }
-        })
-    }
-
-    private List<CellaredDrinkDetails> allNonZeroQuery(SortCommand sortCommand, Closure<SelectConditionStep> criteria) {
-        allQuery(sortCommand) { SelectJoinStep step ->
-            criteria(step.where(CELLARED_DRINK.QUANTITY.greaterThan(0)))
+        if (drinkRecord.id) {
+          drinkRecord.update()
+        } else {
+          drinkRecord.reset(CELLARED_DRINK.ID)
+          drinkRecord.store()
         }
-    }
 
-    private List<CellaredDrinkDetails> allQuery(SortCommand sortCommand, Closure<SelectConditionStep> criteria) {
-        jooq({ Configuration c ->
-            c.set(new CustomViewRecordMapperProvider([
-                    organizationSlug: String,
-                    organizationName: String,
-                    drinkSlug       : String,
-                    drinkName       : String,
-                    styleName       : String,
-                    cellarSlug      : String,
-                    cellarName      : String
-            ]))
-        }) { DSLContext create ->
-            SelectJoinStep selectStep = create.select(JooqUtil.andFields(
-                    CELLARED_DRINK.fields(),
-                    ORGANIZATION.SLUG.as('organizationSlug'),
-                    ORGANIZATION.NAME.as('organizationName'),
-                    DRINK.SLUG.as('drinkSlug'),
-                    DRINK.NAME.as('drinkName'),
-                    STYLE.NAME.as('styleName'),
-                    CELLAR.SLUG.as('cellarSlug'),
-                    CELLAR.SCREEN_NAME.as('cellarName')
-            ))
-                    .from(CELLARED_DRINK)
-                    .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
-                    .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
-                    .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-                    .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
-
-            criteria(selectStep)
-                    .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
-                    beerName   : DRINK.NAME,
-                    breweryName: ORGANIZATION.NAME,
-                    size       : CELLARED_DRINK.SIZE,
-                    quantity   : CELLARED_DRINK.QUANTITY,
-                    bottleDate : CELLARED_DRINK.BOTTLE_DATE,
-                    style      : STYLE.NAME
-            ]), DRINK.NAME.asc(), CELLARED_DRINK.BOTTLE_DATE.asc(), CELLARED_DRINK.SIZE.asc())
-                    .fetchInto(CellaredDrinkDetails)
+        if (drinkRecord) {
+          new CellarStatsUpdater().updateAllCounts(drinkRecord.cellarId, drinkRecord.drinkId, create)
+          return drinkRecord.into(CellaredDrink)
         }
+
+        return null
+
+      }
+    }).asObservable()
+  }
+
+  Observable<CellaredDrink> findById(Long id) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        create.select()
+          .from(CELLARED_DRINK)
+          .where(CELLARED_DRINK.ID.eq(id))
+          .fetchOneInto(CellaredDrink)
+      }
+    }).asObservable()
+  }
+
+  Observable<CellaredDrinkDetails> findByIdForEdit(String cellarSlug, Long id) {
+    observe(Blocking.get {
+      jooq({ Configuration c ->
+        c.set(new CustomViewRecordMapperProvider([
+          organizationName: String,
+          drinkName       : String
+        ]))
+      }) { DSLContext create ->
+        create.select(JooqUtil.andFields(
+          CELLARED_DRINK.fields(),
+          ORGANIZATION.NAME.as('organizationName'),
+          DRINK.NAME.as('drinkName')
+        ))
+          .from(CELLARED_DRINK)
+          .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
+          .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
+          .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+          .where(CELLARED_DRINK.ID.eq(id)
+          .and(CELLAR.SLUG.eq(cellarSlug)))
+          .fetchOneInto(CellaredDrinkDetails)
+      }
+    })
+  }
+
+  Observable<CellaredDrink> all(Long id, SortCommand sortCommand) {
+    observeEach(Blocking.get {
+      allNonZeroQuery(sortCommand) { SelectConditionStep step ->
+        step.and(CELLAR.ID.eq(id))
+      }
+    })
+  }
+
+  Observable<CellaredDrinkDetails> all(String cellarSlug, SortCommand sortCommand) {
+    observeEach(Blocking.get {
+      allNonZeroQuery(sortCommand) { SelectConditionStep step ->
+        step.and(CELLAR.SLUG.equalIgnoreCase(cellarSlug))
+      }
+    })
+  }
+
+  Observable<CellaredDrinkDetails> archive(Long id, SortCommand sortCommand) {
+    observeEach(Blocking.get {
+      allQuery(sortCommand) { SelectJoinStep step ->
+        step.where(CELLAR.ID.eq(id)).and(CELLARED_DRINK.QUANTITY.equal(0))
+      }
+    })
+  }
+
+  Observable<CellaredDrinkDetails> archive(String cellarSlug, SortCommand sortCommand) {
+    observeEach(Blocking.get {
+      allQuery(sortCommand) { SelectJoinStep step ->
+        step.where(CELLAR.SLUG.equalIgnoreCase(cellarSlug)).and(CELLARED_DRINK.QUANTITY.equal(0))
+      }
+    })
+  }
+
+  Observable<Void> delete(Long id) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        CellaredDrinkRecord drink = create
+          .select()
+          .from(CELLARED_DRINK)
+          .where(CELLARED_DRINK.ID.eq(id))
+          .fetchOneInto(CellaredDrinkRecord)
+
+        if (drink) {
+          drink.delete()
+          new CellarStatsUpdater().updateAllCounts(drink.cellarId, drink.drinkId, create)
+        }
+
+        return Void
+      }
+    })
+  }
+
+  Observable<CellaredDrink> drink(String cellarSlug, Long id) {
+    observe(Blocking.get {
+      jooq { DSLContext create ->
+        CellaredDrinkRecord drink = create
+          .select()
+          .from(CELLARED_DRINK)
+          .join(CELLAR).onKey()
+          .where(CELLAR.SLUG.eq(cellarSlug))
+          .and(CELLARED_DRINK.ID.eq(id))
+          .fetchOneInto(CellaredDrinkRecord)
+
+        if (drink && drink.quantity > 0) {
+          create.update(CELLARED_DRINK)
+            .set(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.QUANTITY.minus(1))
+            .set(CELLARED_DRINK.MODIFIED_DATE, Timestamp.valueOf(LocalDateTime.now()))
+            .where(CELLARED_DRINK.ID.eq(id))
+            .execute()
+
+          new CellarStatsUpdater().updateAllCounts(drink.cellarId, drink.drinkId, create)
+
+          drink.refresh(CELLARED_DRINK.QUANTITY, CELLARED_DRINK.MODIFIED_DATE)
+          return drink.into(CellaredDrink)
+        }
+
+        return null
+      }
+    })
+  }
+
+  /**
+   * Finds any cellared drink that has been marked as tradable by the cellar owner.
+   *
+   * @param organizationSlug
+   * @param drinkSlug
+   * @param sortCommand
+   * @return
+   */
+  Observable<CellaredDrinkDetails> findTradeableCellaredDrinks(String organizationSlug,
+                                                               String drinkSlug,
+                                                               SortCommand sortCommand) {
+    observeEach(Blocking.get {
+      allQuery(sortCommand) { SelectJoinStep step ->
+        step.where(DRINK.SLUG.eq(drinkSlug))
+          .and(ORGANIZATION.SLUG.eq(organizationSlug))
+          .and(CELLARED_DRINK.TRADEABLE.isTrue())
+      }
+    })
+  }
+
+  private List<CellaredDrinkDetails> allNonZeroQuery(SortCommand sortCommand, Closure<SelectConditionStep> criteria) {
+    allQuery(sortCommand) { SelectJoinStep step ->
+      criteria(step.where(CELLARED_DRINK.QUANTITY.greaterThan(0)))
     }
+  }
+
+  private List<CellaredDrinkDetails> allQuery(SortCommand sortCommand, Closure<SelectConditionStep> criteria) {
+    jooq({ Configuration c ->
+      c.set(new CustomViewRecordMapperProvider([
+        organizationSlug: String,
+        organizationName: String,
+        drinkSlug       : String,
+        drinkName       : String,
+        styleName       : String,
+        cellarSlug      : String,
+        cellarName      : String
+      ]))
+    }) { DSLContext create ->
+      SelectJoinStep selectStep = create.select(JooqUtil.andFields(
+        CELLARED_DRINK.fields(),
+        ORGANIZATION.SLUG.as('organizationSlug'),
+        ORGANIZATION.NAME.as('organizationName'),
+        DRINK.SLUG.as('drinkSlug'),
+        DRINK.NAME.as('drinkName'),
+        STYLE.NAME.as('styleName'),
+        CELLAR.SLUG.as('cellarSlug'),
+        CELLAR.SCREEN_NAME.as('cellarName')
+      ))
+        .from(CELLARED_DRINK)
+        .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
+        .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
+        .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+        .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+
+      criteria(selectStep)
+        .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
+        beerName   : DRINK.NAME,
+        breweryName: ORGANIZATION.NAME,
+        size       : CELLARED_DRINK.SIZE,
+        quantity   : CELLARED_DRINK.QUANTITY,
+        bottleDate : CELLARED_DRINK.BOTTLE_DATE,
+        style      : STYLE.NAME
+      ]), DRINK.NAME.asc(), CELLARED_DRINK.BOTTLE_DATE.asc(), CELLARED_DRINK.SIZE.asc())
+        .fetchInto(CellaredDrinkDetails)
+    }
+  }
 }

@@ -8,7 +8,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AccessControlException extends RuntimeException {
 
-    AccessControlException(String message) {
-        super(message)
-    }
+  AccessControlException(String message) {
+    super(message)
+  }
 }

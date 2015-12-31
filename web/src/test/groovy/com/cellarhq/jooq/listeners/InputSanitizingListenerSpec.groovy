@@ -8,61 +8,61 @@ import spock.lang.Unroll
 
 class InputSanitizingListenerSpec extends Specification {
 
-    def 'record has flagged input sanitized'() {
-        given:
-        CellarRecord record = new CellarRecord().with { CellarRecord self ->
-            bio = 'Hello!<script type="text/javascript">window.location = "somewhere-bad";</script>'
-            displayName = '<strong>My name!</strong>'
-            screenName = '<li>Unsanitized</li>'
-            return self
-        }
-
-        when:
-        InputSanitizingListener.instance.sanitizeRecord(record)
-
-        then:
-        noExceptionThrown()
-        assert record.bio == 'Hello!'
-        assert record.displayName == '<strong>My name!</strong>'
-        assert record.screenName == '<li>Unsanitized</li>'
+  def 'record has flagged input sanitized'() {
+    given:
+    CellarRecord record = new CellarRecord().with { CellarRecord self ->
+      bio = 'Hello!<script type="text/javascript">window.location = "somewhere-bad";</script>'
+      displayName = '<strong>My name!</strong>'
+      screenName = '<li>Unsanitized</li>'
+      return self
     }
 
-    @Unroll("'#recordType' #description")
-    def 'record is maybe sanitized'() {
-        when:
-        boolean result = InputSanitizingListener.instance.shouldSanitizeRecord(record)
+    when:
+    InputSanitizingListener.instance.sanitizeRecord(record)
 
-        then:
-        noExceptionThrown()
-        assert result == shouldSanitize
+    then:
+    noExceptionThrown()
+    assert record.bio == 'Hello!'
+    assert record.displayName == '<strong>My name!</strong>'
+    assert record.screenName == '<li>Unsanitized</li>'
+  }
 
-        where:
-        record               | shouldSanitize
-        new CellarRecord()   | true
-        new ActivityRecord() | false
+  @Unroll("'#recordType' #description")
+  def 'record is maybe sanitized'() {
+    when:
+    boolean result = InputSanitizingListener.instance.shouldSanitizeRecord(record)
 
-        description = shouldSanitize ? 'should be sanitized' : 'should not be sanitized'
-        recordType = record.class.simpleName
-    }
+    then:
+    noExceptionThrown()
+    assert result == shouldSanitize
 
-    @Unroll("'#executeType' #description")
-    def 'only write events should be processed'() {
-        when:
-        boolean result = InputSanitizingListener.instance.shouldProcessEvent(executeType)
+    where:
+    record               | shouldSanitize
+    new CellarRecord()   | true
+    new ActivityRecord() | false
 
-        then:
-        noExceptionThrown()
-        assert result == shouldProcess
+    description = shouldSanitize ? 'should be sanitized' : 'should not be sanitized'
+    recordType = record.class.simpleName
+  }
 
-        where:
-        executeType         | shouldProcess
-        ExecuteType.READ    | false
-        ExecuteType.WRITE   | true
-        ExecuteType.DDL     | false
-        ExecuteType.BATCH   | false
-        ExecuteType.ROUTINE | false
-        ExecuteType.OTHER   | false
+  @Unroll("'#executeType' #description")
+  def 'only write events should be processed'() {
+    when:
+    boolean result = InputSanitizingListener.instance.shouldProcessEvent(executeType)
 
-        description = shouldProcess ? 'should be processed' : 'should not be processed'
-    }
+    then:
+    noExceptionThrown()
+    assert result == shouldProcess
+
+    where:
+    executeType         | shouldProcess
+    ExecuteType.READ    | false
+    ExecuteType.WRITE   | true
+    ExecuteType.DDL     | false
+    ExecuteType.BATCH   | false
+    ExecuteType.ROUTINE | false
+    ExecuteType.OTHER   | false
+
+    description = shouldProcess ? 'should be processed' : 'should not be processed'
+  }
 }

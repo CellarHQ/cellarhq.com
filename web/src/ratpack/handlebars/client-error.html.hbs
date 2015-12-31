@@ -1,19 +1,21 @@
 {{#partial "header"}}
-    <h1>{{statusCode}}: {{message}}</h1>
+	<h1>{{statusCode}}: {{message}}</h1>
 {{/partial}}
 {{# partial "content" }}
-  <div class="row">
-    <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-      <div class="row">
-        <div class="alert alert-danger">
-          <h2>{{message}}</h2>
-          <p>Oh man. What happened? You can either try your request again, or let us know of the
-          problem via email <a href="mailto:team@cellarhq.com">team@cellarhq.com</a> or <a href="https://cellarhq.uservoice.com/forums/144014-general">User Voice</a>.</p>
-          <small>(Error ID: {{correlationId}})</small>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="row">
+		<div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+			<div class="row">
+				<div class="alert alert-danger">
+					<h2>{{message}}</h2>
+
+					<p>Oh man. What happened? You can either try your request again, or let us know of the
+						problem via email <a href="mailto:team@cellarhq.com">team@cellarhq.com</a> or <a
+								href="https://cellarhq.uservoice.com/forums/144014-general">User Voice</a>.</p>
+					<small>(Error ID: {{correlationId}})</small>
+				</div>
+			</div>
+		</div>
+	</div>
 {{/partial}}
 
 {{> layout.html}}

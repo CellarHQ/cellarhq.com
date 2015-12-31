@@ -1,14 +1,14 @@
 package com.cellarhq.functional
 
-import ratpack.registry.Registry
-import ratpack.registry.Registries
-import ratpack.remote.RemoteControl
 import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
+import ratpack.guice.Guice
+import ratpack.registry.Registry
+import ratpack.remote.RemoteControl
 
 class CellarHqApplication extends GroovyRatpackMainApplicationUnderTest {
-    protected Registry createOverrides(Registry serverRegistry) throws Exception {
-        return Registries.registry {
-            it.add(RemoteControl.handlerDecorator())
-        }
-    }
+  protected Registry createOverrides(Registry serverRegistry) throws Exception {
+    return Guice.registry {
+      it.bindInstance RemoteControl.handlerDecorator()
+    }.apply(serverRegistry)
+  }
 }

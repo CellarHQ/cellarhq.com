@@ -1,40 +1,29 @@
 plugins {
-    id 'groovy'
-    id 'application'
-    id 'idea'
-    id 'com.github.johnrengelman.shadow' version '1.2.1'
+  id 'groovy'
+  id 'application'
+  id 'idea'
+  id 'com.github.johnrengelman.shadow' version '1.2.2'
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.1'
-    compile 'com.amazonaws:aws-java-sdk:1.8.11'
-    compile 'com.github.slugify:slugify:2.1.2'
-    compile 'joda-time:joda-time:2.4'
-    compile 'com.squareup.retrofit:retrofit:1.6.1'
-    compile 'org.unbescape:unbescape:1.1.0.RELEASE'
-    compile 'commons-cli:commons-cli:1.2'
+  compile 'org.codehaus.groovy:groovy-all:2.4.4'
+  compile 'com.amazonaws:aws-java-sdk:1.10.16'
+  compile 'com.github.slugify:slugify:2.1.3'
+  compile 'joda-time:joda-time:2.8.2'
+  compile 'com.squareup.retrofit:retrofit:1.6.1'
+  compile 'org.unbescape:unbescape:1.1.0.RELEASE'
+  compile 'commons-cli:commons-cli:1.2'
 
-    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0.1'
-    compile 'org.apache.logging.log4j:log4j-api:2.0.1'
-    compile 'org.apache.logging.log4j:log4j-core:2.0.1'
+  compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0.1'
+  compile 'org.apache.logging.log4j:log4j-api:2.0.1'
+  compile 'org.apache.logging.log4j:log4j-core:2.0.1'
 
-    compile project(':model')
-    compile databaseDriver
-
-    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0', {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
+  compile project(':model')
+  compile databaseDriver
 }
 
 mainClassName = "com.cellarhq.cli.CommandApp"
-
-// gradle :jobs:run -DappArgs="cellarMerge 123 1234"
-run {
-    if (project.hasProperty('appArgs')) {
-        args appArgs.split()
-    }
-}

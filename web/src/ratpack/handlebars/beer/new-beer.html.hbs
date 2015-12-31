@@ -1,110 +1,124 @@
 {{# partial "header" }}
-    <h1>Beer Management</h1>
+	<h1>Beer Management</h1>
 {{/partial}}
 {{# partial "content" }}
-    <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-            <div class="block">
-                <div class="block-title">
-                    <h2>Add New Beer to {{org.name}}</h2>
-                </div>
+	<div class="row">
+		<div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+			<div class="block">
+				<div class="block-title">
+					<h2>Add New Beer to {{org.name}}</h2>
+				</div>
 
-                {{#if org}}
-                    <form action="/breweries/{{org.slug}}/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
+              {{#if org}}
+			  <form action="/breweries/{{org.slug}}/beers" method="post" id="new-beer-form"
+			        class="form-horizontal form-bordered">
 
-                    <div class="form-group">
-                            <label class="col-md-3 control-label" for="organization">Brewery</label>
-                            <div class="col-md-6">
-                                <p class="form-control-static">{{org.name}}</p>
-                            </div>
-                            <input type="hidden" id="organizationId" name="organizationId" value="{{org.id}}"/>
-                    </div>
-                {{else}}
-                    <form action="/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="organization">Brewery</label>
-                            <div class="col-md-6">
-                                <input type="text" id="brewery" name="brewery" class="form-control typeahead">
-                                <span class="help-block">Required</span>
-                            </div>
-                            <input type="hidden" id="organizationId" name="organizationId" value="{{org.id}}"/>
-                        </div>
-                {{/if}}
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="name">Name</label>
-                        <div class="col-md-6">
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Furious"/>
-                            <span class="help-block">Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="style">Style</label>
-                        <div class="col-md-6">
-                            <input type="text" id="style" name="style" class="form-control typeahead" placeholder="American IPA"/>
-                        </div>
-                        <input type="hidden" id="styleId" name="styleId"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="glassware">Glassware</label>
-                        <div class="col-md-6">
-                            <input type="text" id="glassware" name="glassware" class="form-control typeahead" placeholder="Pint"/>
-                        </div>
-                        <input type="hidden" id="glasswareId" name="glasswareId"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="description">Description</label>
-                        <div class="col-md-6">
-                            <textarea id="description" name="description" class="form-control" placeholder="Beer for a glass, from a can."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="srm">SRM</label>
-                        <div class="col-md-6">
-                            <input type="text" id="srm" name="srm" class="form-control" placeholder="27"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="ibu">IBU</label>
-                        <div class="col-md-6">
-                            <input type="text" id="ibu" name="ibu" class="form-control" placeholder="99"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="abv">ABV</label>
-                        <div class="col-md-6">
-                            <input type="text" id="abv" name="abv" class="form-control" placeholder="6.2"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="availability">Availability</label>
-                        <div class="col-md-6">
-                            <select class="form-control" id="availability" name="availability">
-                                <option value="" selected>Unknown</option>
-                                {{#each availability}}
-                                    <option value="{{value}}">{{label}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group form-actions">
-                        <div class="col-md-8 col-md-offset-3">
-                            <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-effect-ripple btn-danger">Reset</button>
-                        </div>
-                    </div>
-                </form>
+				  <div class="form-group">
+					  <label class="col-md-3 control-label" for="organization">Brewery</label>
 
-            </div>
-        </div>
-    </div>
+					  <div class="col-md-6">
+						  <p class="form-control-static">{{org.name}}</p>
+					  </div>
+					  <input type="hidden" id="organizationId" name="organizationId" value="{{org.id}}"/>
+				  </div>
+              {{else}}
+			  <form action="/beers" method="post" id="new-beer-form" class="form-horizontal form-bordered">
+				  <div class="form-group">
+					  <label class="col-md-3 control-label" for="organization">Brewery</label>
+
+					  <div class="col-md-6">
+						  <input type="text" id="brewery" name="brewery" class="form-control typeahead">
+						  <span class="help-block">Required</span>
+					  </div>
+					  <input type="hidden" id="organizationId" name="organizationId" value="{{org.id}}"/>
+				  </div>
+              {{/if}}
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="name">Name</label>
+
+					<div class="col-md-6">
+						<input type="text" id="name" name="name" class="form-control" placeholder="Furious"/>
+						<span class="help-block">Required</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="style">Style</label>
+
+					<div class="col-md-6">
+						<input type="text" id="style" name="style" class="form-control typeahead"
+						       placeholder="American IPA"/>
+					</div>
+					<input type="hidden" id="styleId" name="styleId"/>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="glassware">Glassware</label>
+
+					<div class="col-md-6">
+						<input type="text" id="glassware" name="glassware" class="form-control typeahead"
+						       placeholder="Pint"/>
+					</div>
+					<input type="hidden" id="glasswareId" name="glasswareId"/>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="description">Description</label>
+
+					<div class="col-md-6">
+						<textarea id="description" name="description" class="form-control"
+						          placeholder="Beer for a glass, from a can."></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="srm">SRM</label>
+
+					<div class="col-md-6">
+						<input type="text" id="srm" name="srm" class="form-control" placeholder="27"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="ibu">IBU</label>
+
+					<div class="col-md-6">
+						<input type="text" id="ibu" name="ibu" class="form-control" placeholder="99"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="abv">ABV</label>
+
+					<div class="col-md-6">
+						<input type="text" id="abv" name="abv" class="form-control" placeholder="6.2"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="availability">Availability</label>
+
+					<div class="col-md-6">
+						<select class="form-control" id="availability" name="availability">
+							<option value="" selected>Unknown</option>
+                          {{#each availability}}
+							  <option value="{{value}}">{{label}}</option>
+                          {{/each}}
+						</select>
+					</div>
+				</div>
+				<div class="form-group form-actions">
+					<div class="col-md-8 col-md-offset-3">
+						<button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
+						<button type="reset" class="btn btn-effect-ripple btn-danger">Reset</button>
+					</div>
+				</div>
+			</form>
+
+			</div>
+		</div>
+	</div>
 {{/partial}}
 
 {{# partial "extra_includes"}}
-    <script src="/scripts/vendor/typeahead/typeahead.bundle.min.js"></script>
-    <script src="/scripts/pages/beers.js"></script>
-    <script>$(function () {
-        Beer.init();
-    });</script>
+	<script src="/scripts/vendor/typeahead/typeahead.bundle.min.js"></script>
+	<script src="/scripts/pages/beers.js"></script>
+	<script>$(function () {
+		Beer.init();
+	});</script>
 {{/partial}}
 
 {{> layout.html}}

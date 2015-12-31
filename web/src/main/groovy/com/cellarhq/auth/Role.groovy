@@ -7,13 +7,13 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 public enum Role {
-    ANONYMOUS('anonymous'),
-    MEMBER('member'),
-    ADMIN('admin')
+  ANONYMOUS('anonymous'),
+  MEMBER('member'),
+  ADMIN('admin')
 
-    private final String value
+  private final String value
 
-    Role(String value) {
-        this.value = value
-    }
+  Role(String value) {
+    this.value = value
+  }
 }

@@ -6,33 +6,33 @@ import ratpack.http.Request
 @CompileStatic
 class SortCommand {
 
-    enum Order {
-        DESC('desc'),
-        ASC('asc')
+  enum Order {
+    DESC('desc'),
+    ASC('asc')
 
-        final String value
+    final String value
 
-        Order(String value) {
-            this.value = value
-        }
-
-        static Order fromString(String value) {
-            return values().find { it.value == value } ?: DESC
-        }
+    Order(String value) {
+      this.value = value
     }
 
-    String field
-    Order order
-
-    static SortCommand fromRequest(Request request) {
-        return new SortCommand().with { SortCommand self ->
-            field = request.queryParams.get('field')
-            order = Order.fromString(request.queryParams.get('order'))
-            return self
-        }
+    static Order fromString(String value) {
+      return values().find { it.value == value } ?: DESC
     }
+  }
 
-    boolean isValid() {
-        return field && order
+  String field
+  Order order
+
+  static SortCommand fromRequest(Request request) {
+    return new SortCommand().with { SortCommand self ->
+      field = request.queryParams.get('field')
+      order = Order.fromString(request.queryParams.get('order'))
+      return self
     }
+  }
+
+  boolean isValid() {
+    return field && order
+  }
 }

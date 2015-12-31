@@ -1,192 +1,218 @@
 {{#partial "extra_head"}}
-    <link rel="stylesheet" href="/styles/cellarhq-home.css">
+	<link rel="stylesheet" href="/styles/cellarhq-home.css">
 {{/partial}}
 {{# partial "body" }}
-    <div id="page-wrapper">
-      <div id="page-container">
-        <div id="main-container">
-          <section id="register-cta">
-            <div class="row">
-              <div class="col-xs-offset-1 col-xs-10">
-                <header class="navbar navbar-inverse">
-                  <ul class="nav navbar-nav-custom">
-                    <li class="sidebar-title"><span class="sidebar-nav-mini-hide">Cellar<strong>HQ</strong></span></li>
-                  </ul>
-                  <ul class="nav navbar-nav-custom pull-right">
-                    <li class="hidden-xs animation-fadeInQuick">
-                      <a href="/breweries">Breweries</a>
-                    </li>
-                    <li class="hidden-xs animation-fadeInQuick">
-                      <a href="/beers">Beer</a>
-                    </li>
-                    <li class="hidden-xs animation-fadeInQuick">
-                      <a href="/cellars">Cellars</a>
-                    </li>
-                    <li class="hidden-xs animation-fadeInQuick">
-                      <a class="login" href='/login'><strong>Login</strong></a>
-                    </li>
-                  </ul>
-                </header>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-1 cta-text">
-                <div class="text-center">
-                  <h1><strong>Manage your Cellar</strong></h1>
-                  <h2>CellarHQ is a website to organize your beer collection and trade with others around the world.</h2>
-                </div>
-              </div>
+	<div id="page-wrapper">
+		<div id="page-container">
+			<div id="main-container">
+				<section id="register-cta">
+					<div class="row">
+						<div class="col-xs-offset-1 col-xs-10">
+							<header class="navbar navbar-inverse">
+								<ul class="nav navbar-nav-custom">
+									<li class="sidebar-title"><span
+											class="sidebar-nav-mini-hide">Cellar<strong>HQ</strong></span></li>
+								</ul>
+								<ul class="nav navbar-nav-custom pull-right">
+									<li class="hidden-xs animation-fadeInQuick">
+										<a href="/breweries">Breweries</a>
+									</li>
+									<li class="hidden-xs animation-fadeInQuick">
+										<a href="/beers">Beer</a>
+									</li>
+									<li class="hidden-xs animation-fadeInQuick">
+										<a href="/cellars">Cellars</a>
+									</li>
+									<li class="hidden-xs animation-fadeInQuick">
+										<a class="login" href='/login'><strong>Login</strong></a>
+									</li>
+								</ul>
+							</header>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-5 col-sm-offset-1 cta-text">
+							<div class="text-center">
+								<h1><strong>Manage your Cellar</strong></h1>
 
-              <div class="col-sm-5 form-wrapper">
-                  <div class="visible-xs-block hidden-md  text-center">
-                  <a class="btn-lg btn-effect-ripple btn-primary" href='/login'><strong>Login</strong></a>
-                  </div>
+								<h2>CellarHQ is a website to organize your beer collection and trade with others around
+									the world.</h2>
+							</div>
+						</div>
 
-                  <hr class="visible-xs-block hidden-md"/>
-                  <h3>Register</h3>
-                <p>Ready to get your cellar organized?</p>
-                <form id="form-register" action="{{action}}" method="post" class="form-horizontal">
-                  <div class="form-group">
-                    <div class="col-xs-12">
-                      <input type="text" id="screenName" name="screenName" class="form-control" placeholder="Username">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-xs-12 col-sm-6">
-                      <input type="text" id="email" name="email" class="form-control" placeholder="Email">
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                      <input type="text" id="emailConfirm" name="emailConfirm" class="form-control" placeholder="Confirm Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-xs-12 col-sm-6">
-                      <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                      <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" placeholder="Confirm Password">
-                    </div>
-                  </div>
-                  <div class="form-group form-actions">
-                    <div class="col-xs-4">
-                      <label class="csscheckbox csscheckbox-primary" data-toggle="tooltip" title="Agree to the terms">
-                        <input type="checkbox" id="register-terms" name="register-terms">
-                        <span></span>
-                      </label>
-                      <a href="#modal-terms" data-toggle="modal">Terms</a>
-                    </div>
-                    <div class="col-xs-8 text-right">
-                      <a class="btn btn-effect-ripple btn-primary" href='{{authTwitterUrl}}' id='twitter-login-btn'>
-                        <i class="fa fa-twitter"></i> Register with Twitter
-                      </a>
-                      <button type="submit" class="btn btn-effect-ripple btn-success"><i class="fa fa-plus"></i> Create Account</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </section>
+						<div class="col-sm-5 form-wrapper">
+							<div class="visible-xs-block hidden-md  text-center">
+								<a class="btn-lg btn-effect-ripple btn-primary" href='/login'><strong>Login</strong></a>
+							</div>
 
-          <section id="features">
-            <div class="row text-center">
-              <div class="col-sm-3 col-sm-offset-1">
-                <h3>Cellar Management</h3>
-                <i class="fa fa-cogs"></i>
-                <p>
-                  Lists are fine and dandy, but just knowing that a beer exists somewhere in your cellar isn't enough.
-                  Keep better track of your cellar with granular organization.
-                </p>
-              </div>
-              <div class="col-sm-4 slim">
-                <h3>Notifications</h3>
-                <i class="fa fa-exclamation-circle"></i>
-                <p>
-                  Waiting to for a beer to reach a ripe age, or drink before a certain date? We'll keep track of it for
-                  you so you don't need to.
-                </p>
-              </div>
-              <div class="col-sm-3">
-                <h3>Trading</h3>
-                <i class="fa fa-exchange"></i>
-                <p>
-                  Diversity is one of the greatest attributes of a cellar. We offer first-class support for trading,
-                  but keep it opt-in if trading isn't your thing.
-                </p>
-              </div>
-            </div>
-          </section>
-          <section id="stats">
-            <div class="row text-center">
-              <div class="col-sm-2 col-sm-offset-2">
-                <i class="fa fa-database hidden-xs"></i>
-                <hr>
-                <h5 class="text-danger">
-                  <span class="count">{{stats.organizations}}</span>
-                  Breweries
-                </h5>
-              </div>
-              <div class="col-sm-2">
-                <i class="fa fa-database hidden-xs"></i>
-                <hr>
-                <h5 class="text-warning">
-                  <span class="count">{{stats.drinks}}</span>
-                  Beers
-                </h5>
-              </div>
-              <div class="col-sm-2">
-                <i class="fa fa-database hidden-xs"></i>
-                <hr>
-                <h5>
-                  <span class="count">{{stats.cellars}}</span>
-                  Cellars
-                </h5>
-              </div>
-              <div class="col-sm-2">
-                <i class="fa fa-database hidden-xs"></i>
-                <hr>
-                <h5>
-                  <span class="count">{{stats.cellaredDrinks}}</span>
-                  Cellared Beers
-                </h5>
-              </div>
-            </div>
-          </section>
+							<hr class="visible-xs-block hidden-md"/>
+							<h3>Register</h3>
 
-          <footer class="text-muted">
-            <ul>
-              <li><a href="/about">About</a></li>
-              <li><a href="http://blog.cellarhq.com">Blog</a></li>
-              <li><a href="https://twitter.com/cellarhq">Twitter</a></li>
-              <li><a href="https://cellarhq.uservoice.com/forums/144014-general">Help</a></li>
-              <li><span id="year-copy"></span> &copy; <a href="/">CellarHQ</a></li>
-            </ul>
-          </footer>
+							<p>Ready to get your cellar organized?</p>
 
-        </div>
-      </div>
-    </div>
+							<form id="form-register" action="{{action}}" method="post" class="form-horizontal">
+								<div class="form-group">
+									<div class="col-xs-12">
+										<input type="text" id="screenName" name="screenName" class="form-control"
+										       placeholder="Username">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-xs-12 col-sm-6">
+										<input type="text" id="email" name="email" class="form-control"
+										       placeholder="Email">
+									</div>
+									<div class="col-xs-12 col-sm-6">
+										<input type="text" id="emailConfirm" name="emailConfirm" class="form-control"
+										       placeholder="Confirm Email">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-xs-12 col-sm-6">
+										<input type="password" id="password" name="password" class="form-control"
+										       placeholder="Password">
+									</div>
+									<div class="col-xs-12 col-sm-6">
+										<input type="password" id="passwordConfirm" name="passwordConfirm"
+										       class="form-control" placeholder="Confirm Password">
+									</div>
+								</div>
+								<div class="form-group form-actions">
+									<div class="col-xs-4">
+										<label class="csscheckbox csscheckbox-primary" data-toggle="tooltip"
+										       title="Agree to the terms">
+											<input type="checkbox" id="register-terms" name="register-terms">
+											<span></span>
+										</label>
+										<a href="#modal-terms" data-toggle="modal">Terms</a>
+									</div>
+									<div class="col-xs-8 text-right">
+										<a class="btn btn-effect-ripple btn-primary" href='{{authTwitterUrl}}'
+										   id='twitter-login-btn'>
+											<i class="fa fa-twitter"></i> Register with Twitter
+										</a>
+										<button type="submit" class="btn btn-effect-ripple btn-success"><i
+												class="fa fa-plus"></i> Create Account
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</section>
 
-    <div id="modal-terms" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title text-center"><strong>Terms of Service</strong> <small><em>(Last updated Sept 12, 2014)</em></small></h3>
-                </div>
-                <div class="modal-body">
+				<section id="features">
+					<div class="row text-center">
+						<div class="col-sm-3 col-sm-offset-1">
+							<h3>Cellar Management</h3>
+							<i class="fa fa-cogs"></i>
+
+							<p>
+								Lists are fine and dandy, but just knowing that a beer exists somewhere in your cellar
+								isn't enough.
+								Keep better track of your cellar with granular organization.
+							</p>
+						</div>
+						<div class="col-sm-4 slim">
+							<h3>Notifications</h3>
+							<i class="fa fa-exclamation-circle"></i>
+
+							<p>
+								Waiting to for a beer to reach a ripe age, or drink before a certain date? We'll keep
+								track of it for
+								you so you don't need to.
+							</p>
+						</div>
+						<div class="col-sm-3">
+							<h3>Trading</h3>
+							<i class="fa fa-exchange"></i>
+
+							<p>
+								Diversity is one of the greatest attributes of a cellar. We offer first-class support
+								for trading,
+								but keep it opt-in if trading isn't your thing.
+							</p>
+						</div>
+					</div>
+				</section>
+				<section id="stats">
+					<div class="row text-center">
+						<div class="col-sm-2 col-sm-offset-2">
+							<i class="fa fa-database hidden-xs"></i>
+							<hr>
+							<h5 class="text-danger">
+								<span class="count">{{stats.organizations}}</span>
+								Breweries
+							</h5>
+						</div>
+						<div class="col-sm-2">
+							<i class="fa fa-database hidden-xs"></i>
+							<hr>
+							<h5 class="text-warning">
+								<span class="count">{{stats.drinks}}</span>
+								Beers
+							</h5>
+						</div>
+						<div class="col-sm-2">
+							<i class="fa fa-database hidden-xs"></i>
+							<hr>
+							<h5>
+								<span class="count">{{stats.cellars}}</span>
+								Cellars
+							</h5>
+						</div>
+						<div class="col-sm-2">
+							<i class="fa fa-database hidden-xs"></i>
+							<hr>
+							<h5>
+								<span class="count">{{stats.cellaredDrinks}}</span>
+								Cellared Beers
+							</h5>
+						</div>
+					</div>
+				</section>
+
+				<footer class="text-muted">
+					<ul>
+						<li><a href="/about">About</a></li>
+						<li><a href="http://blog.cellarhq.com">Blog</a></li>
+						<li><a href="https://twitter.com/cellarhq">Twitter</a></li>
+						<li><a href="https://cellarhq.uservoice.com/forums/144014-general">Help</a></li>
+						<li><span id="year-copy"></span> &copy; <a href="/">CellarHQ</a></li>
+					</ul>
+				</footer>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="modal-terms" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title text-center"><strong>Terms of Service</strong>
+						<small><em>(Last updated Sept 12, 2014)</em></small>
+					</h3>
+				</div>
+				<div class="modal-body">
                   {{>common/terms-of-service}}
-                </div>
-                <div class="modal-footer">
-                    <div class="text-center">
-                        <button type="button" class="btn btn-effect-ripple btn-sm btn-primary" data-dismiss="modal">I've read them!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+				<div class="modal-footer">
+					<div class="text-center">
+						<button type="button" class="btn btn-effect-ripple btn-sm btn-primary" data-dismiss="modal">I've
+							read them!
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {{/partial}}
 {{#partial "extra_includes"}}
-  <script src="/scripts/pages/register.js"></script>
-  <script>$(function(){ Register.init(); });</script>
+	<script src="/scripts/pages/register.js"></script>
+	<script>$(function () {
+		Register.init();
+	});</script>
 {{/partial}}
 
 {{> layout-shell.html}}

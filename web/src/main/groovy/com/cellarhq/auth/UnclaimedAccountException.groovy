@@ -9,9 +9,9 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class UnclaimedAccountException extends RuntimeException {
 
-    static final String UNCLAIMED_MESSAGE = 'The password on this account must be reset: Use the Forgot Password page.'
+  static final String UNCLAIMED_MESSAGE = 'The password on this account must be reset: Use the Forgot Password page.'
 
-    UnclaimedAccountException() {
-        super(UNCLAIMED_MESSAGE)
-    }
+  UnclaimedAccountException() {
+    super(UNCLAIMED_MESSAGE)
+  }
 }
