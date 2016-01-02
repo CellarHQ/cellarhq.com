@@ -101,9 +101,11 @@ class CellarsEndpoint implements Action<Chain> {
         }
       }
 
-      path('cellars/:slug') { CellarHQProfile profile ->
+      path('cellars/:slug') {
         byMethod {
           get {
+            Optional<CellarHQProfile> profile = context.maybeGet(CellarHQProfile)
+
             String slug = pathTokens['slug']
 
             rx.Observable.zip(
@@ -124,7 +126,7 @@ class CellarsEndpoint implements Action<Chain> {
                   [cellar        : map.cellar,
                    photo         : map.photo,
                    cellaredDrinks: map.cellaredDrinks,
-                   self          : isSelf(profile?.cellarId, map.cellar.id),
+                   self          : isSelf(profile, map.cellar.id),
                    title         : "CellarHQ : ${map.cellar.displayName}",
                    pageId        : 'cellars.show'])
               }
@@ -160,7 +162,8 @@ class CellarsEndpoint implements Action<Chain> {
         }
       }
 
-      get('cellars/:slug/archive') { CellarHQProfile profile ->
+      get('cellars/:slug/archive') {
+        Optional<CellarHQProfile> profile = context.maybeGet(CellarHQProfile)
         String slug = pathTokens['slug']
 
         rx.Observable.zip(
@@ -185,9 +188,9 @@ class CellarsEndpoint implements Action<Chain> {
               [cellar : map.cellar,
                photo  : map.photo,
                archive: map.archive,
-               self   : isSelf(profile?.cellarId, map.cellar.id),
+               self   : isSelf(profile, map.cellar.id),
                title  : 'CellarHQ : Your Cellar',
-               pageId : 'yourcellar']
+               pageId : 'cellars.archive']
             )
           }
 
@@ -309,8 +312,16 @@ class CellarsEndpoint implements Action<Chain> {
     }
   }
 
-  private isSelf(Long sessionCellarId, Long requestCellarId) {
+  private boolean isSelf(Long sessionCellarId, Long requestCellarId) {
     return (sessionCellarId && requestCellarId == sessionCellarId)
+  }
+
+  private boolean isSelf(Optional<CellarHQProfile> profile, Long requestCellarId) {
+    if (!profile.present) {
+      return false
+    }
+
+    return (requestCellarId == profile.get().cellarId)
   }
 
   private CellaredDrink applyForm(CellaredDrink cellaredDrink, Form form) {

@@ -207,6 +207,10 @@ class CellarService extends BaseJooqService {
   Operation deleteCellar(Cellar cellar) {
     Blocking.op {
       jooq { DSLContext create ->
+        //## Deleting source roles
+        //## Deleting source password recovery requests
+        //## Deleting source accounts
+        //## Deleting source cellar
         create.delete(CELLARED_DRINK).where(CELLARED_DRINK.CELLAR_ID.eq(cellar.id)).execute()
         create.delete(ACCOUNT_EMAIL).where(ACCOUNT_EMAIL.CELLAR_ID.eq(cellar.id)).execute()
         create.delete(ACCOUNT_OAUTH).where(ACCOUNT_OAUTH.CELLAR_ID.eq(cellar.id)).execute()
