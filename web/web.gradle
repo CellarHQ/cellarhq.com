@@ -103,10 +103,6 @@ dependencies {
   functionalCompile 'org.liquibase:liquibase-core:3.4.1'
 }
 
-// The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in
-// This should be fixed upstream in Ratpack
-configurations.testCompile.dependencies.find { it.name == "ratpack-groovy-test" }.exclude(group: "org.codehaus.groovy")
-
 docker {
   apiUsername project.hasProperty('dockerUser') ? project.dockerUser : 'invalid'
   apiPassword project.hasProperty('dockerApiPassword') ? project.dockerApiPassword : 'invalid'
@@ -124,11 +120,7 @@ task buildDocker(type: Docker) {
     addFile "production.properties"
   }
 
-  push = project.hasProperty('push')
-}
-
-task publish(dependsOn: 'buildDocker') {
-
+  push = false
 }
 
 test {

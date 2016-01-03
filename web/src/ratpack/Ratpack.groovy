@@ -33,16 +33,18 @@ import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
 
-final Logger log = LoggerFactory.getLogger(ratpack.class)
+final Logger log = LoggerFactory.getLogger(this.class)
 
 ratpack {
   bindings {
+    String workingDirectory = System.getProperty("user.dir")
+
+    log.info("${workingDirectory}/app.properties")
     ConfigData configData = ConfigData.of { d ->
       d
-        .props("$serverConfig.baseDir.file/app.properties")
+        .props("${workingDirectory}/app.properties")
         .env()
         .sysProps()
-        .build()
     }
 
     CellarHQConfig cellarHqConfig = configData.get(CellarHQConfig)
