@@ -1,0 +1,8 @@
+db:
+  dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
+  username: cellarhq
+  password: cellarhq
+  dataSourceProperties:
+    databaseName: cellarhq
+    serverName: localhost
+    portNumber: 15432

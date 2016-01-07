@@ -38,7 +38,7 @@ class HandlerbarsRenderableDecorator implements RenderableDecorator {
 
   @Inject
   HandlerbarsRenderableDecorator(CellarHQConfig config) {
-    HOSTNAME = config.hostName
+    HOSTNAME = config.hostname
     GOOGLE_ANALYTICS_CODE = config.googleAnalyticsTrackingCode
   }
 

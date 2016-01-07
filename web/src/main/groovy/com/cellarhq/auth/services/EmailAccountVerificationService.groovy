@@ -39,7 +39,7 @@ class EmailAccountVerificationService extends BaseJooqService {
     super(dataSource)
     this.emailService = emailService
 
-    HOSTNAME = config.hostName
+    HOSTNAME = config.hostname
   }
 
   Boolean linkAllowed(EmailAccount pendingAccount) {
