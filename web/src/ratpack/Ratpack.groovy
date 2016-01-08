@@ -16,6 +16,7 @@ import org.pac4j.oauth.client.TwitterClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
+import ratpack.dropwizard.metrics.DropwizardMetricsConfig
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -24,10 +25,12 @@ import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
 import ratpack.pac4j.RatpackPac4j
 import ratpack.rx.RxRatpack
+import ratpack.server.BaseDir
 import ratpack.server.Service
 import ratpack.server.StartEvent
 import ratpack.session.SessionModule
 import ratpack.session.clientside.ClientSideSessionModule
+import util.HerokuUtils
 
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
@@ -36,31 +39,25 @@ import static ratpack.jackson.Jackson.json
 final Logger log = LoggerFactory.getLogger(this.class)
 
 ratpack {
+  List<String> programArgs = HerokuUtils.extractDbProperties
+    .apply(System.getenv("DATABASE_URL"))
+
+  serverConfig {
+    config -> config
+      .baseDir(BaseDir.find())
+      .props("app.properties")
+      .yaml("db.yaml")
+      .env()
+      .sysProps()
+      .args(programArgs.stream().toArray() as String[])
+      .require("/cellarhq", CellarHQConfig)
+      .require("/db", HikariConfig)
+      .require("/metrics", DropwizardMetricsConfig)
+  }
+
   bindings {
-    String workingDirectory = System.getProperty("user.dir")
-
-    log.info("${workingDirectory}/app.properties")
-    ConfigData configData = ConfigData.of { d ->
-      d
-        .props("${workingDirectory}/app.properties")
-        .env()
-        .sysProps()
-    }
-
-    CellarHQConfig cellarHqConfig = configData.get(CellarHQConfig)
-    bindInstance(CellarHQConfig, cellarHqConfig)
-    moduleConfig(CommonModule, cellarHqConfig)
-
-    module(HikariModule) { HikariConfig hikariConfig ->
-      hikariConfig.addDataSourceProperty('serverName', cellarHqConfig.databaseServerName)
-      hikariConfig.addDataSourceProperty('portNumber', cellarHqConfig.databasePortNumber)
-      hikariConfig.addDataSourceProperty('databaseName', cellarHqConfig.databaseName)
-      hikariConfig.addDataSourceProperty('user', cellarHqConfig.databaseUser)
-      hikariConfig.addDataSourceProperty('password', cellarHqConfig.databasePassword)
-      hikariConfig.dataSourceClassName = 'org.postgresql.ds.PGSimpleDataSource'
-    }
-
-    moduleConfig(CommonModule, cellarHqConfig)
+    module CommonModule
+    module HikariModule
     module AuthenticationModule
     module CommonModule
     module ApiModule

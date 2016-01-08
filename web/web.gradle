@@ -7,7 +7,6 @@ buildscript {
   dependencies {
     classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
     classpath databaseDriver
-    classpath 'se.transmode.gradle:gradle-docker:1.2'
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
   }
 }
@@ -21,7 +20,6 @@ plugins {
 
 apply plugin: 'com.github.ben-manes.versions'
 apply from: "${rootDir}/gradle/codenarc.gradle"
-apply plugin: 'docker'
 apply plugin: 'com.bluepapa32.watch'
 
 repositories {
@@ -53,6 +51,8 @@ idea {
 
 dependencies {
   compile project(':model')
+
+  compile "com.heroku.sdk:heroku-jdbc:0.1.1"
 
   compile ratpack.dependency('dropwizard-metrics')
   compile ratpack.dependency('h2')
@@ -103,43 +103,14 @@ dependencies {
   functionalCompile 'org.liquibase:liquibase-core:3.4.1'
 }
 
-docker {
-  apiUsername project.hasProperty('dockerUser') ? project.dockerUser : 'invalid'
-  apiPassword project.hasProperty('dockerApiPassword') ? project.dockerApiPassword : 'invalid'
-  apiEmail project.hasProperty('dockerApiEmail') ? project.dockerApiEmail : 'invalid'
-}
-
-task buildDocker(type: Docker) {
-  registry 'kyleboon'
-  applicationName = 'cellarhq'
-  tagVersion = 'latest'
-  dockerfile = project.file('Dockerfile')
-
-  doFirst {
-    addFile project.tasks.shadowJar.archivePath
-    addFile "production.properties"
-  }
-
-  push = false
-}
-
-test {
-  // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
-  systemProperty 'DISABLE_SERVICES', true
-}
-
 task functionalTest(type: Test) {
-  // IMPORTANT: This is used in logback.xml to prevent us logging into logentries / sentry... maybe a better way?
-  systemProperty 'DISABLE_SERVICES', true
-  systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
-  systemProperty 'ratpack.hostName', 'localhost:5050'
-  systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
-  systemProperty 'ratpack.environment', 'development'
-
-
   testClassesDir = sourceSets.functional.output.classesDir
   classpath = sourceSets.functional.runtimeClasspath
 
+  systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
+  systemProperty 'ratpack.hostname', 'localhost:5050'
+  systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
+  systemProperty 'ratpack.environment', 'development'
   systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
   systemProperty 'liquibase.schema.default', 'public'
   systemProperty 'liquibase.onerror.fail', true
@@ -167,12 +138,18 @@ task functionalTest(type: Test) {
     if (project.hasProperty('awsAccessKey')) {
       systemProperty 'ratpack.awsAccessKey', project.awsAccessKey
       systemProperty 'ratpack.awsSecretKey', project.awsSecretKey
-
-
       systemProperty 'ratpack.twitterApiKey', project.twitterApiKey
       systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
     }
   }
+}
+
+run {
+  environment 'RATPACK_CELLARHQ__GOOGLE_ANALYTICS_TRACKING_CODE', 'UA-27709782-2'
+  environment 'RATPACK_CELLARHQ__S3_STORAGE_BUCKET', 'storage-www.cellarhq.com'
+  environment 'RATPACK_CELLARHQ__ENVIRONMENT', 'development'
+  environment 'RATPACK_CELLARHQ__HOSTNAME', 'localhost'
+  environment 'RATPACK_CELLARHQ__PUBLIC_ADDRESS', 'http://localhost:5050'
 }
 
 watch {

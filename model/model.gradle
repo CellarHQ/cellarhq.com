@@ -1,79 +1,83 @@
 buildscript {
-    repositories {
-        jcenter()
-        maven { url "http://oss.jfrog.org/repo" }
-    }
-    dependencies {
-        classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
-        classpath databaseDriver
-    }
+  repositories {
+    jcenter()
+    maven { url "http://oss.jfrog.org/repo" }
+  }
+  dependencies {
+    classpath databaseDriver
+  }
 }
 
 plugins {
-    id 'java'
-    id 'idea'
+  id 'java'
+  id 'idea'
+  id 'org.liquibase.gradle' version '1.2.1'
 }
 
 apply plugin: 'liquibase'
 apply plugin: 'groovy'
 
 repositories {
-    jcenter()
-    maven { url "http://repo.springsource.org/repo" } // for springloaded
-    maven { url "http://oss.jfrog.org/repo" }
+  jcenter()
+  maven { url "http://oss.jfrog.org/repo" }
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.4'
-    compile databaseDriver
-    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
-    compile "org.jooq:jooq:${jooqVersion}"
-    compile "org.jooq:jooq-meta:${jooqVersion}"
-    compile "org.jooq:jooq-codegen:${jooqVersion}"
+  compile 'org.codehaus.groovy:groovy-all:2.4.4'
+  compile databaseDriver
+  compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+  compile "org.jooq:jooq:${jooqVersion}"
+  compile "org.jooq:jooq-meta:${jooqVersion}"
+  compile "org.jooq:jooq-codegen:${jooqVersion}"
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 liquibase {
-    activities {
-        development {
-            changeLogFile "${rootDir}/model/migrations/migrations.xml"
-            url 'jdbc:postgresql://localhost:15432/cellarhq'
-            username 'cellarhq'
-            password 'cellarhq'
-        }
-        testing {
-            changeLogFile "${rootDir}/model/migrations/migrations.xml"
-            url 'jdbc:postgresql://localhost:15432/cellarhq_testing'
-            username 'cellarhq'
-            password 'cellarhq'
-        }
-
-        if (project.hasProperty('cellarhqprodpasswd')) {
-            production {
-                changeLogFile "${rootDir}/model/migrations/migrations.xml"
-                url 'jdbc:postgresql://aabccxwfph30tb.c7ovcjlune88.us-east-1.rds.amazonaws.com:5432/ebdb'
-                username 'cellarhq'
-                password project.cellarhqprodpasswd
-            }
-        }
+  activities {
+    development {
+      changeLogFile "${rootDir}/model/migrations/migrations.xml"
+      url 'jdbc:postgresql://localhost:15432/cellarhq'
+      username 'cellarhq'
+      password 'cellarhq'
     }
 
-    if (project.hasProperty('runList')) {
-        runList = project.property('runList')
+    testing {
+      changeLogFile "${rootDir}/model/migrations/migrations.xml"
+      url 'jdbc:postgresql://localhost:15432/cellarhq_testing'
+      username 'cellarhq'
+      password 'cellarhq'
+    }
+
+    production {
+      URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+      String xusername = dbUri.getUserInfo().split(":")[0];
+      String xpassword = dbUri.getUserInfo().split(":")[1];
+      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+      changeLogFile "${rootDir}/model/migrations/migrations.xml"
+      url dbUrl
+      username xusername
+      password xpassword
+    }
+  }
+
+  if (project.hasProperty('runList')) {
+    runList = project.property('runList')
+  } else {
+    if (rootProject.gradle.startParameter.taskNames.contains('test')
+      || rootProject.gradle.startParameter.taskNames.contains('check')) {
+      runList = 'testing'
     } else {
-        if (rootProject.gradle.startParameter.taskNames.contains('test')
-                || rootProject.gradle.startParameter.taskNames.contains('check')) {
-            runList = 'testing'
-        } else {
-            runList = 'development'
-        }
+      runList = 'development'
     }
+  }
 }
 
 task generateJooq(type: JavaExec, dependsOn: ['classes', 'update']) {
-    main = 'org.jooq.util.GenerationTool'
-    classpath = sourceSets.main.runtimeClasspath
-    args 'jooq.xml'
+  main = 'org.jooq.util.GenerationTool'
+  classpath = sourceSets.main.runtimeClasspath
+  args 'jooq.xml'
 }

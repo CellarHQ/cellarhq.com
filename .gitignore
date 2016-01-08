@@ -16,16 +16,13 @@ out/
 .vagrant
 .DS_Store
 *.ids
+.env
 
 app.log
 app*.gz
-
-cellarhqdump.sql
 
 assets/AppUI 1.0 by pixelcave/
 phantomjsdriver.log
 
 twitter4j.properties
 *.sql
-web/production.properties
-web/app.properties

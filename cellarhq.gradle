@@ -4,3 +4,7 @@ plugins {
 }
 
 apply plugin: 'com.github.ben-manes.versions'
+
+task stage {
+  dependsOn ':web:installDist'
+}

@@ -69,7 +69,7 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                                 | Forgot your password, huh? Don't worry, we'll help you change it: Follow the link
                                 | below to change it. It will only be valid for 24 hours, so make it quick!
                                 |
-                                | https://${cellarHQConfig.hostName}/forgot-password/${recoveryHash}
+                                | https://${cellarHQConfig.hostname}/forgot-password/${recoveryHash}
                                 |
                                 | Cheers!
                                 | Kyle and Rob
