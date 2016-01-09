@@ -1,6 +1,7 @@
 package com.cellarhq.auth
 
 import com.cellarhq.api.services.CellarService
+import com.cellarhq.auth.profiles.CellarHQProfile
 import com.cellarhq.auth.profiles.TwitterCellarHQProfile
 import com.cellarhq.auth.services.AccountService
 import com.cellarhq.domain.Cellar
@@ -12,6 +13,7 @@ import org.pac4j.oauth.client.TwitterClient
 import org.pac4j.oauth.profile.JsonHelper
 import org.pac4j.oauth.profile.OAuthAttributesDefinitions
 import org.pac4j.oauth.profile.twitter.TwitterProfile
+import ratpack.pac4j.internal.Pac4jSessionKeys
 
 @Slf4j
 class CustomTwitterClient extends TwitterClient {
@@ -48,7 +50,8 @@ class CustomTwitterClient extends TwitterClient {
         log.debug("Making cellar with username ${cellar.screenName}")
         oauthAccount = makeOauthAccountFrom(profile, cellar)
 
-        accountService.create(oauthAccount, profile.pictureUrl?.replace('_normal', ''))
+        OAuthAccount persisted = accountService.create(oauthAccount, profile.pictureUrl?.replace('_normal', ''))
+        profile.cellarId = persisted.cellarId
       }
     }
 

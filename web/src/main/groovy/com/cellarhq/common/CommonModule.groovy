@@ -59,7 +59,6 @@ class CommonModule extends ConfigurableModule<CellarHQConfig> {
   @Singleton
   @Provides
   public AWSCredentials provideAWSCredentials(CellarHQConfig config) {
-    log.info("$config")
     new BasicAWSCredentials(config.awsAccessKey, config.awsSecretKey)
   }
 

@@ -51,16 +51,18 @@ liquibase {
     }
 
     production {
-      URI dbUri = new URI(System.getenv("DATABASE_URL"));
+      if (System.getenv("DATABASE_URL")) {
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
-      String xusername = dbUri.getUserInfo().split(":")[0];
-      String xpassword = dbUri.getUserInfo().split(":")[1];
-      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+        String herokuUsername = dbUri.getUserInfo().split(":")[0];
+        String herokuPassword = dbUri.getUserInfo().split(":")[1];
+        String herokuJdbc = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
-      changeLogFile "${rootDir}/model/migrations/migrations.xml"
-      url dbUrl
-      username xusername
-      password xpassword
+        changeLogFile "${rootDir}/model/migrations/migrations.xml"
+        url herokuJdbc
+        username herokuUsername
+        password herokuPassword
+      }
     }
   }
 

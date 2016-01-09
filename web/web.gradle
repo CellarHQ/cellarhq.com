@@ -52,8 +52,6 @@ idea {
 dependencies {
   compile project(':model')
 
-  compile "com.heroku.sdk:heroku-jdbc:0.1.1"
-
   compile ratpack.dependency('dropwizard-metrics')
   compile ratpack.dependency('h2')
   compile ratpack.dependency('hikari')
@@ -107,49 +105,50 @@ task functionalTest(type: Test) {
   testClassesDir = sourceSets.functional.output.classesDir
   classpath = sourceSets.functional.runtimeClasspath
 
-  systemProperty 'ratpack.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
-  systemProperty 'ratpack.hostname', 'localhost:5050'
-  systemProperty 'ratpack.s3StorageBucket', 'storage-local.cellarhq.com'
-  systemProperty 'ratpack.environment', 'development'
+  systemProperty 'ratpack.cellarhq.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
+  systemProperty 'ratpack.cellarhq.hostname', 'localhost:5050'
+  systemProperty 'ratpack.cellarhq.s3StorageBucket', 'storage-local.cellarhq.com'
+  systemProperty 'ratpack.cellarhq.environment', 'development'
   systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
   systemProperty 'liquibase.schema.default', 'public'
   systemProperty 'liquibase.onerror.fail', true
   maxHeapSize '768m'
 
   if (System.getenv('SNAP_CI')) {
-    environment 'RATPACK_DATABASE_SERVER_NAME', System.getenv('SNAP_DB_PG_HOST')
-    environment 'RATPACK_DATABASE_PORT_NUMBER', System.getenv('SNAP_DB_PG_PORT')
-    environment 'RATPACK_DATABASE_NAME', 'app_test'
-    environment 'RATPACK_DATABASE_USER', System.getenv('SNAP_DB_PG_USER')
-    environment 'RATPACK_DATABASE_PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
-    environment 'RATPACK_AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY') ?: 'BAD_KEY'
-    environment 'RATPACK_AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY') ?: 'BAD_KEY'
-    environment 'RATPACK_TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN') ?: 'BAD_KEY'
-    environment 'RATPACK_TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET') ?: 'BAD_KEY'
+    environment 'RATPACK_DB__SERVER_NAME', System.getenv('SNAP_DB_PG_HOST')
+    environment 'RATPACK_DB__PORT_NUMBER', System.getenv('SNAP_DB_PG_PORT')
+    environment 'RATPACK_DB__NAME', 'app_test'
+    environment 'RATPACK_DB__USER', System.getenv('SNAP_DB_PG_USER')
+    environment 'RATPACK_DB__PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
+    environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY') ?: 'BAD_KEY'
+    environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY') ?: 'BAD_KEY'
+    environment 'RATPACK_CELLARHQ__TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN') ?: 'BAD_KEY'
+    environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET') ?: 'BAD_KEY'
 
     testLogging.showStandardStreams = true
   } else {
-    systemProperty 'ratpack.databaseServerName', 'localHost'  // not sure if should put these in here or not
-    systemProperty 'ratpack.databasePortNumber', '15432'
-    systemProperty 'ratpack.databaseName', 'cellarhq_testing'
-    systemProperty 'ratpack.databaseUser', 'cellarhq'
-    systemProperty 'ratpack.databasePassword', 'cellarhq'
-
     if (project.hasProperty('awsAccessKey')) {
-      systemProperty 'ratpack.awsAccessKey', project.awsAccessKey
-      systemProperty 'ratpack.awsSecretKey', project.awsSecretKey
-      systemProperty 'ratpack.twitterApiKey', project.twitterApiKey
-      systemProperty 'ratpack.twitterApiSecret', project.twitterApiSecret
+      environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey ?: 'BAD_KEY'
+      environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey ?: 'BAD_KEY'
+      environment 'RATPACK_CELLARHQ__TWITER_API_KEY', project.twitterApiKey ?: 'BAD_KEY'
+      environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret ?: 'BAD_KEY'
     }
   }
 }
 
 run {
   environment 'RATPACK_CELLARHQ__GOOGLE_ANALYTICS_TRACKING_CODE', 'UA-27709782-2'
-  environment 'RATPACK_CELLARHQ__S3_STORAGE_BUCKET', 'storage-www.cellarhq.com'
+  environment 'RATPACK_CELLARHQ__S3_STORAGE_BUCKET', 'storage-local.cellarhq.com'
   environment 'RATPACK_CELLARHQ__ENVIRONMENT', 'development'
   environment 'RATPACK_CELLARHQ__HOSTNAME', 'localhost'
   environment 'RATPACK_CELLARHQ__PUBLIC_ADDRESS', 'http://localhost:5050'
+
+  if (project.hasProperty('awsAccessKey')) {
+    environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey ?: 'BAD_KEY'
+    environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey ?: 'BAD_KEY'
+    environment 'RATPACK_CELLARHQ__TWITTER_API_KEY', project.twitterApiKey ?: 'BAD_KEY'
+    environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret ?: 'BAD_KEY'
+  }
 }
 
 watch {
