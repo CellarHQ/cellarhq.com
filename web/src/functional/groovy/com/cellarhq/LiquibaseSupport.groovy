@@ -1,6 +1,7 @@
 package com.cellarhq
 
 import com.cellarhq.common.CellarHQConfig
+import com.zaxxer.hikari.HikariConfig
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
 import liquibase.Contexts
@@ -102,8 +103,6 @@ trait LiquibaseSupport {
     }
   }
 
-  abstract CellarHQConfig getCellarHQConfig()
-
   /**
    * @todo Blehhh...
    */
@@ -115,8 +114,17 @@ trait LiquibaseSupport {
     return connection
   }
 
+  String getJdbcUrl() {
+    return remote.exec {
+      HikariConfig config = get(HikariConfig)
+      String host = config.dataSourceProperties.serverName
+      String port =  config.dataSourceProperties.portNumber
+      String dbname =  config.dataSourceProperties.databaseName
+      String user =  config.username
+      String password =  config.password
 
-  private String getJdbcUrl() {
-    "jdbc:postgresql://${cellarHQConfig.databaseServerName}:${cellarHQConfig.databasePortNumber}/${cellarHQConfig.databaseName}?user=${cellarHQConfig.databaseUser}&password=${cellarHQConfig.databasePassword}"
+      "jdbc:postgresql://${host}:${port}/${dbname}?user=${user}&password=${password}"
+
+    }
   }
 }

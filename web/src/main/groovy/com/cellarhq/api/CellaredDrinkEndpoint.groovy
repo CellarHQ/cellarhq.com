@@ -29,13 +29,28 @@ class CellaredDrinkEndpoint implements Action<Chain> {
   void execute(Chain chain) throws Exception {
     Groovy.chain(chain) {
       get('cellars/:cellarSlug/drinks') {
-        cellaredDrinkService.all(
-          pathTokens['cellarSlug'],
-          SortCommand.fromRequest(request))
-          .toList()
-          .subscribe { List<CellaredDrink> drinks ->
-          render json(drinks)
+        byContent {
+          json {
+            cellaredDrinkService.all(
+              pathTokens['cellarSlug'],
+              SortCommand.fromRequest(request))
+              .toList()
+              .subscribe { List<CellaredDrink> drinks ->
+              render json(drinks)
+            }
+          }
+
+          type('text/csv') {
+            cellaredDrinkService.all(
+              pathTokens['cellarSlug'],
+              SortCommand.fromRequest(request))
+              .toList()
+              .subscribe { List<CellaredDrink> drinks ->
+              render json(drinks)
+            }
+          }
         }
+
       }
 
       put('cellars/:cellarSlug/drinks/:id/drink') { CellarHQProfile profile ->

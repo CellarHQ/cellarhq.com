@@ -15,3 +15,4 @@ EXPOSE 5050
 # or update this to build/libs/cellarhq.com-all.jar
 ADD web-all.jar /app/build/libs/cellarhq.com-all.jar
 ADD production.properties /app/build/libs/app.properties
+ADD .ebextensions .ebextensions

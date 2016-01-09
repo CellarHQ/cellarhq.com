@@ -5,6 +5,7 @@ import com.cellarhq.auth.services.AccountService
 import com.cellarhq.common.CellarHQConfig
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
+import com.zaxxer.hikari.HikariConfig
 import geb.spock.GebReportingSpec
 import groovy.sql.Sql
 import org.jooq.DSLContext
@@ -16,6 +17,9 @@ import spock.lang.Shared
 import javax.sql.DataSource
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.SQLException
+import java.sql.SQLFeatureNotSupportedException
+import java.util.logging.Logger
 
 abstract class BaseFunctionalSpecification extends GebReportingSpec implements LiquibaseSupport {
 
@@ -37,9 +41,18 @@ abstract class BaseFunctionalSpecification extends GebReportingSpec implements L
     remote.exec { get(CellarHQConfig) }
   }
 
-  protected String getJdbcUrl() {
-    "jdbc:postgresql://${cellarHQConfig.databaseServerName}:${cellarHQConfig.databasePortNumber}/" +
-      "${cellarHQConfig.databaseName}?user=${cellarHQConfig.databaseUser}&password=${cellarHQConfig.databasePassword}"
+  String getJdbcUrl() {
+    return remote.exec {
+      HikariConfig config = get(HikariConfig)
+      String host = config.dataSourceProperties.serverName
+      String port =  config.dataSourceProperties.portNumber
+      String dbname =  config.dataSourceProperties.databaseName
+      String user =  config.username
+      String password =  config.password
+
+      "jdbc:postgresql://${host}:${port}/${dbname}?user=${user}&password=${password}"
+
+    }
   }
 
   EmailAccount anEmailAccountUser(RemoteControl remote, String screenName, String email, String password) {

@@ -127,11 +127,12 @@ task functionalTest(type: Test) {
 
     testLogging.showStandardStreams = true
   } else {
+    environment 'RATPACK_DB__DATA_SOURCE_PROPERTIES_DATABASE_NAME', 'cellarhq_testing'
     if (project.hasProperty('awsAccessKey')) {
-      environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey ?: 'BAD_KEY'
-      environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey ?: 'BAD_KEY'
-      environment 'RATPACK_CELLARHQ__TWITER_API_KEY', project.twitterApiKey ?: 'BAD_KEY'
-      environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret ?: 'BAD_KEY'
+      environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey
+      environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey
+      environment 'RATPACK_CELLARHQ__TWITER_API_KEY', project.twitterApiKey
+      environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret
     }
   }
 }
@@ -144,10 +145,10 @@ run {
   environment 'RATPACK_CELLARHQ__PUBLIC_ADDRESS', 'http://localhost:5050'
 
   if (project.hasProperty('awsAccessKey')) {
-    environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey ?: 'BAD_KEY'
-    environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey ?: 'BAD_KEY'
-    environment 'RATPACK_CELLARHQ__TWITTER_API_KEY', project.twitterApiKey ?: 'BAD_KEY'
-    environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret ?: 'BAD_KEY'
+    environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey
+    environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey
+    environment 'RATPACK_CELLARHQ__TWITTER_API_KEY', project.twitterApiKey
+    environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret
   }
 }
 
