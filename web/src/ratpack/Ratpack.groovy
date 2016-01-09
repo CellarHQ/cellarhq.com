@@ -17,6 +17,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
 import ratpack.dropwizard.metrics.DropwizardMetricsConfig
+import ratpack.dropwizard.metrics.DropwizardMetricsModule
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -29,6 +30,7 @@ import ratpack.server.BaseDir
 import ratpack.server.Service
 import ratpack.server.StartEvent
 import ratpack.session.SessionModule
+import ratpack.session.clientside.ClientSideSessionConfig
 import ratpack.session.clientside.ClientSideSessionModule
 import util.HerokuUtils
 
@@ -53,6 +55,7 @@ ratpack {
       .require("/cellarhq", CellarHQConfig)
       .require("/db", HikariConfig)
       .require("/metrics", DropwizardMetricsConfig)
+      .require("/cookie", ClientSideSessionConfig)
   }
 
   bindings {
@@ -64,10 +67,8 @@ ratpack {
     module WebappModule
     module HandlebarsModule
     module SessionModule
-    module(ClientSideSessionModule, { config ->
-      config.setSessionCookieName("cellarhq_session");
-      config.setSecretToken("your token for signing");
-    })
+    module ClientSideSessionModule
+    module DropwizardMetricsModule
 
     bindInstance Service, new Service() {
       @Override

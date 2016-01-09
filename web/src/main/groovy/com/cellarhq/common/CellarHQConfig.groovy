@@ -16,6 +16,8 @@ class CellarHQConfig implements Serializable {
 
   String s3StorageBucket
 
+  String cookieSecret
+
   final static String ENV_DEPLOYMENT_PRODUCTION = 'production'
 
   boolean isProductionEnv() {
