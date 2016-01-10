@@ -108,6 +108,50 @@ class CellaredDrinkService extends BaseJooqService {
     })
   }
 
+  Observable<String> csv(String cellarSlug, SortCommand sortCommand) {
+    observe(Blocking.get {
+      jooq({ Configuration c ->
+        c.set(new CustomViewRecordMapperProvider([
+          organizationSlug: String,
+          organizationName: String,
+          drinkSlug       : String,
+          drinkName       : String,
+          styleName       : String,
+          cellarSlug      : String,
+          cellarName      : String
+        ]))
+      }) { DSLContext create ->
+       create.select(JooqUtil.andFields(
+          CELLARED_DRINK.fields(),
+          ORGANIZATION.SLUG.as('organizationSlug'),
+          ORGANIZATION.NAME.as('organizationName'),
+          DRINK.SLUG.as('drinkSlug'),
+          DRINK.NAME.as('drinkName'),
+          STYLE.NAME.as('styleName'),
+          CELLAR.SLUG.as('cellarSlug'),
+          CELLAR.SCREEN_NAME.as('cellarName')
+        ))
+          .from(CELLARED_DRINK)
+          .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
+          .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)
+          .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+          .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+          .where(CELLARED_DRINK.QUANTITY.greaterThan(0)).and(CELLAR.SLUG.equalIgnoreCase(cellarSlug))
+          .orderBy(makeSortField(sortCommand, ORGANIZATION.NAME, [
+          beerName   : DRINK.NAME,
+          breweryName: ORGANIZATION.NAME,
+          size       : CELLARED_DRINK.SIZE,
+          quantity   : CELLARED_DRINK.QUANTITY,
+          bottleDate : CELLARED_DRINK.BOTTLE_DATE,
+          style      : STYLE.NAME
+        ]), DRINK.NAME.asc(), CELLARED_DRINK.BOTTLE_DATE.asc(), CELLARED_DRINK.SIZE.asc())
+          .fetch()
+          .formatCSV()
+      }
+    })
+  }
+
+
   Observable<CellaredDrinkDetails> archive(Long id, SortCommand sortCommand) {
     observeEach(Blocking.get {
       allQuery(sortCommand) { SelectJoinStep step ->

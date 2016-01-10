@@ -105,10 +105,6 @@ task functionalTest(type: Test) {
   testClassesDir = sourceSets.functional.output.classesDir
   classpath = sourceSets.functional.runtimeClasspath
 
-  systemProperty 'ratpack.cellarhq.googleAnalyticsTrackingCode', 'UA-27709782-2' // Local GA tracking code
-  systemProperty 'ratpack.cellarhq.hostname', 'localhost:5050'
-  systemProperty 'ratpack.cellarhq.s3StorageBucket', 'storage-local.cellarhq.com'
-  systemProperty 'ratpack.cellarhq.environment', 'development'
   systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
   systemProperty 'liquibase.schema.default', 'public'
   systemProperty 'liquibase.onerror.fail', true
@@ -127,7 +123,7 @@ task functionalTest(type: Test) {
 
     testLogging.showStandardStreams = true
   } else {
-    environment 'RATPACK_DB__DATA_SOURCE_PROPERTIES_DATABASE_NAME', 'cellarhq_testing'
+    environment 'RATPACK_DB__DATA_SOURCE_PROPERTIES__DATABASE_NAME', 'cellarhq_testing'
     if (project.hasProperty('awsAccessKey')) {
       environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey
       environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey
@@ -138,12 +134,6 @@ task functionalTest(type: Test) {
 }
 
 run {
-  environment 'RATPACK_CELLARHQ__GOOGLE_ANALYTICS_TRACKING_CODE', 'UA-27709782-2'
-  environment 'RATPACK_CELLARHQ__S3_STORAGE_BUCKET', 'storage-local.cellarhq.com'
-  environment 'RATPACK_CELLARHQ__ENVIRONMENT', 'development'
-  environment 'RATPACK_CELLARHQ__HOSTNAME', 'localhost'
-  environment 'RATPACK_CELLARHQ__PUBLIC_ADDRESS', 'http://localhost:5050'
-
   if (project.hasProperty('awsAccessKey')) {
     environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey
     environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey

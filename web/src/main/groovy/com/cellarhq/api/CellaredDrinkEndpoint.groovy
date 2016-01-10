@@ -41,12 +41,12 @@ class CellaredDrinkEndpoint implements Action<Chain> {
           }
 
           type('text/csv') {
-            cellaredDrinkService.all(
+            cellaredDrinkService.csv(
               pathTokens['cellarSlug'],
               SortCommand.fromRequest(request))
               .toList()
-              .subscribe { List<CellaredDrink> drinks ->
-              render json(drinks)
+              .subscribe { String csv ->
+              render csv
             }
           }
         }
