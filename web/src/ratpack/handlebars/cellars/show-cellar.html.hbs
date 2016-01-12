@@ -9,24 +9,22 @@
 			<div class="block">
               {{>cellars/_cellar_common}}
 				<h2>Beers</h2>
+
 				<div class="row">
 					<div class="pull-left col-xs-5">
+            {{#if self}}
 						<button class="btn btn-primary" data-toggle="modal" data-target="#addBeerModal">
 							<i class="fa fa-plus"></i> Add Beer
 						</button>
-			      <a id="export-link" class="btn" href="/api/cellars/{{cellar.slug}}/drinks">Export Cellar</a>
+            {{/if}}
 					</div>
 					<div class="navbar col-xs-5 pull-right">
 						<ul class="nav nav-pills pull-right list-inline">
 							<li class="active"><a href="#">Cellar</a></li>
               {{#if self}}
-							  <li>
-                    <a id="archive-link" href="/yourarchive">Archive</a>
-                </li>
+							  <li><a id="archive-link" href="/yourarchive">Archive</a></li>
               {{else}}
-							  <li>
-                    <a id="archive-link" href="/cellars/{{cellar.screenName}}/archive">Archive</a>
-                </li>
+							  <li><a id="archive-link" href="/cellars/{{cellar.screenName}}/archive">Archive</a></li>
               {{/if}}
 						</ul>
 					</div>

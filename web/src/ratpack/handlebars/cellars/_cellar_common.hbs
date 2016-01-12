@@ -36,6 +36,14 @@
 		   style="overflow: hidden; position: relative;">
 			<i class="fa fa-twitter"></i> Tweet</a>
 		</a>
+    {{#if self}}
+		<a id="export-link"
+		   class="btn btn-effect-ripple btn-sm"
+		   download="cellarhq.csv"
+		   href="/cellars/{{cellar.slug}}/export">
+			Export Cellar
+		</a>
+    {{/if}}
 		<script>!function (d, s, id) {
 			var js, fjs = d.getElementsByTagName(s)[0];
 			if (!d.getElementById(id)) {
@@ -52,6 +60,5 @@
 			<li><strong>{{cellar.uniqueBeers}}</strong> Unique beers</li>
 			<li><strong>{{cellar.uniqueBreweries}}</strong> Breweries</li>
 		</ul>
-
 	</div>
 </div>

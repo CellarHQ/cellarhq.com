@@ -121,16 +121,18 @@ class CellaredDrinkService extends BaseJooqService {
           cellarName      : String
         ]))
       }) { DSLContext create ->
-       create.select(JooqUtil.andFields(
-          CELLARED_DRINK.fields(),
-          ORGANIZATION.SLUG.as('organizationSlug'),
-          ORGANIZATION.NAME.as('organizationName'),
-          DRINK.SLUG.as('drinkSlug'),
-          DRINK.NAME.as('drinkName'),
-          STYLE.NAME.as('styleName'),
-          CELLAR.SLUG.as('cellarSlug'),
-          CELLAR.SCREEN_NAME.as('cellarName')
-        ))
+       create.select(
+         ORGANIZATION.NAME.as('Brewery'),
+         DRINK.NAME.as('Beer'),
+         STYLE.NAME.as('Style'),
+         CELLARED_DRINK.SIZE,
+         CELLARED_DRINK.QUANTITY,
+         CELLARED_DRINK.NUM_TRADEABLE,
+         CELLARED_DRINK.DATE_ACQUIRED,
+         CELLARED_DRINK.BOTTLE_DATE,
+         CELLARED_DRINK.DRINK_BY_DATE,
+         CELLARED_DRINK.BIN_IDENTIFIER,
+         CELLARED_DRINK.NOTES)
           .from(CELLARED_DRINK)
           .join(CELLAR).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID)
           .join(DRINK).onKey(Keys.CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID)

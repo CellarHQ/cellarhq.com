@@ -25,7 +25,10 @@ class DrinkBuilder {
   }
 
   DrinkBuilder(Map propertyOverrides) {
-    drink = new Drink(defaultProperties << propertyOverrides)
+    defaultProperties.putAll(propertyOverrides)
+    drink = new Drink(propertyOverrides)
+    drink.slug = drink.name
+    drink.drinkType = DrinkType.BEER.toString()
   }
 
   DrinkBuilder withOrganization(Organization org) {

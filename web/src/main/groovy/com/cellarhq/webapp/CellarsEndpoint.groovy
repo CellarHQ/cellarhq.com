@@ -197,6 +197,16 @@ class CellarsEndpoint implements Action<Chain> {
         }
       }
 
+      get('cellars/:slug/export') {
+          cellaredDrinkService.csv(
+            pathTokens['cellarSlug'],
+            SortCommand.fromRequest(request))
+            .toList()
+            .subscribe { String csv ->
+            render csv
+          }
+      }
+
       path('cellars/:slug/drinks') { CellarHQProfile profile ->
         byMethod {
           post {
