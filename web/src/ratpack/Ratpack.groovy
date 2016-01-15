@@ -159,9 +159,6 @@ ratpack {
         pageId: 'privacy')
     }
     get('terms-of-service') {
-      // TODO: The following articles still need to be written (once features for them have been completed).
-      // Add API article
-      // Add Cancellation and Termination article
       render handlebarsTemplate('terms-of-service.html',
         title: 'Terms of Service',
         pageId: 'terms')

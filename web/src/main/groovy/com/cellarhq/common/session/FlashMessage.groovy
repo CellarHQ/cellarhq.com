@@ -34,7 +34,7 @@ class FlashMessage implements Serializable {
     }
   }
 
-  static class SocialButton {
+  static class SocialButton implements Serializable {
     String message
     String url
 
