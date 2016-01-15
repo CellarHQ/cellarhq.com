@@ -193,16 +193,11 @@ class CellarsEndpoint implements Action<Chain> {
                pageId : 'cellars.archive']
             )
           }
-
         }
       }
 
       get('cellars/:slug/export') {
-          cellaredDrinkService.csv(
-            pathTokens['cellarSlug'],
-            SortCommand.fromRequest(request))
-            .toList()
-            .subscribe { String csv ->
+          cellaredDrinkService.csv(pathTokens['slug'], SortCommand.fromRequest(request)).then { String csv ->
             render csv
           }
       }
@@ -300,13 +295,14 @@ class CellarsEndpoint implements Action<Chain> {
         }
       }
 
-      get('cellars/:slug/drinks/:drinkId/edit') { CellarHQProfile profile ->
+      get('cellars/:slug/drinks/:drinkId/edit') {
+        Optional<CellarHQProfile> profile = context.maybeGet(CellarHQProfile)
         String slug = pathTokens['slug']
         Long drinkId = Long.valueOf(pathTokens['drinkId'])
 
         cellaredDrinkService.findByIdForEdit(slug, drinkId).single().subscribe { CellaredDrinkDetails drink ->
           if (drink) {
-            if (isSelf(profile.cellarId, drink.cellarId)) {
+            if (isSelf(profile, drink.cellarId)) {
               render handlebarsTemplate('cellars/edit-cellared-drink.html',
                 [action       : request.uri.replace('/edit', ''),
                  cellaredDrink: drink,

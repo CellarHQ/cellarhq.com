@@ -16,6 +16,7 @@ import org.jooq.DSLContext
 import org.jooq.SelectConditionStep
 import org.jooq.SelectJoinStep
 import ratpack.exec.Blocking
+import ratpack.exec.Promise
 import rx.Observable
 
 import javax.sql.DataSource
@@ -108,19 +109,9 @@ class CellaredDrinkService extends BaseJooqService {
     })
   }
 
-  Observable<String> csv(String cellarSlug, SortCommand sortCommand) {
-    observe(Blocking.get {
-      jooq({ Configuration c ->
-        c.set(new CustomViewRecordMapperProvider([
-          organizationSlug: String,
-          organizationName: String,
-          drinkSlug       : String,
-          drinkName       : String,
-          styleName       : String,
-          cellarSlug      : String,
-          cellarName      : String
-        ]))
-      }) { DSLContext create ->
+  Promise<String> csv(String cellarSlug, SortCommand sortCommand) {
+    Blocking.get {
+      jooq { DSLContext create ->
        create.select(
          ORGANIZATION.NAME.as('Brewery'),
          DRINK.NAME.as('Beer'),
@@ -150,7 +141,7 @@ class CellaredDrinkService extends BaseJooqService {
           .fetch()
           .formatCSV()
       }
-    })
+    }
   }
 
 
