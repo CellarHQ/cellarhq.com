@@ -105,8 +105,9 @@ ratpack {
         && request.headers.contains(forwardedProto)
         && request.headers.get(forwardedProto) != 'https') {
         redirect(301, "https://${request.headers.get('Host')}${request.rawUri}")
+      } else {
+        next()
       }
-      next()
     }
 
     all(RatpackPac4j.authenticator(registry.get(FormClient), registry.get(TwitterClient)))
