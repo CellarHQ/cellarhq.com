@@ -11,11 +11,13 @@ import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.webapp.*
 import com.codahale.metrics.health.HealthCheckRegistry
 import com.zaxxer.hikari.HikariConfig
+import librato.HerokuLibratoConfigUtility
+import librato.LibratoConfig
+import librato.LibratoModule
 import org.pac4j.http.client.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ratpack.config.ConfigData
 import ratpack.dropwizard.metrics.DropwizardMetricsConfig
 import ratpack.dropwizard.metrics.DropwizardMetricsModule
 import ratpack.error.ClientErrorHandler
@@ -51,11 +53,13 @@ ratpack {
       .yaml("db.yaml")
       .env()
       .sysProps()
+      .props(HerokuLibratoConfigUtility.libratoProperties)
       .args(programArgs.stream().toArray() as String[])
       .require("/cellarhq", CellarHQConfig)
       .require("/db", HikariConfig)
       .require("/metrics", DropwizardMetricsConfig)
       .require("/cookie", ClientSideSessionConfig)
+      .require("/librato", LibratoConfig)
   }
 
   bindings {
@@ -69,6 +73,7 @@ ratpack {
     module SessionModule
     module ClientSideSessionModule
     module DropwizardMetricsModule
+    module LibratoModule
 
     bindInstance Service, new Service() {
       @Override

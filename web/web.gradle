@@ -70,6 +70,8 @@ dependencies {
   compile 'javax.el:javax.el-api:3.0.1-b04'
   compile 'org.glassfish.web:javax.el:2.2.6'
 
+  compile 'com.librato.metrics:metrics-librato:4.1.2.0'
+
   compile 'com.amazonaws:aws-java-sdk:1.10.16', {
     // selenium requires httpclient-4.3; aws includes 4.2.
     exclude module: 'httpclient'
