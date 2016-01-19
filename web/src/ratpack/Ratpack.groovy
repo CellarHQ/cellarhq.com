@@ -185,21 +185,27 @@ ratpack {
      * Backwards compatibility endpoints:
      */
     path('signup') {
+      log.warn('backwards-compatible-url=signup')
       redirect(301, '/register')
     }
     path('signin') {
+      log.warn('backwards-compatible-url=signin')
       redirect(301, '/login')
     }
     path('forgotpassword') {
+      log.warn('backwards-compatible-url=forgotpassword')
       redirect(301, '/forgot-password')
     }
     path('cellar/:slug') {
+      log.warn('backwards-compatible-url=cellar')
       redirect(301, "/cellars/${pathTokens['slug']}")
     }
     path('brewery/:slug') {
+      log.warn('backwards-compatible-url=brewery')
       redirect(301, "/breweries/${pathTokens['slug']}")
     }
     path('brewery/:brewery/beer/:beer') {
+      log.warn('backwards-compatible-url=beer')
       redirect(301, "/breweries/${pathTokens['brewery']}/beers/${pathTokens['beer']}")
     }
 
