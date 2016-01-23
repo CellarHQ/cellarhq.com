@@ -122,6 +122,11 @@ class CellarsEndpoint implements Action<Chain> {
               if (map.cellar == null) {
                 clientError 404
               } else {
+                if (!isSelf(profile, map.cellar.id) && map.cellar.private) {
+                  SessionUtil.setFlash(context, FlashMessage.info(Messages.PRIVATE_CELLAR)).then {
+                    redirect('/cellars')
+                  }
+                } else {
                 render handlebarsTemplate('cellars/show-cellar.html',
                   [cellar        : map.cellar,
                    photo         : map.photo,
@@ -129,6 +134,7 @@ class CellarsEndpoint implements Action<Chain> {
                    self          : isSelf(profile, map.cellar.id),
                    title         : "CellarHQ : ${map.cellar.displayName}",
                    pageId        : 'cellars.show'])
+                }
               }
             }
           }
@@ -211,8 +217,9 @@ class CellarsEndpoint implements Action<Chain> {
               if (!form.beerId) {
                 SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, [
                   'beerId must be set. Make sure javascript is enabled prior to selecting a beer.'
-                ]))
-                redirect('/yourcellar')
+                ])).then {
+                  return redirect('/yourcellar')
+                }
               }
 
 
@@ -226,8 +233,6 @@ class CellarsEndpoint implements Action<Chain> {
               Set<ConstraintViolation<CellaredDrink>> drinkViolations = validator.validate(drink)
 
               if (drinkViolations.empty) {
-                // TODO: New services for these one-off cases? YourCellarService? Doesn't make sense to make two
-                //       queries for two small pieces of data.
                 rx.Observable.zip(
                   cellaredDrinkService.save(drink).single(),
                   drinkService.findNameById(drink.drinkId).single(),
@@ -244,13 +249,15 @@ class CellarsEndpoint implements Action<Chain> {
                     new FlashMessage.SocialButton(
                       String.format(Messages.CELLARED_DRINK_SAVED_SOCIAL, map.drink, map.org),
                       "/cellars/${slug}"
-                    )))
-                  redirect('/yourcellar')
+                    ))).then {
+                    redirect('/yourcellar')
+                  }
                 })
               } else {
                 List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
-                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                redirect('/yourcellar')
+                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)).then {
+                  redirect('/yourcellar')
+                }
               }
             }
           }
@@ -280,13 +287,15 @@ class CellarsEndpoint implements Action<Chain> {
                   ]
                 }.subscribe { Map map ->
                   SessionUtil.setFlash(context, FlashMessage.success(
-                    String.format(Messages.BEER_EDIT_SAVED, map.drink, map.org)))
-                  redirect('/yourcellar')
+                    String.format(Messages.BEER_EDIT_SAVED, map.drink, map.org))).then {
+                    redirect('/yourcellar')
+                  }
                 }
               } else {
                 List<String> messages = new ValidationErrorMapper().buildMessages(drinkViolations)
-                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                redirect("${request.uri}/edit")
+                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)).then {
+                  redirect("${request.uri}/edit")
+                }
               }
             }
           } else {
@@ -309,8 +318,9 @@ class CellarsEndpoint implements Action<Chain> {
                  title        : 'CellarHQ : Edit Cellared Drink',
                  pageId       : 'cellared-drink.edit'])
             } else {
-              SessionUtil.setFlash(context, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR))
-              redirect('/yourcellar')
+              SessionUtil.setFlash(context, FlashMessage.warning(Messages.UNAUTHORIZED_ERROR)).then {
+                redirect('/yourcellar')
+              }
             }
           }
         }

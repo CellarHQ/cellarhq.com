@@ -43,8 +43,9 @@ class ChangePasswordEndpoint extends GroovyHandler {
               exception: t.toString()
             ]), t)
 
-            SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-            redirect('/forgot-password')
+            SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR)).then {
+              redirect('/forgot-password')
+            }
           }.then { EmailAccount emailAccount ->
             if (emailAccount) {
               render handlebarsTemplate('change-password.html',
@@ -52,8 +53,9 @@ class ChangePasswordEndpoint extends GroovyHandler {
                 action: "/forgot-password/${context.pathTokens['id']}",
                 pageId: 'change-password')
             } else {
-              SessionUtil.setFlash(context, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST))
-              redirect('/forgot-password')
+              SessionUtil.setFlash(context, FlashMessage.error(Messages.FORGOT_PASSWORD_UNKNOWN_REQUEST)).then {
+                redirect('/forgot-password')
+              }
             }
           }
         }
@@ -103,8 +105,9 @@ class ChangePasswordEndpoint extends GroovyHandler {
               if (result) {
                 SessionUtil.setFlash(
                   context,
-                  FlashMessage.success(Messages.FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD))
-                redirect('/login')
+                  FlashMessage.success(Messages.FORGOT_PASSWORD_LOGIN_WITH_NEW_PASSWORD)).then {
+                  redirect('/login')
+                }
               } else {
                 redirect("/forgot-password/${context.pathTokens['id']}")
               }

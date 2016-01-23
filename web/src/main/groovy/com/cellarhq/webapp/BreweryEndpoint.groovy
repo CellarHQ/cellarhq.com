@@ -111,9 +111,9 @@ class BreweryEndpoint implements Action<Chain> {
               } else {
                 List<String> messages = new ValidationErrorMapper().buildMessages(organizationViolations)
 
-                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-
-                redirect('/breweries/add')
+                SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)).then {
+                  redirect('/breweries/add')
+                }
               }
             }
           }

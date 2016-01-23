@@ -53,4 +53,6 @@ abstract class Messages {
   final
   static String ACCOUNT_LINK_EMAIL_SUCCESS = "Thanks for verifying your account! We've linked the email to your Cellar."
   final static String CELLAR_DELETED = 'Sorry to see you go! Your Cellar has been removed.'
+
+  final static PRIVATE_CELLAR = 'This cellar has been marked private.'
 }

@@ -102,6 +102,7 @@ class CellarService extends BaseJooqService {
       jooq { DSLContext create ->
         create.select()
           .from(CELLAR)
+          .where(CELLAR.PRIVATE.isFalse())
           .orderBy(makeSortField(sortCommand, CELLAR.SCREEN_NAME, [
           name       : CELLAR.SCREEN_NAME,
           totalBeers : CELLAR.TOTAL_BEERS,
@@ -119,7 +120,7 @@ class CellarService extends BaseJooqService {
       jooq { DSLContext create ->
         create.select()
           .from(CELLAR)
-          .where(CELLAR.SCREEN_NAME.likeIgnoreCase("%${searchTerm}%"))
+          .where(CELLAR.SCREEN_NAME.likeIgnoreCase("%${searchTerm}%").and(CELLAR.PRIVATE.isFalse()))
           .orderBy(makeSortField(sortCommand, CELLAR.SCREEN_NAME, [
           name       : CELLAR.SCREEN_NAME,
           totalBeers : CELLAR.TOTAL_BEERS,

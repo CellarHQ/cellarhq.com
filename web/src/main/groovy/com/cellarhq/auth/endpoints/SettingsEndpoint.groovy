@@ -106,12 +106,14 @@ class SettingsEndpoint extends GroovyHandler {
               log.error(LogUtil.toLog(request, 'SaveSettingsFailure', [
                 exception: t
               ]), t)
-              SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-              redirect('/settings')
+              SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR)).then {
+                redirect('/settings')
+              }
             }.then { Map result ->
               if (result.success) {
-                SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SAVED))
-                redirect('/settings')
+                SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SAVED)).then {
+                  redirect('/settings')
+                }
               } else {
                 render handlebarsTemplate('settings.html',
                   [title         : 'Account Settings',

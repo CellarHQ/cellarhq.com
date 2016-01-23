@@ -59,8 +59,9 @@ class ForgotPasswordEndpoint extends GroovyHandler {
                 exception: t.toString()
               ]), t)
 
-              SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
-              redirect('/forgot-password')
+              SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR)).then {
+                redirect('/forgot-password')
+              }
             }.then { String recoveryHash ->
               if (recoveryHash) {
                 emailService.sendEmail(form.email, 'CellarHQ: Password recovery', """\

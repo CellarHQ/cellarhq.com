@@ -13,6 +13,7 @@ import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import ratpack.exec.Blocking
+import ratpack.exec.Operation
 import ratpack.form.Form
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
@@ -90,19 +91,25 @@ class RegisterEndpoint extends GroovyHandler {
                 // TODO: Add uploaded file support for settings page
                 accountService.create(emailAccount, null)
               }.onError { Throwable e ->
+                Operation flashOperation
+
                 if (messageIsForDuplicateCellar(e)) {
-                  SessionUtil.setFlash(context, FlashMessage.error(Messages.REGISTER_SCREEN_NAME_TAKEN))
+                  flashOperation = SessionUtil.setFlash(
+                    context,
+                    FlashMessage.error(Messages.REGISTER_SCREEN_NAME_TAKEN))
                 } else if (e.message.contains('unq_account_email_email')) {
-                  SessionUtil.setFlash(
+                  flashOperation = SessionUtil.setFlash(
                     context,
                     FlashMessage.error(Messages.REGISTER_EMAIL_ACCOUNT_ALREADY_EXISTS)
                   )
                 } else {
                   log.error(LogUtil.toLog(request, 'RegistrationFailure'), e)
-                  SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                  flashOperation = SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
                 }
 
-                redirect('/register')
+                flashOperation.then {
+                  redirect('/register')
+                }
               }.then {
                 context.get(Session).data.then { sessionData ->
                   CellarHQProfile profile = cellarHQProfileCreator.create(emailAccount.email)
@@ -118,9 +125,9 @@ class RegisterEndpoint extends GroovyHandler {
                 messages << 'passwords do not match'
               }
 
-              SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-
-              redirect('/register')
+              SessionUtil.setFlash(context, FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)).then {
+                redirect('/register')
+              }
             }
           }
         }

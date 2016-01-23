@@ -66,8 +66,9 @@ class LinkTwitterAccountEndpoint implements Action<Chain> {
                   SessionUtil.setFlash(context, FlashMessage.error(String.format(
                     Messages.ACCOUNT_LINK_TWITTER_SCREEN_NAME_UNAVAILABLE,
                     pendingAccount.username
-                  )))
-                  redirect('/settings/link-twitter')
+                  ))).then {
+                    redirect('/settings/link-twitter')
+                  }
                 }
               }
             }

@@ -86,24 +86,26 @@ class LinkAccountEndpoint implements Action<Chain> {
                 return accountService.create(account, profile.pictureUrl?.replace('_normal', ''))
               }.onError { Throwable e ->
                 log.error(LogUtil.toLog(request, 'ScreenNameConflict'), e)
-                SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR))
+                SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR)).then {
 
-                render handlebarsTemplate('settings/screen-name-conflict.html',
-                  title: 'Choose Screen Name',
-                  pageId: 'screenNameConflict')
+                  render handlebarsTemplate('settings/screen-name-conflict.html',
+                    title: 'Choose Screen Name',
+                    pageId: 'screenNameConflict')
+                }
               }.then { OAuthAccount oAuthAccount ->
                 log.info(LogUtil.toLog(request, 'ChangeScreenName', [
                   msg           : 'User changed their screen name after a conflict',
                   twitterProfile: profile.username,
                   screenName    : form.screenName
                 ]))
-                SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SCREEN_NAME_CHANGED))
+                SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SCREEN_NAME_CHANGED)).then {
 
-                Session session = request.get(Session)
-                session.set(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId)
-                //Session.remove(TwitterCallback.REQUIRE_SCREEN_NAME_CHANGE)
+                  Session session = request.get(Session)
+                  session.set(AuthenticationModule.SESSION_CELLAR_ID, oAuthAccount.cellarId).then {
 
-                redirect('/yourcellar')
+                    redirect('/yourcellar')
+                  }
+                }
               }
             }
           }
@@ -135,7 +137,8 @@ class LinkAccountEndpoint implements Action<Chain> {
     log.warn(LogUtil.toLog(context.request, 'IllegalChangeScreenNameAttempt', [
       msg: 'User tried to change screen name without a twitter account'
     ]))
-    SessionUtil.setFlash(context.request, FlashMessage.error(Messages.UNAUTHORIZED_ERROR))
-    context.redirect('/')
+    SessionUtil.setFlash(context.request, FlashMessage.error(Messages.UNAUTHORIZED_ERROR)).then {
+      context.redirect('/')
+    }
   }
 }

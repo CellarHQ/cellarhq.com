@@ -53,6 +53,32 @@ class SettingsFunctionalSpec extends BaseFunctionalSpecification implements LogI
     create.delete(ORGANIZATION).execute()
   }
 
+  def 'can change settings'() {
+    when: 'navigate to settings page'
+    SettingsPage settingsPage = to SettingsPage
+
+    and: 'fill in the form'
+    settingsPage.fillForm('New Display Name',
+      'New Location',
+      'http://www.localhost.com',
+      'bio bio bio',
+      'test@test.com',
+      '@kyleboon',
+      'redditusername',
+      'http://www.localhost.com',
+      'http://www.localhost.com',
+      true)
+
+    and: 'submit the form'
+    settingsPage.updateSettings()
+
+    then: 'at the settings page with the new settings filled in'
+    SettingsPage updatedPage = at SettingsPage
+
+    updatedPage.successMessages.displayed
+    updatedPage.settingsForm.displayName == "New Display Name"
+  }
+
   def 'can empty cellar'() {
     when: 'navigate to settings page'
     SettingsPage settingsPage = to SettingsPage
@@ -77,4 +103,6 @@ class SettingsFunctionalSpec extends BaseFunctionalSpecification implements LogI
     then: 'at the your cellar page and there is 0 items in the list'
     at RegisterPage
   }
+
+
 }

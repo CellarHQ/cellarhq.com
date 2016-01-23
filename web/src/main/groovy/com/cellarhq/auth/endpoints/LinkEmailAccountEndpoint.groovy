@@ -58,8 +58,9 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                   cellar: cellar.id,
                   error : Messages.ACCOUNT_LINK_TOKEN_UNKNOWN
                 ]))
-                SessionUtil.setFlash(context, FlashMessage.error(Messages.ACCOUNT_LINK_TOKEN_UNKNOWN))
-                redirect('/settings/link-email')
+                SessionUtil.setFlash(context, FlashMessage.error(Messages.ACCOUNT_LINK_TOKEN_UNKNOWN)).then {
+                  redirect('/settings/link-email')
+                }
               }
             }
           }
@@ -83,15 +84,17 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                     log.info(LogUtil.toLog(request, 'Linked email to existing account', [
                       cellar: cellar.id
                     ]))
-                    SessionUtil.setFlash(context, FlashMessage.success(Messages.ACCOUNT_LINK_EMAIL_SUCCESS))
-                    redirect('/yourcellar')
+                    SessionUtil.setFlash(context, FlashMessage.success(Messages.ACCOUNT_LINK_EMAIL_SUCCESS)).then {
+                      redirect('/yourcellar')
+                    }
                   } else {
                     log.warn(LogUtil.toLog(request, 'Failed linking email to existing account', [
                       cellar: cellar.id,
                       error : result.message
                     ]))
-                    SessionUtil.setFlash(context, FlashMessage.error(result.message))
-                    redirect('/settings/link-email')
+                    SessionUtil.setFlash(context, FlashMessage.error(result.message)).then {
+                      redirect('/settings/link-email')
+                    }
                   }
                 }
               } else {
@@ -103,8 +106,9 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
 
                 SessionUtil.setFlash(
                   request,
-                  FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages))
-                redirect('/settings/link-email/:token')
+                  FlashMessage.error(Messages.FORM_VALIDATION_ERROR, messages)).then {
+                  redirect('/settings/link-email/:token')
+                }
               }
             }
           }
@@ -136,17 +140,18 @@ class LinkEmailAccountEndpoint implements Action<Chain> {
                   ]))
                   SessionUtil.setFlash(context, FlashMessage.success(
                     Messages.ACCOUNT_LINK_EMAIL_VERIFICATION_SENT
-                  ))
-                  // TODO: Should we send them to a landing page instead?
-                  redirect('/yourcellar')
+                  )).then {
+                    redirect('/yourcellar')
+                  }
                 } else {
                   log.warn(LogUtil.toLog(request, 'Failed attempting to link email account', [
                     error : result.message,
                     cellar: cellar.id,
                     email : form.email
                   ]))
-                  SessionUtil.setFlash(context, FlashMessage.error(result.message))
-                  redirect('/settings/link-email')
+                  SessionUtil.setFlash(context, FlashMessage.error(result.message)).then {
+                    redirect('/settings/link-email')
+                  }
                 }
               }
             }
