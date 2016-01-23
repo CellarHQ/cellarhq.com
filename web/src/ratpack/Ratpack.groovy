@@ -36,6 +36,8 @@ import ratpack.session.clientside.ClientSideSessionConfig
 import ratpack.session.clientside.ClientSideSessionModule
 import util.HerokuUtils
 
+import java.time.Duration
+
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
 import static ratpack.jackson.Jackson.json
@@ -70,8 +72,13 @@ ratpack {
     module ApiModule
     module WebappModule
     module HandlebarsModule
-    module SessionModule
-    module ClientSideSessionModule
+    module SessionModule, { c->
+      c.expires(Duration.ofDays(30))
+    }
+    module ClientSideSessionModule, { c ->
+      c.setMaxInactivityInterval(Duration.ofDays(30))
+    }
+
     module DropwizardMetricsModule
     module LibratoModule
 
