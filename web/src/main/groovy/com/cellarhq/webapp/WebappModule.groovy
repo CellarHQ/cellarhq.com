@@ -9,6 +9,7 @@ import static com.google.inject.Scopes.SINGLETON
 class WebappModule extends ConfigurableModule<CellarHQConfig> {
   @Override
   protected void configure() {
+    bind(BinStatsService)
     // web app - to be moved to its own module
     bind(BreweryEndpoint).in(SINGLETON)
     bind(BeerEndpoint).in(SINGLETON)

@@ -270,7 +270,8 @@ class CellaredDrinkService extends BaseJooqService {
         size       : CELLARED_DRINK.SIZE,
         quantity   : CELLARED_DRINK.QUANTITY,
         bottleDate : CELLARED_DRINK.BOTTLE_DATE,
-        style      : STYLE.NAME
+        style      : STYLE.NAME,
+        binIdentifier : CELLARED_DRINK.BIN_IDENTIFIER
       ]), DRINK.NAME.asc(), CELLARED_DRINK.BOTTLE_DATE.asc(), CELLARED_DRINK.SIZE.asc())
         .fetchInto(CellaredDrinkDetails)
     }

@@ -41,6 +41,7 @@ class CellarsEndpoint implements Action<Chain> {
   DrinkService drinkService
   OrganizationService organizationService
   PhotoService photoService
+  BinStatsService binStatsService
 
   @Inject
   CellarsEndpoint(ValidatorFactory validatorFactory,
@@ -48,13 +49,15 @@ class CellarsEndpoint implements Action<Chain> {
                   CellaredDrinkService cellaredDrinkService,
                   DrinkService drinkService,
                   OrganizationService organizationService,
-                  PhotoService photoService) {
+                  PhotoService photoService,
+                  BinStatsService binStatsService) {
     this.validatorFactory = validatorFactory
     this.cellarService = cellarService
     this.cellaredDrinkService = cellaredDrinkService
     this.drinkService = drinkService
     this.organizationService = organizationService
     this.photoService = photoService
+    this.binStatsService = binStatsService
   }
 
   @Override
@@ -131,6 +134,8 @@ class CellarsEndpoint implements Action<Chain> {
                   [cellar        : map.cellar,
                    photo         : map.photo,
                    cellaredDrinks: map.cellaredDrinks,
+                   usesBinIdentifiers: binStatsService.binsPresent(map.cellaredDrinks),
+                   binStats      : binStatsService.calculateBinStats(map.cellaredDrinks),
                    self          : isSelf(profile, map.cellar.id),
                    title         : "CellarHQ : ${map.cellar.displayName}",
                    pageId        : 'cellars.show'])

@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
 			<div class="block">
-              {{>cellars/_cellar_common}}
+        {{>cellars/_cellar_common}}
 				<h2>Beers</h2>
 
 				<div class="row hidden-print">
@@ -42,6 +42,9 @@
 							<th class="size-column">{{tableSort request field='size' title='Size'}}</th>
 							<th class="quantity-column">{{tableSort request field='quantity' title='#'}}</th>
 							<th class="bottleDate-column">{{tableSort request field='bottleDate' title='Bottled'}}</th>
+              {{#if usesBinIdentifiers}}
+				      <th class="bin-column">{{tableSort request field='binIdentifier' title='Bin'}}</th>
+              {{/if}}
 						</tr>
 						</thead>
 						<tbody>
@@ -112,8 +115,11 @@
 								<td>{{size}}</td>
 								<td>{{quantity}}</td>
 								<td>{{bottledDate request date=bottleDate}}</td>
+                {{#if usesBinIdentifiers}}
+				          <td>{{binIdentifier}}</td>
+                {{/if}}
 							</tr>
-                            {{#if hasDetails}}
+              {{#if hasDetails}}
 								<tr id="details{{id}}" class="collapse out">
 									<td colspan="7">
 										<div class="row">

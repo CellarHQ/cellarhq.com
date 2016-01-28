@@ -54,11 +54,26 @@
 			}
 		}(document, "script", "twitter-wjs");</script>
 	</div>
-	<div class="col-sm-3">
-		<ul>
-			<li><strong>{{cellar.totalBeers}}</strong> Total beers</li>
-			<li><strong>{{cellar.uniqueBeers}}</strong> Unique beers</li>
-			<li><strong>{{cellar.uniqueBreweries}}</strong> Breweries</li>
-		</ul>
-	</div>
+	<div class="list-group pull-right col-sm-3 col-md-3 cold-lg-3 ">
+	  <a href="javascript:void(0)" class="list-group-item">
+		  <span class="badge">{{cellar.totalBeers}}</span>
+		  <h4 class="list-group-item-heading"><strong>Total Beers</strong></h4>
+	  </a>
+	  <a href="javascript:void(0)" class="list-group-item">
+		  <span class="badge">{{cellar.uniqueBeers}}</span>
+		  <h4 class="list-group-item-heading"><strong>Unique Beers</strong></h4>
+	  </a>
+	  <a href="javascript:void(0)" class="list-group-item">
+		  <span class="badge">{{cellar.uniqueBreweries}}</span>
+		  <h4 class="list-group-item-heading"><strong>Breweries</strong></h4>
+	  </a>
+    {{#if usesBinIdentifiers}}
+      {{#each binStats.entries}}
+	      <a href="javascript:void(0)" class="list-group-item">
+		      <span class="badge">{{value}}</span>
+		      <h4 class="list-group-item-heading"><strong>Bin {{key}}</strong></h4>
+	      </a>
+      {{/each}}
+    {{/if}}
+  </div>
 </div>

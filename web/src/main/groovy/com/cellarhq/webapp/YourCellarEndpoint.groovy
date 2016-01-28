@@ -22,14 +22,17 @@ class YourCellarEndpoint implements Action<Chain> {
   private final CellarService cellarService
   private final CellaredDrinkService cellaredDrinkService
   private final PhotoService photoService
+  private final BinStatsService binStatsService
 
   @Inject
   YourCellarEndpoint(CellarService cellarService,
                      CellaredDrinkService cellaredDrinkService,
-                     PhotoService photoService) {
+                     PhotoService photoService,
+                     BinStatsService binStatsService) {
     this.cellarService = cellarService
     this.cellaredDrinkService = cellaredDrinkService
     this.photoService = photoService
+    this.binStatsService = binStatsService
   }
 
   @Override
@@ -60,6 +63,8 @@ class YourCellarEndpoint implements Action<Chain> {
               [cellar        : map.cellar,
                photo         : map.photo,
                cellaredDrinks: map.cellaredDrinks,
+               usesBinIdentifiers: binStatsService.binsPresent(map.cellaredDrinks),
+               binStats      : binStatsService.calculateBinStats(map.cellaredDrinks),
                self          : true,
                title         : 'CellarHQ : Your Cellar',
                pageId        : 'yourcellar']
@@ -93,12 +98,14 @@ class YourCellarEndpoint implements Action<Chain> {
             clientError 404
           } else {
             render handlebarsTemplate('cellars/show-archive.html',
-              [cellar : map.cellar,
+              [
+                cellar : map.cellar,
                photo  : map.photo,
                archive: map.archive,
                self   : true,
                title  : 'CellarHQ : Your Cellar',
-               pageId : 'yourarchive']
+               pageId : 'yourarchive'
+              ]
             )
           }
         }
