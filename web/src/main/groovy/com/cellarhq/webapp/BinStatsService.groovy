@@ -18,7 +18,7 @@ class BinStatsService {
     } as BinStats
 
     //special case for null and empty string, combine then and make the key "Unknown"
-    Integer emptyStringCount = stats.remove("") ?: 0
+    Integer emptyStringCount = stats.remove('') ?: 0
     Integer nullCount = stats.remove(null) ?: 0
 
     if (emptyStringCount + nullCount > 0) {

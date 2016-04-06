@@ -27,7 +27,7 @@ class CellaredDrinkDetails extends CellaredDrink {
 
   boolean getWarnDrinkByDate() {
     return drinkByDate &&
-      LocalDate.now().isAfter(drinkByDate?.minusDays(DRINK_BY_WARN_DAYS)) &&
+      LocalDate.now().isAfter(drinkByDate.minusDays(DRINK_BY_WARN_DAYS)) &&
       !dangerDrinkByDate
   }
 

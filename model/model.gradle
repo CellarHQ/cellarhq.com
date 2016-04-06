@@ -4,6 +4,7 @@ buildscript {
     maven { url "http://oss.jfrog.org/repo" }
   }
   dependencies {
+    classpath 'nu.studer:gradle-jooq-plugin:1.0.5'
     classpath databaseDriver
   }
 }
@@ -16,6 +17,7 @@ plugins {
 
 apply plugin: 'liquibase'
 apply plugin: 'groovy'
+apply plugin: 'nu.studer.jooq'
 
 repositories {
   jcenter()
@@ -78,8 +80,57 @@ liquibase {
   }
 }
 
-task generateJooq(type: JavaExec, dependsOn: ['classes', 'update']) {
-  main = 'org.jooq.util.GenerationTool'
-  classpath = sourceSets.main.runtimeClasspath
-  args 'jooq.xml'
+jooq {
+  cellarhq(sourceSets.main) {
+    jdbc {
+      driver = 'org.postgresql.Driver'
+      url = 'jdbc:postgresql://localhost:15432/cellarhq'
+      user = 'cellarhq'
+      password = 'cellarhq'
+      schema = 'public'
+    }
+    generator {
+      name = 'org.jooq.util.DefaultGenerator'
+      strategy {
+        name = 'org.jooq.util.DefaultGeneratorStrategy'
+      }
+      database {
+        name = 'org.jooq.util.postgres.PostgresDatabase'
+        inputSchema = 'public'
+        customTypes {
+          customType {
+            name = "LocalDate"
+            type = "java.time.LocalDate"
+            converter = "com.cellarhq.jooq.LocalDateConverter"
+          }
+          customType {
+            name = "LocalDateTie"
+            type = "java.time.LocalDateTime"
+            converter = "com.cellarhq.jooq.LocalDateTimeConverter"
+          }
+          forcedTypes {
+            forcedType {
+              name = "LocalDate"
+              types = "date"
+              expression = ".*"
+            }
+            forcedType {
+              name = "LocalDateTime"
+              types = "timestamp"
+              expression = ".*"
+            }
+          }
+
+        }
+      }
+      generate {
+        pojos = true
+        jpaAnnotations = true
+
+      }
+      target {
+        packageName = 'com.cellarhq.generated'
+      }
+    }
+  }
 }
