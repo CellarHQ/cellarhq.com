@@ -2,7 +2,7 @@ plugins {
   id 'groovy'
   id 'application'
   id 'idea'
-  id 'com.github.johnrengelman.shadow' version '1.2.2'
+  id 'com.github.johnrengelman.shadow' version '1.2.3'
 }
 
 repositories {
