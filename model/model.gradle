@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-  compile 'org.codehaus.groovy:groovy-all:2.4.4'
+  compile 'org.codehaus.groovy:groovy-all:2.4.6'
   compile databaseDriver
   compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
   compile "org.jooq:jooq:${jooqVersion}"
@@ -126,6 +126,7 @@ jooq {
       generate {
         pojos = true
         jpaAnnotations = true
+        daos = true
 
       }
       target {
