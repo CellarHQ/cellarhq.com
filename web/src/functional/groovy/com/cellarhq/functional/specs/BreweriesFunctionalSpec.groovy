@@ -9,6 +9,7 @@ import com.cellarhq.functional.pages.breweries.BreweriesPage
 import com.cellarhq.functional.pages.breweries.EditBreweryPage
 import com.cellarhq.functional.pages.breweries.ShowBreweryPage
 import groovy.sql.Sql
+import io.remotecontrol.client.UnserializableResultStrategy
 import org.h2.jdbc.JdbcSQLException
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.remote.RemoteControl
@@ -25,7 +26,7 @@ class BreweriesFunctionalSpec extends BaseFunctionalSpecification implements Log
   ApplicationUnderTest aut = new CellarHqApplication()
 
   @Shared
-  RemoteControl remote = new RemoteControl(aut)
+  RemoteControl remote = new RemoteControl(aut, UnserializableResultStrategy.NULL)
 
   def setupSpec() {
     browser.baseUrl = aut.getAddress().toString()

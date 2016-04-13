@@ -8,8 +8,8 @@ import com.cellarhq.common.CellarHQConfig
 import com.google.inject.Provides
 import com.google.inject.Singleton
 import groovy.util.logging.Slf4j
-import org.pac4j.http.client.FormClient
-import org.pac4j.http.credentials.UsernamePasswordAuthenticator
+import org.pac4j.http.client.indirect.FormClient
+import org.pac4j.http.credentials.authenticator.UsernamePasswordAuthenticator
 import ratpack.guice.ConfigurableModule
 
 import static com.google.inject.Scopes.SINGLETON

@@ -14,7 +14,7 @@ import com.zaxxer.hikari.HikariConfig
 import librato.HerokuLibratoConfigUtility
 import librato.LibratoConfig
 import librato.LibratoModule
-import org.pac4j.http.client.FormClient
+import org.pac4j.http.client.indirect.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

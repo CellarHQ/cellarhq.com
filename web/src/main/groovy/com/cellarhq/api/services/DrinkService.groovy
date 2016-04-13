@@ -10,7 +10,6 @@ import com.cellarhq.jooq.SortCommand
 import com.cellarhq.util.JooqUtil
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.Configuration
 import org.jooq.DSLContext
@@ -23,7 +22,6 @@ import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
-@CompileStatic
 @Slf4j
 class DrinkService extends BaseJooqService {
 

@@ -8,12 +8,13 @@ import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.pac4j.core.client.Clients
 import org.pac4j.core.context.WebContext
-import org.pac4j.http.client.FormClient
+import org.pac4j.http.client.indirect.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import ratpack.exec.Promise
 import ratpack.handlebars.Template
 import ratpack.handling.Context
 import ratpack.pac4j.RatpackPac4j
+import ratpack.pac4j.internal.RatpackWebContext
 import ratpack.render.RenderableDecorator
 import ratpack.session.Session
 
@@ -80,7 +81,7 @@ class HandlerbarsRenderableDecorator implements RenderableDecorator {
 
     model[MODEL_HOSTNAME] = HOSTNAME
 
-    return RatpackPac4j.webContext(context).flatMap { WebContext webContext ->
+    return RatpackWebContext.from(context, true).flatMap { WebContext webContext ->
       Optional<Clients> optionalClients = context.maybeGet(Clients)
       optionalClients.ifPresent { Clients clients ->
         TwitterClient twClient = clients.findClient(TwitterClient)

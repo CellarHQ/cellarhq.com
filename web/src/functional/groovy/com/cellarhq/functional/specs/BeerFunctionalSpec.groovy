@@ -10,6 +10,7 @@ import com.cellarhq.functional.LogInUserTrait
 import com.cellarhq.functional.pages.beers.AddBeerPage
 import com.cellarhq.functional.pages.breweries.ShowBreweryPage
 import groovy.sql.Sql
+import io.remotecontrol.client.UnserializableResultStrategy
 import org.h2.jdbc.JdbcSQLException
 import ratpack.rx.RxRatpack
 import ratpack.test.ApplicationUnderTest
@@ -31,7 +32,7 @@ class BeerFunctionalSpec extends BaseFunctionalSpecification implements LogInUse
   ApplicationUnderTest aut = new CellarHqApplication()
 
   @Shared
-  RemoteControl remote = new RemoteControl(aut)
+  RemoteControl remote = new RemoteControl(aut, UnserializableResultStrategy.NULL)
 
   def setupSpec() {
     remote.exec {

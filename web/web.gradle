@@ -59,8 +59,8 @@ dependencies {
   compile ratpack.dependency('remote')
   compile ratpack.dependency("rx")
   compile ratpack.dependency('session')
-  compile 'org.pac4j:pac4j-http:1.6.0'
-  compile 'org.pac4j:pac4j-oauth:1.6.0'
+  compile 'org.pac4j:pac4j-http:1.8.5'
+  compile 'org.pac4j:pac4j-oauth:1.8.5'
 
   compile 'org.mindrot:jbcrypt:0.3m'
   compile 'com.github.slugify:slugify:2.1.5'
@@ -91,7 +91,7 @@ dependencies {
   testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
     exclude module: "groovy-all"
   }
-  testCompile 'cglib:cglib-nodep:3.2.1'
+  testCompile 'cglib:cglib-nodep:3.2.2'
   testRuntime "org.objenesis:objenesis:2.2"
   testCompile ratpack.dependency("remote-test")
 

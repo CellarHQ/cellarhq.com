@@ -8,8 +8,8 @@ import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.exception.CredentialsException
-import org.pac4j.http.credentials.UsernamePasswordAuthenticator
 import org.pac4j.http.credentials.UsernamePasswordCredentials
+import org.pac4j.http.credentials.authenticator.UsernamePasswordAuthenticator
 
 import java.time.LocalDateTime
 
