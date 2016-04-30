@@ -4,14 +4,13 @@ import com.cellarhq.auth.services.AccountService
 import com.cellarhq.domain.EmailAccount
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
-import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.CommonProfile
-import org.pac4j.core.profile.UserProfile
-import org.pac4j.http.credentials.HttpCredentials
+import org.pac4j.http.credentials.UsernamePasswordCredentials
+import org.pac4j.http.profile.HttpProfile
 import org.pac4j.http.profile.creator.ProfileCreator
 
 @Slf4j
-class CellarHQProfileCreator implements ProfileCreator<HttpCredentials, UserProfile> {
+class CellarHQProfileCreator implements ProfileCreator<UsernamePasswordCredentials, HttpProfile> {
   AccountService accountService
 
   @Inject
@@ -20,16 +19,20 @@ class CellarHQProfileCreator implements ProfileCreator<HttpCredentials, UserProf
   }
 
   @Override
-  UserProfile create(HttpCredentials credentials) {
-    HttpCellarHQProfile profile = new HttpCellarHQProfile()
+  HttpProfile create(UsernamePasswordCredentials credentials) {
+    return credentials.userProfile
+  }
 
-    EmailAccount emailAccount = accountService.findByEmail(credentials.userProfile.id)
-    profile.cellarId = emailAccount.cellarId
-    profile.setId(credentials.userProfile.id)
-    profile.addAttribute(CommonProfile.USERNAME, credentials.userProfile.id)
+  HttpProfile create(String username) {
+    final HttpProfile PROFILE = new HttpProfile()
 
-    log.info("Created profile for cellar: ${profile.cellarId}")
+    EmailAccount emailAccount = accountService.findByEmail(username)
+    PROFILE.setId(username)
+    PROFILE.addAttribute(CommonProfile.USERNAME, username)
+    PROFILE.addAttribute('CELLARID', emailAccount.cellarId)
 
-    return profile
+    log.info("Created profile for cellar: ${emailAccount.cellarId}")
+
+    return PROFILE
   }
 }

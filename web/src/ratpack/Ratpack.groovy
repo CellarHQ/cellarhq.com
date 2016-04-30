@@ -1,5 +1,7 @@
 import com.cellarhq.api.*
 import com.cellarhq.auth.AuthenticationModule
+
+import com.cellarhq.auth.CustomTwitterClient
 import com.cellarhq.auth.endpoints.*
 import com.cellarhq.auth.profiles.CellarHQProfile
 import com.cellarhq.common.CellarHQConfig
@@ -14,6 +16,7 @@ import com.zaxxer.hikari.HikariConfig
 import librato.HerokuLibratoConfigUtility
 import librato.LibratoConfig
 import librato.LibratoModule
+import org.pac4j.core.profile.UserProfile
 import org.pac4j.http.client.indirect.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import org.slf4j.Logger
@@ -101,9 +104,12 @@ ratpack {
 
 
     all({ ctx ->
-      RatpackPac4j.userProfile(ctx).then { opUp ->
+      RatpackPac4j.userProfile(ctx).then { Optional<UserProfile> opUp ->
         if (opUp.isPresent()) {
-          ctx.next(single(opUp.get()))
+          UserProfile userProfile = opUp.get()
+          CellarHQProfile cellarHQProfile = new CellarHQProfile()
+          cellarHQProfile.cellarId = userProfile.getAttribute("CELLARID")
+          ctx.next(single(cellarHQProfile))
         } else {
           ctx.next()
         }
@@ -122,7 +128,7 @@ ratpack {
       }
     }
 
-    all(RatpackPac4j.authenticator(registry.get(FormClient), registry.get(TwitterClient)))
+    all(RatpackPac4j.authenticator(registry.get(FormClient), registry.get(CustomTwitterClient)))
 
     get("twitterLogin") { ctx ->
       RatpackPac4j.login(ctx, TwitterClient).then {

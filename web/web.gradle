@@ -96,10 +96,10 @@ dependencies {
   testCompile ratpack.dependency("remote-test")
 
   functionalCompile "org.gebish:geb-spock:0.13.1"
-  functionalCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.53.0", {
+  functionalCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.48.0", {
     exclude module: 'httpclient'
   }
-  functionalCompile 'org.liquibase:liquibase-core:3.4.2'
+  functionalCompile 'org.liquibase:liquibase-core:3.4.1'
 }
 
 task functionalTest(type: Test) {

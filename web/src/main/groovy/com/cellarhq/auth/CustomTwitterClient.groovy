@@ -1,7 +1,6 @@
 package com.cellarhq.auth
 
 import com.cellarhq.api.services.CellarService
-import com.cellarhq.auth.profiles.TwitterCellarHQProfile
 import com.cellarhq.auth.services.AccountService
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.OAuthAccount
@@ -26,8 +25,8 @@ class CustomTwitterClient extends TwitterClient {
   }
 
   @Override
-  protected TwitterCellarHQProfile extractUserProfile(String body) {
-    TwitterCellarHQProfile profile = new TwitterCellarHQProfile()
+  protected TwitterProfile extractUserProfile(String body) {
+    TwitterProfile profile = new TwitterProfile()
     JsonNode json = JsonHelper.getFirstNode(body)
     if (json != null) {
       profile.setId(JsonHelper.get(json, 'id'))
@@ -41,7 +40,7 @@ class CustomTwitterClient extends TwitterClient {
       OAuthAccount oauthAccount = accountService.findByCredentials(profile.username)
 
       if (oauthAccount) {
-        profile.cellarId = oauthAccount.cellarId
+        profile.addAttribute('CELLARID', oauthAccount.cellarId)
         cellarService.updateLoginStats(oauthAccount.cellar, profile)
       } else {
         Cellar cellar = Cellar.makeFrom(profile)
@@ -49,7 +48,7 @@ class CustomTwitterClient extends TwitterClient {
         oauthAccount = makeOauthAccountFrom(profile, cellar)
 
         OAuthAccount persisted = accountService.create(oauthAccount, profile.pictureUrl?.replace('_normal', ''))
-        profile.cellarId = persisted.cellarId
+        profile.addAttribute('CELLARID', persisted.cellarId)
       }
     }
 

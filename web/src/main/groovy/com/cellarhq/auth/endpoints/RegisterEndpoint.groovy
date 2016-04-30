@@ -12,6 +12,7 @@ import com.cellarhq.util.LogUtil
 import com.cellarhq.util.SessionUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
+import org.pac4j.http.profile.HttpProfile
 import ratpack.exec.Blocking
 import ratpack.exec.Operation
 import ratpack.form.Form
@@ -112,7 +113,7 @@ class RegisterEndpoint extends GroovyHandler {
                 }
               }.then {
                 context.get(Session).data.then { sessionData ->
-                  CellarHQProfile profile = cellarHQProfileCreator.create(emailAccount.email)
+                  HttpProfile profile = cellarHQProfileCreator.create(emailAccount.email)
                   sessionData.set(Pac4jSessionKeys.USER_PROFILE, profile)
                   context.redirect('/yourcellar')
                 }

@@ -16,10 +16,6 @@ import static com.google.inject.Scopes.SINGLETON
 
 @Slf4j
 class AuthenticationModule extends ConfigurableModule<CellarHQConfig> {
-
-  static final String SESSION_CELLAR_ID = 'cellarId'
-  static final String SESSION_CELLAR = 'cellar'
-
   @Override
   protected void configure() {
     bind(UsernamePasswordAuthenticator).to(UsernamePasswordAuthenticatorImpl)

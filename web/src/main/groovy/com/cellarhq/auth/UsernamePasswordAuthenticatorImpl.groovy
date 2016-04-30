@@ -8,8 +8,10 @@ import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.exception.CredentialsException
+import org.pac4j.core.profile.CommonProfile
 import org.pac4j.http.credentials.UsernamePasswordCredentials
 import org.pac4j.http.credentials.authenticator.UsernamePasswordAuthenticator
+import org.pac4j.http.profile.HttpProfile
 
 import java.time.LocalDateTime
 
@@ -67,6 +69,18 @@ class UsernamePasswordAuthenticatorImpl implements UsernamePasswordAuthenticator
         emailAccount.password = credentials.password
         accountService.changePassword(emailAccount, Optional.empty())
       }
+
+      HttpProfile profile = new HttpProfile()
+      profile.setId(credentials.username)
+      profile.addAttribute(CommonProfile.USERNAME, credentials.username)
+      profile.addAttribute('CELLARID', emailAccount.cellarId)
+
+      log.info("Adding userprofile to credentials with cellarid ${emailAccount.cellarId}")
+
+      credentials.userProfile = profile
+
+      log.info("Added profile ${credentials.userProfile} ${credentials.userProfile}")
+
       return
     }
 

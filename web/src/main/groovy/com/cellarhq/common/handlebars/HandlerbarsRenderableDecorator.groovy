@@ -1,5 +1,6 @@
 package com.cellarhq.common.handlebars
 
+
 import com.cellarhq.auth.profiles.CellarHQProfile
 import com.cellarhq.common.CellarHQConfig
 import com.cellarhq.common.session.FlashMessage
@@ -13,7 +14,6 @@ import org.pac4j.oauth.client.TwitterClient
 import ratpack.exec.Promise
 import ratpack.handlebars.Template
 import ratpack.handling.Context
-import ratpack.pac4j.RatpackPac4j
 import ratpack.pac4j.internal.RatpackWebContext
 import ratpack.render.RenderableDecorator
 import ratpack.session.Session
