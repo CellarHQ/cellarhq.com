@@ -27,22 +27,14 @@ class InputSanitizingListenerSpec extends Specification {
     assert record.screenName == '<li>Unsanitized</li>'
   }
 
-  @Unroll("'#recordType' #description")
-  def 'record is maybe sanitized'() {
-    when:
-    boolean result = InputSanitizingListener.instance.shouldSanitizeRecord(record)
+  def 'CellarRecord is sanitized'() {
+    expect:
+    InputSanitizingListener.instance.shouldSanitizeRecord(new CellarRecord())
+  }
 
-    then:
-    noExceptionThrown()
-    assert result == shouldSanitize
-
-    where:
-    record               | shouldSanitize
-    new CellarRecord()   | true
-    new ActivityRecord() | false
-
-    description = shouldSanitize ? 'should be sanitized' : 'should not be sanitized'
-    recordType = record.class.simpleName
+  def 'ActivityRecord is not sanitized'() {
+    expect:
+    !InputSanitizingListener.instance.shouldSanitizeRecord(new ActivityRecord())
   }
 
   @Unroll("'#executeType' #description")

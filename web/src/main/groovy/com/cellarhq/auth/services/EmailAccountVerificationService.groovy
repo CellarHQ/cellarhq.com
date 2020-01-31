@@ -11,7 +11,6 @@ import com.cellarhq.generated.tables.records.AccountLinkRequestRecord
 import com.cellarhq.jooq.BaseJooqService
 import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import ratpack.exec.Blocking
@@ -25,7 +24,6 @@ import static com.cellarhq.generated.Tables.*
 import static ratpack.rx.RxRatpack.observe
 
 @Slf4j
-@CompileStatic
 class EmailAccountVerificationService extends BaseJooqService {
 
   EmailService emailService

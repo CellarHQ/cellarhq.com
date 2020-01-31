@@ -10,7 +10,6 @@ import com.cellarhq.jooq.BaseJooqService
 import com.cellarhq.util.JooqUtil
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.Record
@@ -25,7 +24,6 @@ import java.time.LocalDateTime
 import static com.cellarhq.generated.Tables.*
 
 @Slf4j
-@CompileStatic
 class AccountService extends BaseJooqService {
 
   private final PhotoService photoService

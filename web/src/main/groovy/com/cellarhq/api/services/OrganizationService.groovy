@@ -5,7 +5,6 @@ import com.cellarhq.generated.tables.records.OrganizationRecord
 import com.cellarhq.jooq.BaseJooqService
 import com.cellarhq.jooq.SortCommand
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import ratpack.exec.Blocking
@@ -18,7 +17,6 @@ import static com.cellarhq.generated.Tables.ORGANIZATION
 import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
-@CompileStatic
 @Slf4j
 class OrganizationService extends BaseJooqService {
 
@@ -31,7 +29,6 @@ class OrganizationService extends BaseJooqService {
     observe(Blocking.get {
       jooq { DSLContext create ->
         OrganizationRecord organizationRecord = create.newRecord(ORGANIZATION, organization)
-
 
         organizationRecord.reset(ORGANIZATION.DATA)
         organizationRecord.reset(ORGANIZATION.CREATED_DATE)

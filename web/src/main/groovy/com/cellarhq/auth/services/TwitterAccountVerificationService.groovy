@@ -6,7 +6,6 @@ import com.cellarhq.domain.OAuthClient
 import com.cellarhq.generated.tables.records.AccountOauthRecord
 import com.cellarhq.jooq.BaseJooqService
 import com.google.inject.Inject
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.pac4j.oauth.profile.twitter.TwitterProfile
@@ -19,7 +18,6 @@ import static com.cellarhq.generated.Tables.ACCOUNT_OAUTH
 import static ratpack.rx.RxRatpack.observe
 
 @Slf4j
-@CompileStatic
 class TwitterAccountVerificationService extends BaseJooqService {
 
   @Inject
