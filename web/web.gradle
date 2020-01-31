@@ -2,23 +2,30 @@ buildscript {
   repositories {
     jcenter()
   }
-  dependencies {
-    classpath databaseDriver
-  }
 }
 
 plugins {
   id "io.ratpack.ratpack-groovy" version "1.7.6"
   id "com.github.johnrengelman.shadow" version "5.2.0"
+  id "idea"
 }
-
-apply plugin: 'com.github.ben-manes.versions'
-apply from: "${rootDir}/gradle/codenarc.gradle"
 
 repositories {
   jcenter()
   mavenCentral()
-  maven { url "http://repository.openmindonline.it/" }
+  maven {
+    url "http://repository.openmindonline.it/"
+    allowInsecureProtocol = true
+  }
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+shadowJar {
+  zip64 true
 }
 
 sourceSets {
@@ -33,59 +40,53 @@ configurations {
   functionalRuntime.extendsFrom configurations.testRuntime
 }
 
+idea {
+  module {
+    testSourceDirs += sourceSets.functional.groovy.srcDirs
+    testSourceDirs += sourceSets.functional.resources.srcDirs
+    scopes.TEST.plus.add(configurations.functionalCompile)
+    scopes.TEST.plus.add(configurations.functionalRuntime)
+  }
+}
+
 dependencies {
-  compile project(':model')
+  implementation project(':model')
 
-  compile ratpack.dependency('dropwizard-metrics')
-  compile ratpack.dependency('h2')
-  compile ratpack.dependency('hikari')
-  compile ratpack.dependency('handlebars')
-  compile ratpack.dependency('pac4j')
-  compile ratpack.dependency('remote')
-  compile ratpack.dependency("rx")
-  compile ratpack.dependency('session')
-  compile 'org.pac4j:pac4j-http:1.8.5'
-  compile 'org.pac4j:pac4j-oauth:1.8.5'
+  implementation ratpack.dependency('dropwizard-metrics')
+  implementation ratpack.dependency('h2')
+  implementation ratpack.dependency('hikari')
+  implementation ratpack.dependency('handlebars')
+  implementation ratpack.dependency('pac4j')
+  implementation ratpack.dependency('remote')
+  implementation ratpack.dependency("rx")
+  implementation ratpack.dependency('session')
+  implementation 'org.pac4j:pac4j-http:1.8.5'
+  implementation 'org.pac4j:pac4j-oauth:1.8.5'
 
-  compile 'org.mindrot:jbcrypt:0.3m'
-  compile 'com.github.slugify:slugify:2.1.5'
+  implementation 'org.mindrot:jbcrypt:0.4'
+  implementation 'com.github.slugify:slugify:2.4'
 
-  compile 'org.hibernate:hibernate-validator:5.3.0.Alpha1'
-  compile 'javax.el:javax.el-api:3.0.1-b04'
-  compile 'org.glassfish.web:javax.el:2.2.6'
+  implementation 'org.hibernate:hibernate-validator:6.1.1.Final'
+  implementation 'com.amazonaws:aws-java-sdk:1.11.714'
+  implementation 'org.apache.httpcomponents:httpclient:4.5.11'
 
-  compile 'com.librato.metrics:metrics-librato:4.1.2.5'
+  implementation group: 'org.jfrog.jade.plugins', name: 'jade-plugin-parent', version: '1.4-alpha1', ext: 'pom'
+  implementation 'org.reflections:reflections-maven:0.9.9-RC2'
+  implementation 'org.imgscalr:imgscalr-lib:4.2'
+  implementation 'org.owasp.antisamy:antisamy:1.5.8'
 
-  compile 'com.amazonaws:aws-java-sdk:1.10.68', {
-    // selenium requires httpclient-4.3; aws includes 4.2.
-    exclude module: 'httpclient'
-  }
-  compile 'org.apache.httpcomponents:httpclient:4.5.2'
+  runtimeOnly 'org.codehaus.janino:janino:3.1.0'
+  runtimeOnly 'org.slf4j:slf4j-api:2.0.0-alpha1'
+  runtimeOnly 'ch.qos.logback:logback-classic:1.3.0-alpha5'
 
-  compile group: 'org.jfrog.jade.plugins', name: 'jade-plugin-parent', version: '1.3.8', ext: 'pom'
-  compile 'org.reflections:reflections-maven:0.9.9-RC2'
-  compile 'org.imgscalr:imgscalr-lib:4.2'
-  compile 'org.owasp.antisamy:antisamy:1.5.3'
+  testImplementation "org.spockframework:spock-core:2.0-M1-groovy-2.5"
+  testImplementation 'cglib:cglib-nodep:3.3.0'
+  testRuntimeOnly "org.objenesis:objenesis:3.1"
+  testImplementation ratpack.dependency("remote-test")
 
-  runtime 'org.codehaus.janino:janino:2.7.8'
-  runtime 'com.logentries:logentries-appender:1.1.32'
-  runtime 'org.slf4j:slf4j-api:1.7.21'
-  runtime 'ch.qos.logback:logback-classic:1.1.7'
-  runtime 'com.lmax:disruptor:3.3.4'
-  runtime 'net.kencochrane.raven:raven-logback:6.0.0'
-
-  testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
-    exclude module: "groovy-all"
-  }
-  testCompile 'cglib:cglib-nodep:3.2.2'
-  testRuntime "org.objenesis:objenesis:2.2"
-  testCompile ratpack.dependency("remote-test")
-
-  functionalCompile "org.gebish:geb-spock:0.13.1"
-  functionalCompile "org.seleniumhq.selenium:selenium-firefox-driver:2.48.0", {
-    exclude module: 'httpclient'
-  }
-  functionalCompile 'org.liquibase:liquibase-core:3.4.1'
+  functionalImplementation "org.gebish:geb-spock:3.3"
+  functionalImplementation "org.seleniumhq.selenium:selenium-firefox-driver:3.141.59"
+  functionalImplementation 'org.liquibase:liquibase-core:3.8.5'
 }
 
 //task functionalTest(type: Test) {
@@ -128,6 +129,3 @@ run {
     environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret
   }
 }
-
-codenarcTest.enabled = false
-codenarcFunctional.enabled = false
