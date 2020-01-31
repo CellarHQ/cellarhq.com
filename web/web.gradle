@@ -4,20 +4,16 @@ buildscript {
   }
   dependencies {
     classpath databaseDriver
-    classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
   }
 }
 
 plugins {
   id "io.ratpack.ratpack-groovy" version "1.3.3"
-  id "com.github.johnrengelman.shadow" version "1.2.3"
-  id "idea"
-  id "eclipse"
+  id "com.github.johnrengelman.shadow" version "5.2.0"
 }
 
 apply plugin: 'com.github.ben-manes.versions'
 apply from: "${rootDir}/gradle/codenarc.gradle"
-apply plugin: 'com.bluepapa32.watch'
 
 repositories {
   jcenter()
@@ -35,15 +31,6 @@ sourceSets {
 configurations {
   functionalCompile.extendsFrom configurations.testCompile
   functionalRuntime.extendsFrom configurations.testRuntime
-}
-
-idea {
-  module {
-    testSourceDirs += sourceSets.functional.groovy.srcDirs
-    testSourceDirs += sourceSets.functional.resources.srcDirs
-    scopes.TEST.plus.add(configurations.functionalCompile)
-    scopes.TEST.plus.add(configurations.functionalRuntime)
-  }
 }
 
 dependencies {
@@ -101,37 +88,37 @@ dependencies {
   functionalCompile 'org.liquibase:liquibase-core:3.4.1'
 }
 
-task functionalTest(type: Test) {
-  testClassesDir = sourceSets.functional.output.classesDir
-  classpath = sourceSets.functional.runtimeClasspath
-
-  systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
-  systemProperty 'liquibase.schema.default', 'public'
-  systemProperty 'liquibase.onerror.fail', true
-  maxHeapSize '768m'
-
-  if (System.getenv('SNAP_CI')) {
-    environment 'RATPACK_DB__SERVER_NAME', System.getenv('SNAP_DB_PG_HOST')
-    environment 'RATPACK_DB__PORT_NUMBER', System.getenv('SNAP_DB_PG_PORT')
-    environment 'RATPACK_DB__NAME', 'app_test'
-    environment 'RATPACK_DB__USER', System.getenv('SNAP_DB_PG_USER')
-    environment 'RATPACK_DB__PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
-    environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY') ?: 'BAD_KEY'
-    environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY') ?: 'BAD_KEY'
-    environment 'RATPACK_CELLARHQ__TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN') ?: 'BAD_KEY'
-    environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET') ?: 'BAD_KEY'
-
-    testLogging.showStandardStreams = true
-  } else {
-    environment 'RATPACK_DB__DATA_SOURCE_PROPERTIES__DATABASE_NAME', 'cellarhq_testing'
-    if (project.hasProperty('awsAccessKey')) {
-      environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey
-      environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey
-      environment 'RATPACK_CELLARHQ__TWITER_API_KEY', project.twitterApiKey
-      environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret
-    }
-  }
-}
+//task functionalTest(type: Test) {
+//  testClassesDir = sourceSets.functional.output.classesDir
+//  classpath = sourceSets.functional.runtimeClasspath
+//
+//  systemProperty 'liquibase.changelog', rootProject.file('model/migrations/migrations.xml').canonicalPath
+//  systemProperty 'liquibase.schema.default', 'public'
+//  systemProperty 'liquibase.onerror.fail', true
+//  maxHeapSize '768m'
+//
+//  if (System.getenv('SNAP_CI')) {
+//    environment 'RATPACK_DB__SERVER_NAME', System.getenv('SNAP_DB_PG_HOST')
+//    environment 'RATPACK_DB__PORT_NUMBER', System.getenv('SNAP_DB_PG_PORT')
+//    environment 'RATPACK_DB__NAME', 'app_test'
+//    environment 'RATPACK_DB__USER', System.getenv('SNAP_DB_PG_USER')
+//    environment 'RATPACK_DB__PASSWORD', System.getenv('SNAP_DB_PG_PASSWORD')
+//    environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', System.getenv('AWS_ACCESS_KEY') ?: 'BAD_KEY'
+//    environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', System.getenv('AWS_SECRET_KEY') ?: 'BAD_KEY'
+//    environment 'RATPACK_CELLARHQ__TWITER_API_KEY', System.getenv('TWITTER_API_TOKEN') ?: 'BAD_KEY'
+//    environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', System.getenv('TWITTER_API_SECRET') ?: 'BAD_KEY'
+//
+//    testLogging.showStandardStreams = true
+//  } else {
+//    environment 'RATPACK_DB__DATA_SOURCE_PROPERTIES__DATABASE_NAME', 'cellarhq_testing'
+//    if (project.hasProperty('awsAccessKey')) {
+//      environment 'RATPACK_CELLARHQ__AWS_ACCESS_KEY', project.awsAccessKey
+//      environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey
+//      environment 'RATPACK_CELLARHQ__TWITER_API_KEY', project.twitterApiKey
+//      environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret
+//    }
+//  }
+//}
 
 run {
   if (project.hasProperty('awsAccessKey')) {
@@ -139,21 +126,6 @@ run {
     environment 'RATPACK_CELLARHQ__AWS_SECRET_KEY', project.awsSecretKey
     environment 'RATPACK_CELLARHQ__TWITTER_API_KEY', project.twitterApiKey
     environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret
-  }
-}
-
-watch {
-  java {
-    files files('src/main/java')
-    tasks 'compileJava'
-  }
-  groovy {
-    files files('src/main/groovy')
-    tasks 'compileGroovy'
-  }
-  resources {
-    files fileTree(dir: 'src/main/resources', include: '**/*')
-    tasks 'processResources'
   }
 }
 

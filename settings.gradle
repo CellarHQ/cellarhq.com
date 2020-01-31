@@ -1,4 +1,4 @@
-include 'jobs', 'model', 'web', 'perf'
+include 'model', 'web'
 
 rootProject.name = 'cellarhq'
 rootProject.buildFileName = 'cellarhq.gradle'
