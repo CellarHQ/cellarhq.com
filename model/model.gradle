@@ -10,6 +10,7 @@ plugins {
   id 'idea'
   id "org.liquibase.gradle" version "2.0.2"
   id "nu.studer.jooq" version "4.1"
+  id "org.kordamp.gradle.codenarc" version "0.31.2"
 }
 
 repositories {
@@ -18,17 +19,18 @@ repositories {
 
 dependencies {
   jooqRuntime databaseDriver
-  implementation 'org.codehaus.groovy:groovy-all:2.4.6'
+  implementation 'org.codehaus.groovy:groovy-all:2.5.9'
   api databaseDriver
   api 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
   api "org.jooq:jooq:${jooqVersion}"
   api "org.jooq:jooq-meta:${jooqVersion}"
+  api 'javax.annotation:javax.annotation-api:1.3.2'
   implementation "org.jooq:jooq-codegen:${jooqVersion}"
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
 }
 
 liquibase {
@@ -105,3 +107,19 @@ jooq {
     }
   }
 }
+
+tasks.generateCellarhqJooqSchemaSource.with {
+  def out = new ByteArrayOutputStream()
+  javaExecSpec = { JavaExecSpec s ->
+    s.standardOutput = out
+    s.errorOutput = out
+    s.ignoreExitValue = true
+    s.jvmArgs '-Xmx512M'
+  }
+  execResultHandler = { ExecResult r ->
+    if (r.exitValue != 0) {
+      throw new RuntimeException('jOOQ source code generation failed:\n\n' + out.toString())
+    }
+  }
+}
+

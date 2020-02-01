@@ -6,6 +6,9 @@ import ratpack.impose.ImpositionsSpec
 import ratpack.impose.UserRegistryImposition
 import ratpack.remote.RemoteControl
 
+/**
+ * Ratpack app for testing
+ */
 class CellarHqApplication extends GroovyRatpackMainApplicationUnderTest {
   @Override
   protected void addImpositions(ImpositionsSpec impositions) {

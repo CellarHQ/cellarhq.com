@@ -4,19 +4,26 @@ import com.cellarhq.domain.Drink
 import com.cellarhq.domain.DrinkType
 import com.cellarhq.domain.Organization
 import com.cellarhq.generated.tables.records.DrinkRecord
+import groovy.transform.CompileStatic
 import org.jooq.DSLContext
 
 import static com.cellarhq.generated.Tables.DRINK
 
+@CompileStatic
+/**
+ * Test data builder for drink
+ */
 class DrinkBuilder {
 
-  Map defaultProperties = [name              : 'defaultName',
-                           drinkType         : DrinkType.BEER,
-                           slug              : 'defaultname',
-                           warningFlag       : false,
-                           cellaredBeers     : 0,
-                           containedInCellars: 0,
-                           tradableBeers     : 0]
+  Map defaultProperties = [
+    'name' : 'defaultName',
+    'drinkType'          : DrinkType.BEER,
+    'slug'               : 'defaultname',
+    'warningFlag'        : false,
+    'cellaredBeers'      : 0,
+    'containedInCellars' : 0,
+    'tradableBeers'      : 0,
+  ]
 
   Drink drink
 

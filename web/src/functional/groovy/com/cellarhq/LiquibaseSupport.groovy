@@ -1,9 +1,9 @@
 package com.cellarhq
 
-import com.cellarhq.common.CellarHQConfig
 import com.zaxxer.hikari.HikariConfig
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
+import groovy.transform.CompileStatic
 import liquibase.Contexts
 import liquibase.Liquibase
 import liquibase.configuration.ConfigurationValueProvider
@@ -21,6 +21,10 @@ import liquibase.util.NetUtil
 import java.sql.Connection
 import java.sql.DriverManager
 
+/**
+ * Provides runtime liquibase support
+ */
+@CompileStatic
 trait LiquibaseSupport {
 
   private final static String LIQUIBASE_NAMESPACE = 'liquibase'
@@ -118,10 +122,10 @@ trait LiquibaseSupport {
     return remote.exec {
       HikariConfig config = get(HikariConfig)
       String host = config.dataSourceProperties.serverName
-      String port =  config.dataSourceProperties.portNumber
-      String dbname =  config.dataSourceProperties.databaseName
-      String user =  config.username
-      String password =  config.password
+      String port = config.dataSourceProperties.portNumber
+      String dbname = config.dataSourceProperties.databaseName
+      String user = config.username
+      String password = config.password
 
       "jdbc:postgresql://${host}:${port}/${dbname}?user=${user}&password=${password}"
 

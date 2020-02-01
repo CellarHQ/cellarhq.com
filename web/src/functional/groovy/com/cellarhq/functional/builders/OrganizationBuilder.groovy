@@ -1,25 +1,28 @@
 package com.cellarhq.functional.builders
 
-import com.cellarhq.domain.Drink
-import com.cellarhq.domain.DrinkType
+
 import com.cellarhq.domain.Organization
 import com.cellarhq.domain.OrganizationType
 import com.cellarhq.generated.tables.records.OrganizationRecord
+import groovy.transform.CompileStatic
 import org.jooq.DSLContext
 
 import static com.cellarhq.generated.Tables.ORGANIZATION
 
-
+@CompileStatic
+/**
+ * Test data builder for organization
+ */
 class OrganizationBuilder {
-  Map defaultProperties = [ name: 'defaultName',
-    type: OrganizationType.BREWERY,
-    slug: 'defaultname',
-    needsModeration: false,
-    warningFlag: false,
-    totalBeers: 0,
-    cellaredBeers: 0,
-    containedInCellars: 0,
-    collaboration: 0
+  Map defaultProperties = [name              : 'defaultName',
+                           type              : OrganizationType.BREWERY,
+                           slug              : 'defaultname',
+                           needsModeration   : false,
+                           warningFlag       : false,
+                           totalBeers        : 0,
+                           cellaredBeers     : 0,
+                           containedInCellars: 0,
+                           collaboration     : 0
   ]
 
   Organization organization

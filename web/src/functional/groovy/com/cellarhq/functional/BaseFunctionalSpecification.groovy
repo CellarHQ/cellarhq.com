@@ -17,9 +17,6 @@ import spock.lang.Shared
 import javax.sql.DataSource
 import java.sql.Connection
 import java.sql.DriverManager
-import java.sql.SQLException
-import java.sql.SQLFeatureNotSupportedException
-import java.util.logging.Logger
 
 abstract class BaseFunctionalSpecification extends GebReportingSpec implements LiquibaseSupport {
 
@@ -45,10 +42,10 @@ abstract class BaseFunctionalSpecification extends GebReportingSpec implements L
     return remote.exec {
       HikariConfig config = get(HikariConfig)
       String host = config.dataSourceProperties.serverName
-      String port =  config.dataSourceProperties.portNumber
-      String dbname =  config.dataSourceProperties.databaseName
-      String user =  config.username
-      String password =  config.password
+      String port = config.dataSourceProperties.portNumber
+      String dbname = config.dataSourceProperties.databaseName
+      String user = config.username
+      String password = config.password
 
       "jdbc:postgresql://${host}:${port}/${dbname}?user=${user}&password=${password}"
 

@@ -3,7 +3,11 @@ package com.cellarhq.functional.specs
 import com.cellarhq.SpecFlags
 import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
-import com.cellarhq.functional.pages.*
+import com.cellarhq.functional.pages.HomePage
+import com.cellarhq.functional.pages.LoginPage
+import com.cellarhq.functional.pages.LogoutPage
+import com.cellarhq.functional.pages.RegisterPage
+import com.cellarhq.functional.pages.YourCellarPage
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException

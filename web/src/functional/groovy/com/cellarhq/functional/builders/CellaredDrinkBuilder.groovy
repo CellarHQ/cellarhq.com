@@ -4,10 +4,15 @@ import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.CellaredDrink
 import com.cellarhq.domain.Drink
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord
+import groovy.transform.CompileStatic
 import org.jooq.DSLContext
 
 import static com.cellarhq.generated.Tables.CELLARED_DRINK
 
+@CompileStatic
+/**
+ * Test data builder for cellared drinks
+ */
 class CellaredDrinkBuilder {
   Map defaultProperties = [
     quantity : 0,

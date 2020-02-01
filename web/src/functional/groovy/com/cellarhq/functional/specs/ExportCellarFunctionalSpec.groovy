@@ -23,7 +23,7 @@ import static com.cellarhq.generated.Tables.ORGANIZATION
 /**
  * Tests exporting a cellar into a CSV
  */
-class ExportCellarFunctionalSpec  extends BaseFunctionalSpecification implements LogInUserTrait {
+class ExportCellarFunctionalSpec extends BaseFunctionalSpecification implements LogInUserTrait {
   @Shared
   ApplicationUnderTest aut = new CellarHqApplication()
 
@@ -31,7 +31,7 @@ class ExportCellarFunctionalSpec  extends BaseFunctionalSpecification implements
   RemoteControl remote = new RemoteControl(aut)
 
   static final EXPECTED_CSV =
-"""Brewery,Beer,Style,size,quantity,num_tradeable,date_acquired,bottle_date,drink_by_date,bin_identifier,notes
+    """Brewery,Beer,Style,size,quantity,num_tradeable,date_acquired,bottle_date,drink_by_date,bin_identifier,notes
 brewery1,Beer 1,"","",1,"","","","","",""
 brewery2,Beer 2,"","",2,"","","","","",""
 """

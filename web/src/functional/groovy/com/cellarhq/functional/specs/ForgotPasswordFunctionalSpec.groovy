@@ -6,7 +6,11 @@ import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.EmailAccount
 import com.cellarhq.functional.BaseFunctionalSpecification
 import com.cellarhq.functional.CellarHqApplication
-import com.cellarhq.functional.pages.*
+import com.cellarhq.functional.pages.BasePage
+import com.cellarhq.functional.pages.ChangePasswordPage
+import com.cellarhq.functional.pages.ForgotPasswordPage
+import com.cellarhq.functional.pages.LoginPage
+import com.cellarhq.functional.pages.YourCellarPage
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import org.h2.jdbc.JdbcSQLException

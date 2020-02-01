@@ -8,6 +8,7 @@ plugins {
   id "io.ratpack.ratpack-groovy" version "1.7.6"
   id "com.github.johnrengelman.shadow" version "5.2.0"
   id "idea"
+  //id 'codenarc'
 }
 
 repositories {
@@ -19,9 +20,16 @@ repositories {
   }
 }
 
+//codenarc {
+//  toolVersion = 1.4
+//  configFile = new File("${project.rootDir}/config/codenarc/codenarc.groovy")
+//}
+//codenarcTest.enabled = false
+//codenarcFunctional.enabled = false
+
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
 }
 
 shadowJar {
@@ -129,3 +137,5 @@ run {
     environment 'RATPACK_CELLARHQ__TWITTER_API_SECRET', project.twitterApiSecret
   }
 }
+
+
