@@ -83,49 +83,52 @@ liquibase {
   }
 }
 
-//jooq {
-//  cellarhq(sourceSets.main) {
-//    jdbc {
-//      driver = 'org.postgresql.Driver'
-//      url = 'jdbc:postgresql://localhost:15432/cellarhq'
-//      user = 'cellarhq'
-//      password = 'cellarhq'
-//      schema = 'public'
-//    }
-//    generator {
-//      name = 'org.jooq.codegen.DefaultGenerator'
-//      strategy {
-//        name = 'org.jooq.codegen.DefaultGeneratorStrategy'
-//      }
-//      database {
-//        name = ' org.jooq.meta.postgres.PostgresDatabase'
-//        inputSchema = 'public'
-//      }
-//      generate {
-//        pojos = true
-//        jpaAnnotations = true
-//        daos = true
-//      }
-//      target {
-//        directory = "${this.project.projectDir}/src/main/generated"
-//        packageName = 'com.cellarhq.generated'
-//      }
-//    }
-//  }
-//}
-//
-//tasks.generateCellarhqJooqSchemaSource.with {
-//  def out = new ByteArrayOutputStream()
-//  javaExecSpec = { JavaExecSpec s ->
-//    s.standardOutput = out
-//    s.errorOutput = out
-//    s.ignoreExitValue = true
-//    s.jvmArgs '-Xmx512M'
-//  }
-//  execResultHandler = { ExecResult r ->
-//    if (r.exitValue != 0) {
-//      throw new RuntimeException('jOOQ source code generation failed:\n\n' + out.toString())
-//    }
-//  }
-//}
-//
+jooq {
+  version = '3.12.3'
+  edition = 'OSS'
+  generateSchemaSourceOnCompilation = true
+  cellarhq(sourceSets.main) {
+    jdbc {
+      driver = 'org.postgresql.Driver'
+      url = 'jdbc:postgresql://localhost:15432/cellarhq'
+      user = 'cellarhq'
+      password = 'cellarhq'
+      schema = 'public'
+    }
+    generator {
+      name = 'org.jooq.codegen.DefaultGenerator'
+      strategy {
+        name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+      }
+      database {
+        name = ' org.jooq.meta.postgres.PostgresDatabase'
+        inputSchema = 'public'
+      }
+      generate {
+        pojos = true
+        jpaAnnotations = true
+        daos = true
+      }
+      target {
+        directory = "${this.project.projectDir}/src/main/generated"
+        packageName = 'com.cellarhq.generated'
+      }
+    }
+  }
+}
+
+tasks.generateCellarhqJooqSchemaSource.with {
+  def out = new ByteArrayOutputStream()
+  javaExecSpec = { JavaExecSpec s ->
+    s.standardOutput = out
+    s.errorOutput = out
+    s.ignoreExitValue = true
+    s.jvmArgs '-Xmx512M'
+  }
+  execResultHandler = { ExecResult r ->
+    if (r.exitValue != 0) {
+      throw new RuntimeException('jOOQ source code generation failed:\n\n' + out.toString())
+    }
+  }
+}
+
