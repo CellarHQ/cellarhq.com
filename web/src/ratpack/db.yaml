@@ -5,4 +5,4 @@ db:
   dataSourceProperties:
     databaseName: cellarhq
     serverName: localhost
-    portNumber: 15432
+    portNumber: 5432

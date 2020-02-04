@@ -19,6 +19,12 @@ repositories {
 
 dependencies {
   jooqRuntime databaseDriver
+
+  liquibaseRuntime "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+  liquibaseRuntime "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+  liquibaseRuntime 'org.liquibase:liquibase-core:3.8.1'
+  liquibaseRuntime databaseDriver
+
   implementation 'org.codehaus.groovy:groovy-all:2.5.9'
   api databaseDriver
   api 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
@@ -37,14 +43,14 @@ liquibase {
   activities {
     development {
       changeLogFile "${rootDir}/model/migrations/migrations.xml"
-      url 'jdbc:postgresql://localhost:15432/cellarhq'
+      url 'jdbc:postgresql://localhost:5432/cellarhq'
       username 'cellarhq'
       password 'cellarhq'
     }
 
     testing {
       changeLogFile "${rootDir}/model/migrations/migrations.xml"
-      url 'jdbc:postgresql://localhost:15432/cellarhq_testing'
+      url 'jdbc:postgresql://localhost:5432/cellarhq_testing'
       username 'cellarhq'
       password 'cellarhq'
     }

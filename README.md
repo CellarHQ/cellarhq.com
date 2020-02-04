@@ -3,27 +3,14 @@ CellarHQ
 
 This is the repository for the CellarHQ.com v2 website.
 
-Chat
-----
-
-We have a Slack account for talking with each other about things. Ask Rob for an invite.
-
 Development
 -----------
 
 Requirements:
 
-* Java 8
-* Gradle 2.1
-* Vagrant
-* docker (and boot2docker if on osx)
-
-In order to get started, you will need to run `vagrant up` from the `deployment` directory of this project. This vagrant
-image will bring up the development PostgreSQL database. After that has been provisioned, you will need to run
-`gradle update` to run the Liquibase migrations. This will run the migrations against the development and testing
-databases which are contained in the vagrant image. If you want to run the migrations locally against the production
-RDS instance, you need to run `gradle update -PrunList=production`. This assumes you have set cellarhqprodpasswd in
-`~/.gradle/gradle.properties`. Ask Rob or Kyle for this password if you need it.
+* Java 11
+* Gradle 6.1.1
+* docker-compose
 
 `gradle build` will build and test the entire application
 

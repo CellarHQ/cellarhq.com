@@ -13,9 +13,6 @@ import com.cellarhq.health.DatabaseHealthcheck
 import com.cellarhq.webapp.*
 import com.codahale.metrics.health.HealthCheckRegistry
 import com.zaxxer.hikari.HikariConfig
-import librato.HerokuLibratoConfigUtility
-import librato.LibratoConfig
-import librato.LibratoModule
 import org.pac4j.core.profile.UserProfile
 import org.pac4j.http.client.indirect.FormClient
 import org.pac4j.oauth.client.TwitterClient
@@ -58,18 +55,17 @@ ratpack {
       .yaml("db.yaml")
       .env()
       .sysProps()
-      .props(HerokuLibratoConfigUtility.libratoProperties)
       .args(programArgs.stream().toArray() as String[])
       .require("/cellarhq", CellarHQConfig)
-      .require("/db", HikariConfig)
       .require("/metrics", DropwizardMetricsConfig)
       .require("/cookie", ClientSideSessionConfig)
-      .require("/librato", LibratoConfig)
   }
 
   bindings {
+    Map hikariConfigProperties = serverConfig.get("/db", Map)
+    moduleConfig(HikariModule, new HikariConfig(hikariConfigProperties))
+
     module CommonModule
-    module HikariModule
     module AuthenticationModule
     module CommonModule
     module ApiModule
@@ -83,7 +79,6 @@ ratpack {
     }
 
     module DropwizardMetricsModule
-    module LibratoModule
 
     bindInstance Service, new Service() {
       @Override

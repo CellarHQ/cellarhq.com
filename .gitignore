@@ -17,6 +17,7 @@ out/
 .DS_Store
 *.ids
 .env
+snapshots/*
 
 app.log
 app*.gz
