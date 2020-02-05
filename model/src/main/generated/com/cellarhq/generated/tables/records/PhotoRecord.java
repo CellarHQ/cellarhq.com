@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Photo;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -38,15 +36,15 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "photo", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_photo", columnNames = {"id"}),
+    @UniqueConstraint(name = "photo_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_photo_original_url", columnNames = {"original_url"})
 }, indexes = {
-    @Index(name = "pk_photo", unique = true, columnList = "id ASC"),
+    @Index(name = "photo_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "unq_photo_original_url", unique = true, columnList = "original_url ASC")
 })
-public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Record12<Long, Integer, String, String, String, Short, Short, String, Short, Short, Timestamp, Timestamp> {
+public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Record12<Long, Integer, String, String, String, Short, Short, String, Short, Short, LocalDateTime, LocalDateTime> {
 
-    private static final long serialVersionUID = -956375363;
+    private static final long serialVersionUID = 1193607894;
 
     /**
      * Setter for <code>public.photo.id</code>.
@@ -59,7 +57,6 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
      * Getter for <code>public.photo.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -203,7 +200,7 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
     /**
      * Setter for <code>public.photo.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(10, value);
     }
 
@@ -211,14 +208,14 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
      * Getter for <code>public.photo.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(10);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(10);
     }
 
     /**
      * Setter for <code>public.photo.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(11, value);
     }
 
@@ -226,8 +223,8 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
      * Getter for <code>public.photo.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(11);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(11);
     }
 
     // -------------------------------------------------------------------------
@@ -244,12 +241,12 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
     // -------------------------------------------------------------------------
 
     @Override
-    public Row12<Long, Integer, String, String, String, Short, Short, String, Short, Short, Timestamp, Timestamp> fieldsRow() {
+    public Row12<Long, Integer, String, String, String, Short, Short, String, Short, Short, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row12) super.fieldsRow();
     }
 
     @Override
-    public Row12<Long, Integer, String, String, String, Short, Short, String, Short, Short, Timestamp, Timestamp> valuesRow() {
+    public Row12<Long, Integer, String, String, String, Short, Short, String, Short, Short, LocalDateTime, LocalDateTime> valuesRow() {
         return (Row12) super.valuesRow();
     }
 
@@ -304,12 +301,12 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
     }
 
     @Override
-    public Field<Timestamp> field11() {
+    public Field<LocalDateTime> field11() {
         return Photo.PHOTO.CREATED_DATE;
     }
 
     @Override
-    public Field<Timestamp> field12() {
+    public Field<LocalDateTime> field12() {
         return Photo.PHOTO.MODIFIED_DATE;
     }
 
@@ -364,12 +361,12 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
     }
 
     @Override
-    public Timestamp component11() {
+    public LocalDateTime component11() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp component12() {
+    public LocalDateTime component12() {
         return getModifiedDate();
     }
 
@@ -424,12 +421,12 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
     }
 
     @Override
-    public Timestamp value11() {
+    public LocalDateTime value11() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp value12() {
+    public LocalDateTime value12() {
         return getModifiedDate();
     }
 
@@ -494,19 +491,19 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
     }
 
     @Override
-    public PhotoRecord value11(Timestamp value) {
+    public PhotoRecord value11(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public PhotoRecord value12(Timestamp value) {
+    public PhotoRecord value12(LocalDateTime value) {
         setModifiedDate(value);
         return this;
     }
 
     @Override
-    public PhotoRecord values(Long value1, Integer value2, String value3, String value4, String value5, Short value6, Short value7, String value8, Short value9, Short value10, Timestamp value11, Timestamp value12) {
+    public PhotoRecord values(Long value1, Integer value2, String value3, String value4, String value5, Short value6, Short value7, String value8, Short value9, Short value10, LocalDateTime value11, LocalDateTime value12) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -536,7 +533,7 @@ public class PhotoRecord extends UpdatableRecordImpl<PhotoRecord> implements Rec
     /**
      * Create a detached, initialised PhotoRecord
      */
-    public PhotoRecord(Long id, Integer version, String description, String originalUrl, String thumbUrl, Short thumbWidth, Short thumbHeight, String largeUrl, Short largeWidth, Short largeHeight, Timestamp createdDate, Timestamp modifiedDate) {
+    public PhotoRecord(Long id, Integer version, String description, String originalUrl, String thumbUrl, Short thumbWidth, Short thumbHeight, String largeUrl, Short largeWidth, Short largeHeight, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         super(Photo.PHOTO);
 
         set(0, id);

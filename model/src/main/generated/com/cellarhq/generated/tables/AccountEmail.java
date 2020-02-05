@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.AccountEmailRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -43,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AccountEmail extends TableImpl<AccountEmailRecord> {
 
-    private static final long serialVersionUID = -1442282836;
+    private static final long serialVersionUID = 1442619094;
 
     /**
      * The reference instance of <code>public.account_email</code>
@@ -61,7 +60,7 @@ public class AccountEmail extends TableImpl<AccountEmailRecord> {
     /**
      * The column <code>public.account_email.id</code>.
      */
-    public final TableField<AccountEmailRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('account_email_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<AccountEmailRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.account_email.version</code>.
@@ -86,17 +85,17 @@ public class AccountEmail extends TableImpl<AccountEmailRecord> {
     /**
      * The column <code>public.account_email.created_date</code>.
      */
-    public final TableField<AccountEmailRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountEmailRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.account_email.modified_date</code>.
      */
-    public final TableField<AccountEmailRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountEmailRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.account_email.last_login_attempt</code>.
      */
-    public final TableField<AccountEmailRecord, Timestamp> LAST_LOGIN_ATTEMPT = createField(DSL.name("last_login_attempt"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<AccountEmailRecord, LocalDateTime> LAST_LOGIN_ATTEMPT = createField(DSL.name("last_login_attempt"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * The column <code>public.account_email.login_attempt_counter</code>.
@@ -143,22 +142,17 @@ public class AccountEmail extends TableImpl<AccountEmailRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.IDX_ACCOUNT_EMAIL_EMAIL, Indexes.PK_ACCOUNT_EMAIL, Indexes.UNQ_ACCOUNT_EMAIL_EMAIL);
-    }
-
-    @Override
-    public Identity<AccountEmailRecord, Long> getIdentity() {
-        return Keys.IDENTITY_ACCOUNT_EMAIL;
+        return Arrays.<Index>asList(Indexes.ACCOUNT_EMAIL_PKEY, Indexes.IDX_ACCOUNT_EMAIL_EMAIL, Indexes.UNQ_ACCOUNT_EMAIL_EMAIL);
     }
 
     @Override
     public UniqueKey<AccountEmailRecord> getPrimaryKey() {
-        return Keys.PK_ACCOUNT_EMAIL;
+        return Keys.ACCOUNT_EMAIL_PKEY;
     }
 
     @Override
     public List<UniqueKey<AccountEmailRecord>> getKeys() {
-        return Arrays.<UniqueKey<AccountEmailRecord>>asList(Keys.PK_ACCOUNT_EMAIL, Keys.UNQ_ACCOUNT_EMAIL_EMAIL);
+        return Arrays.<UniqueKey<AccountEmailRecord>>asList(Keys.ACCOUNT_EMAIL_PKEY, Keys.UNQ_ACCOUNT_EMAIL_EMAIL);
     }
 
     @Override
@@ -201,7 +195,7 @@ public class AccountEmail extends TableImpl<AccountEmailRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, Integer, Long, String, String, Timestamp, Timestamp, Timestamp, Short> fieldsRow() {
+    public Row9<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime, LocalDateTime, Short> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 }

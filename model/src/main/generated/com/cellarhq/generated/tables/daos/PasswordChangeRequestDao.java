@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.PasswordChangeRequest;
 import com.cellarhq.generated.tables.records.PasswordChangeRequestRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -86,14 +86,14 @@ public class PasswordChangeRequestDao extends DAOImpl<PasswordChangeRequestRecor
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.PasswordChangeRequest> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.PasswordChangeRequest> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.PasswordChangeRequest> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.PasswordChangeRequest> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.CREATED_DATE, values);
     }
 }

@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.Activity;
 import com.cellarhq.generated.tables.records.ActivityRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.JSON;
@@ -157,14 +157,14 @@ public class ActivityDao extends DAOImpl<ActivityRecord, com.cellarhq.generated.
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Activity> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Activity> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Activity.ACTIVITY.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Activity> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Activity> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(Activity.ACTIVITY.CREATED_DATE, values);
     }
 }

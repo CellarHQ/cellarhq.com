@@ -6,9 +6,9 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.PasswordChangeRequest;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -36,13 +36,13 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "password_change_request", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_password_change_request", columnNames = {"id"})
+    @UniqueConstraint(name = "password_change_request_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_password_change_request", unique = true, columnList = "id ASC")
+    @Index(name = "password_change_request_pkey", unique = true, columnList = "id ASC")
 })
-public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordChangeRequestRecord> implements Record3<String, Long, Timestamp> {
+public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordChangeRequestRecord> implements Record3<String, Long, LocalDateTime> {
 
-    private static final long serialVersionUID = -346082966;
+    private static final long serialVersionUID = -1508653630;
 
     /**
      * Setter for <code>public.password_change_request.id</code>.
@@ -78,7 +78,7 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
     /**
      * Setter for <code>public.password_change_request.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(2, value);
     }
 
@@ -86,8 +86,8 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
      * Getter for <code>public.password_change_request.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(2);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(2);
     }
 
     // -------------------------------------------------------------------------
@@ -104,12 +104,12 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<String, Long, Timestamp> fieldsRow() {
+    public Row3<String, Long, LocalDateTime> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 
     @Override
-    public Row3<String, Long, Timestamp> valuesRow() {
+    public Row3<String, Long, LocalDateTime> valuesRow() {
         return (Row3) super.valuesRow();
     }
 
@@ -124,7 +124,7 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
     }
 
     @Override
-    public Field<Timestamp> field3() {
+    public Field<LocalDateTime> field3() {
         return PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.CREATED_DATE;
     }
 
@@ -139,7 +139,7 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
     }
 
     @Override
-    public Timestamp component3() {
+    public LocalDateTime component3() {
         return getCreatedDate();
     }
 
@@ -154,7 +154,7 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
     }
 
     @Override
-    public Timestamp value3() {
+    public LocalDateTime value3() {
         return getCreatedDate();
     }
 
@@ -171,13 +171,13 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
     }
 
     @Override
-    public PasswordChangeRequestRecord value3(Timestamp value) {
+    public PasswordChangeRequestRecord value3(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public PasswordChangeRequestRecord values(String value1, Long value2, Timestamp value3) {
+    public PasswordChangeRequestRecord values(String value1, Long value2, LocalDateTime value3) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -198,7 +198,7 @@ public class PasswordChangeRequestRecord extends UpdatableRecordImpl<PasswordCha
     /**
      * Create a detached, initialised PasswordChangeRequestRecord
      */
-    public PasswordChangeRequestRecord(String id, Long accountEmailId, Timestamp createdDate) {
+    public PasswordChangeRequestRecord(String id, Long accountEmailId, LocalDateTime createdDate) {
         super(PasswordChangeRequest.PASSWORD_CHANGE_REQUEST);
 
         set(0, id);

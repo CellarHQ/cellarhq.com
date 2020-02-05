@@ -5,13 +5,11 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -33,25 +31,25 @@ import org.jooq.JSON;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "category", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_category", columnNames = {"id"})
+    @UniqueConstraint(name = "category_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "idx_category_brewery_db_id", columnList = "brewery_db_id ASC"),
-    @Index(name = "pk_category", unique = true, columnList = "id ASC")
+    @Index(name = "category_pkey", unique = true, columnList = "id ASC"),
+    @Index(name = "idx_category_brewery_db_id", columnList = "brewery_db_id ASC")
 })
 public class Category implements Serializable {
 
-    private static final long serialVersionUID = 1661830531;
+    private static final long serialVersionUID = -1206538426;
 
-    private Long      id;
-    private Integer   version;
-    private String    name;
-    private String    description;
-    private Boolean   searchable;
-    private String    breweryDbId;
-    private Timestamp breweryDbLastUpdated;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
-    private JSON      data;
+    private Long          id;
+    private Integer       version;
+    private String        name;
+    private String        description;
+    private Boolean       searchable;
+    private String        breweryDbId;
+    private LocalDateTime breweryDbLastUpdated;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+    private JSON          data;
 
     public Category() {}
 
@@ -69,16 +67,16 @@ public class Category implements Serializable {
     }
 
     public Category(
-        Long      id,
-        Integer   version,
-        String    name,
-        String    description,
-        Boolean   searchable,
-        String    breweryDbId,
-        Timestamp breweryDbLastUpdated,
-        Timestamp createdDate,
-        Timestamp modifiedDate,
-        JSON      data
+        Long          id,
+        Integer       version,
+        String        name,
+        String        description,
+        Boolean       searchable,
+        String        breweryDbId,
+        LocalDateTime breweryDbLastUpdated,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate,
+        JSON          data
     ) {
         this.id = id;
         this.version = version;
@@ -93,7 +91,6 @@ public class Category implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -149,29 +146,29 @@ public class Category implements Serializable {
     }
 
     @Column(name = "brewery_db_last_updated")
-    public Timestamp getBreweryDbLastUpdated() {
+    public LocalDateTime getBreweryDbLastUpdated() {
         return this.breweryDbLastUpdated;
     }
 
-    public void setBreweryDbLastUpdated(Timestamp breweryDbLastUpdated) {
+    public void setBreweryDbLastUpdated(LocalDateTime breweryDbLastUpdated) {
         this.breweryDbLastUpdated = breweryDbLastUpdated;
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

@@ -5,13 +5,11 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -31,43 +29,43 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "cellar", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_cellar", columnNames = {"id"}),
+    @UniqueConstraint(name = "cellar_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_cellar_screen_name", columnNames = {"screen_name"}),
     @UniqueConstraint(name = "cellar_slug_unique_constraint", columnNames = {"slug"})
 }, indexes = {
+    @Index(name = "cellar_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "cellar_slug_unique_constraint", unique = true, columnList = "slug ASC"),
-    @Index(name = "pk_cellar", unique = true, columnList = "id ASC"),
     @Index(name = "unq_cellar_screen_name", unique = true, columnList = "screen_name ASC")
 })
 public class Cellar implements Serializable {
 
-    private static final long serialVersionUID = 1538255902;
+    private static final long serialVersionUID = 746956623;
 
-    private Long      id;
-    private Integer   version;
-    private Long      photoId;
-    private String    screenName;
-    private String    displayName;
-    private String    location;
-    private String    website;
-    private String    bio;
-    private Boolean   updateFromNetwork;
-    private String    contactEmail;
-    private Boolean   private_;
-    private Timestamp lastLogin;
-    private String    lastLoginIp;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
-    private String    twitter;
-    private String    reddit;
-    private String    beeradvocate;
-    private String    ratebeer;
-    private Short     totalBeers;
-    private Short     uniqueBeers;
-    private Short     uniqueBreweries;
-    private Boolean   hasTradeableBeers;
-    private String    slug;
-    private String    role;
+    private Long          id;
+    private Integer       version;
+    private Long          photoId;
+    private String        screenName;
+    private String        displayName;
+    private String        location;
+    private String        website;
+    private String        bio;
+    private Boolean       updateFromNetwork;
+    private String        contactEmail;
+    private Boolean       private_;
+    private LocalDateTime lastLogin;
+    private String        lastLoginIp;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+    private String        twitter;
+    private String        reddit;
+    private String        beeradvocate;
+    private String        ratebeer;
+    private Short         totalBeers;
+    private Short         uniqueBeers;
+    private Short         uniqueBreweries;
+    private Boolean       hasTradeableBeers;
+    private String        slug;
+    private String        role;
 
     public Cellar() {}
 
@@ -100,31 +98,31 @@ public class Cellar implements Serializable {
     }
 
     public Cellar(
-        Long      id,
-        Integer   version,
-        Long      photoId,
-        String    screenName,
-        String    displayName,
-        String    location,
-        String    website,
-        String    bio,
-        Boolean   updateFromNetwork,
-        String    contactEmail,
-        Boolean   private_,
-        Timestamp lastLogin,
-        String    lastLoginIp,
-        Timestamp createdDate,
-        Timestamp modifiedDate,
-        String    twitter,
-        String    reddit,
-        String    beeradvocate,
-        String    ratebeer,
-        Short     totalBeers,
-        Short     uniqueBeers,
-        Short     uniqueBreweries,
-        Boolean   hasTradeableBeers,
-        String    slug,
-        String    role
+        Long          id,
+        Integer       version,
+        Long          photoId,
+        String        screenName,
+        String        displayName,
+        String        location,
+        String        website,
+        String        bio,
+        Boolean       updateFromNetwork,
+        String        contactEmail,
+        Boolean       private_,
+        LocalDateTime lastLogin,
+        String        lastLoginIp,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate,
+        String        twitter,
+        String        reddit,
+        String        beeradvocate,
+        String        ratebeer,
+        Short         totalBeers,
+        Short         uniqueBeers,
+        Short         uniqueBreweries,
+        Boolean       hasTradeableBeers,
+        String        slug,
+        String        role
     ) {
         this.id = id;
         this.version = version;
@@ -154,7 +152,6 @@ public class Cellar implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -255,11 +252,11 @@ public class Cellar implements Serializable {
     }
 
     @Column(name = "last_login")
-    public Timestamp getLastLogin() {
+    public LocalDateTime getLastLogin() {
         return this.lastLogin;
     }
 
-    public void setLastLogin(Timestamp lastLogin) {
+    public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
 
@@ -273,20 +270,20 @@ public class Cellar implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

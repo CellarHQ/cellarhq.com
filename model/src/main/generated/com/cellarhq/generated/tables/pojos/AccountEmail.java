@@ -5,13 +5,11 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -31,26 +29,26 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "account_email", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_account_email", columnNames = {"id"}),
+    @UniqueConstraint(name = "account_email_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_account_email_email", columnNames = {"email"})
 }, indexes = {
+    @Index(name = "account_email_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "idx_account_email_email", columnList = "email ASC"),
-    @Index(name = "pk_account_email", unique = true, columnList = "id ASC"),
     @Index(name = "unq_account_email_email", unique = true, columnList = "email ASC")
 })
 public class AccountEmail implements Serializable {
 
-    private static final long serialVersionUID = 1902780474;
+    private static final long serialVersionUID = 2141371525;
 
-    private Long      id;
-    private Integer   version;
-    private Long      cellarId;
-    private String    email;
-    private String    password;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
-    private Timestamp lastLoginAttempt;
-    private Short     loginAttemptCounter;
+    private Long          id;
+    private Integer       version;
+    private Long          cellarId;
+    private String        email;
+    private String        password;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+    private LocalDateTime lastLoginAttempt;
+    private Short         loginAttemptCounter;
 
     public AccountEmail() {}
 
@@ -67,15 +65,15 @@ public class AccountEmail implements Serializable {
     }
 
     public AccountEmail(
-        Long      id,
-        Integer   version,
-        Long      cellarId,
-        String    email,
-        String    password,
-        Timestamp createdDate,
-        Timestamp modifiedDate,
-        Timestamp lastLoginAttempt,
-        Short     loginAttemptCounter
+        Long          id,
+        Integer       version,
+        Long          cellarId,
+        String        email,
+        String        password,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate,
+        LocalDateTime lastLoginAttempt,
+        Short         loginAttemptCounter
     ) {
         this.id = id;
         this.version = version;
@@ -89,7 +87,6 @@ public class AccountEmail implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -136,29 +133,29 @@ public class AccountEmail implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
     @Column(name = "last_login_attempt")
-    public Timestamp getLastLoginAttempt() {
+    public LocalDateTime getLastLoginAttempt() {
         return this.lastLoginAttempt;
     }
 
-    public void setLastLoginAttempt(Timestamp lastLoginAttempt) {
+    public void setLastLoginAttempt(LocalDateTime lastLoginAttempt) {
         this.lastLoginAttempt = lastLoginAttempt;
     }
 

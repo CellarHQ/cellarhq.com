@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.AccountEmail;
 import com.cellarhq.generated.tables.records.AccountEmailRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -135,42 +135,42 @@ public class AccountEmailDao extends DAOImpl<AccountEmailRecord, com.cellarhq.ge
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(AccountEmail.ACCOUNT_EMAIL.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(AccountEmail.ACCOUNT_EMAIL.CREATED_DATE, values);
     }
 
     /**
      * Fetch records that have <code>modified_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchRangeOfModifiedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchRangeOfModifiedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(AccountEmail.ACCOUNT_EMAIL.MODIFIED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>modified_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchByModifiedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchByModifiedDate(LocalDateTime... values) {
         return fetch(AccountEmail.ACCOUNT_EMAIL.MODIFIED_DATE, values);
     }
 
     /**
      * Fetch records that have <code>last_login_attempt BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchRangeOfLastLoginAttempt(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchRangeOfLastLoginAttempt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(AccountEmail.ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>last_login_attempt IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchByLastLoginAttempt(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.AccountEmail> fetchByLastLoginAttempt(LocalDateTime... values) {
         return fetch(AccountEmail.ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT, values);
     }
 

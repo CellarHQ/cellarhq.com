@@ -9,16 +9,15 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -44,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CellaredDrink extends TableImpl<CellaredDrinkRecord> {
 
-    private static final long serialVersionUID = 147037486;
+    private static final long serialVersionUID = 337135916;
 
     /**
      * The reference instance of <code>public.cellared_drink</code>
@@ -62,7 +61,7 @@ public class CellaredDrink extends TableImpl<CellaredDrinkRecord> {
     /**
      * The column <code>public.cellared_drink.id</code>.
      */
-    public final TableField<CellaredDrinkRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('cellared_drink_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<CellaredDrinkRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.cellared_drink.version</code>.
@@ -82,7 +81,7 @@ public class CellaredDrink extends TableImpl<CellaredDrinkRecord> {
     /**
      * The column <code>public.cellared_drink.bottle_date</code>.
      */
-    public final TableField<CellaredDrinkRecord, Date> BOTTLE_DATE = createField(DSL.name("bottle_date"), org.jooq.impl.SQLDataType.DATE, this, "");
+    public final TableField<CellaredDrinkRecord, LocalDate> BOTTLE_DATE = createField(DSL.name("bottle_date"), org.jooq.impl.SQLDataType.LOCALDATE, this, "");
 
     /**
      * The column <code>public.cellared_drink.size</code>.
@@ -102,17 +101,17 @@ public class CellaredDrink extends TableImpl<CellaredDrinkRecord> {
     /**
      * The column <code>public.cellared_drink.drink_by_date</code>.
      */
-    public final TableField<CellaredDrinkRecord, Date> DRINK_BY_DATE = createField(DSL.name("drink_by_date"), org.jooq.impl.SQLDataType.DATE, this, "");
+    public final TableField<CellaredDrinkRecord, LocalDate> DRINK_BY_DATE = createField(DSL.name("drink_by_date"), org.jooq.impl.SQLDataType.LOCALDATE, this, "");
 
     /**
      * The column <code>public.cellared_drink.created_date</code>.
      */
-    public final TableField<CellaredDrinkRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<CellaredDrinkRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.cellared_drink.modified_date</code>.
      */
-    public final TableField<CellaredDrinkRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<CellaredDrinkRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.cellared_drink.bin_identifier</code>.
@@ -132,7 +131,7 @@ public class CellaredDrink extends TableImpl<CellaredDrinkRecord> {
     /**
      * The column <code>public.cellared_drink.date_acquired</code>.
      */
-    public final TableField<CellaredDrinkRecord, Date> DATE_ACQUIRED = createField(DSL.name("date_acquired"), org.jooq.impl.SQLDataType.DATE, this, "");
+    public final TableField<CellaredDrinkRecord, LocalDate> DATE_ACQUIRED = createField(DSL.name("date_acquired"), org.jooq.impl.SQLDataType.LOCALDATE, this, "");
 
     /**
      * Create a <code>public.cellared_drink</code> table reference
@@ -174,22 +173,17 @@ public class CellaredDrink extends TableImpl<CellaredDrinkRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.IDX_CELLARED_DRINK_DRINK_BY_DATE, Indexes.PK_CELLARED_DRINK);
-    }
-
-    @Override
-    public Identity<CellaredDrinkRecord, Long> getIdentity() {
-        return Keys.IDENTITY_CELLARED_DRINK;
+        return Arrays.<Index>asList(Indexes.CELLARED_DRINK_PKEY, Indexes.IDX_CELLARED_DRINK_DRINK_BY_DATE);
     }
 
     @Override
     public UniqueKey<CellaredDrinkRecord> getPrimaryKey() {
-        return Keys.PK_CELLARED_DRINK;
+        return Keys.CELLARED_DRINK_PKEY;
     }
 
     @Override
     public List<UniqueKey<CellaredDrinkRecord>> getKeys() {
-        return Arrays.<UniqueKey<CellaredDrinkRecord>>asList(Keys.PK_CELLARED_DRINK);
+        return Arrays.<UniqueKey<CellaredDrinkRecord>>asList(Keys.CELLARED_DRINK_PKEY);
     }
 
     @Override
@@ -236,7 +230,7 @@ public class CellaredDrink extends TableImpl<CellaredDrinkRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, Integer, Long, Long, Date, String, Integer, String, Date, Timestamp, Timestamp, String, Boolean, Short, Date> fieldsRow() {
+    public Row15<Long, Integer, Long, Long, LocalDate, String, Integer, String, LocalDate, LocalDateTime, LocalDateTime, String, Boolean, Short, LocalDate> fieldsRow() {
         return (Row15) super.fieldsRow();
     }
 }

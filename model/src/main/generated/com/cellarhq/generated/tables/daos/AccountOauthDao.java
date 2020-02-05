@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.AccountOauth;
 import com.cellarhq.generated.tables.records.AccountOauthRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -128,28 +128,28 @@ public class AccountOauthDao extends DAOImpl<AccountOauthRecord, com.cellarhq.ge
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(AccountOauth.ACCOUNT_OAUTH.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(AccountOauth.ACCOUNT_OAUTH.CREATED_DATE, values);
     }
 
     /**
      * Fetch records that have <code>modified_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchRangeOfModifiedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchRangeOfModifiedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(AccountOauth.ACCOUNT_OAUTH.MODIFIED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>modified_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchByModifiedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.AccountOauth> fetchByModifiedDate(LocalDateTime... values) {
         return fetch(AccountOauth.ACCOUNT_OAUTH.MODIFIED_DATE, values);
     }
 }

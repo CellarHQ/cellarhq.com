@@ -5,13 +5,11 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -33,45 +31,45 @@ import org.jooq.JSON;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "organization", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_organization", columnNames = {"id"}),
+    @UniqueConstraint(name = "organization_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_organization_slug", columnNames = {"slug"})
 }, indexes = {
-    @Index(name = "pk_organization", unique = true, columnList = "id ASC"),
+    @Index(name = "organization_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "unq_organization_slug", unique = true, columnList = "slug ASC")
 })
 public class Organization implements Serializable {
 
-    private static final long serialVersionUID = -773257876;
+    private static final long serialVersionUID = -856338605;
 
-    private Long      id;
-    private Integer   version;
-    private Long      photoId;
-    private String    type;
-    private String    slug;
-    private String    name;
-    private String    description;
-    private Short     established;
-    private String    phone;
-    private String    website;
-    private String    address;
-    private String    address2;
-    private String    locality;
-    private String    postalCode;
-    private String    country;
-    private String    breweryDbId;
-    private Timestamp breweryDbLastUpdated;
-    private Boolean   locked;
-    private Boolean   needsModeration;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
-    private JSON      data;
-    private String    region;
-    private Boolean   warningFlag;
-    private Short     totalBeers;
-    private Short     cellaredBeers;
-    private Short     containedInCellars;
-    private String    localitySort;
-    private Boolean   collaboration;
+    private Long          id;
+    private Integer       version;
+    private Long          photoId;
+    private String        type;
+    private String        slug;
+    private String        name;
+    private String        description;
+    private Short         established;
+    private String        phone;
+    private String        website;
+    private String        address;
+    private String        address2;
+    private String        locality;
+    private String        postalCode;
+    private String        country;
+    private String        breweryDbId;
+    private LocalDateTime breweryDbLastUpdated;
+    private Boolean       locked;
+    private Boolean       needsModeration;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+    private JSON          data;
+    private String        region;
+    private Boolean       warningFlag;
+    private Short         totalBeers;
+    private Short         cellaredBeers;
+    private Short         containedInCellars;
+    private String        localitySort;
+    private Boolean       collaboration;
 
     public Organization() {}
 
@@ -108,35 +106,35 @@ public class Organization implements Serializable {
     }
 
     public Organization(
-        Long      id,
-        Integer   version,
-        Long      photoId,
-        String    type,
-        String    slug,
-        String    name,
-        String    description,
-        Short     established,
-        String    phone,
-        String    website,
-        String    address,
-        String    address2,
-        String    locality,
-        String    postalCode,
-        String    country,
-        String    breweryDbId,
-        Timestamp breweryDbLastUpdated,
-        Boolean   locked,
-        Boolean   needsModeration,
-        Timestamp createdDate,
-        Timestamp modifiedDate,
-        JSON      data,
-        String    region,
-        Boolean   warningFlag,
-        Short     totalBeers,
-        Short     cellaredBeers,
-        Short     containedInCellars,
-        String    localitySort,
-        Boolean   collaboration
+        Long          id,
+        Integer       version,
+        Long          photoId,
+        String        type,
+        String        slug,
+        String        name,
+        String        description,
+        Short         established,
+        String        phone,
+        String        website,
+        String        address,
+        String        address2,
+        String        locality,
+        String        postalCode,
+        String        country,
+        String        breweryDbId,
+        LocalDateTime breweryDbLastUpdated,
+        Boolean       locked,
+        Boolean       needsModeration,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate,
+        JSON          data,
+        String        region,
+        Boolean       warningFlag,
+        Short         totalBeers,
+        Short         cellaredBeers,
+        Short         containedInCellars,
+        String        localitySort,
+        Boolean       collaboration
     ) {
         this.id = id;
         this.version = version;
@@ -170,7 +168,6 @@ public class Organization implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -316,11 +313,11 @@ public class Organization implements Serializable {
     }
 
     @Column(name = "brewery_db_last_updated")
-    public Timestamp getBreweryDbLastUpdated() {
+    public LocalDateTime getBreweryDbLastUpdated() {
         return this.breweryDbLastUpdated;
     }
 
-    public void setBreweryDbLastUpdated(Timestamp breweryDbLastUpdated) {
+    public void setBreweryDbLastUpdated(LocalDateTime breweryDbLastUpdated) {
         this.breweryDbLastUpdated = breweryDbLastUpdated;
     }
 
@@ -343,20 +340,20 @@ public class Organization implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

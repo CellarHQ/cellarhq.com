@@ -5,9 +5,9 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -28,21 +28,22 @@ import javax.persistence.Table;
 @Table(name = "databasechangelog", schema = "public")
 public class Databasechangelog implements Serializable {
 
-    private static final long serialVersionUID = -154285991;
+    private static final long serialVersionUID = -1058710887;
 
-    private String    id;
-    private String    author;
-    private String    filename;
-    private Timestamp dateexecuted;
-    private Integer   orderexecuted;
-    private String    exectype;
-    private String    md5sum;
-    private String    description;
-    private String    comments;
-    private String    tag;
-    private String    liquibase;
-    private String    contexts;
-    private String    labels;
+    private String        id;
+    private String        author;
+    private String        filename;
+    private LocalDateTime dateexecuted;
+    private Integer       orderexecuted;
+    private String        exectype;
+    private String        md5sum;
+    private String        description;
+    private String        comments;
+    private String        tag;
+    private String        liquibase;
+    private String        contexts;
+    private String        labels;
+    private String        deploymentId;
 
     public Databasechangelog() {}
 
@@ -60,22 +61,24 @@ public class Databasechangelog implements Serializable {
         this.liquibase = value.liquibase;
         this.contexts = value.contexts;
         this.labels = value.labels;
+        this.deploymentId = value.deploymentId;
     }
 
     public Databasechangelog(
-        String    id,
-        String    author,
-        String    filename,
-        Timestamp dateexecuted,
-        Integer   orderexecuted,
-        String    exectype,
-        String    md5sum,
-        String    description,
-        String    comments,
-        String    tag,
-        String    liquibase,
-        String    contexts,
-        String    labels
+        String        id,
+        String        author,
+        String        filename,
+        LocalDateTime dateexecuted,
+        Integer       orderexecuted,
+        String        exectype,
+        String        md5sum,
+        String        description,
+        String        comments,
+        String        tag,
+        String        liquibase,
+        String        contexts,
+        String        labels,
+        String        deploymentId
     ) {
         this.id = id;
         this.author = author;
@@ -90,6 +93,7 @@ public class Databasechangelog implements Serializable {
         this.liquibase = liquibase;
         this.contexts = contexts;
         this.labels = labels;
+        this.deploymentId = deploymentId;
     }
 
     @Column(name = "id", nullable = false, length = 255)
@@ -120,11 +124,11 @@ public class Databasechangelog implements Serializable {
     }
 
     @Column(name = "dateexecuted", nullable = false)
-    public Timestamp getDateexecuted() {
+    public LocalDateTime getDateexecuted() {
         return this.dateexecuted;
     }
 
-    public void setDateexecuted(Timestamp dateexecuted) {
+    public void setDateexecuted(LocalDateTime dateexecuted) {
         this.dateexecuted = dateexecuted;
     }
 
@@ -209,6 +213,15 @@ public class Databasechangelog implements Serializable {
         this.labels = labels;
     }
 
+    @Column(name = "deployment_id", length = 10)
+    public String getDeploymentId() {
+        return this.deploymentId;
+    }
+
+    public void setDeploymentId(String deploymentId) {
+        this.deploymentId = deploymentId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Databasechangelog (");
@@ -226,6 +239,7 @@ public class Databasechangelog implements Serializable {
         sb.append(", ").append(liquibase);
         sb.append(", ").append(contexts);
         sb.append(", ").append(labels);
+        sb.append(", ").append(deploymentId);
 
         sb.append(")");
         return sb.toString();

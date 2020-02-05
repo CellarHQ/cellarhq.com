@@ -5,9 +5,9 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,19 +29,19 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "account_link_request", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_account_link_request", columnNames = {"id"})
+    @UniqueConstraint(name = "account_link_request_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_account_link_request", unique = true, columnList = "id ASC")
+    @Index(name = "account_link_request_pkey", unique = true, columnList = "id ASC")
 })
 public class AccountLinkRequest implements Serializable {
 
-    private static final long serialVersionUID = 1461767860;
+    private static final long serialVersionUID = -393952664;
 
-    private String    id;
-    private Long      cellarId;
-    private String    accountClass;
-    private String    accountIdentifier;
-    private Timestamp createdDate;
+    private String        id;
+    private Long          cellarId;
+    private String        accountClass;
+    private String        accountIdentifier;
+    private LocalDateTime createdDate;
 
     public AccountLinkRequest() {}
 
@@ -54,11 +54,11 @@ public class AccountLinkRequest implements Serializable {
     }
 
     public AccountLinkRequest(
-        String    id,
-        Long      cellarId,
-        String    accountClass,
-        String    accountIdentifier,
-        Timestamp createdDate
+        String        id,
+        Long          cellarId,
+        String        accountClass,
+        String        accountIdentifier,
+        LocalDateTime createdDate
     ) {
         this.id = id;
         this.cellarId = cellarId;
@@ -105,11 +105,11 @@ public class AccountLinkRequest implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

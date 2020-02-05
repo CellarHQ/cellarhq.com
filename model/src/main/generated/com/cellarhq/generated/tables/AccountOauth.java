@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.AccountOauthRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -43,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AccountOauth extends TableImpl<AccountOauthRecord> {
 
-    private static final long serialVersionUID = 2050738259;
+    private static final long serialVersionUID = -417060688;
 
     /**
      * The reference instance of <code>public.account_oauth</code>
@@ -61,7 +60,7 @@ public class AccountOauth extends TableImpl<AccountOauthRecord> {
     /**
      * The column <code>public.account_oauth.id</code>.
      */
-    public final TableField<AccountOauthRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('account_oauth_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<AccountOauthRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.account_oauth.version</code>.
@@ -86,12 +85,12 @@ public class AccountOauth extends TableImpl<AccountOauthRecord> {
     /**
      * The column <code>public.account_oauth.created_date</code>.
      */
-    public final TableField<AccountOauthRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountOauthRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.account_oauth.modified_date</code>.
      */
-    public final TableField<AccountOauthRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountOauthRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * Create a <code>public.account_oauth</code> table reference
@@ -133,22 +132,17 @@ public class AccountOauth extends TableImpl<AccountOauthRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ACCOUNT_OAUTH_CLIENT_USERNAME_KEY, Indexes.PK_ACCOUNT_OAUTH);
-    }
-
-    @Override
-    public Identity<AccountOauthRecord, Long> getIdentity() {
-        return Keys.IDENTITY_ACCOUNT_OAUTH;
+        return Arrays.<Index>asList(Indexes.ACCOUNT_OAUTH_CLIENT_USERNAME_KEY, Indexes.ACCOUNT_OAUTH_PKEY);
     }
 
     @Override
     public UniqueKey<AccountOauthRecord> getPrimaryKey() {
-        return Keys.PK_ACCOUNT_OAUTH;
+        return Keys.ACCOUNT_OAUTH_PKEY;
     }
 
     @Override
     public List<UniqueKey<AccountOauthRecord>> getKeys() {
-        return Arrays.<UniqueKey<AccountOauthRecord>>asList(Keys.PK_ACCOUNT_OAUTH, Keys.ACCOUNT_OAUTH_CLIENT_USERNAME_KEY);
+        return Arrays.<UniqueKey<AccountOauthRecord>>asList(Keys.ACCOUNT_OAUTH_PKEY, Keys.ACCOUNT_OAUTH_CLIENT_USERNAME_KEY);
     }
 
     @Override
@@ -191,7 +185,7 @@ public class AccountOauth extends TableImpl<AccountOauthRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Long, Integer, Long, String, String, Timestamp, Timestamp> fieldsRow() {
+    public Row7<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 }

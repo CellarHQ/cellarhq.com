@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.Photo;
 import com.cellarhq.generated.tables.records.PhotoRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -205,28 +205,28 @@ public class PhotoDao extends DAOImpl<PhotoRecord, com.cellarhq.generated.tables
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Photo> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Photo> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Photo.PHOTO.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Photo> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Photo> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(Photo.PHOTO.CREATED_DATE, values);
     }
 
     /**
      * Fetch records that have <code>modified_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Photo> fetchRangeOfModifiedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Photo> fetchRangeOfModifiedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Photo.PHOTO.MODIFIED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>modified_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Photo> fetchByModifiedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Photo> fetchByModifiedDate(LocalDateTime... values) {
         return fetch(Photo.PHOTO.MODIFIED_DATE, values);
     }
 }

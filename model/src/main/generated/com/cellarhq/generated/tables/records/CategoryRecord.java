@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Category;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -39,14 +37,14 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "category", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_category", columnNames = {"id"})
+    @UniqueConstraint(name = "category_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "idx_category_brewery_db_id", columnList = "brewery_db_id ASC"),
-    @Index(name = "pk_category", unique = true, columnList = "id ASC")
+    @Index(name = "category_pkey", unique = true, columnList = "id ASC"),
+    @Index(name = "idx_category_brewery_db_id", columnList = "brewery_db_id ASC")
 })
-public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implements Record10<Long, Integer, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> {
+public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implements Record10<Long, Integer, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> {
 
-    private static final long serialVersionUID = 1618231398;
+    private static final long serialVersionUID = 2032007123;
 
     /**
      * Setter for <code>public.category.id</code>.
@@ -59,7 +57,6 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
      * Getter for <code>public.category.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -143,7 +140,7 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     /**
      * Setter for <code>public.category.brewery_db_last_updated</code>.
      */
-    public void setBreweryDbLastUpdated(Timestamp value) {
+    public void setBreweryDbLastUpdated(LocalDateTime value) {
         set(6, value);
     }
 
@@ -151,14 +148,14 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
      * Getter for <code>public.category.brewery_db_last_updated</code>.
      */
     @Column(name = "brewery_db_last_updated")
-    public Timestamp getBreweryDbLastUpdated() {
-        return (Timestamp) get(6);
+    public LocalDateTime getBreweryDbLastUpdated() {
+        return (LocalDateTime) get(6);
     }
 
     /**
      * Setter for <code>public.category.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(7, value);
     }
 
@@ -166,14 +163,14 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
      * Getter for <code>public.category.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(7);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>public.category.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(8, value);
     }
 
@@ -181,8 +178,8 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
      * Getter for <code>public.category.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(8);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(8);
     }
 
     /**
@@ -214,12 +211,12 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, Integer, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> fieldsRow() {
+    public Row10<Long, Integer, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> fieldsRow() {
         return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row10<Long, Integer, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> valuesRow() {
+    public Row10<Long, Integer, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> valuesRow() {
         return (Row10) super.valuesRow();
     }
 
@@ -254,17 +251,17 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     }
 
     @Override
-    public Field<Timestamp> field7() {
+    public Field<LocalDateTime> field7() {
         return Category.CATEGORY.BREWERY_DB_LAST_UPDATED;
     }
 
     @Override
-    public Field<Timestamp> field8() {
+    public Field<LocalDateTime> field8() {
         return Category.CATEGORY.CREATED_DATE;
     }
 
     @Override
-    public Field<Timestamp> field9() {
+    public Field<LocalDateTime> field9() {
         return Category.CATEGORY.MODIFIED_DATE;
     }
 
@@ -304,17 +301,17 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     }
 
     @Override
-    public Timestamp component7() {
+    public LocalDateTime component7() {
         return getBreweryDbLastUpdated();
     }
 
     @Override
-    public Timestamp component8() {
+    public LocalDateTime component8() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp component9() {
+    public LocalDateTime component9() {
         return getModifiedDate();
     }
 
@@ -354,17 +351,17 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     }
 
     @Override
-    public Timestamp value7() {
+    public LocalDateTime value7() {
         return getBreweryDbLastUpdated();
     }
 
     @Override
-    public Timestamp value8() {
+    public LocalDateTime value8() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp value9() {
+    public LocalDateTime value9() {
         return getModifiedDate();
     }
 
@@ -410,19 +407,19 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     }
 
     @Override
-    public CategoryRecord value7(Timestamp value) {
+    public CategoryRecord value7(LocalDateTime value) {
         setBreweryDbLastUpdated(value);
         return this;
     }
 
     @Override
-    public CategoryRecord value8(Timestamp value) {
+    public CategoryRecord value8(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public CategoryRecord value9(Timestamp value) {
+    public CategoryRecord value9(LocalDateTime value) {
         setModifiedDate(value);
         return this;
     }
@@ -434,7 +431,7 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     }
 
     @Override
-    public CategoryRecord values(Long value1, Integer value2, String value3, String value4, Boolean value5, String value6, Timestamp value7, Timestamp value8, Timestamp value9, JSON value10) {
+    public CategoryRecord values(Long value1, Integer value2, String value3, String value4, Boolean value5, String value6, LocalDateTime value7, LocalDateTime value8, LocalDateTime value9, JSON value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -462,7 +459,7 @@ public class CategoryRecord extends UpdatableRecordImpl<CategoryRecord> implemen
     /**
      * Create a detached, initialised CategoryRecord
      */
-    public CategoryRecord(Long id, Integer version, String name, String description, Boolean searchable, String breweryDbId, Timestamp breweryDbLastUpdated, Timestamp createdDate, Timestamp modifiedDate, JSON data) {
+    public CategoryRecord(Long id, Integer version, String name, String description, Boolean searchable, String breweryDbId, LocalDateTime breweryDbLastUpdated, LocalDateTime createdDate, LocalDateTime modifiedDate, JSON data) {
         super(Category.CATEGORY);
 
         set(0, id);

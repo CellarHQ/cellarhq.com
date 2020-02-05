@@ -5,9 +5,9 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,17 +29,17 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "password_change_request", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_password_change_request", columnNames = {"id"})
+    @UniqueConstraint(name = "password_change_request_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_password_change_request", unique = true, columnList = "id ASC")
+    @Index(name = "password_change_request_pkey", unique = true, columnList = "id ASC")
 })
 public class PasswordChangeRequest implements Serializable {
 
-    private static final long serialVersionUID = 803272096;
+    private static final long serialVersionUID = -487993960;
 
-    private String    id;
-    private Long      accountEmailId;
-    private Timestamp createdDate;
+    private String        id;
+    private Long          accountEmailId;
+    private LocalDateTime createdDate;
 
     public PasswordChangeRequest() {}
 
@@ -50,9 +50,9 @@ public class PasswordChangeRequest implements Serializable {
     }
 
     public PasswordChangeRequest(
-        String    id,
-        Long      accountEmailId,
-        Timestamp createdDate
+        String        id,
+        Long          accountEmailId,
+        LocalDateTime createdDate
     ) {
         this.id = id;
         this.accountEmailId = accountEmailId;
@@ -79,11 +79,11 @@ public class PasswordChangeRequest implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

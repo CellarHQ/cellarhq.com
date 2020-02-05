@@ -20,7 +20,7 @@ import com.cellarhq.generated.tables.PasswordChangeRequest;
 import com.cellarhq.generated.tables.Photo;
 import com.cellarhq.generated.tables.Style;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 
 /**

@@ -5,13 +5,11 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -31,28 +29,28 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "photo", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_photo", columnNames = {"id"}),
+    @UniqueConstraint(name = "photo_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_photo_original_url", columnNames = {"original_url"})
 }, indexes = {
-    @Index(name = "pk_photo", unique = true, columnList = "id ASC"),
+    @Index(name = "photo_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "unq_photo_original_url", unique = true, columnList = "original_url ASC")
 })
 public class Photo implements Serializable {
 
-    private static final long serialVersionUID = -1499316348;
+    private static final long serialVersionUID = 2047188603;
 
-    private Long      id;
-    private Integer   version;
-    private String    description;
-    private String    originalUrl;
-    private String    thumbUrl;
-    private Short     thumbWidth;
-    private Short     thumbHeight;
-    private String    largeUrl;
-    private Short     largeWidth;
-    private Short     largeHeight;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
+    private Long          id;
+    private Integer       version;
+    private String        description;
+    private String        originalUrl;
+    private String        thumbUrl;
+    private Short         thumbWidth;
+    private Short         thumbHeight;
+    private String        largeUrl;
+    private Short         largeWidth;
+    private Short         largeHeight;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     public Photo() {}
 
@@ -72,18 +70,18 @@ public class Photo implements Serializable {
     }
 
     public Photo(
-        Long      id,
-        Integer   version,
-        String    description,
-        String    originalUrl,
-        String    thumbUrl,
-        Short     thumbWidth,
-        Short     thumbHeight,
-        String    largeUrl,
-        Short     largeWidth,
-        Short     largeHeight,
-        Timestamp createdDate,
-        Timestamp modifiedDate
+        Long          id,
+        Integer       version,
+        String        description,
+        String        originalUrl,
+        String        thumbUrl,
+        Short         thumbWidth,
+        Short         thumbHeight,
+        String        largeUrl,
+        Short         largeWidth,
+        Short         largeHeight,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate
     ) {
         this.id = id;
         this.version = version;
@@ -100,7 +98,6 @@ public class Photo implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -192,20 +189,20 @@ public class Photo implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

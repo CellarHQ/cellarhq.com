@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Activity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -39,13 +37,13 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "activity", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_activity", columnNames = {"id"})
+    @UniqueConstraint(name = "activity_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_activity", unique = true, columnList = "id ASC")
+    @Index(name = "activity_pkey", unique = true, columnList = "id ASC")
 })
-public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implements Record8<Long, Integer, Long, String, String, Boolean, JSON, Timestamp> {
+public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implements Record8<Long, Integer, Long, String, String, Boolean, JSON, LocalDateTime> {
 
-    private static final long serialVersionUID = 242218388;
+    private static final long serialVersionUID = -1989851309;
 
     /**
      * Setter for <code>public.activity.id</code>.
@@ -58,7 +56,6 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
      * Getter for <code>public.activity.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -157,7 +154,7 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
     /**
      * Setter for <code>public.activity.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(7, value);
     }
 
@@ -165,8 +162,8 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
      * Getter for <code>public.activity.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(7);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -183,12 +180,12 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, Integer, Long, String, String, Boolean, JSON, Timestamp> fieldsRow() {
+    public Row8<Long, Integer, Long, String, String, Boolean, JSON, LocalDateTime> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 
     @Override
-    public Row8<Long, Integer, Long, String, String, Boolean, JSON, Timestamp> valuesRow() {
+    public Row8<Long, Integer, Long, String, String, Boolean, JSON, LocalDateTime> valuesRow() {
         return (Row8) super.valuesRow();
     }
 
@@ -228,7 +225,7 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
     }
 
     @Override
-    public Field<Timestamp> field8() {
+    public Field<LocalDateTime> field8() {
         return Activity.ACTIVITY.CREATED_DATE;
     }
 
@@ -268,7 +265,7 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
     }
 
     @Override
-    public Timestamp component8() {
+    public LocalDateTime component8() {
         return getCreatedDate();
     }
 
@@ -308,7 +305,7 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
     }
 
     @Override
-    public Timestamp value8() {
+    public LocalDateTime value8() {
         return getCreatedDate();
     }
 
@@ -355,13 +352,13 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
     }
 
     @Override
-    public ActivityRecord value8(Timestamp value) {
+    public ActivityRecord value8(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public ActivityRecord values(Long value1, Integer value2, Long value3, String value4, String value5, Boolean value6, JSON value7, Timestamp value8) {
+    public ActivityRecord values(Long value1, Integer value2, Long value3, String value4, String value5, Boolean value6, JSON value7, LocalDateTime value8) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -387,7 +384,7 @@ public class ActivityRecord extends UpdatableRecordImpl<ActivityRecord> implemen
     /**
      * Create a detached, initialised ActivityRecord
      */
-    public ActivityRecord(Long id, Integer version, Long cellarId, String subject, String action, Boolean private_, JSON data, Timestamp createdDate) {
+    public ActivityRecord(Long id, Integer version, Long cellarId, String subject, String action, Boolean private_, JSON data, LocalDateTime createdDate) {
         super(Activity.ACTIVITY);
 
         set(0, id);

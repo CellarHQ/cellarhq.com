@@ -7,15 +7,15 @@ package com.cellarhq.generated.tables;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.DatabasechangelogRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row13;
+import org.jooq.Row14;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Databasechangelog extends TableImpl<DatabasechangelogRecord> {
 
-    private static final long serialVersionUID = 157430860;
+    private static final long serialVersionUID = -311404112;
 
     /**
      * The reference instance of <code>public.databasechangelog</code>
@@ -69,7 +69,7 @@ public class Databasechangelog extends TableImpl<DatabasechangelogRecord> {
     /**
      * The column <code>public.databasechangelog.dateexecuted</code>.
      */
-    public final TableField<DatabasechangelogRecord, Timestamp> DATEEXECUTED = createField(DSL.name("dateexecuted"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+    public final TableField<DatabasechangelogRecord, LocalDateTime> DATEEXECUTED = createField(DSL.name("dateexecuted"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false), this, "");
 
     /**
      * The column <code>public.databasechangelog.orderexecuted</code>.
@@ -115,6 +115,11 @@ public class Databasechangelog extends TableImpl<DatabasechangelogRecord> {
      * The column <code>public.databasechangelog.labels</code>.
      */
     public final TableField<DatabasechangelogRecord, String> LABELS = createField(DSL.name("labels"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.databasechangelog.deployment_id</code>.
+     */
+    public final TableField<DatabasechangelogRecord, String> DEPLOYMENT_ID = createField(DSL.name("deployment_id"), org.jooq.impl.SQLDataType.VARCHAR(10), this, "");
 
     /**
      * Create a <code>public.databasechangelog</code> table reference
@@ -181,11 +186,11 @@ public class Databasechangelog extends TableImpl<DatabasechangelogRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row13 type methods
+    // Row14 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<String, String, String, Timestamp, Integer, String, String, String, String, String, String, String, String> fieldsRow() {
-        return (Row13) super.fieldsRow();
+    public Row14<String, String, String, LocalDateTime, Integer, String, String, String, String, String, String, String, String, String> fieldsRow() {
+        return (Row14) super.fieldsRow();
     }
 }

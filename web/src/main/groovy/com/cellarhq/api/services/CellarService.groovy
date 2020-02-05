@@ -197,7 +197,7 @@ class CellarService extends BaseJooqService {
   }
 
   void updateLoginStats(Cellar cellar, TwitterProfile twitterProfile = null) {
-    cellar.lastLogin = Timestamp.valueOf(LocalDateTime.now())
+    cellar.lastLogin = LocalDateTime.now()
     if (cellar.updateFromNetwork && twitterProfile) {
       cellar.with {
         displayName = twitterProfile.displayName

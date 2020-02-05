@@ -3,13 +3,12 @@ package com.cellarhq.domain
 import com.cellarhq.generated.tables.pojos.AccountEmail
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
-import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.Length
-import org.hibernate.validator.constraints.NotEmpty
 
 import javax.persistence.Column
 import javax.persistence.Transient
-import java.sql.Timestamp
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
 import java.time.LocalDateTime
 
 @CompileStatic
@@ -23,7 +22,7 @@ class EmailAccount extends AccountEmail implements Account {
   String passwordConfirm
 
   EmailAccount() {
-    createdDate = Timestamp.valueOf(LocalDateTime.now())
+    createdDate = LocalDateTime.now()
     modifiedDate = createdDate
     loginAttemptCounter = 0
   }
@@ -33,20 +32,16 @@ class EmailAccount extends AccountEmail implements Account {
     super.setEmail(email.toLowerCase())
   }
 
-  //todo: remove when we get to groovy 2.4.1
-  @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
   @Override
   @Email
-  @NotEmpty
+  @NotBlank
   @Column(name = 'email')
   String getEmail() {
     return super.getEmail()
   }
 
-  //todo: remove when we get to groovy 2.4.1
-  @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
   @Override
-  @NotEmpty
+  @NotBlank
   @Length(min = 6, max = 64)
   @Column(name = 'password')
   String getPassword() {

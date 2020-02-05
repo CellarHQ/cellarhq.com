@@ -5,13 +5,11 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -33,22 +31,22 @@ import org.jooq.JSON;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "activity", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_activity", columnNames = {"id"})
+    @UniqueConstraint(name = "activity_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_activity", unique = true, columnList = "id ASC")
+    @Index(name = "activity_pkey", unique = true, columnList = "id ASC")
 })
 public class Activity implements Serializable {
 
-    private static final long serialVersionUID = 555794531;
+    private static final long serialVersionUID = 1038714900;
 
-    private Long      id;
-    private Integer   version;
-    private Long      cellarId;
-    private String    subject;
-    private String    action;
-    private Boolean   private_;
-    private JSON      data;
-    private Timestamp createdDate;
+    private Long          id;
+    private Integer       version;
+    private Long          cellarId;
+    private String        subject;
+    private String        action;
+    private Boolean       private_;
+    private JSON          data;
+    private LocalDateTime createdDate;
 
     public Activity() {}
 
@@ -64,14 +62,14 @@ public class Activity implements Serializable {
     }
 
     public Activity(
-        Long      id,
-        Integer   version,
-        Long      cellarId,
-        String    subject,
-        String    action,
-        Boolean   private_,
-        JSON      data,
-        Timestamp createdDate
+        Long          id,
+        Integer       version,
+        Long          cellarId,
+        String        subject,
+        String        action,
+        Boolean       private_,
+        JSON          data,
+        LocalDateTime createdDate
     ) {
         this.id = id;
         this.version = version;
@@ -84,7 +82,6 @@ public class Activity implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -149,11 +146,11 @@ public class Activity implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

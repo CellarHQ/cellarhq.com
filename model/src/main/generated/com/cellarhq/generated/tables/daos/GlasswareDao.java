@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.Glassware;
 import com.cellarhq.generated.tables.records.GlasswareRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.JSON;
@@ -143,42 +143,42 @@ public class GlasswareDao extends DAOImpl<GlasswareRecord, com.cellarhq.generate
     /**
      * Fetch records that have <code>brewery_db_last_updated BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchRangeOfBreweryDbLastUpdated(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchRangeOfBreweryDbLastUpdated(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Glassware.GLASSWARE.BREWERY_DB_LAST_UPDATED, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>brewery_db_last_updated IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchByBreweryDbLastUpdated(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchByBreweryDbLastUpdated(LocalDateTime... values) {
         return fetch(Glassware.GLASSWARE.BREWERY_DB_LAST_UPDATED, values);
     }
 
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Glassware.GLASSWARE.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(Glassware.GLASSWARE.CREATED_DATE, values);
     }
 
     /**
      * Fetch records that have <code>modified_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchRangeOfModifiedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchRangeOfModifiedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Glassware.GLASSWARE.MODIFIED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>modified_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchByModifiedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Glassware> fetchByModifiedDate(LocalDateTime... values) {
         return fetch(Glassware.GLASSWARE.MODIFIED_DATE, values);
     }
 

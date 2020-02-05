@@ -28,7 +28,7 @@ class Drink extends com.cellarhq.generated.tables.pojos.Drink {
   Drink() {
     locked = false
     needsModeration = true
-    createdDate = Timestamp.valueOf(LocalDateTime.now())
+    createdDate = LocalDateTime.now()
     modifiedDate = createdDate
     warningFlag = false
     tradableBeers = 0

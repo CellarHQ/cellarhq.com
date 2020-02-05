@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.PhotoRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -43,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Photo extends TableImpl<PhotoRecord> {
 
-    private static final long serialVersionUID = -1891987609;
+    private static final long serialVersionUID = 1706952642;
 
     /**
      * The reference instance of <code>public.photo</code>
@@ -61,7 +60,7 @@ public class Photo extends TableImpl<PhotoRecord> {
     /**
      * The column <code>public.photo.id</code>.
      */
-    public final TableField<PhotoRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('photo_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<PhotoRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.photo.version</code>.
@@ -111,12 +110,12 @@ public class Photo extends TableImpl<PhotoRecord> {
     /**
      * The column <code>public.photo.created_date</code>.
      */
-    public final TableField<PhotoRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<PhotoRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.photo.modified_date</code>.
      */
-    public final TableField<PhotoRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<PhotoRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * Create a <code>public.photo</code> table reference
@@ -158,22 +157,17 @@ public class Photo extends TableImpl<PhotoRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PK_PHOTO, Indexes.UNQ_PHOTO_ORIGINAL_URL);
-    }
-
-    @Override
-    public Identity<PhotoRecord, Long> getIdentity() {
-        return Keys.IDENTITY_PHOTO;
+        return Arrays.<Index>asList(Indexes.PHOTO_PKEY, Indexes.UNQ_PHOTO_ORIGINAL_URL);
     }
 
     @Override
     public UniqueKey<PhotoRecord> getPrimaryKey() {
-        return Keys.PK_PHOTO;
+        return Keys.PHOTO_PKEY;
     }
 
     @Override
     public List<UniqueKey<PhotoRecord>> getKeys() {
-        return Arrays.<UniqueKey<PhotoRecord>>asList(Keys.PK_PHOTO, Keys.UNQ_PHOTO_ORIGINAL_URL);
+        return Arrays.<UniqueKey<PhotoRecord>>asList(Keys.PHOTO_PKEY, Keys.UNQ_PHOTO_ORIGINAL_URL);
     }
 
     @Override
@@ -207,7 +201,7 @@ public class Photo extends TableImpl<PhotoRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row12<Long, Integer, String, String, String, Short, Short, String, Short, Short, Timestamp, Timestamp> fieldsRow() {
+    public Row12<Long, Integer, String, String, String, Short, Short, String, Short, Short, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row12) super.fieldsRow();
     }
 }

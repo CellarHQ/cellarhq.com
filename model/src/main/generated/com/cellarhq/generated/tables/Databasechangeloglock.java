@@ -9,11 +9,11 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.DatabasechangeloglockRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Databasechangeloglock extends TableImpl<DatabasechangeloglockRecord> {
 
-    private static final long serialVersionUID = 1158015994;
+    private static final long serialVersionUID = -413880592;
 
     /**
      * The reference instance of <code>public.databasechangeloglock</code>
@@ -70,7 +70,7 @@ public class Databasechangeloglock extends TableImpl<DatabasechangeloglockRecord
     /**
      * The column <code>public.databasechangeloglock.lockgranted</code>.
      */
-    public final TableField<DatabasechangeloglockRecord, Timestamp> LOCKGRANTED = createField(DSL.name("lockgranted"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<DatabasechangeloglockRecord, LocalDateTime> LOCKGRANTED = createField(DSL.name("lockgranted"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * The column <code>public.databasechangeloglock.lockedby</code>.
@@ -117,17 +117,17 @@ public class Databasechangeloglock extends TableImpl<DatabasechangeloglockRecord
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PK_DATABASECHANGELOGLOCK);
+        return Arrays.<Index>asList(Indexes.DATABASECHANGELOGLOCK_PKEY);
     }
 
     @Override
     public UniqueKey<DatabasechangeloglockRecord> getPrimaryKey() {
-        return Keys.PK_DATABASECHANGELOGLOCK;
+        return Keys.DATABASECHANGELOGLOCK_PKEY;
     }
 
     @Override
     public List<UniqueKey<DatabasechangeloglockRecord>> getKeys() {
-        return Arrays.<UniqueKey<DatabasechangeloglockRecord>>asList(Keys.PK_DATABASECHANGELOGLOCK);
+        return Arrays.<UniqueKey<DatabasechangeloglockRecord>>asList(Keys.DATABASECHANGELOGLOCK_PKEY);
     }
 
     @Override
@@ -161,7 +161,7 @@ public class Databasechangeloglock extends TableImpl<DatabasechangeloglockRecord
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, Boolean, Timestamp, String> fieldsRow() {
+    public Row4<Integer, Boolean, LocalDateTime, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

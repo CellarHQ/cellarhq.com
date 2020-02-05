@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.OrganizationRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.JSON;
 import org.jooq.Name;
@@ -43,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Organization extends TableImpl<OrganizationRecord> {
 
-    private static final long serialVersionUID = 1514011265;
+    private static final long serialVersionUID = 1592834483;
 
     /**
      * The reference instance of <code>public.organization</code>
@@ -61,7 +60,7 @@ public class Organization extends TableImpl<OrganizationRecord> {
     /**
      * The column <code>public.organization.id</code>.
      */
-    public final TableField<OrganizationRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('organization_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<OrganizationRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.organization.version</code>.
@@ -141,7 +140,7 @@ public class Organization extends TableImpl<OrganizationRecord> {
     /**
      * The column <code>public.organization.brewery_db_last_updated</code>.
      */
-    public final TableField<OrganizationRecord, Timestamp> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<OrganizationRecord, LocalDateTime> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * The column <code>public.organization.locked</code>.
@@ -156,12 +155,12 @@ public class Organization extends TableImpl<OrganizationRecord> {
     /**
      * The column <code>public.organization.created_date</code>.
      */
-    public final TableField<OrganizationRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<OrganizationRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.organization.modified_date</code>.
      */
-    public final TableField<OrganizationRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<OrganizationRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.organization.data</code>.
@@ -181,17 +180,17 @@ public class Organization extends TableImpl<OrganizationRecord> {
     /**
      * The column <code>public.organization.total_beers</code>.
      */
-    public final TableField<OrganizationRecord, Short> TOTAL_BEERS = createField(DSL.name("total_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<OrganizationRecord, Short> TOTAL_BEERS = createField(DSL.name("total_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.organization.cellared_beers</code>.
      */
-    public final TableField<OrganizationRecord, Short> CELLARED_BEERS = createField(DSL.name("cellared_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<OrganizationRecord, Short> CELLARED_BEERS = createField(DSL.name("cellared_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.organization.contained_in_cellars</code>.
      */
-    public final TableField<OrganizationRecord, Short> CONTAINED_IN_CELLARS = createField(DSL.name("contained_in_cellars"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<OrganizationRecord, Short> CONTAINED_IN_CELLARS = createField(DSL.name("contained_in_cellars"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.organization.locality_sort</code>.
@@ -243,22 +242,17 @@ public class Organization extends TableImpl<OrganizationRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PK_ORGANIZATION, Indexes.UNQ_ORGANIZATION_SLUG);
-    }
-
-    @Override
-    public Identity<OrganizationRecord, Long> getIdentity() {
-        return Keys.IDENTITY_ORGANIZATION;
+        return Arrays.<Index>asList(Indexes.ORGANIZATION_PKEY, Indexes.UNQ_ORGANIZATION_SLUG);
     }
 
     @Override
     public UniqueKey<OrganizationRecord> getPrimaryKey() {
-        return Keys.PK_ORGANIZATION;
+        return Keys.ORGANIZATION_PKEY;
     }
 
     @Override
     public List<UniqueKey<OrganizationRecord>> getKeys() {
-        return Arrays.<UniqueKey<OrganizationRecord>>asList(Keys.PK_ORGANIZATION, Keys.UNQ_ORGANIZATION_SLUG);
+        return Arrays.<UniqueKey<OrganizationRecord>>asList(Keys.ORGANIZATION_PKEY, Keys.UNQ_ORGANIZATION_SLUG);
     }
 
     @Override

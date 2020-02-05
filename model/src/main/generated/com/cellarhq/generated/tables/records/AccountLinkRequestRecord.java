@@ -6,9 +6,9 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.AccountLinkRequest;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -36,13 +36,13 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "account_link_request", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_account_link_request", columnNames = {"id"})
+    @UniqueConstraint(name = "account_link_request_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_account_link_request", unique = true, columnList = "id ASC")
+    @Index(name = "account_link_request_pkey", unique = true, columnList = "id ASC")
 })
-public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkRequestRecord> implements Record5<String, Long, String, String, Timestamp> {
+public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkRequestRecord> implements Record5<String, Long, String, String, LocalDateTime> {
 
-    private static final long serialVersionUID = -876756668;
+    private static final long serialVersionUID = 884921240;
 
     /**
      * Setter for <code>public.account_link_request.id</code>.
@@ -108,7 +108,7 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
     /**
      * Setter for <code>public.account_link_request.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(4, value);
     }
 
@@ -116,8 +116,8 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
      * Getter for <code>public.account_link_request.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(4);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -134,12 +134,12 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<String, Long, String, String, Timestamp> fieldsRow() {
+    public Row5<String, Long, String, String, LocalDateTime> fieldsRow() {
         return (Row5) super.fieldsRow();
     }
 
     @Override
-    public Row5<String, Long, String, String, Timestamp> valuesRow() {
+    public Row5<String, Long, String, String, LocalDateTime> valuesRow() {
         return (Row5) super.valuesRow();
     }
 
@@ -164,7 +164,7 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
     }
 
     @Override
-    public Field<Timestamp> field5() {
+    public Field<LocalDateTime> field5() {
         return AccountLinkRequest.ACCOUNT_LINK_REQUEST.CREATED_DATE;
     }
 
@@ -189,7 +189,7 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
     }
 
     @Override
-    public Timestamp component5() {
+    public LocalDateTime component5() {
         return getCreatedDate();
     }
 
@@ -214,7 +214,7 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
     }
 
     @Override
-    public Timestamp value5() {
+    public LocalDateTime value5() {
         return getCreatedDate();
     }
 
@@ -243,13 +243,13 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
     }
 
     @Override
-    public AccountLinkRequestRecord value5(Timestamp value) {
+    public AccountLinkRequestRecord value5(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public AccountLinkRequestRecord values(String value1, Long value2, String value3, String value4, Timestamp value5) {
+    public AccountLinkRequestRecord values(String value1, Long value2, String value3, String value4, LocalDateTime value5) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -272,7 +272,7 @@ public class AccountLinkRequestRecord extends UpdatableRecordImpl<AccountLinkReq
     /**
      * Create a detached, initialised AccountLinkRequestRecord
      */
-    public AccountLinkRequestRecord(String id, Long cellarId, String accountClass, String accountIdentifier, Timestamp createdDate) {
+    public AccountLinkRequestRecord(String id, Long cellarId, String accountClass, String accountIdentifier, LocalDateTime createdDate) {
         super(AccountLinkRequest.ACCOUNT_LINK_REQUEST);
 
         set(0, id);

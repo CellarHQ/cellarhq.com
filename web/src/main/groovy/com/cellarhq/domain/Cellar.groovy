@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 
 import javax.persistence.Column
+import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 import java.sql.Timestamp
 import java.time.LocalDateTime
@@ -36,7 +37,7 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
       location = profile.location
       website = profile.profileUrl
       bio = profile.description
-      lastLogin = Timestamp.valueOf(LocalDateTime.now())
+      lastLogin = LocalDateTime.now()
       return self
     }
   }
@@ -46,7 +47,7 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
   Cellar() {
     setPrivate(false)
     updateFromNetwork = false
-    createdDate = Timestamp.valueOf(LocalDateTime.now())
+    createdDate = LocalDateTime.now()
     modifiedDate = createdDate
     totalBeers = 0
     uniqueBeers = 0
@@ -55,50 +56,21 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
     role = Role.MEMBER
   }
 
-  //todo: remove when we get to groovy 2.4.1
-  @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
   @Override
-  @NotEmpty
+  @NotBlank
   @Length(min = 1, max = 64)
   @Column(name = 'display_name')
   String getDisplayName() {
     super.getDisplayName()
   }
 
-  //todo: remove when we get to groovy 2.4.1
-  @SuppressWarnings(['UnnecessaryOverridingMethod', 'UnnecessaryGetter'])
   @Override
-  @NotEmpty
+  @NotBlank
   @Length(min = 1, max = 64)
   @Pattern(regexp = /[a-zA-Z0-9_-]{1,20}/)
   @Column(name = 'screen_name')
   String getScreenName() {
     return super.getScreenName()
-  }
-
-  @Override
-  void setUpdateFromNetwork(Boolean updateFromNetwork) {
-    //todo: remove when we get to groovy 2.4.1
-    super.setUpdateFromNetwork(updateFromNetwork ?: false)
-  }
-
-  @Override
-  void setScreenName(String screenName) {
-    //todo: remove when we get to groovy 2.4.1
-    super.setScreenName(screenName)
-    slug = new Slugify().slugify(screenName)
-  }
-
-  @Override
-  @SuppressWarnings('ParameterName')
-  void setPrivate(Boolean private_) {
-    //todo: remove when we get to groovy 2.4.1
-    super.setPrivate(private_ ?: false)
-  }
-
-  void setRole(Role role) {
-    //todo: remove when we get to groovy 2.4.1
-    super.setRole(role.toString())
   }
 
   boolean hasContactInfo() {

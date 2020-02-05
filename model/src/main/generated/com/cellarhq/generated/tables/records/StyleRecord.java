@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Style;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -39,14 +37,14 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "style", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_style", columnNames = {"id"})
+    @UniqueConstraint(name = "style_pkey", columnNames = {"id"})
 }, indexes = {
     @Index(name = "idx_style_brewery_db_id", columnList = "brewery_db_id ASC"),
-    @Index(name = "pk_style", unique = true, columnList = "id ASC")
+    @Index(name = "style_pkey", unique = true, columnList = "id ASC")
 })
-public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Record11<Long, Integer, Long, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> {
+public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Record11<Long, Integer, Long, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> {
 
-    private static final long serialVersionUID = 577697628;
+    private static final long serialVersionUID = -1870131693;
 
     /**
      * Setter for <code>public.style.id</code>.
@@ -59,7 +57,6 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
      * Getter for <code>public.style.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -158,7 +155,7 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     /**
      * Setter for <code>public.style.brewery_db_last_updated</code>.
      */
-    public void setBreweryDbLastUpdated(Timestamp value) {
+    public void setBreweryDbLastUpdated(LocalDateTime value) {
         set(7, value);
     }
 
@@ -166,14 +163,14 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
      * Getter for <code>public.style.brewery_db_last_updated</code>.
      */
     @Column(name = "brewery_db_last_updated")
-    public Timestamp getBreweryDbLastUpdated() {
-        return (Timestamp) get(7);
+    public LocalDateTime getBreweryDbLastUpdated() {
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>public.style.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(8, value);
     }
 
@@ -181,14 +178,14 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
      * Getter for <code>public.style.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(8);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(8);
     }
 
     /**
      * Setter for <code>public.style.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(9, value);
     }
 
@@ -196,8 +193,8 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
      * Getter for <code>public.style.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(9);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(9);
     }
 
     /**
@@ -229,12 +226,12 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Long, Integer, Long, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> fieldsRow() {
+    public Row11<Long, Integer, Long, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> fieldsRow() {
         return (Row11) super.fieldsRow();
     }
 
     @Override
-    public Row11<Long, Integer, Long, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> valuesRow() {
+    public Row11<Long, Integer, Long, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> valuesRow() {
         return (Row11) super.valuesRow();
     }
 
@@ -274,17 +271,17 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     }
 
     @Override
-    public Field<Timestamp> field8() {
+    public Field<LocalDateTime> field8() {
         return Style.STYLE.BREWERY_DB_LAST_UPDATED;
     }
 
     @Override
-    public Field<Timestamp> field9() {
+    public Field<LocalDateTime> field9() {
         return Style.STYLE.CREATED_DATE;
     }
 
     @Override
-    public Field<Timestamp> field10() {
+    public Field<LocalDateTime> field10() {
         return Style.STYLE.MODIFIED_DATE;
     }
 
@@ -329,17 +326,17 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     }
 
     @Override
-    public Timestamp component8() {
+    public LocalDateTime component8() {
         return getBreweryDbLastUpdated();
     }
 
     @Override
-    public Timestamp component9() {
+    public LocalDateTime component9() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp component10() {
+    public LocalDateTime component10() {
         return getModifiedDate();
     }
 
@@ -384,17 +381,17 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     }
 
     @Override
-    public Timestamp value8() {
+    public LocalDateTime value8() {
         return getBreweryDbLastUpdated();
     }
 
     @Override
-    public Timestamp value9() {
+    public LocalDateTime value9() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp value10() {
+    public LocalDateTime value10() {
         return getModifiedDate();
     }
 
@@ -446,19 +443,19 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     }
 
     @Override
-    public StyleRecord value8(Timestamp value) {
+    public StyleRecord value8(LocalDateTime value) {
         setBreweryDbLastUpdated(value);
         return this;
     }
 
     @Override
-    public StyleRecord value9(Timestamp value) {
+    public StyleRecord value9(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public StyleRecord value10(Timestamp value) {
+    public StyleRecord value10(LocalDateTime value) {
         setModifiedDate(value);
         return this;
     }
@@ -470,7 +467,7 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     }
 
     @Override
-    public StyleRecord values(Long value1, Integer value2, Long value3, String value4, String value5, Boolean value6, String value7, Timestamp value8, Timestamp value9, Timestamp value10, JSON value11) {
+    public StyleRecord values(Long value1, Integer value2, Long value3, String value4, String value5, Boolean value6, String value7, LocalDateTime value8, LocalDateTime value9, LocalDateTime value10, JSON value11) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -499,7 +496,7 @@ public class StyleRecord extends UpdatableRecordImpl<StyleRecord> implements Rec
     /**
      * Create a detached, initialised StyleRecord
      */
-    public StyleRecord(Long id, Integer version, Long categoryId, String name, String description, Boolean searchable, String breweryDbId, Timestamp breweryDbLastUpdated, Timestamp createdDate, Timestamp modifiedDate, JSON data) {
+    public StyleRecord(Long id, Integer version, Long categoryId, String name, String description, Boolean searchable, String breweryDbId, LocalDateTime breweryDbLastUpdated, LocalDateTime createdDate, LocalDateTime modifiedDate, JSON data) {
         super(Style.STYLE);
 
         set(0, id);

@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Cellar;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -35,17 +33,17 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "cellar", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_cellar", columnNames = {"id"}),
+    @UniqueConstraint(name = "cellar_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_cellar_screen_name", columnNames = {"screen_name"}),
     @UniqueConstraint(name = "cellar_slug_unique_constraint", columnNames = {"slug"})
 }, indexes = {
+    @Index(name = "cellar_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "cellar_slug_unique_constraint", unique = true, columnList = "slug ASC"),
-    @Index(name = "pk_cellar", unique = true, columnList = "id ASC"),
     @Index(name = "unq_cellar_screen_name", unique = true, columnList = "screen_name ASC")
 })
 public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
 
-    private static final long serialVersionUID = -1320003381;
+    private static final long serialVersionUID = 326781882;
 
     /**
      * Setter for <code>public.cellar.id</code>.
@@ -58,7 +56,6 @@ public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
      * Getter for <code>public.cellar.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -217,7 +214,7 @@ public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
     /**
      * Setter for <code>public.cellar.last_login</code>.
      */
-    public void setLastLogin(Timestamp value) {
+    public void setLastLogin(LocalDateTime value) {
         set(11, value);
     }
 
@@ -225,8 +222,8 @@ public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
      * Getter for <code>public.cellar.last_login</code>.
      */
     @Column(name = "last_login")
-    public Timestamp getLastLogin() {
-        return (Timestamp) get(11);
+    public LocalDateTime getLastLogin() {
+        return (LocalDateTime) get(11);
     }
 
     /**
@@ -247,7 +244,7 @@ public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
     /**
      * Setter for <code>public.cellar.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(13, value);
     }
 
@@ -255,14 +252,14 @@ public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
      * Getter for <code>public.cellar.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(13);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(13);
     }
 
     /**
      * Setter for <code>public.cellar.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(14, value);
     }
 
@@ -270,8 +267,8 @@ public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
      * Getter for <code>public.cellar.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(14);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(14);
     }
 
     /**
@@ -447,7 +444,7 @@ public class CellarRecord extends UpdatableRecordImpl<CellarRecord> {
     /**
      * Create a detached, initialised CellarRecord
      */
-    public CellarRecord(Long id, Integer version, Long photoId, String screenName, String displayName, String location, String website, String bio, Boolean updateFromNetwork, String contactEmail, Boolean private_, Timestamp lastLogin, String lastLoginIp, Timestamp createdDate, Timestamp modifiedDate, String twitter, String reddit, String beeradvocate, String ratebeer, Short totalBeers, Short uniqueBeers, Short uniqueBreweries, Boolean hasTradeableBeers, String slug, String role) {
+    public CellarRecord(Long id, Integer version, Long photoId, String screenName, String displayName, String location, String website, String bio, Boolean updateFromNetwork, String contactEmail, Boolean private_, LocalDateTime lastLogin, String lastLoginIp, LocalDateTime createdDate, LocalDateTime modifiedDate, String twitter, String reddit, String beeradvocate, String ratebeer, Short totalBeers, Short uniqueBeers, Short uniqueBreweries, Boolean hasTradeableBeers, String slug, String role) {
         super(Cellar.CELLAR);
 
         set(0, id);

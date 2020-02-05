@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.AccountEmail;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -38,16 +36,16 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "account_email", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_account_email", columnNames = {"id"}),
+    @UniqueConstraint(name = "account_email_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_account_email_email", columnNames = {"email"})
 }, indexes = {
+    @Index(name = "account_email_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "idx_account_email_email", columnList = "email ASC"),
-    @Index(name = "pk_account_email", unique = true, columnList = "id ASC"),
     @Index(name = "unq_account_email_email", unique = true, columnList = "email ASC")
 })
-public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> implements Record9<Long, Integer, Long, String, String, Timestamp, Timestamp, Timestamp, Short> {
+public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> implements Record9<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime, LocalDateTime, Short> {
 
-    private static final long serialVersionUID = -840234981;
+    private static final long serialVersionUID = 522451880;
 
     /**
      * Setter for <code>public.account_email.id</code>.
@@ -60,7 +58,6 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
      * Getter for <code>public.account_email.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -129,7 +126,7 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     /**
      * Setter for <code>public.account_email.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(5, value);
     }
 
@@ -137,14 +134,14 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
      * Getter for <code>public.account_email.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(5);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(5);
     }
 
     /**
      * Setter for <code>public.account_email.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(6, value);
     }
 
@@ -152,14 +149,14 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
      * Getter for <code>public.account_email.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(6);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(6);
     }
 
     /**
      * Setter for <code>public.account_email.last_login_attempt</code>.
      */
-    public void setLastLoginAttempt(Timestamp value) {
+    public void setLastLoginAttempt(LocalDateTime value) {
         set(7, value);
     }
 
@@ -167,8 +164,8 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
      * Getter for <code>public.account_email.last_login_attempt</code>.
      */
     @Column(name = "last_login_attempt")
-    public Timestamp getLastLoginAttempt() {
-        return (Timestamp) get(7);
+    public LocalDateTime getLastLoginAttempt() {
+        return (LocalDateTime) get(7);
     }
 
     /**
@@ -200,12 +197,12 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, Integer, Long, String, String, Timestamp, Timestamp, Timestamp, Short> fieldsRow() {
+    public Row9<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime, LocalDateTime, Short> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 
     @Override
-    public Row9<Long, Integer, Long, String, String, Timestamp, Timestamp, Timestamp, Short> valuesRow() {
+    public Row9<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime, LocalDateTime, Short> valuesRow() {
         return (Row9) super.valuesRow();
     }
 
@@ -235,17 +232,17 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     }
 
     @Override
-    public Field<Timestamp> field6() {
+    public Field<LocalDateTime> field6() {
         return AccountEmail.ACCOUNT_EMAIL.CREATED_DATE;
     }
 
     @Override
-    public Field<Timestamp> field7() {
+    public Field<LocalDateTime> field7() {
         return AccountEmail.ACCOUNT_EMAIL.MODIFIED_DATE;
     }
 
     @Override
-    public Field<Timestamp> field8() {
+    public Field<LocalDateTime> field8() {
         return AccountEmail.ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT;
     }
 
@@ -280,17 +277,17 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     }
 
     @Override
-    public Timestamp component6() {
+    public LocalDateTime component6() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp component7() {
+    public LocalDateTime component7() {
         return getModifiedDate();
     }
 
     @Override
-    public Timestamp component8() {
+    public LocalDateTime component8() {
         return getLastLoginAttempt();
     }
 
@@ -325,17 +322,17 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     }
 
     @Override
-    public Timestamp value6() {
+    public LocalDateTime value6() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp value7() {
+    public LocalDateTime value7() {
         return getModifiedDate();
     }
 
     @Override
-    public Timestamp value8() {
+    public LocalDateTime value8() {
         return getLastLoginAttempt();
     }
 
@@ -375,19 +372,19 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     }
 
     @Override
-    public AccountEmailRecord value6(Timestamp value) {
+    public AccountEmailRecord value6(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public AccountEmailRecord value7(Timestamp value) {
+    public AccountEmailRecord value7(LocalDateTime value) {
         setModifiedDate(value);
         return this;
     }
 
     @Override
-    public AccountEmailRecord value8(Timestamp value) {
+    public AccountEmailRecord value8(LocalDateTime value) {
         setLastLoginAttempt(value);
         return this;
     }
@@ -399,7 +396,7 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     }
 
     @Override
-    public AccountEmailRecord values(Long value1, Integer value2, Long value3, String value4, String value5, Timestamp value6, Timestamp value7, Timestamp value8, Short value9) {
+    public AccountEmailRecord values(Long value1, Integer value2, Long value3, String value4, String value5, LocalDateTime value6, LocalDateTime value7, LocalDateTime value8, Short value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -426,7 +423,7 @@ public class AccountEmailRecord extends UpdatableRecordImpl<AccountEmailRecord> 
     /**
      * Create a detached, initialised AccountEmailRecord
      */
-    public AccountEmailRecord(Long id, Integer version, Long cellarId, String email, String password, Timestamp createdDate, Timestamp modifiedDate, Timestamp lastLoginAttempt, Short loginAttemptCounter) {
+    public AccountEmailRecord(Long id, Integer version, Long cellarId, String email, String password, LocalDateTime createdDate, LocalDateTime modifiedDate, LocalDateTime lastLoginAttempt, Short loginAttemptCounter) {
         super(AccountEmail.ACCOUNT_EMAIL);
 
         set(0, id);

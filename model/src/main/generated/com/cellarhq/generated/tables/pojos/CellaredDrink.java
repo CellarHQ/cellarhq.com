@@ -5,14 +5,12 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -32,30 +30,30 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "cellared_drink", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_cellared_drink", columnNames = {"id"})
+    @UniqueConstraint(name = "cellared_drink_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "idx_cellared_drink_drink_by_date", columnList = "drink_by_date ASC"),
-    @Index(name = "pk_cellared_drink", unique = true, columnList = "id ASC")
+    @Index(name = "cellared_drink_pkey", unique = true, columnList = "id ASC"),
+    @Index(name = "idx_cellared_drink_drink_by_date", columnList = "drink_by_date ASC")
 })
 public class CellaredDrink implements Serializable {
 
-    private static final long serialVersionUID = 1033969014;
+    private static final long serialVersionUID = -633951713;
 
-    private Long      id;
-    private Integer   version;
-    private Long      cellarId;
-    private Long      drinkId;
-    private Date      bottleDate;
-    private String    size;
-    private Integer   quantity;
-    private String    notes;
-    private Date      drinkByDate;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
-    private String    binIdentifier;
-    private Boolean   tradeable;
-    private Short     numTradeable;
-    private Date      dateAcquired;
+    private Long          id;
+    private Integer       version;
+    private Long          cellarId;
+    private Long          drinkId;
+    private LocalDate     bottleDate;
+    private String        size;
+    private Integer       quantity;
+    private String        notes;
+    private LocalDate     drinkByDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+    private String        binIdentifier;
+    private Boolean       tradeable;
+    private Short         numTradeable;
+    private LocalDate     dateAcquired;
 
     public CellaredDrink() {}
 
@@ -78,21 +76,21 @@ public class CellaredDrink implements Serializable {
     }
 
     public CellaredDrink(
-        Long      id,
-        Integer   version,
-        Long      cellarId,
-        Long      drinkId,
-        Date      bottleDate,
-        String    size,
-        Integer   quantity,
-        String    notes,
-        Date      drinkByDate,
-        Timestamp createdDate,
-        Timestamp modifiedDate,
-        String    binIdentifier,
-        Boolean   tradeable,
-        Short     numTradeable,
-        Date      dateAcquired
+        Long          id,
+        Integer       version,
+        Long          cellarId,
+        Long          drinkId,
+        LocalDate     bottleDate,
+        String        size,
+        Integer       quantity,
+        String        notes,
+        LocalDate     drinkByDate,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate,
+        String        binIdentifier,
+        Boolean       tradeable,
+        Short         numTradeable,
+        LocalDate     dateAcquired
     ) {
         this.id = id;
         this.version = version;
@@ -112,7 +110,6 @@ public class CellaredDrink implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -150,11 +147,11 @@ public class CellaredDrink implements Serializable {
     }
 
     @Column(name = "bottle_date")
-    public Date getBottleDate() {
+    public LocalDate getBottleDate() {
         return this.bottleDate;
     }
 
-    public void setBottleDate(Date bottleDate) {
+    public void setBottleDate(LocalDate bottleDate) {
         this.bottleDate = bottleDate;
     }
 
@@ -186,29 +183,29 @@ public class CellaredDrink implements Serializable {
     }
 
     @Column(name = "drink_by_date")
-    public Date getDrinkByDate() {
+    public LocalDate getDrinkByDate() {
         return this.drinkByDate;
     }
 
-    public void setDrinkByDate(Date drinkByDate) {
+    public void setDrinkByDate(LocalDate drinkByDate) {
         this.drinkByDate = drinkByDate;
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
@@ -240,11 +237,11 @@ public class CellaredDrink implements Serializable {
     }
 
     @Column(name = "date_acquired")
-    public Date getDateAcquired() {
+    public LocalDate getDateAcquired() {
         return this.dateAcquired;
     }
 
-    public void setDateAcquired(Date dateAcquired) {
+    public void setDateAcquired(LocalDate dateAcquired) {
         this.dateAcquired = dateAcquired;
     }
 

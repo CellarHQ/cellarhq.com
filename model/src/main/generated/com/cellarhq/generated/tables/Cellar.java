@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.CellarRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -42,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Cellar extends TableImpl<CellarRecord> {
 
-    private static final long serialVersionUID = -307493306;
+    private static final long serialVersionUID = -425493556;
 
     /**
      * The reference instance of <code>public.cellar</code>
@@ -60,7 +59,7 @@ public class Cellar extends TableImpl<CellarRecord> {
     /**
      * The column <code>public.cellar.id</code>.
      */
-    public final TableField<CellarRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('cellar_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<CellarRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.cellar.version</code>.
@@ -115,7 +114,7 @@ public class Cellar extends TableImpl<CellarRecord> {
     /**
      * The column <code>public.cellar.last_login</code>.
      */
-    public final TableField<CellarRecord, Timestamp> LAST_LOGIN = createField(DSL.name("last_login"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<CellarRecord, LocalDateTime> LAST_LOGIN = createField(DSL.name("last_login"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * The column <code>public.cellar.last_login_ip</code>.
@@ -125,12 +124,12 @@ public class Cellar extends TableImpl<CellarRecord> {
     /**
      * The column <code>public.cellar.created_date</code>.
      */
-    public final TableField<CellarRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<CellarRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.cellar.modified_date</code>.
      */
-    public final TableField<CellarRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<CellarRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.cellar.twitter</code>.
@@ -155,17 +154,17 @@ public class Cellar extends TableImpl<CellarRecord> {
     /**
      * The column <code>public.cellar.total_beers</code>.
      */
-    public final TableField<CellarRecord, Short> TOTAL_BEERS = createField(DSL.name("total_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<CellarRecord, Short> TOTAL_BEERS = createField(DSL.name("total_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.cellar.unique_beers</code>.
      */
-    public final TableField<CellarRecord, Short> UNIQUE_BEERS = createField(DSL.name("unique_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<CellarRecord, Short> UNIQUE_BEERS = createField(DSL.name("unique_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.cellar.unique_breweries</code>.
      */
-    public final TableField<CellarRecord, Short> UNIQUE_BREWERIES = createField(DSL.name("unique_breweries"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<CellarRecord, Short> UNIQUE_BREWERIES = createField(DSL.name("unique_breweries"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.cellar.has_tradeable_beers</code>.
@@ -222,22 +221,17 @@ public class Cellar extends TableImpl<CellarRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.CELLAR_SLUG_UNIQUE_CONSTRAINT, Indexes.PK_CELLAR, Indexes.UNQ_CELLAR_SCREEN_NAME);
-    }
-
-    @Override
-    public Identity<CellarRecord, Long> getIdentity() {
-        return Keys.IDENTITY_CELLAR;
+        return Arrays.<Index>asList(Indexes.CELLAR_PKEY, Indexes.CELLAR_SLUG_UNIQUE_CONSTRAINT, Indexes.UNQ_CELLAR_SCREEN_NAME);
     }
 
     @Override
     public UniqueKey<CellarRecord> getPrimaryKey() {
-        return Keys.PK_CELLAR;
+        return Keys.CELLAR_PKEY;
     }
 
     @Override
     public List<UniqueKey<CellarRecord>> getKeys() {
-        return Arrays.<UniqueKey<CellarRecord>>asList(Keys.PK_CELLAR, Keys.UNQ_CELLAR_SCREEN_NAME, Keys.CELLAR_SLUG_UNIQUE_CONSTRAINT);
+        return Arrays.<UniqueKey<CellarRecord>>asList(Keys.CELLAR_PKEY, Keys.UNQ_CELLAR_SCREEN_NAME, Keys.CELLAR_SLUG_UNIQUE_CONSTRAINT);
     }
 
     @Override

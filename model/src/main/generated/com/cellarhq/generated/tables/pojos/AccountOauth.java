@@ -5,13 +5,11 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -31,23 +29,23 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "account_oauth", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_account_oauth", columnNames = {"id"}),
+    @UniqueConstraint(name = "account_oauth_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "account_oauth_client_username_key", columnNames = {"client", "username"})
 }, indexes = {
     @Index(name = "account_oauth_client_username_key", unique = true, columnList = "client ASC, username ASC"),
-    @Index(name = "pk_account_oauth", unique = true, columnList = "id ASC")
+    @Index(name = "account_oauth_pkey", unique = true, columnList = "id ASC")
 })
 public class AccountOauth implements Serializable {
 
-    private static final long serialVersionUID = -2028554142;
+    private static final long serialVersionUID = -1829548455;
 
-    private Long      id;
-    private Integer   version;
-    private Long      cellarId;
-    private String    client;
-    private String    username;
-    private Timestamp createdDate;
-    private Timestamp modifiedDate;
+    private Long          id;
+    private Integer       version;
+    private Long          cellarId;
+    private String        client;
+    private String        username;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     public AccountOauth() {}
 
@@ -62,13 +60,13 @@ public class AccountOauth implements Serializable {
     }
 
     public AccountOauth(
-        Long      id,
-        Integer   version,
-        Long      cellarId,
-        String    client,
-        String    username,
-        Timestamp createdDate,
-        Timestamp modifiedDate
+        Long          id,
+        Integer       version,
+        Long          cellarId,
+        String        client,
+        String        username,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate
     ) {
         this.id = id;
         this.version = version;
@@ -80,7 +78,6 @@ public class AccountOauth implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -127,20 +124,20 @@ public class AccountOauth implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

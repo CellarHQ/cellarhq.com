@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.AccountOauth;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -38,15 +36,15 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "account_oauth", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_account_oauth", columnNames = {"id"}),
+    @UniqueConstraint(name = "account_oauth_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "account_oauth_client_username_key", columnNames = {"client", "username"})
 }, indexes = {
     @Index(name = "account_oauth_client_username_key", unique = true, columnList = "client ASC, username ASC"),
-    @Index(name = "pk_account_oauth", unique = true, columnList = "id ASC")
+    @Index(name = "account_oauth_pkey", unique = true, columnList = "id ASC")
 })
-public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> implements Record7<Long, Integer, Long, String, String, Timestamp, Timestamp> {
+public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> implements Record7<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime> {
 
-    private static final long serialVersionUID = -261660602;
+    private static final long serialVersionUID = -1966029569;
 
     /**
      * Setter for <code>public.account_oauth.id</code>.
@@ -59,7 +57,6 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
      * Getter for <code>public.account_oauth.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -128,7 +125,7 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
     /**
      * Setter for <code>public.account_oauth.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(5, value);
     }
 
@@ -136,14 +133,14 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
      * Getter for <code>public.account_oauth.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(5);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(5);
     }
 
     /**
      * Setter for <code>public.account_oauth.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(6, value);
     }
 
@@ -151,8 +148,8 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
      * Getter for <code>public.account_oauth.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(6);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -169,12 +166,12 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Long, Integer, Long, String, String, Timestamp, Timestamp> fieldsRow() {
+    public Row7<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 
     @Override
-    public Row7<Long, Integer, Long, String, String, Timestamp, Timestamp> valuesRow() {
+    public Row7<Long, Integer, Long, String, String, LocalDateTime, LocalDateTime> valuesRow() {
         return (Row7) super.valuesRow();
     }
 
@@ -204,12 +201,12 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
     }
 
     @Override
-    public Field<Timestamp> field6() {
+    public Field<LocalDateTime> field6() {
         return AccountOauth.ACCOUNT_OAUTH.CREATED_DATE;
     }
 
     @Override
-    public Field<Timestamp> field7() {
+    public Field<LocalDateTime> field7() {
         return AccountOauth.ACCOUNT_OAUTH.MODIFIED_DATE;
     }
 
@@ -239,12 +236,12 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
     }
 
     @Override
-    public Timestamp component6() {
+    public LocalDateTime component6() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp component7() {
+    public LocalDateTime component7() {
         return getModifiedDate();
     }
 
@@ -274,12 +271,12 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
     }
 
     @Override
-    public Timestamp value6() {
+    public LocalDateTime value6() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp value7() {
+    public LocalDateTime value7() {
         return getModifiedDate();
     }
 
@@ -314,19 +311,19 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
     }
 
     @Override
-    public AccountOauthRecord value6(Timestamp value) {
+    public AccountOauthRecord value6(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public AccountOauthRecord value7(Timestamp value) {
+    public AccountOauthRecord value7(LocalDateTime value) {
         setModifiedDate(value);
         return this;
     }
 
     @Override
-    public AccountOauthRecord values(Long value1, Integer value2, Long value3, String value4, String value5, Timestamp value6, Timestamp value7) {
+    public AccountOauthRecord values(Long value1, Integer value2, Long value3, String value4, String value5, LocalDateTime value6, LocalDateTime value7) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -351,7 +348,7 @@ public class AccountOauthRecord extends UpdatableRecordImpl<AccountOauthRecord> 
     /**
      * Create a detached, initialised AccountOauthRecord
      */
-    public AccountOauthRecord(Long id, Integer version, Long cellarId, String client, String username, Timestamp createdDate, Timestamp modifiedDate) {
+    public AccountOauthRecord(Long id, Integer version, Long cellarId, String client, String username, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         super(AccountOauth.ACCOUNT_OAUTH);
 
         set(0, id);

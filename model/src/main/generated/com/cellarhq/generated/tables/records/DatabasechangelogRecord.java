@@ -6,16 +6,16 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Databasechangelog;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.jooq.Field;
-import org.jooq.Record13;
-import org.jooq.Row13;
+import org.jooq.Record14;
+import org.jooq.Row14;
 import org.jooq.impl.TableRecordImpl;
 
 
@@ -32,9 +32,9 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "databasechangelog", schema = "public")
-public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRecord> implements Record13<String, String, String, Timestamp, Integer, String, String, String, String, String, String, String, String> {
+public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRecord> implements Record14<String, String, String, LocalDateTime, Integer, String, String, String, String, String, String, String, String, String> {
 
-    private static final long serialVersionUID = -806928405;
+    private static final long serialVersionUID = 1882186656;
 
     /**
      * Setter for <code>public.databasechangelog.id</code>.
@@ -84,7 +84,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     /**
      * Setter for <code>public.databasechangelog.dateexecuted</code>.
      */
-    public void setDateexecuted(Timestamp value) {
+    public void setDateexecuted(LocalDateTime value) {
         set(3, value);
     }
 
@@ -92,8 +92,8 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
      * Getter for <code>public.databasechangelog.dateexecuted</code>.
      */
     @Column(name = "dateexecuted", nullable = false)
-    public Timestamp getDateexecuted() {
-        return (Timestamp) get(3);
+    public LocalDateTime getDateexecuted() {
+        return (LocalDateTime) get(3);
     }
 
     /**
@@ -231,18 +231,33 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
         return (String) get(12);
     }
 
+    /**
+     * Setter for <code>public.databasechangelog.deployment_id</code>.
+     */
+    public void setDeploymentId(String value) {
+        set(13, value);
+    }
+
+    /**
+     * Getter for <code>public.databasechangelog.deployment_id</code>.
+     */
+    @Column(name = "deployment_id", length = 10)
+    public String getDeploymentId() {
+        return (String) get(13);
+    }
+
     // -------------------------------------------------------------------------
-    // Record13 type implementation
+    // Record14 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<String, String, String, Timestamp, Integer, String, String, String, String, String, String, String, String> fieldsRow() {
-        return (Row13) super.fieldsRow();
+    public Row14<String, String, String, LocalDateTime, Integer, String, String, String, String, String, String, String, String, String> fieldsRow() {
+        return (Row14) super.fieldsRow();
     }
 
     @Override
-    public Row13<String, String, String, Timestamp, Integer, String, String, String, String, String, String, String, String> valuesRow() {
-        return (Row13) super.valuesRow();
+    public Row14<String, String, String, LocalDateTime, Integer, String, String, String, String, String, String, String, String, String> valuesRow() {
+        return (Row14) super.valuesRow();
     }
 
     @Override
@@ -261,7 +276,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
-    public Field<Timestamp> field4() {
+    public Field<LocalDateTime> field4() {
         return Databasechangelog.DATABASECHANGELOG.DATEEXECUTED;
     }
 
@@ -311,6 +326,11 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
+    public Field<String> field14() {
+        return Databasechangelog.DATABASECHANGELOG.DEPLOYMENT_ID;
+    }
+
+    @Override
     public String component1() {
         return getId();
     }
@@ -326,7 +346,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
-    public Timestamp component4() {
+    public LocalDateTime component4() {
         return getDateexecuted();
     }
 
@@ -376,6 +396,11 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
+    public String component14() {
+        return getDeploymentId();
+    }
+
+    @Override
     public String value1() {
         return getId();
     }
@@ -391,7 +416,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
-    public Timestamp value4() {
+    public LocalDateTime value4() {
         return getDateexecuted();
     }
 
@@ -441,6 +466,11 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
+    public String value14() {
+        return getDeploymentId();
+    }
+
+    @Override
     public DatabasechangelogRecord value1(String value) {
         setId(value);
         return this;
@@ -459,7 +489,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
-    public DatabasechangelogRecord value4(Timestamp value) {
+    public DatabasechangelogRecord value4(LocalDateTime value) {
         setDateexecuted(value);
         return this;
     }
@@ -519,7 +549,13 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     }
 
     @Override
-    public DatabasechangelogRecord values(String value1, String value2, String value3, Timestamp value4, Integer value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String value13) {
+    public DatabasechangelogRecord value14(String value) {
+        setDeploymentId(value);
+        return this;
+    }
+
+    @Override
+    public DatabasechangelogRecord values(String value1, String value2, String value3, LocalDateTime value4, Integer value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String value13, String value14) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -533,6 +569,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
         value11(value11);
         value12(value12);
         value13(value13);
+        value14(value14);
         return this;
     }
 
@@ -550,7 +587,7 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
     /**
      * Create a detached, initialised DatabasechangelogRecord
      */
-    public DatabasechangelogRecord(String id, String author, String filename, Timestamp dateexecuted, Integer orderexecuted, String exectype, String md5sum, String description, String comments, String tag, String liquibase, String contexts, String labels) {
+    public DatabasechangelogRecord(String id, String author, String filename, LocalDateTime dateexecuted, Integer orderexecuted, String exectype, String md5sum, String description, String comments, String tag, String liquibase, String contexts, String labels, String deploymentId) {
         super(Databasechangelog.DATABASECHANGELOG);
 
         set(0, id);
@@ -566,5 +603,6 @@ public class DatabasechangelogRecord extends TableRecordImpl<DatabasechangelogRe
         set(10, liquibase);
         set(11, contexts);
         set(12, labels);
+        set(13, deploymentId);
     }
 }

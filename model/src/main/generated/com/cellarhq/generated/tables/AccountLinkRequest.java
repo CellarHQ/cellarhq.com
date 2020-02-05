@@ -9,11 +9,11 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.AccountLinkRequestRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AccountLinkRequest extends TableImpl<AccountLinkRequestRecord> {
 
-    private static final long serialVersionUID = -887838700;
+    private static final long serialVersionUID = 4862298;
 
     /**
      * The reference instance of <code>public.account_link_request</code>
@@ -80,7 +80,7 @@ public class AccountLinkRequest extends TableImpl<AccountLinkRequestRecord> {
     /**
      * The column <code>public.account_link_request.created_date</code>.
      */
-    public final TableField<AccountLinkRequestRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<AccountLinkRequestRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * Create a <code>public.account_link_request</code> table reference
@@ -122,17 +122,17 @@ public class AccountLinkRequest extends TableImpl<AccountLinkRequestRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PK_ACCOUNT_LINK_REQUEST);
+        return Arrays.<Index>asList(Indexes.ACCOUNT_LINK_REQUEST_PKEY);
     }
 
     @Override
     public UniqueKey<AccountLinkRequestRecord> getPrimaryKey() {
-        return Keys.PK_ACCOUNT_LINK_REQUEST;
+        return Keys.ACCOUNT_LINK_REQUEST_PKEY;
     }
 
     @Override
     public List<UniqueKey<AccountLinkRequestRecord>> getKeys() {
-        return Arrays.<UniqueKey<AccountLinkRequestRecord>>asList(Keys.PK_ACCOUNT_LINK_REQUEST);
+        return Arrays.<UniqueKey<AccountLinkRequestRecord>>asList(Keys.ACCOUNT_LINK_REQUEST_PKEY);
     }
 
     @Override
@@ -175,7 +175,7 @@ public class AccountLinkRequest extends TableImpl<AccountLinkRequestRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<String, Long, String, String, Timestamp> fieldsRow() {
+    public Row5<String, Long, String, String, LocalDateTime> fieldsRow() {
         return (Row5) super.fieldsRow();
     }
 }

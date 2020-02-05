@@ -7,11 +7,11 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.CellaredDrink;
 import com.cellarhq.generated.tables.records.CellaredDrinkRecord;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -115,14 +115,14 @@ public class CellaredDrinkDao extends DAOImpl<CellaredDrinkRecord, com.cellarhq.
     /**
      * Fetch records that have <code>bottle_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfBottleDate(Date lowerInclusive, Date upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfBottleDate(LocalDate lowerInclusive, LocalDate upperInclusive) {
         return fetchRange(CellaredDrink.CELLARED_DRINK.BOTTLE_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>bottle_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByBottleDate(Date... values) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByBottleDate(LocalDate... values) {
         return fetch(CellaredDrink.CELLARED_DRINK.BOTTLE_DATE, values);
     }
 
@@ -171,42 +171,42 @@ public class CellaredDrinkDao extends DAOImpl<CellaredDrinkRecord, com.cellarhq.
     /**
      * Fetch records that have <code>drink_by_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfDrinkByDate(Date lowerInclusive, Date upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfDrinkByDate(LocalDate lowerInclusive, LocalDate upperInclusive) {
         return fetchRange(CellaredDrink.CELLARED_DRINK.DRINK_BY_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>drink_by_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByDrinkByDate(Date... values) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByDrinkByDate(LocalDate... values) {
         return fetch(CellaredDrink.CELLARED_DRINK.DRINK_BY_DATE, values);
     }
 
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(CellaredDrink.CELLARED_DRINK.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(CellaredDrink.CELLARED_DRINK.CREATED_DATE, values);
     }
 
     /**
      * Fetch records that have <code>modified_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfModifiedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfModifiedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(CellaredDrink.CELLARED_DRINK.MODIFIED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>modified_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByModifiedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByModifiedDate(LocalDateTime... values) {
         return fetch(CellaredDrink.CELLARED_DRINK.MODIFIED_DATE, values);
     }
 
@@ -255,14 +255,14 @@ public class CellaredDrinkDao extends DAOImpl<CellaredDrinkRecord, com.cellarhq.
     /**
      * Fetch records that have <code>date_acquired BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfDateAcquired(Date lowerInclusive, Date upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchRangeOfDateAcquired(LocalDate lowerInclusive, LocalDate upperInclusive) {
         return fetchRange(CellaredDrink.CELLARED_DRINK.DATE_ACQUIRED, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>date_acquired IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByDateAcquired(Date... values) {
+    public List<com.cellarhq.generated.tables.pojos.CellaredDrink> fetchByDateAcquired(LocalDate... values) {
         return fetch(CellaredDrink.CELLARED_DRINK.DATE_ACQUIRED, values);
     }
 }

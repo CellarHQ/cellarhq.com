@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -34,41 +32,41 @@ import org.jooq.JSON;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "drink", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_drink", columnNames = {"id"})
+    @UniqueConstraint(name = "drink_pkey", columnNames = {"id"})
 }, indexes = {
+    @Index(name = "drink_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "idx_drink_brewery_db_id", columnList = "brewery_db_id ASC"),
-    @Index(name = "idx_drink_needs_moderation", columnList = "needs_moderation ASC"),
-    @Index(name = "pk_drink", unique = true, columnList = "id ASC")
+    @Index(name = "idx_drink_needs_moderation", columnList = "needs_moderation ASC")
 })
 public class Drink implements Serializable {
 
-    private static final long serialVersionUID = -2084714428;
+    private static final long serialVersionUID = -940781501;
 
-    private Long       id;
-    private Integer    version;
-    private Long       photoId;
-    private Long       organizationId;
-    private Long       styleId;
-    private Long       glasswareId;
-    private String     drinkType;
-    private String     slug;
-    private String     name;
-    private String     description;
-    private Integer    srm;
-    private Integer    ibu;
-    private BigDecimal abv;
-    private String     availability;
-    private String     breweryDbId;
-    private Timestamp  breweryDbLastUpdated;
-    private Boolean    locked;
-    private Boolean    needsModeration;
-    private Timestamp  createdDate;
-    private Timestamp  modifiedDate;
-    private JSON       data;
-    private Boolean    warningFlag;
-    private Short      tradableBeers;
-    private Short      cellaredBeers;
-    private Short      containedInCellars;
+    private Long          id;
+    private Integer       version;
+    private Long          photoId;
+    private Long          organizationId;
+    private Long          styleId;
+    private Long          glasswareId;
+    private String        drinkType;
+    private String        slug;
+    private String        name;
+    private String        description;
+    private Integer       srm;
+    private Integer       ibu;
+    private BigDecimal    abv;
+    private String        availability;
+    private String        breweryDbId;
+    private LocalDateTime breweryDbLastUpdated;
+    private Boolean       locked;
+    private Boolean       needsModeration;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+    private JSON          data;
+    private Boolean       warningFlag;
+    private Short         tradableBeers;
+    private Short         cellaredBeers;
+    private Short         containedInCellars;
 
     public Drink() {}
 
@@ -101,31 +99,31 @@ public class Drink implements Serializable {
     }
 
     public Drink(
-        Long       id,
-        Integer    version,
-        Long       photoId,
-        Long       organizationId,
-        Long       styleId,
-        Long       glasswareId,
-        String     drinkType,
-        String     slug,
-        String     name,
-        String     description,
-        Integer    srm,
-        Integer    ibu,
-        BigDecimal abv,
-        String     availability,
-        String     breweryDbId,
-        Timestamp  breweryDbLastUpdated,
-        Boolean    locked,
-        Boolean    needsModeration,
-        Timestamp  createdDate,
-        Timestamp  modifiedDate,
-        JSON       data,
-        Boolean    warningFlag,
-        Short      tradableBeers,
-        Short      cellaredBeers,
-        Short      containedInCellars
+        Long          id,
+        Integer       version,
+        Long          photoId,
+        Long          organizationId,
+        Long          styleId,
+        Long          glasswareId,
+        String        drinkType,
+        String        slug,
+        String        name,
+        String        description,
+        Integer       srm,
+        Integer       ibu,
+        BigDecimal    abv,
+        String        availability,
+        String        breweryDbId,
+        LocalDateTime breweryDbLastUpdated,
+        Boolean       locked,
+        Boolean       needsModeration,
+        LocalDateTime createdDate,
+        LocalDateTime modifiedDate,
+        JSON          data,
+        Boolean       warningFlag,
+        Short         tradableBeers,
+        Short         cellaredBeers,
+        Short         containedInCellars
     ) {
         this.id = id;
         this.version = version;
@@ -155,7 +153,6 @@ public class Drink implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return this.id;
@@ -292,11 +289,11 @@ public class Drink implements Serializable {
     }
 
     @Column(name = "brewery_db_last_updated")
-    public Timestamp getBreweryDbLastUpdated() {
+    public LocalDateTime getBreweryDbLastUpdated() {
         return this.breweryDbLastUpdated;
     }
 
-    public void setBreweryDbLastUpdated(Timestamp breweryDbLastUpdated) {
+    public void setBreweryDbLastUpdated(LocalDateTime breweryDbLastUpdated) {
         this.breweryDbLastUpdated = breweryDbLastUpdated;
     }
 
@@ -319,20 +316,20 @@ public class Drink implements Serializable {
     }
 
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return this.modifiedDate;
     }
 
-    public void setModifiedDate(Timestamp modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

@@ -10,15 +10,14 @@ import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.DrinkRecord;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.JSON;
 import org.jooq.Name;
@@ -44,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Drink extends TableImpl<DrinkRecord> {
 
-    private static final long serialVersionUID = -2097542913;
+    private static final long serialVersionUID = 2065352484;
 
     /**
      * The reference instance of <code>public.drink</code>
@@ -62,7 +61,7 @@ public class Drink extends TableImpl<DrinkRecord> {
     /**
      * The column <code>public.drink.id</code>.
      */
-    public final TableField<DrinkRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('drink_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<DrinkRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.drink.version</code>.
@@ -137,7 +136,7 @@ public class Drink extends TableImpl<DrinkRecord> {
     /**
      * The column <code>public.drink.brewery_db_last_updated</code>.
      */
-    public final TableField<DrinkRecord, Timestamp> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<DrinkRecord, LocalDateTime> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * The column <code>public.drink.locked</code>.
@@ -152,12 +151,12 @@ public class Drink extends TableImpl<DrinkRecord> {
     /**
      * The column <code>public.drink.created_date</code>.
      */
-    public final TableField<DrinkRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<DrinkRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.drink.modified_date</code>.
      */
-    public final TableField<DrinkRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<DrinkRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.drink.data</code>.
@@ -172,17 +171,17 @@ public class Drink extends TableImpl<DrinkRecord> {
     /**
      * The column <code>public.drink.tradable_beers</code>.
      */
-    public final TableField<DrinkRecord, Short> TRADABLE_BEERS = createField(DSL.name("tradable_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<DrinkRecord, Short> TRADABLE_BEERS = createField(DSL.name("tradable_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.drink.cellared_beers</code>.
      */
-    public final TableField<DrinkRecord, Short> CELLARED_BEERS = createField(DSL.name("cellared_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<DrinkRecord, Short> CELLARED_BEERS = createField(DSL.name("cellared_beers"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * The column <code>public.drink.contained_in_cellars</code>.
      */
-    public final TableField<DrinkRecord, Short> CONTAINED_IN_CELLARS = createField(DSL.name("contained_in_cellars"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0::smallint", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
+    public final TableField<DrinkRecord, Short> CONTAINED_IN_CELLARS = createField(DSL.name("contained_in_cellars"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "");
 
     /**
      * Create a <code>public.drink</code> table reference
@@ -224,22 +223,17 @@ public class Drink extends TableImpl<DrinkRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.IDX_DRINK_BREWERY_DB_ID, Indexes.IDX_DRINK_NEEDS_MODERATION, Indexes.PK_DRINK);
-    }
-
-    @Override
-    public Identity<DrinkRecord, Long> getIdentity() {
-        return Keys.IDENTITY_DRINK;
+        return Arrays.<Index>asList(Indexes.DRINK_PKEY, Indexes.IDX_DRINK_BREWERY_DB_ID, Indexes.IDX_DRINK_NEEDS_MODERATION);
     }
 
     @Override
     public UniqueKey<DrinkRecord> getPrimaryKey() {
-        return Keys.PK_DRINK;
+        return Keys.DRINK_PKEY;
     }
 
     @Override
     public List<UniqueKey<DrinkRecord>> getKeys() {
-        return Arrays.<UniqueKey<DrinkRecord>>asList(Keys.PK_DRINK);
+        return Arrays.<UniqueKey<DrinkRecord>>asList(Keys.DRINK_PKEY);
     }
 
     @Override

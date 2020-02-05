@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.Cellar;
 import com.cellarhq.generated.tables.records.CellarRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -219,14 +219,14 @@ public class CellarDao extends DAOImpl<CellarRecord, com.cellarhq.generated.tabl
     /**
      * Fetch records that have <code>last_login BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchRangeOfLastLogin(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchRangeOfLastLogin(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Cellar.CELLAR.LAST_LOGIN, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>last_login IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchByLastLogin(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchByLastLogin(LocalDateTime... values) {
         return fetch(Cellar.CELLAR.LAST_LOGIN, values);
     }
 
@@ -247,28 +247,28 @@ public class CellarDao extends DAOImpl<CellarRecord, com.cellarhq.generated.tabl
     /**
      * Fetch records that have <code>created_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchRangeOfCreatedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchRangeOfCreatedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Cellar.CELLAR.CREATED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchByCreatedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchByCreatedDate(LocalDateTime... values) {
         return fetch(Cellar.CELLAR.CREATED_DATE, values);
     }
 
     /**
      * Fetch records that have <code>modified_date BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchRangeOfModifiedDate(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchRangeOfModifiedDate(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Cellar.CELLAR.MODIFIED_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>modified_date IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchByModifiedDate(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Cellar> fetchByModifiedDate(LocalDateTime... values) {
         return fetch(Cellar.CELLAR.MODIFIED_DATE, values);
     }
 

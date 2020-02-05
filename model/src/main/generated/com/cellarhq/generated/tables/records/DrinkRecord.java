@@ -7,13 +7,11 @@ package com.cellarhq.generated.tables.records;
 import com.cellarhq.generated.tables.Drink;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -37,15 +35,15 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "drink", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_drink", columnNames = {"id"})
+    @UniqueConstraint(name = "drink_pkey", columnNames = {"id"})
 }, indexes = {
+    @Index(name = "drink_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "idx_drink_brewery_db_id", columnList = "brewery_db_id ASC"),
-    @Index(name = "idx_drink_needs_moderation", columnList = "needs_moderation ASC"),
-    @Index(name = "pk_drink", unique = true, columnList = "id ASC")
+    @Index(name = "idx_drink_needs_moderation", columnList = "needs_moderation ASC")
 })
 public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
 
-    private static final long serialVersionUID = -1964932032;
+    private static final long serialVersionUID = 982956087;
 
     /**
      * Setter for <code>public.drink.id</code>.
@@ -58,7 +56,6 @@ public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
      * Getter for <code>public.drink.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -277,7 +274,7 @@ public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
     /**
      * Setter for <code>public.drink.brewery_db_last_updated</code>.
      */
-    public void setBreweryDbLastUpdated(Timestamp value) {
+    public void setBreweryDbLastUpdated(LocalDateTime value) {
         set(15, value);
     }
 
@@ -285,8 +282,8 @@ public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
      * Getter for <code>public.drink.brewery_db_last_updated</code>.
      */
     @Column(name = "brewery_db_last_updated")
-    public Timestamp getBreweryDbLastUpdated() {
-        return (Timestamp) get(15);
+    public LocalDateTime getBreweryDbLastUpdated() {
+        return (LocalDateTime) get(15);
     }
 
     /**
@@ -322,7 +319,7 @@ public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
     /**
      * Setter for <code>public.drink.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(18, value);
     }
 
@@ -330,14 +327,14 @@ public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
      * Getter for <code>public.drink.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(18);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(18);
     }
 
     /**
      * Setter for <code>public.drink.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(19, value);
     }
 
@@ -345,8 +342,8 @@ public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
      * Getter for <code>public.drink.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(19);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(19);
     }
 
     /**
@@ -447,7 +444,7 @@ public class DrinkRecord extends UpdatableRecordImpl<DrinkRecord> {
     /**
      * Create a detached, initialised DrinkRecord
      */
-    public DrinkRecord(Long id, Integer version, Long photoId, Long organizationId, Long styleId, Long glasswareId, String drinkType, String slug, String name, String description, Integer srm, Integer ibu, BigDecimal abv, String availability, String breweryDbId, Timestamp breweryDbLastUpdated, Boolean locked, Boolean needsModeration, Timestamp createdDate, Timestamp modifiedDate, JSON data, Boolean warningFlag, Short tradableBeers, Short cellaredBeers, Short containedInCellars) {
+    public DrinkRecord(Long id, Integer version, Long photoId, Long organizationId, Long styleId, Long glasswareId, String drinkType, String slug, String name, String description, Integer srm, Integer ibu, BigDecimal abv, String availability, String breweryDbId, LocalDateTime breweryDbLastUpdated, Boolean locked, Boolean needsModeration, LocalDateTime createdDate, LocalDateTime modifiedDate, JSON data, Boolean warningFlag, Short tradableBeers, Short cellaredBeers, Short containedInCellars) {
         super(Drink.DRINK);
 
         set(0, id);

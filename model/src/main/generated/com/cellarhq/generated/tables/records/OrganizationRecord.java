@@ -6,13 +6,11 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Organization;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -36,15 +34,15 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "organization", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_organization", columnNames = {"id"}),
+    @UniqueConstraint(name = "organization_pkey", columnNames = {"id"}),
     @UniqueConstraint(name = "unq_organization_slug", columnNames = {"slug"})
 }, indexes = {
-    @Index(name = "pk_organization", unique = true, columnList = "id ASC"),
+    @Index(name = "organization_pkey", unique = true, columnList = "id ASC"),
     @Index(name = "unq_organization_slug", unique = true, columnList = "slug ASC")
 })
 public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> {
 
-    private static final long serialVersionUID = 987609208;
+    private static final long serialVersionUID = 633422463;
 
     /**
      * Setter for <code>public.organization.id</code>.
@@ -57,7 +55,6 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
      * Getter for <code>public.organization.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -291,7 +288,7 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
     /**
      * Setter for <code>public.organization.brewery_db_last_updated</code>.
      */
-    public void setBreweryDbLastUpdated(Timestamp value) {
+    public void setBreweryDbLastUpdated(LocalDateTime value) {
         set(16, value);
     }
 
@@ -299,8 +296,8 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
      * Getter for <code>public.organization.brewery_db_last_updated</code>.
      */
     @Column(name = "brewery_db_last_updated")
-    public Timestamp getBreweryDbLastUpdated() {
-        return (Timestamp) get(16);
+    public LocalDateTime getBreweryDbLastUpdated() {
+        return (LocalDateTime) get(16);
     }
 
     /**
@@ -336,7 +333,7 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
     /**
      * Setter for <code>public.organization.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(19, value);
     }
 
@@ -344,14 +341,14 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
      * Getter for <code>public.organization.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(19);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(19);
     }
 
     /**
      * Setter for <code>public.organization.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(20, value);
     }
 
@@ -359,8 +356,8 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
      * Getter for <code>public.organization.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(20);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(20);
     }
 
     /**
@@ -506,7 +503,7 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
     /**
      * Create a detached, initialised OrganizationRecord
      */
-    public OrganizationRecord(Long id, Integer version, Long photoId, String type, String slug, String name, String description, Short established, String phone, String website, String address, String address2, String locality, String postalCode, String country, String breweryDbId, Timestamp breweryDbLastUpdated, Boolean locked, Boolean needsModeration, Timestamp createdDate, Timestamp modifiedDate, JSON data, String region, Boolean warningFlag, Short totalBeers, Short cellaredBeers, Short containedInCellars, String localitySort, Boolean collaboration) {
+    public OrganizationRecord(Long id, Integer version, Long photoId, String type, String slug, String name, String description, Short established, String phone, String website, String address, String address2, String locality, String postalCode, String country, String breweryDbId, LocalDateTime breweryDbLastUpdated, Boolean locked, Boolean needsModeration, LocalDateTime createdDate, LocalDateTime modifiedDate, JSON data, String region, Boolean warningFlag, Short totalBeers, Short cellaredBeers, Short containedInCellars, String localitySort, Boolean collaboration) {
         super(Organization.ORGANIZATION);
 
         set(0, id);

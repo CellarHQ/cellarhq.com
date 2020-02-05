@@ -7,10 +7,10 @@ package com.cellarhq.generated.tables.daos;
 import com.cellarhq.generated.tables.Databasechangeloglock;
 import com.cellarhq.generated.tables.records.DatabasechangeloglockRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
@@ -86,14 +86,14 @@ public class DatabasechangeloglockDao extends DAOImpl<DatabasechangeloglockRecor
     /**
      * Fetch records that have <code>lockgranted BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Databasechangeloglock> fetchRangeOfLockgranted(Timestamp lowerInclusive, Timestamp upperInclusive) {
+    public List<com.cellarhq.generated.tables.pojos.Databasechangeloglock> fetchRangeOfLockgranted(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
         return fetchRange(Databasechangeloglock.DATABASECHANGELOGLOCK.LOCKGRANTED, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>lockgranted IN (values)</code>
      */
-    public List<com.cellarhq.generated.tables.pojos.Databasechangeloglock> fetchByLockgranted(Timestamp... values) {
+    public List<com.cellarhq.generated.tables.pojos.Databasechangeloglock> fetchByLockgranted(LocalDateTime... values) {
         return fetch(Databasechangeloglock.DATABASECHANGELOGLOCK.LOCKGRANTED, values);
     }
 

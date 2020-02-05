@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.StyleRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.JSON;
 import org.jooq.Name;
@@ -44,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Style extends TableImpl<StyleRecord> {
 
-    private static final long serialVersionUID = 1637343824;
+    private static final long serialVersionUID = -1043901398;
 
     /**
      * The reference instance of <code>public.style</code>
@@ -62,7 +61,7 @@ public class Style extends TableImpl<StyleRecord> {
     /**
      * The column <code>public.style.id</code>.
      */
-    public final TableField<StyleRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('style_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<StyleRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.style.version</code>.
@@ -97,17 +96,17 @@ public class Style extends TableImpl<StyleRecord> {
     /**
      * The column <code>public.style.brewery_db_last_updated</code>.
      */
-    public final TableField<StyleRecord, Timestamp> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<StyleRecord, LocalDateTime> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * The column <code>public.style.created_date</code>.
      */
-    public final TableField<StyleRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<StyleRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.style.modified_date</code>.
      */
-    public final TableField<StyleRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<StyleRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.style.data</code>.
@@ -154,22 +153,17 @@ public class Style extends TableImpl<StyleRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.IDX_STYLE_BREWERY_DB_ID, Indexes.PK_STYLE);
-    }
-
-    @Override
-    public Identity<StyleRecord, Long> getIdentity() {
-        return Keys.IDENTITY_STYLE;
+        return Arrays.<Index>asList(Indexes.IDX_STYLE_BREWERY_DB_ID, Indexes.STYLE_PKEY);
     }
 
     @Override
     public UniqueKey<StyleRecord> getPrimaryKey() {
-        return Keys.PK_STYLE;
+        return Keys.STYLE_PKEY;
     }
 
     @Override
     public List<UniqueKey<StyleRecord>> getKeys() {
-        return Arrays.<UniqueKey<StyleRecord>>asList(Keys.PK_STYLE);
+        return Arrays.<UniqueKey<StyleRecord>>asList(Keys.STYLE_PKEY);
     }
 
     @Override
@@ -212,7 +206,7 @@ public class Style extends TableImpl<StyleRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Long, Integer, Long, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> fieldsRow() {
+    public Row11<Long, Integer, Long, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> fieldsRow() {
         return (Row11) super.fieldsRow();
     }
 }

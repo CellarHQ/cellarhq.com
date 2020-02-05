@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.ActivityRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.JSON;
 import org.jooq.Name;
@@ -44,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Activity extends TableImpl<ActivityRecord> {
 
-    private static final long serialVersionUID = 304349036;
+    private static final long serialVersionUID = 1475738852;
 
     /**
      * The reference instance of <code>public.activity</code>
@@ -62,7 +61,7 @@ public class Activity extends TableImpl<ActivityRecord> {
     /**
      * The column <code>public.activity.id</code>.
      */
-    public final TableField<ActivityRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('activity_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<ActivityRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.activity.version</code>.
@@ -97,7 +96,7 @@ public class Activity extends TableImpl<ActivityRecord> {
     /**
      * The column <code>public.activity.created_date</code>.
      */
-    public final TableField<ActivityRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<ActivityRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * Create a <code>public.activity</code> table reference
@@ -139,22 +138,17 @@ public class Activity extends TableImpl<ActivityRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PK_ACTIVITY);
-    }
-
-    @Override
-    public Identity<ActivityRecord, Long> getIdentity() {
-        return Keys.IDENTITY_ACTIVITY;
+        return Arrays.<Index>asList(Indexes.ACTIVITY_PKEY);
     }
 
     @Override
     public UniqueKey<ActivityRecord> getPrimaryKey() {
-        return Keys.PK_ACTIVITY;
+        return Keys.ACTIVITY_PKEY;
     }
 
     @Override
     public List<UniqueKey<ActivityRecord>> getKeys() {
-        return Arrays.<UniqueKey<ActivityRecord>>asList(Keys.PK_ACTIVITY);
+        return Arrays.<UniqueKey<ActivityRecord>>asList(Keys.ACTIVITY_PKEY);
     }
 
     @Override
@@ -197,7 +191,7 @@ public class Activity extends TableImpl<ActivityRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, Integer, Long, String, String, Boolean, JSON, Timestamp> fieldsRow() {
+    public Row8<Long, Integer, Long, String, String, Boolean, JSON, LocalDateTime> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 }

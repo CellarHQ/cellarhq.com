@@ -9,11 +9,11 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.PasswordChangeRequestRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PasswordChangeRequest extends TableImpl<PasswordChangeRequestRecord> {
 
-    private static final long serialVersionUID = -473399979;
+    private static final long serialVersionUID = -1374822053;
 
     /**
      * The reference instance of <code>public.password_change_request</code>
@@ -70,7 +70,7 @@ public class PasswordChangeRequest extends TableImpl<PasswordChangeRequestRecord
     /**
      * The column <code>public.password_change_request.created_date</code>.
      */
-    public final TableField<PasswordChangeRequestRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<PasswordChangeRequestRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * Create a <code>public.password_change_request</code> table reference
@@ -112,17 +112,17 @@ public class PasswordChangeRequest extends TableImpl<PasswordChangeRequestRecord
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PK_PASSWORD_CHANGE_REQUEST);
+        return Arrays.<Index>asList(Indexes.PASSWORD_CHANGE_REQUEST_PKEY);
     }
 
     @Override
     public UniqueKey<PasswordChangeRequestRecord> getPrimaryKey() {
-        return Keys.PK_PASSWORD_CHANGE_REQUEST;
+        return Keys.PASSWORD_CHANGE_REQUEST_PKEY;
     }
 
     @Override
     public List<UniqueKey<PasswordChangeRequestRecord>> getKeys() {
-        return Arrays.<UniqueKey<PasswordChangeRequestRecord>>asList(Keys.PK_PASSWORD_CHANGE_REQUEST);
+        return Arrays.<UniqueKey<PasswordChangeRequestRecord>>asList(Keys.PASSWORD_CHANGE_REQUEST_PKEY);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class PasswordChangeRequest extends TableImpl<PasswordChangeRequestRecord
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<String, Long, Timestamp> fieldsRow() {
+    public Row3<String, Long, LocalDateTime> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

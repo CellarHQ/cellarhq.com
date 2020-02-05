@@ -6,14 +6,12 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.CellaredDrink;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -39,14 +37,14 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "cellared_drink", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_cellared_drink", columnNames = {"id"})
+    @UniqueConstraint(name = "cellared_drink_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "idx_cellared_drink_drink_by_date", columnList = "drink_by_date ASC"),
-    @Index(name = "pk_cellared_drink", unique = true, columnList = "id ASC")
+    @Index(name = "cellared_drink_pkey", unique = true, columnList = "id ASC"),
+    @Index(name = "idx_cellared_drink_drink_by_date", columnList = "drink_by_date ASC")
 })
-public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord> implements Record15<Long, Integer, Long, Long, Date, String, Integer, String, Date, Timestamp, Timestamp, String, Boolean, Short, Date> {
+public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord> implements Record15<Long, Integer, Long, Long, LocalDate, String, Integer, String, LocalDate, LocalDateTime, LocalDateTime, String, Boolean, Short, LocalDate> {
 
-    private static final long serialVersionUID = 1378102178;
+    private static final long serialVersionUID = -378297825;
 
     /**
      * Setter for <code>public.cellared_drink.id</code>.
@@ -59,7 +57,6 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
      * Getter for <code>public.cellared_drink.id</code>.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, precision = 64)
     public Long getId() {
         return (Long) get(0);
@@ -113,7 +110,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     /**
      * Setter for <code>public.cellared_drink.bottle_date</code>.
      */
-    public void setBottleDate(Date value) {
+    public void setBottleDate(LocalDate value) {
         set(4, value);
     }
 
@@ -121,8 +118,8 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
      * Getter for <code>public.cellared_drink.bottle_date</code>.
      */
     @Column(name = "bottle_date")
-    public Date getBottleDate() {
-        return (Date) get(4);
+    public LocalDate getBottleDate() {
+        return (LocalDate) get(4);
     }
 
     /**
@@ -173,7 +170,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     /**
      * Setter for <code>public.cellared_drink.drink_by_date</code>.
      */
-    public void setDrinkByDate(Date value) {
+    public void setDrinkByDate(LocalDate value) {
         set(8, value);
     }
 
@@ -181,14 +178,14 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
      * Getter for <code>public.cellared_drink.drink_by_date</code>.
      */
     @Column(name = "drink_by_date")
-    public Date getDrinkByDate() {
-        return (Date) get(8);
+    public LocalDate getDrinkByDate() {
+        return (LocalDate) get(8);
     }
 
     /**
      * Setter for <code>public.cellared_drink.created_date</code>.
      */
-    public void setCreatedDate(Timestamp value) {
+    public void setCreatedDate(LocalDateTime value) {
         set(9, value);
     }
 
@@ -196,14 +193,14 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
      * Getter for <code>public.cellared_drink.created_date</code>.
      */
     @Column(name = "created_date", nullable = false)
-    public Timestamp getCreatedDate() {
-        return (Timestamp) get(9);
+    public LocalDateTime getCreatedDate() {
+        return (LocalDateTime) get(9);
     }
 
     /**
      * Setter for <code>public.cellared_drink.modified_date</code>.
      */
-    public void setModifiedDate(Timestamp value) {
+    public void setModifiedDate(LocalDateTime value) {
         set(10, value);
     }
 
@@ -211,8 +208,8 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
      * Getter for <code>public.cellared_drink.modified_date</code>.
      */
     @Column(name = "modified_date", nullable = false)
-    public Timestamp getModifiedDate() {
-        return (Timestamp) get(10);
+    public LocalDateTime getModifiedDate() {
+        return (LocalDateTime) get(10);
     }
 
     /**
@@ -263,7 +260,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     /**
      * Setter for <code>public.cellared_drink.date_acquired</code>.
      */
-    public void setDateAcquired(Date value) {
+    public void setDateAcquired(LocalDate value) {
         set(14, value);
     }
 
@@ -271,8 +268,8 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
      * Getter for <code>public.cellared_drink.date_acquired</code>.
      */
     @Column(name = "date_acquired")
-    public Date getDateAcquired() {
-        return (Date) get(14);
+    public LocalDate getDateAcquired() {
+        return (LocalDate) get(14);
     }
 
     // -------------------------------------------------------------------------
@@ -289,12 +286,12 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, Integer, Long, Long, Date, String, Integer, String, Date, Timestamp, Timestamp, String, Boolean, Short, Date> fieldsRow() {
+    public Row15<Long, Integer, Long, Long, LocalDate, String, Integer, String, LocalDate, LocalDateTime, LocalDateTime, String, Boolean, Short, LocalDate> fieldsRow() {
         return (Row15) super.fieldsRow();
     }
 
     @Override
-    public Row15<Long, Integer, Long, Long, Date, String, Integer, String, Date, Timestamp, Timestamp, String, Boolean, Short, Date> valuesRow() {
+    public Row15<Long, Integer, Long, Long, LocalDate, String, Integer, String, LocalDate, LocalDateTime, LocalDateTime, String, Boolean, Short, LocalDate> valuesRow() {
         return (Row15) super.valuesRow();
     }
 
@@ -319,7 +316,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Field<Date> field5() {
+    public Field<LocalDate> field5() {
         return CellaredDrink.CELLARED_DRINK.BOTTLE_DATE;
     }
 
@@ -339,17 +336,17 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Field<Date> field9() {
+    public Field<LocalDate> field9() {
         return CellaredDrink.CELLARED_DRINK.DRINK_BY_DATE;
     }
 
     @Override
-    public Field<Timestamp> field10() {
+    public Field<LocalDateTime> field10() {
         return CellaredDrink.CELLARED_DRINK.CREATED_DATE;
     }
 
     @Override
-    public Field<Timestamp> field11() {
+    public Field<LocalDateTime> field11() {
         return CellaredDrink.CELLARED_DRINK.MODIFIED_DATE;
     }
 
@@ -369,7 +366,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Field<Date> field15() {
+    public Field<LocalDate> field15() {
         return CellaredDrink.CELLARED_DRINK.DATE_ACQUIRED;
     }
 
@@ -394,7 +391,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Date component5() {
+    public LocalDate component5() {
         return getBottleDate();
     }
 
@@ -414,17 +411,17 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Date component9() {
+    public LocalDate component9() {
         return getDrinkByDate();
     }
 
     @Override
-    public Timestamp component10() {
+    public LocalDateTime component10() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp component11() {
+    public LocalDateTime component11() {
         return getModifiedDate();
     }
 
@@ -444,7 +441,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Date component15() {
+    public LocalDate component15() {
         return getDateAcquired();
     }
 
@@ -469,7 +466,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Date value5() {
+    public LocalDate value5() {
         return getBottleDate();
     }
 
@@ -489,17 +486,17 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Date value9() {
+    public LocalDate value9() {
         return getDrinkByDate();
     }
 
     @Override
-    public Timestamp value10() {
+    public LocalDateTime value10() {
         return getCreatedDate();
     }
 
     @Override
-    public Timestamp value11() {
+    public LocalDateTime value11() {
         return getModifiedDate();
     }
 
@@ -519,7 +516,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public Date value15() {
+    public LocalDate value15() {
         return getDateAcquired();
     }
 
@@ -548,7 +545,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public CellaredDrinkRecord value5(Date value) {
+    public CellaredDrinkRecord value5(LocalDate value) {
         setBottleDate(value);
         return this;
     }
@@ -572,19 +569,19 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public CellaredDrinkRecord value9(Date value) {
+    public CellaredDrinkRecord value9(LocalDate value) {
         setDrinkByDate(value);
         return this;
     }
 
     @Override
-    public CellaredDrinkRecord value10(Timestamp value) {
+    public CellaredDrinkRecord value10(LocalDateTime value) {
         setCreatedDate(value);
         return this;
     }
 
     @Override
-    public CellaredDrinkRecord value11(Timestamp value) {
+    public CellaredDrinkRecord value11(LocalDateTime value) {
         setModifiedDate(value);
         return this;
     }
@@ -608,13 +605,13 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     }
 
     @Override
-    public CellaredDrinkRecord value15(Date value) {
+    public CellaredDrinkRecord value15(LocalDate value) {
         setDateAcquired(value);
         return this;
     }
 
     @Override
-    public CellaredDrinkRecord values(Long value1, Integer value2, Long value3, Long value4, Date value5, String value6, Integer value7, String value8, Date value9, Timestamp value10, Timestamp value11, String value12, Boolean value13, Short value14, Date value15) {
+    public CellaredDrinkRecord values(Long value1, Integer value2, Long value3, Long value4, LocalDate value5, String value6, Integer value7, String value8, LocalDate value9, LocalDateTime value10, LocalDateTime value11, String value12, Boolean value13, Short value14, LocalDate value15) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -647,7 +644,7 @@ public class CellaredDrinkRecord extends UpdatableRecordImpl<CellaredDrinkRecord
     /**
      * Create a detached, initialised CellaredDrinkRecord
      */
-    public CellaredDrinkRecord(Long id, Integer version, Long cellarId, Long drinkId, Date bottleDate, String size, Integer quantity, String notes, Date drinkByDate, Timestamp createdDate, Timestamp modifiedDate, String binIdentifier, Boolean tradeable, Short numTradeable, Date dateAcquired) {
+    public CellaredDrinkRecord(Long id, Integer version, Long cellarId, Long drinkId, LocalDate bottleDate, String size, Integer quantity, String notes, LocalDate drinkByDate, LocalDateTime createdDate, LocalDateTime modifiedDate, String binIdentifier, Boolean tradeable, Short numTradeable, LocalDate dateAcquired) {
         super(CellaredDrink.CELLARED_DRINK);
 
         set(0, id);

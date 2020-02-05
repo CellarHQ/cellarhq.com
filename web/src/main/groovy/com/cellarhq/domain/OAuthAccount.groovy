@@ -15,7 +15,7 @@ class OAuthAccount extends AccountOauth implements Account {
 
   OAuthAccount() {
     client = OAuthClient.TWITTER.toString()
-    createdDate = Timestamp.valueOf(LocalDateTime.now())
+    createdDate = LocalDateTime.now()
     modifiedDate = createdDate
   }
 }

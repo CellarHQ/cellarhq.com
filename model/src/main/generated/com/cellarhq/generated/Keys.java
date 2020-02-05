@@ -33,10 +33,9 @@ import com.cellarhq.generated.tables.records.PasswordChangeRequestRecord;
 import com.cellarhq.generated.tables.records.PhotoRecord;
 import com.cellarhq.generated.tables.records.StyleRecord;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
@@ -59,42 +58,31 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<AccountEmailRecord, Long> IDENTITY_ACCOUNT_EMAIL = Identities0.IDENTITY_ACCOUNT_EMAIL;
-    public static final Identity<AccountOauthRecord, Long> IDENTITY_ACCOUNT_OAUTH = Identities0.IDENTITY_ACCOUNT_OAUTH;
-    public static final Identity<ActivityRecord, Long> IDENTITY_ACTIVITY = Identities0.IDENTITY_ACTIVITY;
-    public static final Identity<CategoryRecord, Long> IDENTITY_CATEGORY = Identities0.IDENTITY_CATEGORY;
-    public static final Identity<CellarRecord, Long> IDENTITY_CELLAR = Identities0.IDENTITY_CELLAR;
-    public static final Identity<CellaredDrinkRecord, Long> IDENTITY_CELLARED_DRINK = Identities0.IDENTITY_CELLARED_DRINK;
-    public static final Identity<DrinkRecord, Long> IDENTITY_DRINK = Identities0.IDENTITY_DRINK;
-    public static final Identity<GlasswareRecord, Long> IDENTITY_GLASSWARE = Identities0.IDENTITY_GLASSWARE;
-    public static final Identity<OrganizationRecord, Long> IDENTITY_ORGANIZATION = Identities0.IDENTITY_ORGANIZATION;
-    public static final Identity<PhotoRecord, Long> IDENTITY_PHOTO = Identities0.IDENTITY_PHOTO;
-    public static final Identity<StyleRecord, Long> IDENTITY_STYLE = Identities0.IDENTITY_STYLE;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<AccountEmailRecord> PK_ACCOUNT_EMAIL = UniqueKeys0.PK_ACCOUNT_EMAIL;
+    public static final UniqueKey<AccountEmailRecord> ACCOUNT_EMAIL_PKEY = UniqueKeys0.ACCOUNT_EMAIL_PKEY;
     public static final UniqueKey<AccountEmailRecord> UNQ_ACCOUNT_EMAIL_EMAIL = UniqueKeys0.UNQ_ACCOUNT_EMAIL_EMAIL;
-    public static final UniqueKey<AccountLinkRequestRecord> PK_ACCOUNT_LINK_REQUEST = UniqueKeys0.PK_ACCOUNT_LINK_REQUEST;
-    public static final UniqueKey<AccountOauthRecord> PK_ACCOUNT_OAUTH = UniqueKeys0.PK_ACCOUNT_OAUTH;
+    public static final UniqueKey<AccountLinkRequestRecord> ACCOUNT_LINK_REQUEST_PKEY = UniqueKeys0.ACCOUNT_LINK_REQUEST_PKEY;
+    public static final UniqueKey<AccountOauthRecord> ACCOUNT_OAUTH_PKEY = UniqueKeys0.ACCOUNT_OAUTH_PKEY;
     public static final UniqueKey<AccountOauthRecord> ACCOUNT_OAUTH_CLIENT_USERNAME_KEY = UniqueKeys0.ACCOUNT_OAUTH_CLIENT_USERNAME_KEY;
-    public static final UniqueKey<ActivityRecord> PK_ACTIVITY = UniqueKeys0.PK_ACTIVITY;
-    public static final UniqueKey<CategoryRecord> PK_CATEGORY = UniqueKeys0.PK_CATEGORY;
-    public static final UniqueKey<CellarRecord> PK_CELLAR = UniqueKeys0.PK_CELLAR;
+    public static final UniqueKey<ActivityRecord> ACTIVITY_PKEY = UniqueKeys0.ACTIVITY_PKEY;
+    public static final UniqueKey<CategoryRecord> CATEGORY_PKEY = UniqueKeys0.CATEGORY_PKEY;
+    public static final UniqueKey<CellarRecord> CELLAR_PKEY = UniqueKeys0.CELLAR_PKEY;
     public static final UniqueKey<CellarRecord> UNQ_CELLAR_SCREEN_NAME = UniqueKeys0.UNQ_CELLAR_SCREEN_NAME;
     public static final UniqueKey<CellarRecord> CELLAR_SLUG_UNIQUE_CONSTRAINT = UniqueKeys0.CELLAR_SLUG_UNIQUE_CONSTRAINT;
-    public static final UniqueKey<CellaredDrinkRecord> PK_CELLARED_DRINK = UniqueKeys0.PK_CELLARED_DRINK;
-    public static final UniqueKey<DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = UniqueKeys0.PK_DATABASECHANGELOGLOCK;
-    public static final UniqueKey<DrinkRecord> PK_DRINK = UniqueKeys0.PK_DRINK;
-    public static final UniqueKey<GlasswareRecord> PK_GLASSWARE = UniqueKeys0.PK_GLASSWARE;
-    public static final UniqueKey<OrganizationRecord> PK_ORGANIZATION = UniqueKeys0.PK_ORGANIZATION;
+    public static final UniqueKey<CellaredDrinkRecord> CELLARED_DRINK_PKEY = UniqueKeys0.CELLARED_DRINK_PKEY;
+    public static final UniqueKey<DatabasechangeloglockRecord> DATABASECHANGELOGLOCK_PKEY = UniqueKeys0.DATABASECHANGELOGLOCK_PKEY;
+    public static final UniqueKey<DrinkRecord> DRINK_PKEY = UniqueKeys0.DRINK_PKEY;
+    public static final UniqueKey<GlasswareRecord> GLASSWARE_PKEY = UniqueKeys0.GLASSWARE_PKEY;
+    public static final UniqueKey<OrganizationRecord> ORGANIZATION_PKEY = UniqueKeys0.ORGANIZATION_PKEY;
     public static final UniqueKey<OrganizationRecord> UNQ_ORGANIZATION_SLUG = UniqueKeys0.UNQ_ORGANIZATION_SLUG;
-    public static final UniqueKey<PasswordChangeRequestRecord> PK_PASSWORD_CHANGE_REQUEST = UniqueKeys0.PK_PASSWORD_CHANGE_REQUEST;
-    public static final UniqueKey<PhotoRecord> PK_PHOTO = UniqueKeys0.PK_PHOTO;
+    public static final UniqueKey<PasswordChangeRequestRecord> PASSWORD_CHANGE_REQUEST_PKEY = UniqueKeys0.PASSWORD_CHANGE_REQUEST_PKEY;
+    public static final UniqueKey<PhotoRecord> PHOTO_PKEY = UniqueKeys0.PHOTO_PKEY;
     public static final UniqueKey<PhotoRecord> UNQ_PHOTO_ORIGINAL_URL = UniqueKeys0.UNQ_PHOTO_ORIGINAL_URL;
-    public static final UniqueKey<StyleRecord> PK_STYLE = UniqueKeys0.PK_STYLE;
+    public static final UniqueKey<StyleRecord> STYLE_PKEY = UniqueKeys0.STYLE_PKEY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -119,57 +107,43 @@ public class Keys {
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
-    private static class Identities0 {
-        public static Identity<AccountEmailRecord, Long> IDENTITY_ACCOUNT_EMAIL = Internal.createIdentity(AccountEmail.ACCOUNT_EMAIL, AccountEmail.ACCOUNT_EMAIL.ID);
-        public static Identity<AccountOauthRecord, Long> IDENTITY_ACCOUNT_OAUTH = Internal.createIdentity(AccountOauth.ACCOUNT_OAUTH, AccountOauth.ACCOUNT_OAUTH.ID);
-        public static Identity<ActivityRecord, Long> IDENTITY_ACTIVITY = Internal.createIdentity(Activity.ACTIVITY, Activity.ACTIVITY.ID);
-        public static Identity<CategoryRecord, Long> IDENTITY_CATEGORY = Internal.createIdentity(Category.CATEGORY, Category.CATEGORY.ID);
-        public static Identity<CellarRecord, Long> IDENTITY_CELLAR = Internal.createIdentity(Cellar.CELLAR, Cellar.CELLAR.ID);
-        public static Identity<CellaredDrinkRecord, Long> IDENTITY_CELLARED_DRINK = Internal.createIdentity(CellaredDrink.CELLARED_DRINK, CellaredDrink.CELLARED_DRINK.ID);
-        public static Identity<DrinkRecord, Long> IDENTITY_DRINK = Internal.createIdentity(Drink.DRINK, Drink.DRINK.ID);
-        public static Identity<GlasswareRecord, Long> IDENTITY_GLASSWARE = Internal.createIdentity(Glassware.GLASSWARE, Glassware.GLASSWARE.ID);
-        public static Identity<OrganizationRecord, Long> IDENTITY_ORGANIZATION = Internal.createIdentity(Organization.ORGANIZATION, Organization.ORGANIZATION.ID);
-        public static Identity<PhotoRecord, Long> IDENTITY_PHOTO = Internal.createIdentity(Photo.PHOTO, Photo.PHOTO.ID);
-        public static Identity<StyleRecord, Long> IDENTITY_STYLE = Internal.createIdentity(Style.STYLE, Style.STYLE.ID);
-    }
-
     private static class UniqueKeys0 {
-        public static final UniqueKey<AccountEmailRecord> PK_ACCOUNT_EMAIL = Internal.createUniqueKey(AccountEmail.ACCOUNT_EMAIL, "pk_account_email", AccountEmail.ACCOUNT_EMAIL.ID);
+        public static final UniqueKey<AccountEmailRecord> ACCOUNT_EMAIL_PKEY = Internal.createUniqueKey(AccountEmail.ACCOUNT_EMAIL, "account_email_pkey", AccountEmail.ACCOUNT_EMAIL.ID);
         public static final UniqueKey<AccountEmailRecord> UNQ_ACCOUNT_EMAIL_EMAIL = Internal.createUniqueKey(AccountEmail.ACCOUNT_EMAIL, "unq_account_email_email", AccountEmail.ACCOUNT_EMAIL.EMAIL);
-        public static final UniqueKey<AccountLinkRequestRecord> PK_ACCOUNT_LINK_REQUEST = Internal.createUniqueKey(AccountLinkRequest.ACCOUNT_LINK_REQUEST, "pk_account_link_request", AccountLinkRequest.ACCOUNT_LINK_REQUEST.ID);
-        public static final UniqueKey<AccountOauthRecord> PK_ACCOUNT_OAUTH = Internal.createUniqueKey(AccountOauth.ACCOUNT_OAUTH, "pk_account_oauth", AccountOauth.ACCOUNT_OAUTH.ID);
+        public static final UniqueKey<AccountLinkRequestRecord> ACCOUNT_LINK_REQUEST_PKEY = Internal.createUniqueKey(AccountLinkRequest.ACCOUNT_LINK_REQUEST, "account_link_request_pkey", AccountLinkRequest.ACCOUNT_LINK_REQUEST.ID);
+        public static final UniqueKey<AccountOauthRecord> ACCOUNT_OAUTH_PKEY = Internal.createUniqueKey(AccountOauth.ACCOUNT_OAUTH, "account_oauth_pkey", AccountOauth.ACCOUNT_OAUTH.ID);
         public static final UniqueKey<AccountOauthRecord> ACCOUNT_OAUTH_CLIENT_USERNAME_KEY = Internal.createUniqueKey(AccountOauth.ACCOUNT_OAUTH, "account_oauth_client_username_key", AccountOauth.ACCOUNT_OAUTH.CLIENT, AccountOauth.ACCOUNT_OAUTH.USERNAME);
-        public static final UniqueKey<ActivityRecord> PK_ACTIVITY = Internal.createUniqueKey(Activity.ACTIVITY, "pk_activity", Activity.ACTIVITY.ID);
-        public static final UniqueKey<CategoryRecord> PK_CATEGORY = Internal.createUniqueKey(Category.CATEGORY, "pk_category", Category.CATEGORY.ID);
-        public static final UniqueKey<CellarRecord> PK_CELLAR = Internal.createUniqueKey(Cellar.CELLAR, "pk_cellar", Cellar.CELLAR.ID);
+        public static final UniqueKey<ActivityRecord> ACTIVITY_PKEY = Internal.createUniqueKey(Activity.ACTIVITY, "activity_pkey", Activity.ACTIVITY.ID);
+        public static final UniqueKey<CategoryRecord> CATEGORY_PKEY = Internal.createUniqueKey(Category.CATEGORY, "category_pkey", Category.CATEGORY.ID);
+        public static final UniqueKey<CellarRecord> CELLAR_PKEY = Internal.createUniqueKey(Cellar.CELLAR, "cellar_pkey", Cellar.CELLAR.ID);
         public static final UniqueKey<CellarRecord> UNQ_CELLAR_SCREEN_NAME = Internal.createUniqueKey(Cellar.CELLAR, "unq_cellar_screen_name", Cellar.CELLAR.SCREEN_NAME);
         public static final UniqueKey<CellarRecord> CELLAR_SLUG_UNIQUE_CONSTRAINT = Internal.createUniqueKey(Cellar.CELLAR, "cellar_slug_unique_constraint", Cellar.CELLAR.SLUG);
-        public static final UniqueKey<CellaredDrinkRecord> PK_CELLARED_DRINK = Internal.createUniqueKey(CellaredDrink.CELLARED_DRINK, "pk_cellared_drink", CellaredDrink.CELLARED_DRINK.ID);
-        public static final UniqueKey<DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = Internal.createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, "pk_databasechangeloglock", Databasechangeloglock.DATABASECHANGELOGLOCK.ID);
-        public static final UniqueKey<DrinkRecord> PK_DRINK = Internal.createUniqueKey(Drink.DRINK, "pk_drink", Drink.DRINK.ID);
-        public static final UniqueKey<GlasswareRecord> PK_GLASSWARE = Internal.createUniqueKey(Glassware.GLASSWARE, "pk_glassware", Glassware.GLASSWARE.ID);
-        public static final UniqueKey<OrganizationRecord> PK_ORGANIZATION = Internal.createUniqueKey(Organization.ORGANIZATION, "pk_organization", Organization.ORGANIZATION.ID);
+        public static final UniqueKey<CellaredDrinkRecord> CELLARED_DRINK_PKEY = Internal.createUniqueKey(CellaredDrink.CELLARED_DRINK, "cellared_drink_pkey", CellaredDrink.CELLARED_DRINK.ID);
+        public static final UniqueKey<DatabasechangeloglockRecord> DATABASECHANGELOGLOCK_PKEY = Internal.createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, "databasechangeloglock_pkey", Databasechangeloglock.DATABASECHANGELOGLOCK.ID);
+        public static final UniqueKey<DrinkRecord> DRINK_PKEY = Internal.createUniqueKey(Drink.DRINK, "drink_pkey", Drink.DRINK.ID);
+        public static final UniqueKey<GlasswareRecord> GLASSWARE_PKEY = Internal.createUniqueKey(Glassware.GLASSWARE, "glassware_pkey", Glassware.GLASSWARE.ID);
+        public static final UniqueKey<OrganizationRecord> ORGANIZATION_PKEY = Internal.createUniqueKey(Organization.ORGANIZATION, "organization_pkey", Organization.ORGANIZATION.ID);
         public static final UniqueKey<OrganizationRecord> UNQ_ORGANIZATION_SLUG = Internal.createUniqueKey(Organization.ORGANIZATION, "unq_organization_slug", Organization.ORGANIZATION.SLUG);
-        public static final UniqueKey<PasswordChangeRequestRecord> PK_PASSWORD_CHANGE_REQUEST = Internal.createUniqueKey(PasswordChangeRequest.PASSWORD_CHANGE_REQUEST, "pk_password_change_request", PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.ID);
-        public static final UniqueKey<PhotoRecord> PK_PHOTO = Internal.createUniqueKey(Photo.PHOTO, "pk_photo", Photo.PHOTO.ID);
+        public static final UniqueKey<PasswordChangeRequestRecord> PASSWORD_CHANGE_REQUEST_PKEY = Internal.createUniqueKey(PasswordChangeRequest.PASSWORD_CHANGE_REQUEST, "password_change_request_pkey", PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.ID);
+        public static final UniqueKey<PhotoRecord> PHOTO_PKEY = Internal.createUniqueKey(Photo.PHOTO, "photo_pkey", Photo.PHOTO.ID);
         public static final UniqueKey<PhotoRecord> UNQ_PHOTO_ORIGINAL_URL = Internal.createUniqueKey(Photo.PHOTO, "unq_photo_original_url", Photo.PHOTO.ORIGINAL_URL);
-        public static final UniqueKey<StyleRecord> PK_STYLE = Internal.createUniqueKey(Style.STYLE, "pk_style", Style.STYLE.ID);
+        public static final UniqueKey<StyleRecord> STYLE_PKEY = Internal.createUniqueKey(Style.STYLE, "style_pkey", Style.STYLE.ID);
     }
 
     private static class ForeignKeys0 {
-        public static final ForeignKey<AccountEmailRecord, CellarRecord> ACCOUNT_EMAIL__FK_ACCOUNT_EMAIL_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, AccountEmail.ACCOUNT_EMAIL, "account_email__fk_account_email_cellar_id", AccountEmail.ACCOUNT_EMAIL.CELLAR_ID);
-        public static final ForeignKey<AccountLinkRequestRecord, CellarRecord> ACCOUNT_LINK_REQUEST__FK_ACCOUNT_LINK_REQUEST_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, AccountLinkRequest.ACCOUNT_LINK_REQUEST, "account_link_request__fk_account_link_request_cellar_id", AccountLinkRequest.ACCOUNT_LINK_REQUEST.CELLAR_ID);
-        public static final ForeignKey<AccountOauthRecord, CellarRecord> ACCOUNT_OAUTH__FK_ACCOUNT_OAUTH_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, AccountOauth.ACCOUNT_OAUTH, "account_oauth__fk_account_oauth_cellar_id", AccountOauth.ACCOUNT_OAUTH.CELLAR_ID);
-        public static final ForeignKey<ActivityRecord, CellarRecord> ACTIVITY__FK_ACTIVITY_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, Activity.ACTIVITY, "activity__fk_activity_cellar_id", Activity.ACTIVITY.CELLAR_ID);
-        public static final ForeignKey<CellarRecord, PhotoRecord> CELLAR__FK_CELLAR_PHOTO_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_PHOTO, Cellar.CELLAR, "cellar__fk_cellar_photo_id", Cellar.CELLAR.PHOTO_ID);
-        public static final ForeignKey<CellaredDrinkRecord, CellarRecord> CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_CELLAR, CellaredDrink.CELLARED_DRINK, "cellared_drink__fk_cellared_drink_cellar_id", CellaredDrink.CELLARED_DRINK.CELLAR_ID);
-        public static final ForeignKey<CellaredDrinkRecord, DrinkRecord> CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_DRINK, CellaredDrink.CELLARED_DRINK, "cellared_drink__fk_cellared_drink_drink_id", CellaredDrink.CELLARED_DRINK.DRINK_ID);
-        public static final ForeignKey<DrinkRecord, PhotoRecord> DRINK__FK_DRINK_PHOTO_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_PHOTO, Drink.DRINK, "drink__fk_drink_photo_id", Drink.DRINK.PHOTO_ID);
-        public static final ForeignKey<DrinkRecord, OrganizationRecord> DRINK__FK_DRINK_ORGANIZATION_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_ORGANIZATION, Drink.DRINK, "drink__fk_drink_organization_id", Drink.DRINK.ORGANIZATION_ID);
-        public static final ForeignKey<DrinkRecord, StyleRecord> DRINK__FK_DRINK_STYLE_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_STYLE, Drink.DRINK, "drink__fk_drink_style_id", Drink.DRINK.STYLE_ID);
-        public static final ForeignKey<DrinkRecord, GlasswareRecord> DRINK__FK_DRINK_GLASSWARE_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_GLASSWARE, Drink.DRINK, "drink__fk_drink_glassware_id", Drink.DRINK.GLASSWARE_ID);
-        public static final ForeignKey<OrganizationRecord, PhotoRecord> ORGANIZATION__FK_ORGANIZATION_PHOTO_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_PHOTO, Organization.ORGANIZATION, "organization__fk_organization_photo_id", Organization.ORGANIZATION.PHOTO_ID);
-        public static final ForeignKey<PasswordChangeRequestRecord, AccountEmailRecord> PASSWORD_CHANGE_REQUEST__FK_PASSWORD_CHANGE_REQUEST_ACCOUNT_EMAIL_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_ACCOUNT_EMAIL, PasswordChangeRequest.PASSWORD_CHANGE_REQUEST, "password_change_request__fk_password_change_request_account_email_id", PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.ACCOUNT_EMAIL_ID);
-        public static final ForeignKey<StyleRecord, CategoryRecord> STYLE__FK_STYLE_CATEGORY_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PK_CATEGORY, Style.STYLE, "style__fk_style_category_id", Style.STYLE.CATEGORY_ID);
+        public static final ForeignKey<AccountEmailRecord, CellarRecord> ACCOUNT_EMAIL__FK_ACCOUNT_EMAIL_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.CELLAR_PKEY, AccountEmail.ACCOUNT_EMAIL, "account_email__fk_account_email_cellar_id", AccountEmail.ACCOUNT_EMAIL.CELLAR_ID);
+        public static final ForeignKey<AccountLinkRequestRecord, CellarRecord> ACCOUNT_LINK_REQUEST__FK_ACCOUNT_LINK_REQUEST_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.CELLAR_PKEY, AccountLinkRequest.ACCOUNT_LINK_REQUEST, "account_link_request__fk_account_link_request_cellar_id", AccountLinkRequest.ACCOUNT_LINK_REQUEST.CELLAR_ID);
+        public static final ForeignKey<AccountOauthRecord, CellarRecord> ACCOUNT_OAUTH__FK_ACCOUNT_OAUTH_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.CELLAR_PKEY, AccountOauth.ACCOUNT_OAUTH, "account_oauth__fk_account_oauth_cellar_id", AccountOauth.ACCOUNT_OAUTH.CELLAR_ID);
+        public static final ForeignKey<ActivityRecord, CellarRecord> ACTIVITY__FK_ACTIVITY_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.CELLAR_PKEY, Activity.ACTIVITY, "activity__fk_activity_cellar_id", Activity.ACTIVITY.CELLAR_ID);
+        public static final ForeignKey<CellarRecord, PhotoRecord> CELLAR__FK_CELLAR_PHOTO_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PHOTO_PKEY, Cellar.CELLAR, "cellar__fk_cellar_photo_id", Cellar.CELLAR.PHOTO_ID);
+        public static final ForeignKey<CellaredDrinkRecord, CellarRecord> CELLARED_DRINK__FK_CELLARED_DRINK_CELLAR_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.CELLAR_PKEY, CellaredDrink.CELLARED_DRINK, "cellared_drink__fk_cellared_drink_cellar_id", CellaredDrink.CELLARED_DRINK.CELLAR_ID);
+        public static final ForeignKey<CellaredDrinkRecord, DrinkRecord> CELLARED_DRINK__FK_CELLARED_DRINK_DRINK_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.DRINK_PKEY, CellaredDrink.CELLARED_DRINK, "cellared_drink__fk_cellared_drink_drink_id", CellaredDrink.CELLARED_DRINK.DRINK_ID);
+        public static final ForeignKey<DrinkRecord, PhotoRecord> DRINK__FK_DRINK_PHOTO_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PHOTO_PKEY, Drink.DRINK, "drink__fk_drink_photo_id", Drink.DRINK.PHOTO_ID);
+        public static final ForeignKey<DrinkRecord, OrganizationRecord> DRINK__FK_DRINK_ORGANIZATION_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.ORGANIZATION_PKEY, Drink.DRINK, "drink__fk_drink_organization_id", Drink.DRINK.ORGANIZATION_ID);
+        public static final ForeignKey<DrinkRecord, StyleRecord> DRINK__FK_DRINK_STYLE_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.STYLE_PKEY, Drink.DRINK, "drink__fk_drink_style_id", Drink.DRINK.STYLE_ID);
+        public static final ForeignKey<DrinkRecord, GlasswareRecord> DRINK__FK_DRINK_GLASSWARE_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.GLASSWARE_PKEY, Drink.DRINK, "drink__fk_drink_glassware_id", Drink.DRINK.GLASSWARE_ID);
+        public static final ForeignKey<OrganizationRecord, PhotoRecord> ORGANIZATION__FK_ORGANIZATION_PHOTO_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.PHOTO_PKEY, Organization.ORGANIZATION, "organization__fk_organization_photo_id", Organization.ORGANIZATION.PHOTO_ID);
+        public static final ForeignKey<PasswordChangeRequestRecord, AccountEmailRecord> PASSWORD_CHANGE_REQUEST__FK_PASSWORD_CHANGE_REQUEST_ACCOUNT_EMAIL_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.ACCOUNT_EMAIL_PKEY, PasswordChangeRequest.PASSWORD_CHANGE_REQUEST, "password_change_request__fk_password_change_request_account_email_id", PasswordChangeRequest.PASSWORD_CHANGE_REQUEST.ACCOUNT_EMAIL_ID);
+        public static final ForeignKey<StyleRecord, CategoryRecord> STYLE__FK_STYLE_CATEGORY_ID = Internal.createForeignKey(com.cellarhq.generated.Keys.CATEGORY_PKEY, Style.STYLE, "style__fk_style_category_id", Style.STYLE.CATEGORY_ID);
     }
 }

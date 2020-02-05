@@ -26,7 +26,7 @@ class Photo extends com.cellarhq.generated.tables.pojos.Photo {
 
   Photo() {
     version = 0
-    createdDate = Timestamp.valueOf(LocalDateTime.now())
+    createdDate = LocalDateTime.now()
     modifiedDate = createdDate
   }
 }

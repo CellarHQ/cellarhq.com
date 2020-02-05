@@ -9,15 +9,14 @@ import com.cellarhq.generated.Keys;
 import com.cellarhq.generated.Public;
 import com.cellarhq.generated.tables.records.CategoryRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.JSON;
 import org.jooq.Name;
@@ -44,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Category extends TableImpl<CategoryRecord> {
 
-    private static final long serialVersionUID = -1810978929;
+    private static final long serialVersionUID = -1656255240;
 
     /**
      * The reference instance of <code>public.category</code>
@@ -62,7 +61,7 @@ public class Category extends TableImpl<CategoryRecord> {
     /**
      * The column <code>public.category.id</code>.
      */
-    public final TableField<CategoryRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('category_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<CategoryRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.category.version</code>.
@@ -92,17 +91,17 @@ public class Category extends TableImpl<CategoryRecord> {
     /**
      * The column <code>public.category.brewery_db_last_updated</code>.
      */
-    public final TableField<CategoryRecord, Timestamp> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<CategoryRecord, LocalDateTime> BREWERY_DB_LAST_UPDATED = createField(DSL.name("brewery_db_last_updated"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
      * The column <code>public.category.created_date</code>.
      */
-    public final TableField<CategoryRecord, Timestamp> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<CategoryRecord, LocalDateTime> CREATED_DATE = createField(DSL.name("created_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.category.modified_date</code>.
      */
-    public final TableField<CategoryRecord, Timestamp> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<CategoryRecord, LocalDateTime> MODIFIED_DATE = createField(DSL.name("modified_date"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>public.category.data</code>.
@@ -149,22 +148,17 @@ public class Category extends TableImpl<CategoryRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.IDX_CATEGORY_BREWERY_DB_ID, Indexes.PK_CATEGORY);
-    }
-
-    @Override
-    public Identity<CategoryRecord, Long> getIdentity() {
-        return Keys.IDENTITY_CATEGORY;
+        return Arrays.<Index>asList(Indexes.CATEGORY_PKEY, Indexes.IDX_CATEGORY_BREWERY_DB_ID);
     }
 
     @Override
     public UniqueKey<CategoryRecord> getPrimaryKey() {
-        return Keys.PK_CATEGORY;
+        return Keys.CATEGORY_PKEY;
     }
 
     @Override
     public List<UniqueKey<CategoryRecord>> getKeys() {
-        return Arrays.<UniqueKey<CategoryRecord>>asList(Keys.PK_CATEGORY);
+        return Arrays.<UniqueKey<CategoryRecord>>asList(Keys.CATEGORY_PKEY);
     }
 
     @Override
@@ -198,7 +192,7 @@ public class Category extends TableImpl<CategoryRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, Integer, String, String, Boolean, String, Timestamp, Timestamp, Timestamp, JSON> fieldsRow() {
+    public Row10<Long, Integer, String, String, Boolean, String, LocalDateTime, LocalDateTime, LocalDateTime, JSON> fieldsRow() {
         return (Row10) super.fieldsRow();
     }
 }

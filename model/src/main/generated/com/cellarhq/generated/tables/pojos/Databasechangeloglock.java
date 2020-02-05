@@ -5,9 +5,9 @@ package com.cellarhq.generated.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,18 +29,18 @@ import javax.persistence.UniqueConstraint;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "databasechangeloglock", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_databasechangeloglock", columnNames = {"id"})
+    @UniqueConstraint(name = "databasechangeloglock_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_databasechangeloglock", unique = true, columnList = "id ASC")
+    @Index(name = "databasechangeloglock_pkey", unique = true, columnList = "id ASC")
 })
 public class Databasechangeloglock implements Serializable {
 
-    private static final long serialVersionUID = 582173733;
+    private static final long serialVersionUID = -1236659299;
 
-    private Integer   id;
-    private Boolean   locked;
-    private Timestamp lockgranted;
-    private String    lockedby;
+    private Integer       id;
+    private Boolean       locked;
+    private LocalDateTime lockgranted;
+    private String        lockedby;
 
     public Databasechangeloglock() {}
 
@@ -52,10 +52,10 @@ public class Databasechangeloglock implements Serializable {
     }
 
     public Databasechangeloglock(
-        Integer   id,
-        Boolean   locked,
-        Timestamp lockgranted,
-        String    lockedby
+        Integer       id,
+        Boolean       locked,
+        LocalDateTime lockgranted,
+        String        lockedby
     ) {
         this.id = id;
         this.locked = locked;
@@ -83,11 +83,11 @@ public class Databasechangeloglock implements Serializable {
     }
 
     @Column(name = "lockgranted")
-    public Timestamp getLockgranted() {
+    public LocalDateTime getLockgranted() {
         return this.lockgranted;
     }
 
-    public void setLockgranted(Timestamp lockgranted) {
+    public void setLockgranted(LocalDateTime lockgranted) {
         this.lockgranted = lockgranted;
     }
 

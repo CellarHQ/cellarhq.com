@@ -87,7 +87,7 @@ class UsernamePasswordAuthenticatorImpl implements UsernamePasswordAuthenticator
     accountService.trackFailedLoginAttempt(emailAccount)
 
     int delay = calculateDelay(
-      emailAccount.lastLoginAttempt?.toLocalDateTime(),
+      emailAccount.lastLoginAttempt ?: LocalDateTime.now(),
       emailAccount.loginAttemptCounter + 1)
 
     if (delay > 0) {

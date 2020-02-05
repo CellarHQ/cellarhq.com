@@ -6,9 +6,9 @@ package com.cellarhq.generated.tables.records;
 
 import com.cellarhq.generated.tables.Databasechangeloglock;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -36,13 +36,13 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "databasechangeloglock", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(name = "pk_databasechangeloglock", columnNames = {"id"})
+    @UniqueConstraint(name = "databasechangeloglock_pkey", columnNames = {"id"})
 }, indexes = {
-    @Index(name = "pk_databasechangeloglock", unique = true, columnList = "id ASC")
+    @Index(name = "databasechangeloglock_pkey", unique = true, columnList = "id ASC")
 })
-public class DatabasechangeloglockRecord extends UpdatableRecordImpl<DatabasechangeloglockRecord> implements Record4<Integer, Boolean, Timestamp, String> {
+public class DatabasechangeloglockRecord extends UpdatableRecordImpl<DatabasechangeloglockRecord> implements Record4<Integer, Boolean, LocalDateTime, String> {
 
-    private static final long serialVersionUID = -801681507;
+    private static final long serialVersionUID = -23506827;
 
     /**
      * Setter for <code>public.databasechangeloglock.id</code>.
@@ -78,7 +78,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     /**
      * Setter for <code>public.databasechangeloglock.lockgranted</code>.
      */
-    public void setLockgranted(Timestamp value) {
+    public void setLockgranted(LocalDateTime value) {
         set(2, value);
     }
 
@@ -86,8 +86,8 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
      * Getter for <code>public.databasechangeloglock.lockgranted</code>.
      */
     @Column(name = "lockgranted")
-    public Timestamp getLockgranted() {
-        return (Timestamp) get(2);
+    public LocalDateTime getLockgranted() {
+        return (LocalDateTime) get(2);
     }
 
     /**
@@ -119,12 +119,12 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, Boolean, Timestamp, String> fieldsRow() {
+    public Row4<Integer, Boolean, LocalDateTime, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 
     @Override
-    public Row4<Integer, Boolean, Timestamp, String> valuesRow() {
+    public Row4<Integer, Boolean, LocalDateTime, String> valuesRow() {
         return (Row4) super.valuesRow();
     }
 
@@ -139,7 +139,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     }
 
     @Override
-    public Field<Timestamp> field3() {
+    public Field<LocalDateTime> field3() {
         return Databasechangeloglock.DATABASECHANGELOGLOCK.LOCKGRANTED;
     }
 
@@ -159,7 +159,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     }
 
     @Override
-    public Timestamp component3() {
+    public LocalDateTime component3() {
         return getLockgranted();
     }
 
@@ -179,7 +179,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     }
 
     @Override
-    public Timestamp value3() {
+    public LocalDateTime value3() {
         return getLockgranted();
     }
 
@@ -201,7 +201,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     }
 
     @Override
-    public DatabasechangeloglockRecord value3(Timestamp value) {
+    public DatabasechangeloglockRecord value3(LocalDateTime value) {
         setLockgranted(value);
         return this;
     }
@@ -213,7 +213,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     }
 
     @Override
-    public DatabasechangeloglockRecord values(Integer value1, Boolean value2, Timestamp value3, String value4) {
+    public DatabasechangeloglockRecord values(Integer value1, Boolean value2, LocalDateTime value3, String value4) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -235,7 +235,7 @@ public class DatabasechangeloglockRecord extends UpdatableRecordImpl<Databasecha
     /**
      * Create a detached, initialised DatabasechangeloglockRecord
      */
-    public DatabasechangeloglockRecord(Integer id, Boolean locked, Timestamp lockgranted, String lockedby) {
+    public DatabasechangeloglockRecord(Integer id, Boolean locked, LocalDateTime lockgranted, String lockedby) {
         super(Databasechangeloglock.DATABASECHANGELOGLOCK);
 
         set(0, id);
