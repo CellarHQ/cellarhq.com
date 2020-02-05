@@ -11,6 +11,7 @@ import com.cellarhq.jooq.BaseJooqService
 import com.cellarhq.jooq.SortCommand
 import com.cellarhq.util.LogUtil
 import com.google.inject.Inject
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.JoinType
@@ -163,7 +164,7 @@ class CellarService extends BaseJooqService {
 
   Cellar saveBlocking(Cellar cellar, UploadedFile photo = null) {
     jooq { DSLContext create ->
-      create.transactionResult { TransactionalCallable transactionalCallable ->
+      create.transactionResult({ TransactionalCallable transactionalCallable ->
         CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
 
         if (photo?.fileName) {
@@ -187,9 +188,9 @@ class CellarService extends BaseJooqService {
         } else {
           create.executeInsert(cellarRecord)
         }
-        cellarRecord.into(Cellar)
-      }
-    }
+        return cellarRecord.into(Cellar)
+      } as TransactionalCallable)
+    } as Cellar
   }
 
   void updateLoginStats(Cellar cellar, TwitterProfile twitterProfile = null) {
