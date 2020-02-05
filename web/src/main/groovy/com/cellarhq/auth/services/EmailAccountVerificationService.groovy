@@ -13,6 +13,7 @@ import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
+import org.jooq.TransactionalCallable
 import ratpack.exec.Blocking
 import rx.Observable
 
@@ -118,7 +119,7 @@ class EmailAccountVerificationService extends BaseJooqService {
           return VerificationResult.failure(Messages.ACCOUNT_LINK_TOKEN_UNKNOWN)
         }
 
-        create.transactionResult {
+        create.transactionResult({
           EmailAccount emailAccount = new EmailAccount().with { EmailAccount self ->
             cellarId = cellar.id
             email = requestRecord.accountIdentifier
@@ -133,7 +134,7 @@ class EmailAccountVerificationService extends BaseJooqService {
           requestRecord.delete()
 
           return VerificationResult.success()
-        }
+        } as TransactionalCallable)
       }
     })
   }

@@ -32,6 +32,8 @@ java {
   targetCompatibility = JavaVersion.VERSION_11
 }
 
+applicationDefaultJvmArgs = ['-XX:+UseContainerSupport']
+
 shadowJar {
   zip64 true
 }

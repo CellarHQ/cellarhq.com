@@ -13,6 +13,7 @@ import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.jooq.TransactionalCallable
 import org.jooq.exception.DataAccessException
 import org.jooq.impl.DSL
 import ratpack.form.UploadedFile
@@ -86,7 +87,7 @@ class AccountService extends BaseJooqService {
   EmailAccount create(EmailAccount emailAccount, UploadedFile picture) {
     emailAccount.password = passwordService.hashPassword(emailAccount.password)
     (EmailAccount) jooq { DSLContext create ->
-      create.transactionResult {
+      create.transactionResult({
         CellarRecord cellarRecord = create.newRecord(CELLAR, emailAccount.cellar)
 
         if (picture?.fileName) {
@@ -116,13 +117,13 @@ class AccountService extends BaseJooqService {
         ]))
 
         resultEmailAccount.id ? resultEmailAccount : null
-      }
+      } as TransactionalCallable)
     }
   }
 
   OAuthAccount create(OAuthAccount oAuthAccount, String pictureUrl) {
     (OAuthAccount) jooq { DSLContext create ->
-      create.transactionResult {
+      create.transactionResult({
         CellarRecord cellarRecord = create.newRecord(CELLAR, oAuthAccount.cellar)
 
         maybeLinkTwitterPhotoRecord(create, cellarRecord, pictureUrl)
@@ -145,7 +146,7 @@ class AccountService extends BaseJooqService {
         ]))
 
         resultOAuthAccount.id ? resultOAuthAccount : null
-      }
+      } as TransactionalCallable)
     }
   }
 
@@ -238,7 +239,7 @@ class AccountService extends BaseJooqService {
   void changePassword(EmailAccount emailAccount, Optional<String> requestUuid) {
     String password = passwordService.hashPassword(emailAccount.password)
     jooq { DSLContext create ->
-      create.transaction {
+      create.transaction({
         create.update(ACCOUNT_EMAIL)
           .set(ACCOUNT_EMAIL.PASSWORD, password)
           .where(ACCOUNT_EMAIL.ID.eq(emailAccount.id))
@@ -249,7 +250,7 @@ class AccountService extends BaseJooqService {
             .where(PASSWORD_CHANGE_REQUEST.ID.eq(requestUuid.get()))
             .execute()
         }
-      }
+      } as TransactionalCallable)
     }
   }
 

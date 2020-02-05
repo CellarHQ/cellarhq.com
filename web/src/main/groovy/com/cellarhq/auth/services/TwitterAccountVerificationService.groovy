@@ -8,6 +8,7 @@ import com.cellarhq.jooq.BaseJooqService
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
+import org.jooq.TransactionalCallable
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.Blocking
 import rx.Observable
@@ -41,7 +42,7 @@ class TwitterAccountVerificationService extends BaseJooqService {
   Observable<Boolean> commit(Cellar cellar, TwitterProfile profile) {
     return observe(Blocking.get {
       jooq { DSLContext create ->
-        create.transactionResult {
+        create.transactionResult({
           OAuthAccount oAuthAccount = new OAuthAccount().with { OAuthAccount self ->
             cellarId = cellar.id
             client = OAuthClient.TWITTER.toString()
@@ -54,7 +55,7 @@ class TwitterAccountVerificationService extends BaseJooqService {
           record.store()
 
           return true
-        }
+        } as TransactionalCallable)
       }
     })
   }

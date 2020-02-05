@@ -355,9 +355,9 @@ class CellarsEndpoint implements Action<Chain> {
       tradeable = form.tradeable == 'on'
       numTradeable = form.numTradeable ? Short.valueOf(form.numTradeable) : 0
 
-      DateUtil.parse(form.bottleDate).map { bottleDate = it }
-      DateUtil.parse(form.drinkByDate).map { drinkByDate = it }
-      DateUtil.parse(form.dateAcquired).map { dateAcquired = it }
+      DateUtil.parse(form.bottleDate).map { bottleDate = new java.sql.Date(it.year, it.month, it.dayOfMonth) }
+      DateUtil.parse(form.drinkByDate).map { drinkByDate = new java.sql.Date(it.year, it.month, it.dayOfMonth)  }
+      DateUtil.parse(form.dateAcquired).map { dateAcquired = new java.sql.Date(it.year, it.month, it.dayOfMonth)  }
 
       return self
     }
