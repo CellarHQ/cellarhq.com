@@ -5,6 +5,7 @@ import ratpack.handlebars.NamedHelper;
 import ratpack.http.Request;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +21,7 @@ public class BottledDateHelper implements NamedHelper<Request> {
 
   @Override
   public CharSequence apply(Request context, Options options) throws IOException {
-    LocalDate bottledDate = options.hash("date");
+    Date bottledDate = options.hash("date");
 
     if (bottledDate == null) {
       return "";
@@ -30,15 +31,15 @@ public class BottledDateHelper implements NamedHelper<Request> {
       return String.valueOf(bottledDate.getYear());
     }
 
-    if (bottledDate.getDayOfMonth() == 1) {
+    if (bottledDate.toLocalDate().getDayOfMonth() == 1) {
 
-      return bottledDate.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+      return bottledDate.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM"));
     }
 
     return bottledDate.toString();
   }
 
-  private boolean isFirstOfYear(LocalDate bottledDate) {
-    return (bottledDate.getDayOfMonth() == 1 && bottledDate.getMonth() == Month.JANUARY);
+  private boolean isFirstOfYear(Date bottledDate) {
+    return (bottledDate.toLocalDate().getDayOfMonth() == 1 && bottledDate.toLocalDate().getMonth() == Month.JANUARY);
   }
 }
