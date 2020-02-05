@@ -16,6 +16,7 @@ import org.jooq.DSLContext
 import org.jooq.JoinType
 import org.jooq.Record
 import org.jooq.SelectJoinStep
+import org.jooq.TransactionalCallable
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.Blocking
 import ratpack.exec.Operation
@@ -162,7 +163,7 @@ class CellarService extends BaseJooqService {
 
   Cellar saveBlocking(Cellar cellar, UploadedFile photo = null) {
     jooq { DSLContext create ->
-      create.transactionResult {
+      create.transactionResult { TransactionalCallable transactionalCallable ->
         CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
 
         if (photo?.fileName) {
