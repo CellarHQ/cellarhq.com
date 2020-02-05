@@ -5,6 +5,7 @@ import com.cellarhq.auth.services.photo.model.ResizeCommand
 import com.cellarhq.auth.services.photo.writer.PhotoWriteFailedException
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.Photo
+import com.cellarhq.generated.tables.CellaredDrink
 import com.cellarhq.generated.tables.records.CellarRecord
 import com.cellarhq.generated.tables.records.PhotoRecord
 import com.cellarhq.jooq.BaseJooqService
@@ -17,6 +18,7 @@ import org.jooq.DSLContext
 import org.jooq.JoinType
 import org.jooq.Record
 import org.jooq.SelectJoinStep
+import org.jooq.Table
 import org.jooq.TransactionalCallable
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.Blocking
@@ -33,6 +35,7 @@ import static ratpack.rx.RxRatpack.observe
 import static ratpack.rx.RxRatpack.observeEach
 
 @Slf4j
+@CompileStatic
 class CellarService extends BaseJooqService {
 
   private final PhotoService photoService
@@ -46,7 +49,7 @@ class CellarService extends BaseJooqService {
   rx.Observable<Cellar> save(Cellar cellar) {
     observe(Blocking.get {
       jooq { DSLContext create ->
-        CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
+        CellarRecord cellarRecord = create.newRecord(CELLAR as Table<CellarRecord>, cellar)
 
         if (cellarRecord.id) {
           cellarRecord.update()
@@ -79,7 +82,7 @@ class CellarService extends BaseJooqService {
     observe(findBySlugPromise(slug)).asObservable()
   }
 
-  Promise<Cellar> findBySlugPromise(slug) {
+  Promise<Cellar> findBySlugPromise(String slug) {
     return Blocking.get {
       jooq { DSLContext create ->
         Record record = create.select()
@@ -164,8 +167,8 @@ class CellarService extends BaseJooqService {
 
   Cellar saveBlocking(Cellar cellar, UploadedFile photo = null) {
     jooq { DSLContext create ->
-      create.transactionResult({ TransactionalCallable transactionalCallable ->
-        CellarRecord cellarRecord = create.newRecord(CELLAR, cellar)
+      create.transactionResult({
+        CellarRecord cellarRecord = create.newRecord(CELLAR as Table<CellarRecord>, cellar)
 
         if (photo?.fileName) {
           try {
@@ -209,14 +212,10 @@ class CellarService extends BaseJooqService {
   Operation deleteCellar(Cellar cellar) {
     Blocking.op {
       jooq { DSLContext create ->
-        //## Deleting source roles
-        //## Deleting source password recovery requests
-        //## Deleting source accounts
-        //## Deleting source cellar
-        create.delete(CELLARED_DRINK).where(CELLARED_DRINK.CELLAR_ID.eq(cellar.id)).execute()
-        create.delete(ACCOUNT_EMAIL).where(ACCOUNT_EMAIL.CELLAR_ID.eq(cellar.id)).execute()
-        create.delete(ACCOUNT_OAUTH).where(ACCOUNT_OAUTH.CELLAR_ID.eq(cellar.id)).execute()
-        create.delete(CELLAR).where(CELLAR.ID.eq(cellar.id)).execute()
+        create.delete(CELLARED_DRINK as Table).where(CELLARED_DRINK.CELLAR_ID.eq(cellar.id)).execute()
+        create.delete(ACCOUNT_EMAIL  as Table).where(ACCOUNT_EMAIL.CELLAR_ID.eq(cellar.id)).execute()
+        create.delete(ACCOUNT_OAUTH  as Table).where(ACCOUNT_OAUTH.CELLAR_ID.eq(cellar.id)).execute()
+        create.delete(CELLAR as Table).where(CELLAR.ID.eq(cellar.id)).execute()
       }
     }
   }
@@ -224,7 +223,7 @@ class CellarService extends BaseJooqService {
   Operation emptyCellar(Cellar cellar) {
     Blocking.op {
       jooq { DSLContext create ->
-        create.delete(CELLARED_DRINK).where(CELLARED_DRINK.CELLAR_ID.eq(cellar.id)).execute()
+        create.delete(CELLARED_DRINK as Table).where(CELLARED_DRINK.CELLAR_ID.eq(cellar.id)).execute()
       }
     }
   }
