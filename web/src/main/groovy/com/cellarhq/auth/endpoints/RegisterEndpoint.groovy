@@ -1,6 +1,6 @@
 package com.cellarhq.auth.endpoints
 
-import com.cellarhq.auth.profiles.CellarHQProfile
+
 import com.cellarhq.auth.profiles.CellarHQProfileCreator
 import com.cellarhq.auth.services.AccountService
 import com.cellarhq.common.Messages
@@ -24,7 +24,6 @@ import ratpack.session.Session
 import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 import static ratpack.handlebars.Template.handlebarsTemplate
@@ -69,7 +68,7 @@ class RegisterEndpoint extends GroovyHandler {
               screenName = form.screenName
               displayName = screenName
               contactEmail = form.email
-              lastLogin = Timestamp.valueOf(LocalDateTime.now())
+              lastLogin = LocalDateTime.now()
               return self
             }
             EmailAccount emailAccount = new EmailAccount().with { EmailAccount self ->
