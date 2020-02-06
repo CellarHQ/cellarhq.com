@@ -62,7 +62,6 @@ idea {
 dependencies {
   implementation project(':model')
 
-  implementation ratpack.dependency('dropwizard-metrics')
   implementation ratpack.dependency('h2')
   implementation ratpack.dependency('hikari')
   implementation ratpack.dependency('handlebars')

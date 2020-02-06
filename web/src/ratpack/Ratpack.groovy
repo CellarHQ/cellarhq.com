@@ -57,7 +57,6 @@ ratpack {
       .sysProps()
       .args(programArgs.stream().toArray() as String[])
       .require("/cellarhq", CellarHQConfig)
-      .require("/metrics", DropwizardMetricsConfig)
       .require("/cookie", ClientSideSessionConfig)
   }
 
@@ -77,8 +76,6 @@ ratpack {
     module ClientSideSessionModule, { c ->
       c.setMaxInactivityInterval(Duration.ofDays(30))
     }
-
-    module DropwizardMetricsModule
 
     bindInstance Service, new Service() {
       @Override
