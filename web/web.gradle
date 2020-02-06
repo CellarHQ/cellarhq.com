@@ -6,7 +6,6 @@ buildscript {
 
 plugins {
   id "io.ratpack.ratpack-groovy" version "1.7.6"
-  id "com.github.johnrengelman.shadow" version "5.2.0"
   id "idea"
   //id 'codenarc'
 }
@@ -30,12 +29,6 @@ repositories {
 java {
   sourceCompatibility = JavaVersion.VERSION_11
   targetCompatibility = JavaVersion.VERSION_11
-}
-
-applicationDefaultJvmArgs = ['-XX:+UseContainerSupport']
-
-shadowJar {
-  zip64 true
 }
 
 sourceSets {
