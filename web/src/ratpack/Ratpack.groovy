@@ -1,25 +1,37 @@
-import com.cellarhq.api.*
+import com.cellarhq.api.ApiModule
+import com.cellarhq.api.CellarEndpoint
+import com.cellarhq.api.CellaredDrinkEndpoint
+import com.cellarhq.api.DrinkEndpoint
+import com.cellarhq.api.GlasswareEndpoint
+import com.cellarhq.api.OrganizationEndpoint
+import com.cellarhq.api.StyleEndpoint
 import com.cellarhq.auth.AuthenticationModule
-
 import com.cellarhq.auth.CustomTwitterClient
-import com.cellarhq.auth.endpoints.*
+import com.cellarhq.auth.endpoints.ChangePasswordEndpoint
+import com.cellarhq.auth.endpoints.ForgotPasswordEndpoint
+import com.cellarhq.auth.endpoints.LinkAccountEndpoint
+import com.cellarhq.auth.endpoints.LinkEmailAccountEndpoint
+import com.cellarhq.auth.endpoints.LinkTwitterAccountEndpoint
+import com.cellarhq.auth.endpoints.RegisterEndpoint
+import com.cellarhq.auth.endpoints.SettingsEndpoint
 import com.cellarhq.auth.profiles.CellarHQProfile
 import com.cellarhq.common.CellarHQConfig
 import com.cellarhq.common.ClientErrorHandlerImpl
 import com.cellarhq.common.CommonModule
 import com.cellarhq.common.ServerErrorHandlerImpl
 import com.cellarhq.domain.views.HomepageStatistics
-import com.cellarhq.health.DatabaseHealthcheck
-import com.cellarhq.webapp.*
-import com.codahale.metrics.health.HealthCheckRegistry
+import com.cellarhq.webapp.BeerEndpoint
+import com.cellarhq.webapp.BreweryEndpoint
+import com.cellarhq.webapp.CellarsEndpoint
+import com.cellarhq.webapp.StatsService
+import com.cellarhq.webapp.WebappModule
+import com.cellarhq.webapp.YourCellarEndpoint
 import com.zaxxer.hikari.HikariConfig
 import org.pac4j.core.profile.UserProfile
 import org.pac4j.http.client.indirect.FormClient
 import org.pac4j.oauth.client.TwitterClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ratpack.dropwizard.metrics.DropwizardMetricsConfig
-import ratpack.dropwizard.metrics.DropwizardMetricsModule
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
@@ -86,7 +98,6 @@ ratpack {
 
     bind ServerErrorHandler, ServerErrorHandlerImpl
     bind ClientErrorHandler, ClientErrorHandlerImpl
-    bind DatabaseHealthcheck
   }
 
   handlers {
@@ -137,10 +148,6 @@ ratpack {
     fileSystem("public") { f ->
       f.files()
     }
-
-    get('health-checks', { HealthCheckRegistry healthCheckRegistry ->
-      render json(healthCheckRegistry.runHealthChecks())
-    })
 
 
     get { Context ctx, StatsService statsService ->
