@@ -3,12 +3,15 @@ package com.cellarhq.api
 import com.cellarhq.api.services.DrinkService
 import com.cellarhq.domain.Drink
 import com.google.inject.Inject
+import groovy.transform.CompileStatic
+import ratpack.exec.Promise
 import ratpack.func.Action
 import ratpack.groovy.Groovy
 import ratpack.handling.Chain
 
 import static ratpack.jackson.Jackson.json
 
+@CompileStatic
 class DrinkEndpoint implements Action<Chain> {
 
   private final DrinkService drinkService
@@ -23,13 +26,11 @@ class DrinkEndpoint implements Action<Chain> {
     Groovy.chain(chain) {
       put('drinks/validate-name') {
         drinkService.searchByOrganizationId(
-          request.queryParams.organizationId,
+          request.queryParams.organizationId?.toLong(),
           request.queryParams.name,
           1,
           0
-        )
-          .toList()
-          .subscribe { List<Drink> drinks ->
+        ).then { List<Drink> drinks ->
           if (request.queryParams.exists) {
             render json(!drinks.empty)
           } else {
@@ -37,16 +38,17 @@ class DrinkEndpoint implements Action<Chain> {
           }
         }
       }
+
       get('drinks/live-search') {
-        rx.Observable observable
+        Promise<List<Drink>> drinkPromise
         if (request.queryParams.organizationId) {
-          observable = drinkService.searchByOrganizationId(
+          drinkPromise = drinkService.searchByOrganizationId(
             Long.valueOf(request.queryParams.organizationId),
             request.queryParams.name, 20, 0)
         } else {
-          observable = drinkService.search(request.queryParams.name, null, 20, 0)
+          drinkPromise = drinkService.search(request.queryParams.name, null, 20, 0)
         }
-        observable.toList().subscribe { List<Drink> drinks ->
+        drinkPromise.then { List<Drink> drinks ->
           render json(drinks.collect {
             [
               id  : it.id,
@@ -55,7 +57,6 @@ class DrinkEndpoint implements Action<Chain> {
           })
         }
       }
-
     }
   }
 }

@@ -28,7 +28,7 @@ class CellarEndpoint implements Action<Chain> {
           clientError 400
         }
 
-        cellarService.validateScreenName(request.queryParams.name).single().subscribe { Cellar cellar ->
+        cellarService.validateScreenName(request.queryParams.name).then { Cellar cellar ->
           log.info(request.queryParams.name)
           log.info(cellar?.toString())
           render json(cellar == null)

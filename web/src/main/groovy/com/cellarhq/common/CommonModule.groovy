@@ -39,7 +39,6 @@ class CommonModule extends ConfigurableModule<CellarHQConfig> {
   protected void configure() {
     bind(S3Service).in(SINGLETON)
 
-    // common, to kept in cellarhq module
     bind(PhotoWriteStrategy).to(AmazonPhotoWriteStrategy).in(SINGLETON)
     bind(ValidatorFactory).toInstance(Validation.buildDefaultValidatorFactory())
     bind(PaginationHelper).in(SINGLETON)
@@ -58,13 +57,13 @@ class CommonModule extends ConfigurableModule<CellarHQConfig> {
 
   @Singleton
   @Provides
-  public AWSCredentials provideAWSCredentials(CellarHQConfig config) {
+  AWSCredentials provideAWSCredentials(CellarHQConfig config) {
     new BasicAWSCredentials(config.awsAccessKey, config.awsSecretKey)
   }
 
   @Singleton
   @Provides
-  public EmailService provideEmailService(AWSCredentials credentials, CellarHQConfig config) {
+  EmailService provideEmailService(AWSCredentials credentials, CellarHQConfig config) {
     if (config.isProductionEnv()) {
       log.info('Binding amazon email service')
       return new AmazonEmailService(credentials)

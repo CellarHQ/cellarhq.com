@@ -6,22 +6,21 @@ import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import org.jooq.DSLContext
 import ratpack.exec.Blocking
+import ratpack.exec.Promise
 
 import javax.sql.DataSource
 
 import static com.cellarhq.generated.Tables.STYLE
-import static ratpack.rx.RxRatpack.observeEach
 
 @CompileStatic
 class StyleService extends BaseJooqService {
-
   @Inject
   StyleService(DataSource dataSource) {
     super(dataSource)
   }
 
-  rx.Observable<Style> search(String searchTerm, int numRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Style>> search(String searchTerm, int numRows = 20, int offset = 0) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
           .from(STYLE)
@@ -30,6 +29,6 @@ class StyleService extends BaseJooqService {
           .limit(offset, numRows)
           .fetchInto(Style)
       }
-    })
+    }
   }
 }

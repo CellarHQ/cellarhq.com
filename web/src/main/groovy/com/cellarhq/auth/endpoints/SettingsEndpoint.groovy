@@ -14,6 +14,7 @@ import groovy.util.logging.Slf4j
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.Blocking
 import ratpack.form.Form
+import ratpack.func.Pair
 import ratpack.groovy.handling.GroovyContext
 import ratpack.groovy.handling.GroovyHandler
 
@@ -21,6 +22,8 @@ import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
 
+import static com.cellarhq.common.session.FlashMessage.error
+import static com.cellarhq.util.SessionUtil.setFlash
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
@@ -43,20 +46,15 @@ class SettingsEndpoint extends GroovyHandler {
       byMethod {
         get {
           CellarHQProfile profile = context.get(CellarHQProfile)
-          rx.Observable.zip(
-            cellarService.get(profile.cellarId),
+
+          cellarService.get(profile.cellarId).flatRight {
             photoService.findByCellarId(profile.cellarId)
-          ) { Cellar cellar, Photo photo ->
-            [
-              cellar: cellar,
-              photo : photo
-            ]
-          }.subscribe { Map map ->
+          }.then { Pair<Cellar, Photo> pair ->
             render handlebarsTemplate('settings.html',
               [title : 'Account Settings',
                pageId: 'settings',
-               cellar: map.cellar,
-               photo : map.photo])
+               cellar: pair.left,
+               photo : pair.right])
           }
         }
 
@@ -89,9 +87,9 @@ class SettingsEndpoint extends GroovyHandler {
 
                 Set<ConstraintViolation<Cellar>> cellarViolations = validator.validate(cellar)
                 if (cellarViolations.size() > 0) {
-                  SessionUtil.setFlash(
+                  setFlash(
                     context,
-                    FlashMessage.error(Messages.FORM_VALIDATION_ERROR, cellarViolations.collect {
+                    error(Messages.FORM_VALIDATION_ERROR, cellarViolations.collect {
                       "${it.propertyPath.toString()} ${it.message}"
                     })
                   )
@@ -102,16 +100,9 @@ class SettingsEndpoint extends GroovyHandler {
                 result.cellar = cellar
               }
               result
-            }.onError { Throwable t ->
-              log.error(LogUtil.toLog(request, 'SaveSettingsFailure', [
-                exception: t
-              ]), t)
-              SessionUtil.setFlash(context, FlashMessage.error(Messages.UNEXPECTED_SERVER_ERROR)).then {
-                redirect('/settings')
-              }
             }.then { Map result ->
               if (result.success) {
-                SessionUtil.setFlash(context, FlashMessage.success(Messages.SETTINGS_SAVED)).then {
+                setFlash(context, FlashMessage.success(Messages.SETTINGS_SAVED)).then {
                   redirect('/settings')
                 }
               } else {

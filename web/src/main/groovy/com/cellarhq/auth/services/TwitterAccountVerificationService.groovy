@@ -11,12 +11,11 @@ import org.jooq.DSLContext
 import org.jooq.TransactionalCallable
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 import ratpack.exec.Blocking
-import rx.Observable
+import ratpack.exec.Promise
 
 import javax.sql.DataSource
 
 import static com.cellarhq.generated.Tables.ACCOUNT_OAUTH
-import static ratpack.rx.RxRatpack.observe
 
 @Slf4j
 class TwitterAccountVerificationService extends BaseJooqService {
@@ -26,8 +25,8 @@ class TwitterAccountVerificationService extends BaseJooqService {
     super(dataSource)
   }
 
-  Observable<Boolean> linkAllowed(OAuthAccount pendingAccount) {
-    return observe(Blocking.get {
+  Promise<Boolean> linkAllowed(OAuthAccount pendingAccount) {
+    Blocking.get {
       int count = jooq { DSLContext create ->
         create.selectCount()
           .from(ACCOUNT_OAUTH)
@@ -36,11 +35,11 @@ class TwitterAccountVerificationService extends BaseJooqService {
       }
 
       return count == 0
-    })
+    }
   }
 
-  Observable<Boolean> commit(Cellar cellar, TwitterProfile profile) {
-    return observe(Blocking.get {
+  Promise<Boolean> commit(Cellar cellar, TwitterProfile profile) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.transactionResult({
           OAuthAccount oAuthAccount = new OAuthAccount().with { OAuthAccount self ->
@@ -57,6 +56,6 @@ class TwitterAccountVerificationService extends BaseJooqService {
           return true
         } as TransactionalCallable)
       }
-    })
+    } as Promise<Boolean>
   }
 }

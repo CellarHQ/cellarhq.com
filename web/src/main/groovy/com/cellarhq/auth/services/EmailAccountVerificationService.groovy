@@ -11,18 +11,17 @@ import com.cellarhq.generated.tables.records.AccountLinkRequestRecord
 import com.cellarhq.jooq.BaseJooqService
 import com.cellarhq.util.JooqUtil
 import com.google.inject.Inject
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import org.jooq.TransactionalCallable
 import ratpack.exec.Blocking
-import rx.Observable
+import ratpack.exec.Promise
 
 import javax.sql.DataSource
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 import static com.cellarhq.generated.Tables.*
-import static ratpack.rx.RxRatpack.observe
 
 @Slf4j
 class EmailAccountVerificationService extends BaseJooqService {
@@ -44,16 +43,16 @@ class EmailAccountVerificationService extends BaseJooqService {
   Boolean linkAllowed(EmailAccount pendingAccount) {
     int count = jooq { DSLContext create ->
       create.selectCount()
-        .from(ACCOUNT_EMAIL)
-        .where(ACCOUNT_EMAIL.EMAIL.eq(pendingAccount.email))
-        .fetchOneInto(Integer)
+            .from(ACCOUNT_EMAIL)
+            .where(ACCOUNT_EMAIL.EMAIL.eq(pendingAccount.email))
+            .fetchOneInto(Integer)
     }
 
     return count == 0
   }
 
-  Observable<VerificationResult> sendVerification(Cellar cellar, EmailAccount pendingAccount) {
-    return observe(Blocking.get {
+  Promise<VerificationResult> sendVerification(Cellar cellar, EmailAccount pendingAccount) {
+    Blocking.get {
       if (!linkAllowed(pendingAccount)) {
         return VerificationResult.failure(String.format(
           Messages.ACCOUNT_LINK_EMAIL_UNAVAILABLE,
@@ -70,7 +69,7 @@ class EmailAccountVerificationService extends BaseJooqService {
           accountClass = EmailAccount.simpleName
           accountIdentifier = pendingAccount.email
           cellarId = cellar.id
-          createdDate = Timestamp.valueOf(LocalDateTime.now())
+          createdDate = LocalDateTime.now()
         }
         record.store()
       }
@@ -91,29 +90,29 @@ class EmailAccountVerificationService extends BaseJooqService {
                 |""".stripMargin())
 
       return VerificationResult.success()
-    })
+    }
   }
 
-  Observable<Boolean> verify(Cellar cellar, String token) {
-    return observe(Blocking.get {
+  Promise<Boolean> verify(Cellar cellar, String token) {
+    Blocking.get {
       jooq { DSLContext create ->
         AccountLinkRequestRecord requestRecord = create.selectFrom(ACCOUNT_LINK_REQUEST)
-          .where(ACCOUNT_LINK_REQUEST.ID.eq(token))
-          .and(ACCOUNT_LINK_REQUEST.CELLAR_ID.eq(cellar.id))
-          .fetchOne()
+                                                       .where(ACCOUNT_LINK_REQUEST.ID.eq(token))
+                                                       .and(ACCOUNT_LINK_REQUEST.CELLAR_ID.eq(cellar.id))
+                                                       .fetchOne()
 
         return requestRecord != null
       }
-    })
+    }
   }
 
-  Observable<VerificationResult> verifyAndCommit(Cellar cellar, String token, String rawPassword) {
-    return observe(Blocking.get {
+  Promise<VerificationResult> verifyAndCommit(Cellar cellar, String token, String rawPassword) {
+    Blocking.get {
       jooq { DSLContext create ->
         AccountLinkRequestRecord requestRecord = create.selectFrom(ACCOUNT_LINK_REQUEST)
-          .where(ACCOUNT_LINK_REQUEST.ID.eq(token))
-          .and(ACCOUNT_LINK_REQUEST.CELLAR_ID.eq(cellar.id))
-          .fetchOne()
+                                                       .where(ACCOUNT_LINK_REQUEST.ID.eq(token))
+                                                       .and(ACCOUNT_LINK_REQUEST.CELLAR_ID.eq(cellar.id))
+                                                       .fetchOne()
 
         if (!requestRecord) {
           return VerificationResult.failure(Messages.ACCOUNT_LINK_TOKEN_UNKNOWN)
@@ -136,6 +135,6 @@ class EmailAccountVerificationService extends BaseJooqService {
           return VerificationResult.success()
         } as TransactionalCallable)
       }
-    })
+    } as Promise<VerificationResult>
   }
 }

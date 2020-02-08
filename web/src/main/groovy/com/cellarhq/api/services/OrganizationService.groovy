@@ -8,14 +8,13 @@ import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import org.jooq.DSLContext
 import ratpack.exec.Blocking
-import rx.Observable
+import ratpack.exec.Operation
+import ratpack.exec.Promise
 
 import javax.sql.DataSource
 
 import static com.cellarhq.generated.Tables.DRINK
 import static com.cellarhq.generated.Tables.ORGANIZATION
-import static ratpack.rx.RxRatpack.observe
-import static ratpack.rx.RxRatpack.observeEach
 
 @Slf4j
 class OrganizationService extends BaseJooqService {
@@ -25,8 +24,8 @@ class OrganizationService extends BaseJooqService {
     super(dataSource)
   }
 
-  Observable<Organization> save(Organization organization) {
-    observe(Blocking.get {
+  Promise<Organization> save(Organization organization) {
+    Blocking.get {
       jooq { DSLContext create ->
         OrganizationRecord organizationRecord = create.newRecord(ORGANIZATION, organization)
 
@@ -43,113 +42,111 @@ class OrganizationService extends BaseJooqService {
 
         organizationRecord.into(Organization)
       }
-    })
+    }
 
   }
 
-  Observable<Organization> get(Long id) {
-    observe(Blocking.get {
+  Promise<Organization> get(Long id) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
-          .from(ORGANIZATION)
-          .where(ORGANIZATION.ID.eq(id))
-          .fetchOneInto(Organization)
+              .from(ORGANIZATION)
+              .where(ORGANIZATION.ID.eq(id))
+              .fetchOneInto(Organization)
       }
-    }).asObservable()
+    }
 
   }
 
-  Observable<Organization> findBySlug(String slug) {
-    observe(Blocking.get {
+  Promise<Organization> findBySlug(String slug) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
-          .from(ORGANIZATION)
-          .where(ORGANIZATION.SLUG.eq(slug))
-          .fetchOneInto(Organization)
+              .from(ORGANIZATION)
+              .where(ORGANIZATION.SLUG.eq(slug))
+              .fetchOneInto(Organization)
       }
-    }).asObservable()
+    }
 
   }
 
-  Observable<String> findNameByDrink(Long drinkId) {
-    observe(Blocking.get {
+  Promise<String> findNameByDrink(Long drinkId) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select(ORGANIZATION.NAME)
-          .from(ORGANIZATION)
-          .join(DRINK).onKey()
-          .where(DRINK.ID.eq(drinkId))
-          .fetchOne(ORGANIZATION.NAME)
+              .from(ORGANIZATION)
+              .join(DRINK).onKey()
+              .where(DRINK.ID.eq(drinkId))
+              .fetchOne(ORGANIZATION.NAME)
       }
-    }).asObservable()
+    }
   }
 
-  Observable<Organization> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Organization>> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
-          .from(ORGANIZATION)
-          .orderBy(
+              .from(ORGANIZATION)
+              .orderBy(
           ORGANIZATION.COLLABORATION.asc(),
           makeSortField(sortCommand, ORGANIZATION.NAME, [
             name       : ORGANIZATION.NAME,
             location   : ORGANIZATION.LOCALITY_SORT,
             established: ORGANIZATION.ESTABLISHED
           ]))
-          .limit(offset, numberOfRows)
-          .fetchInto(Organization)
+              .limit(offset, numberOfRows)
+              .fetchInto(Organization)
       }
-    })
+    }
   }
 
-  Observable<Organization> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Organization>> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
-          .from(ORGANIZATION)
-          .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
-          .orderBy(
+              .from(ORGANIZATION)
+              .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
+              .orderBy(
           ORGANIZATION.COLLABORATION.asc(),
           makeSortField(sortCommand, ORGANIZATION.NAME, [
             name       : ORGANIZATION.NAME,
             location   : ORGANIZATION.LOCALITY_SORT,
             established: ORGANIZATION.ESTABLISHED
           ]))
-          .limit(offset, numberOfRows)
-          .fetchInto(Organization)
+              .limit(offset, numberOfRows)
+              .fetchInto(Organization)
       }
-    })
+    }
   }
 
-  Observable<Void> delete(String slug) {
-    observe(Blocking.op {
+  Operation delete(String slug) {
+    Blocking.op {
       jooq { DSLContext create ->
         OrganizationRecord org = create.fetchOne(ORGANIZATION, ORGANIZATION.SLUG.equal(slug))
 
         if (org) {
           org.delete()
         }
-
-        return Void
       }
-    })
+    }
   }
 
-  Observable<Integer> count() {
-    observe(Blocking.get {
+  Promise<Integer> count() {
+    Blocking.get {
       jooq { DSLContext create ->
         create.selectCount().from(ORGANIZATION).fetchOneInto(Integer)
       }
-    })
+    }
   }
 
-  Observable<Integer> searchCount(String searchTerm) {
-    observe(Blocking.get {
+  Promise<Integer> searchCount(String searchTerm) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.selectCount()
-          .from(ORGANIZATION)
-          .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
-          .fetchOneInto(Integer)
+              .from(ORGANIZATION)
+              .where(ORGANIZATION.NAME.likeIgnoreCase("%${searchTerm}%"))
+              .fetchOneInto(Integer)
       }
-    })
+    }
   }
 }

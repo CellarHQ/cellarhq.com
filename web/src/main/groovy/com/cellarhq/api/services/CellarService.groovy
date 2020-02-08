@@ -5,7 +5,6 @@ import com.cellarhq.auth.services.photo.model.ResizeCommand
 import com.cellarhq.auth.services.photo.writer.PhotoWriteFailedException
 import com.cellarhq.domain.Cellar
 import com.cellarhq.domain.Photo
-import com.cellarhq.generated.tables.CellaredDrink
 import com.cellarhq.generated.tables.records.CellarRecord
 import com.cellarhq.generated.tables.records.PhotoRecord
 import com.cellarhq.jooq.BaseJooqService
@@ -27,12 +26,9 @@ import ratpack.exec.Promise
 import ratpack.form.UploadedFile
 
 import javax.sql.DataSource
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 import static com.cellarhq.generated.Tables.*
-import static ratpack.rx.RxRatpack.observe
-import static ratpack.rx.RxRatpack.observeEach
 
 @Slf4j
 @CompileStatic
@@ -46,8 +42,8 @@ class CellarService extends BaseJooqService {
     this.photoService = photoService
   }
 
-  rx.Observable<Cellar> save(Cellar cellar) {
-    observe(Blocking.get {
+  Promise<Cellar> save(Cellar cellar) {
+   Blocking.get {
       jooq { DSLContext create ->
         CellarRecord cellarRecord = create.newRecord(CELLAR as Table<CellarRecord>, cellar)
 
@@ -60,13 +56,13 @@ class CellarService extends BaseJooqService {
 
         cellarRecord.into(Cellar)
       }
-    }).asObservable()
+    }
   }
 
-  rx.Observable<Cellar> get(Long id) {
-    observe(Blocking.get {
+  Promise<Cellar> get(Long id) {
+   Blocking.get {
       getBlocking(id)
-    }).asObservable()
+    }
   }
 
   Cellar getBlocking(Long id) {
@@ -78,8 +74,8 @@ class CellarService extends BaseJooqService {
     }
   }
 
-  rx.Observable<Cellar> findBySlug(String slug) {
-    observe(findBySlugPromise(slug)).asObservable()
+  Promise<Cellar> findBySlug(String slug) {
+   findBySlugPromise(slug)
   }
 
   Promise<Cellar> findBySlugPromise(String slug) {
@@ -102,8 +98,8 @@ class CellarService extends BaseJooqService {
     }
   }
 
-  rx.Observable<Cellar> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Cellar>> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
           .from(CELLAR)
@@ -117,11 +113,11 @@ class CellarService extends BaseJooqService {
           .limit(offset, numberOfRows)
           .fetchInto(Cellar)
       }
-    })
+    }
   }
 
-  rx.Observable<Cellar> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Cellar>> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
           .from(CELLAR)
@@ -135,11 +131,11 @@ class CellarService extends BaseJooqService {
           .limit(offset, numberOfRows)
           .fetchInto(Cellar)
       }
-    })
+    }
   }
 
-  rx.Observable<Cellar> validateScreenName(String screenName) {
-    observe(Blocking.get {
+  Promise<Cellar> validateScreenName(String screenName) {
+   Blocking.get {
       jooq { DSLContext create ->
         create.select()
           .from(CELLAR)
@@ -147,11 +143,11 @@ class CellarService extends BaseJooqService {
           .limit(1)
           .fetchOneInto(Cellar)
       }
-    })
+    }
   }
 
-  rx.Observable<Integer> count(String searchTerm = null) {
-    observe(Blocking.get {
+  Promise<Integer> count(String searchTerm = null) {
+   Blocking.get {
       jooq { DSLContext create ->
         SelectJoinStep select = create.selectCount()
           .from(CELLAR)
@@ -162,7 +158,7 @@ class CellarService extends BaseJooqService {
 
         select.fetchOneInto(Integer)
       }
-    })
+    }
   }
 
   Cellar saveBlocking(Cellar cellar, UploadedFile photo = null) {

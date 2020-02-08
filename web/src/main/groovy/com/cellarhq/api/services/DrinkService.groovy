@@ -14,13 +14,15 @@ import groovy.util.logging.Slf4j
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import ratpack.exec.Blocking
-import rx.Observable
+import ratpack.exec.Operation
+import ratpack.exec.Promise
 
 import javax.sql.DataSource
 
-import static com.cellarhq.generated.Tables.*
-import static ratpack.rx.RxRatpack.observe
-import static ratpack.rx.RxRatpack.observeEach
+import static com.cellarhq.generated.Tables.DRINK
+import static com.cellarhq.generated.Tables.GLASSWARE
+import static com.cellarhq.generated.Tables.ORGANIZATION
+import static com.cellarhq.generated.Tables.STYLE
 
 @Slf4j
 class DrinkService extends BaseJooqService {
@@ -30,9 +32,8 @@ class DrinkService extends BaseJooqService {
     super(dataSource)
   }
 
-
-  Observable<Drink> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Drink>> search(String searchTerm, SortCommand sortCommand, int numberOfRows = 20, int offset = 0) {
+    Blocking.get {
       jooq({ Configuration c ->
         c.set(new CustomViewRecordMapperProvider([
           organizationName: String,
@@ -45,39 +46,39 @@ class DrinkService extends BaseJooqService {
           ORGANIZATION.NAME.as('organizationName'),
           ORGANIZATION.SLUG.as('organizationSlug'),
           STYLE.NAME.as('styleName')))
-          .from(DRINK)
-          .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-          .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
-          .where(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
-          .orderBy(makeSortField(sortCommand, DRINK.NAME, [
+              .from(DRINK)
+              .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+              .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+              .where(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
+              .orderBy(makeSortField(sortCommand, DRINK.NAME, [
           name        : DRINK.NAME,
           style       : STYLE.NAME,
           availability: DRINK.AVAILABILITY,
           ibu         : DRINK.IBU,
           abv         : DRINK.ABV
         ]))
-          .limit(offset, numberOfRows)
-          .fetchInto(Drink)
+              .limit(offset, numberOfRows)
+              .fetchInto(Drink)
       }
-    })
+    }
   }
 
-  Observable<Drink> searchByOrganizationId(Long organizationId, String searchTerm, int numRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Drink>> searchByOrganizationId(Long organizationId, String searchTerm, int numRows = 20, int offset = 0) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
-          .from(DRINK)
-          .where(DRINK.ORGANIZATION_ID.eq(organizationId)
-          .and(DRINK.NAME.likeIgnoreCase("%${searchTerm}%")))
-          .orderBy(DRINK.NAME)
-          .limit(offset, numRows)
-          .fetchInto(Drink)
+              .from(DRINK)
+              .where(DRINK.ORGANIZATION_ID.eq(organizationId)
+                          .and(DRINK.NAME.likeIgnoreCase("%${searchTerm}%")))
+              .orderBy(DRINK.NAME)
+              .limit(offset, numRows)
+              .fetchInto(Drink)
       }
-    })
+    }
   }
 
-  Observable<DrinkSearchDisplay> findByOrganizationSlug(String slug) {
-    observeEach(Blocking.get {
+  Promise<List<DrinkSearchDisplay>> findByOrganizationSlug(String slug) {
+    Blocking.get {
       jooq({ Configuration c ->
         c.set(new CustomViewRecordMapperProvider([
           drink: String,
@@ -89,29 +90,29 @@ class DrinkService extends BaseJooqService {
           DRINK.NAME.as('drink'),
           STYLE.NAME.as('style'),
           DRINK.AVAILABILITY)
-          .from(DRINK)
-          .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-          .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
-          .where(ORGANIZATION.SLUG.eq(slug))
-          .orderBy(DRINK.NAME)
-          .fetchInto(DrinkSearchDisplay)
+              .from(DRINK)
+              .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+              .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+              .where(ORGANIZATION.SLUG.eq(slug))
+              .orderBy(DRINK.NAME)
+              .fetchInto(DrinkSearchDisplay)
       }
-    })
+    }
   }
 
-  Observable<String> findNameById(Long id) {
-    observe(Blocking.get {
+  Promise<String> findNameById(Long id) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select(DRINK.NAME)
-          .from(DRINK)
-          .where(DRINK.ID.eq(id))
-          .fetchOne(DRINK.NAME)
+              .from(DRINK)
+              .where(DRINK.ID.eq(id))
+              .fetchOne(DRINK.NAME)
       }
-    }).asObservable()
+    }
   }
 
-  Observable<Drink> save(Drink drink) {
-    observe(Blocking.get {
+  Promise<Drink> save(Drink drink) {
+    Blocking.get {
       jooq { DSLContext create ->
         DrinkRecord drinkRecord = create.newRecord(DRINK, drink)
 
@@ -128,22 +129,22 @@ class DrinkService extends BaseJooqService {
 
         drinkRecord.into(Drink)
       }
-    }).asObservable()
+    }
   }
 
-  Observable<Drink> get(Long id) {
-    observe(Blocking.get {
+  Promise<Drink> get(Long id) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
-          .from(DRINK)
-          .where(DRINK.ID.eq(id))
-          .fetchOneInto(Drink)
+              .from(DRINK)
+              .where(DRINK.ID.eq(id))
+              .fetchOneInto(Drink)
       }
-    }).asObservable()
+    }
   }
 
-  Observable<Drink> findBySlug(String brewerySlug, String slug) {
-    observe(Blocking.get {
+  Promise<Drink> findBySlug(String brewerySlug, String slug) {
+    Blocking.get {
       jooq({ Configuration c ->
         c.set(new CustomViewRecordMapperProvider([
           organizationName: String,
@@ -158,12 +159,12 @@ class DrinkService extends BaseJooqService {
           ORGANIZATION.SLUG.as('organizationSlug'),
           STYLE.NAME.as('styleName'),
           GLASSWARE.NAME.as('glasswareName')))
-          .from(DRINK)
-          .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-          .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
-          .leftOuterJoin(GLASSWARE).onKey(Keys.DRINK__FK_DRINK_GLASSWARE_ID)
-          .where(DRINK.SLUG.eq(slug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
-          .fetchInto(Drink)
+                                   .from(DRINK)
+                                   .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+                                   .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+                                   .leftOuterJoin(GLASSWARE).onKey(Keys.DRINK__FK_DRINK_GLASSWARE_ID)
+                                   .where(DRINK.SLUG.eq(slug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
+                                   .fetchInto(Drink)
 
         if (!drinks) {
           return null
@@ -175,11 +176,11 @@ class DrinkService extends BaseJooqService {
 
         return drinks.first()
       }
-    })
+    }
   }
 
-  Observable<Drink> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Drink>> all(SortCommand sortCommand = null, int numberOfRows = 20, int offset = 0) {
+    Blocking.get {
       jooq({ Configuration c ->
         c.set(new CustomViewRecordMapperProvider([
           organizationName: String,
@@ -192,24 +193,24 @@ class DrinkService extends BaseJooqService {
           ORGANIZATION.NAME.as('organizationName'),
           ORGANIZATION.SLUG.as('organizationSlug'),
           STYLE.NAME.as('styleName')))
-          .from(DRINK)
-          .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
-          .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
-          .orderBy(makeSortField(sortCommand, DRINK.NAME, [
+              .from(DRINK)
+              .join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+              .leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+              .orderBy(makeSortField(sortCommand, DRINK.NAME, [
           name        : DRINK.NAME,
           style       : STYLE.NAME,
           availability: DRINK.AVAILABILITY,
           ibu         : DRINK.IBU,
           abv         : DRINK.ABV
         ]))
-          .limit(offset, numberOfRows)
-          .fetchInto(Drink)
+              .limit(offset, numberOfRows)
+              .fetchInto(Drink)
       }
-    })
+    }
   }
 
-  Observable<Void> delete(String slug) {
-    observe(Blocking.op {
+  Operation delete(String slug) {
+    Blocking.op {
       jooq { DSLContext create ->
         DrinkRecord drink = create.fetchOne(DRINK, DRINK.SLUG.equal(slug))
 
@@ -217,25 +218,25 @@ class DrinkService extends BaseJooqService {
           drink.delete()
         }
       }
-    })
+    }
   }
 
-  Observable<Integer> count() {
-    observe(Blocking.get {
+  Promise<Integer> count() {
+    Blocking.get {
       jooq { DSLContext create ->
         create.selectCount().from(ORGANIZATION).fetchOneInto(Integer)
       }
-    })
+    }
   }
 
-  Observable<Integer> searchCount(String searchTerm) {
-    observe(Blocking.get {
+  Promise<Integer> searchCount(String searchTerm) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.selectCount()
-          .from(DRINK)
-          .where(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
-          .fetchOneInto(Integer)
+              .from(DRINK)
+              .where(DRINK.NAME.likeIgnoreCase("%${searchTerm}%"))
+              .fetchOneInto(Integer)
       }
-    })
+    }
   }
 }

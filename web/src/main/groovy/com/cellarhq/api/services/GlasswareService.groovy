@@ -6,11 +6,11 @@ import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import org.jooq.DSLContext
 import ratpack.exec.Blocking
+import ratpack.exec.Promise
 
 import javax.sql.DataSource
 
 import static com.cellarhq.generated.Tables.GLASSWARE
-import static ratpack.rx.RxRatpack.observeEach
 
 @CompileStatic
 class GlasswareService extends BaseJooqService {
@@ -20,16 +20,16 @@ class GlasswareService extends BaseJooqService {
     super(dataSource)
   }
 
-  rx.Observable<Glassware> search(String searchTerm, int numRows = 20, int offset = 0) {
-    observeEach(Blocking.get {
+  Promise<List<Glassware>> search(String searchTerm, int numRows = 20, int offset = 0) {
+    Blocking.get {
       jooq { DSLContext create ->
         create.select()
-          .from(GLASSWARE)
-          .where(GLASSWARE.NAME.likeIgnoreCase("%${searchTerm}%"))
-          .orderBy(GLASSWARE.NAME.asc())
-          .limit(offset, numRows)
-          .fetchInto(Glassware)
+              .from(GLASSWARE)
+              .where(GLASSWARE.NAME.likeIgnoreCase("%${searchTerm}%"))
+              .orderBy(GLASSWARE.NAME.asc())
+              .limit(offset, numRows)
+              .fetchInto(Glassware)
       }
-    })
+    }
   }
 }

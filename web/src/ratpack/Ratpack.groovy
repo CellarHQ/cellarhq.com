@@ -20,8 +20,8 @@ import com.cellarhq.common.ClientErrorHandlerImpl
 import com.cellarhq.common.CommonModule
 import com.cellarhq.common.ServerErrorHandlerImpl
 import com.cellarhq.domain.views.HomepageStatistics
-import com.cellarhq.webapp.BeerEndpoint
-import com.cellarhq.webapp.BreweryEndpoint
+import com.cellarhq.webapp.BeerHtmlChain
+import com.cellarhq.webapp.BreweryChain
 import com.cellarhq.webapp.CellarsEndpoint
 import com.cellarhq.webapp.StatsService
 import com.cellarhq.webapp.WebappModule
@@ -39,10 +39,7 @@ import ratpack.handling.Context
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
 import ratpack.pac4j.RatpackPac4j
-import ratpack.rx.RxRatpack
 import ratpack.server.BaseDir
-import ratpack.server.Service
-import ratpack.server.StartEvent
 import ratpack.session.SessionModule
 import ratpack.session.clientside.ClientSideSessionConfig
 import ratpack.session.clientside.ClientSideSessionModule
@@ -52,7 +49,6 @@ import java.time.Duration
 
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.handlebars.Template.handlebarsTemplate
-import static ratpack.jackson.Jackson.json
 
 final Logger log = LoggerFactory.getLogger(this.class)
 
@@ -87,13 +83,6 @@ ratpack {
     }
     module ClientSideSessionModule, { c ->
       c.setMaxInactivityInterval(Duration.ofDays(30))
-    }
-
-    bindInstance Service, new Service() {
-      @Override
-      void onStart(StartEvent event) throws Exception {
-        RxRatpack.initialize()
-      }
     }
 
     bind ServerErrorHandler, ServerErrorHandlerImpl
@@ -155,7 +144,7 @@ ratpack {
         if (profile.isPresent()) {
           ctx.redirect(302, '/yourcellar')
         } else {
-          statsService.homepageStatistics().single().subscribe { HomepageStatistics stats ->
+          statsService.homepageStatistics().then { HomepageStatistics stats ->
             render handlebarsTemplate('index.html',
               stats: stats,
               action: '/register',
@@ -198,36 +187,8 @@ ratpack {
     path('forgot-password', registry.get(ForgotPasswordEndpoint))
     path('forgot-password/:id', registry.get(ChangePasswordEndpoint))
 
-    /**
-     * Backwards compatibility endpoints:
-     */
-    path('signup') {
-      log.warn('backwards-compatible-url=signup')
-      redirect(301, '/register')
-    }
-    path('signin') {
-      log.warn('backwards-compatible-url=signin')
-      redirect(301, '/login')
-    }
-    path('forgotpassword') {
-      log.warn('backwards-compatible-url=forgotpassword')
-      redirect(301, '/forgot-password')
-    }
-    path('cellar/:slug') {
-      log.warn('backwards-compatible-url=cellar')
-      redirect(301, "/cellars/${pathTokens['slug']}")
-    }
-    path('brewery/:slug') {
-      log.warn('backwards-compatible-url=brewery')
-      redirect(301, "/breweries/${pathTokens['slug']}")
-    }
-    path('brewery/:brewery/beer/:beer') {
-      log.warn('backwards-compatible-url=beer')
-      redirect(301, "/breweries/${pathTokens['brewery']}/beers/${pathTokens['beer']}")
-    }
-
-    insert BreweryEndpoint
-    insert BeerEndpoint
+    insert BreweryChain
+    insert BeerHtmlChain
     insert CellarsEndpoint
 
     // everything after this requires login

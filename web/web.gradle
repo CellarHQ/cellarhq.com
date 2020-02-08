@@ -60,7 +60,6 @@ dependencies {
   implementation ratpack.dependency('handlebars')
   implementation ratpack.dependency('pac4j')
   implementation ratpack.dependency('remote')
-  implementation ratpack.dependency("rx")
   implementation ratpack.dependency('session')
   implementation 'org.pac4j:pac4j-http:1.8.5'
   implementation 'org.pac4j:pac4j-oauth:1.8.5'

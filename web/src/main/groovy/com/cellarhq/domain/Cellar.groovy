@@ -73,6 +73,18 @@ class Cellar extends com.cellarhq.generated.tables.pojos.Cellar {
     return super.getScreenName()
   }
 
+  @Override
+  void setUpdateFromNetwork(Boolean updateFromNetwork) {
+    //todo: remove when we get to groovy 2.4.1
+    super.setUpdateFromNetwork(updateFromNetwork ?: false)
+  }
+
+  @Override
+  void setScreenName(String screenName) {
+    super.setScreenName(screenName)
+    slug = new Slugify().slugify(screenName)
+  }
+
   boolean hasContactInfo() {
     twitter || reddit || beeradvocate
   }

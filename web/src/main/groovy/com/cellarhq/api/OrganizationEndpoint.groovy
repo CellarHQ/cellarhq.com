@@ -25,15 +25,13 @@ class OrganizationEndpoint implements Action<Chain> {
   void execute(Chain chain) throws Exception {
     Groovy.chain(chain) {
       get('organizations') { OrganizationService organizationService ->
-        organizationService.all().toList().subscribe { List<Organization> organizations ->
+        organizationService.all().then { List<Organization> organizations ->
           render json(organizations)
         }
       }
 
       get('organizations/valid-name') {
-        organizationService.search(request.queryParams.name, null, 1, 0)
-          .toList()
-          .subscribe { List<Organization> orgs ->
+        organizationService.search(request.queryParams.name, null, 1, 0).then { List<Organization> orgs ->
 
           if (request.queryParams.exists) {
             render json(!orgs.empty)
@@ -44,9 +42,7 @@ class OrganizationEndpoint implements Action<Chain> {
       }
 
       get('organizations/live-search') {
-        organizationService.search(request.queryParams.name, null, 20, 0)
-          .toList()
-          .subscribe { List<Organization> orgs ->
+        organizationService.search(request.queryParams.name, null, 20, 0).then { List<Organization> orgs ->
 
           render json(orgs.collect {
             [
@@ -62,7 +58,7 @@ class OrganizationEndpoint implements Action<Chain> {
 
         byMethod {
           get {
-            organizationService.findBySlug(slug).single().subscribe { Organization org ->
+            organizationService.findBySlug(slug).then { Organization org ->
               if (org == null) {
                 clientError 404
               } else {
@@ -70,34 +66,35 @@ class OrganizationEndpoint implements Action<Chain> {
               }
             }
           }
+
           post {
-            organizationService.save(parse(fromJson(Organization))
-            ).single().flatMap {
-              organizationService.findBySlug(it.slug).single()
-            } subscribe { Organization createdOrganization ->
+            organizationService.save(
+              parse(fromJson(Organization)))
+            .flatMap {
+              organizationService.findBySlug(it.slug)
+            }.then { Organization createdOrganization ->
               render json(createdOrganization)
             }
 
           }
+
           put {
             organizationService.save(parse(fromJson(Organization))
-            ).single().flatMap {
-              organizationService.findBySlug(it.slug).single()
-            } subscribe { Organization createdOrganization ->
+            ).flatMap {
+              organizationService.findBySlug(it.slug)
+            }.then { Organization createdOrganization ->
               render json(createdOrganization)
             }
 
           }
+
           delete {
-            organizationService.delete(slug).subscribe {
+            organizationService.delete(slug).then {
               response.send()
             }
-
-
           }
         }
       }
-
     }
   }
 }

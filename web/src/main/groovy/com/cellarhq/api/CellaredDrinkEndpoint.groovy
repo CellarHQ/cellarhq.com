@@ -29,11 +29,8 @@ class CellaredDrinkEndpoint implements Action<Chain> {
   void execute(Chain chain) throws Exception {
     Groovy.chain(chain) {
       get('cellars/:cellarSlug/drinks') {
-        cellaredDrinkService.all(
-          pathTokens['cellarSlug'],
-          SortCommand.fromRequest(request))
-          .toList()
-          .subscribe { List<CellaredDrink> drinks ->
+        cellaredDrinkService.all(pathTokens['cellarSlug'], SortCommand.fromRequest(request))
+          .then { List<CellaredDrink> drinks ->
           render json(drinks)
         }
       }
@@ -42,9 +39,9 @@ class CellaredDrinkEndpoint implements Action<Chain> {
         String slug = pathTokens['cellarSlug']
         Long id = Long.valueOf(pathTokens['id'])
 
-        cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
+        cellaredDrinkService.findById(id).then { CellaredDrink drink ->
           requireSelf(context, profile, drink) {
-            cellaredDrinkService.drink(slug, id).single().subscribe { CellaredDrink drankDrink ->
+            cellaredDrinkService.drink(slug, id).then { CellaredDrink drankDrink ->
               if (drankDrink == null) {
                 clientError 404
               } else {
@@ -60,7 +57,7 @@ class CellaredDrinkEndpoint implements Action<Chain> {
           get {
             Long id = Long.valueOf(pathTokens['id'])
 
-            cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
+            cellaredDrinkService.findById(id).then { CellaredDrink drink ->
               requireSelf(context, profile, drink) {
                 if (drink) {
                   render json(drink)
@@ -75,9 +72,9 @@ class CellaredDrinkEndpoint implements Action<Chain> {
             CellaredDrink cellaredDrink = parse(fromJson(CellaredDrink))
             requireSelf(context, profile, cellaredDrink) {
               cellaredDrinkService.save(cellaredDrink)
-                .single().flatMap {
-                cellaredDrinkService.findById(it.id).single()
-              } subscribe { CellaredDrink createdDrink ->
+                .flatMap {
+                cellaredDrinkService.findById(it.id)
+              }.then { CellaredDrink createdDrink ->
                 render json(createdDrink)
               }
             }
@@ -86,9 +83,9 @@ class CellaredDrinkEndpoint implements Action<Chain> {
           delete {
             Long id = Long.valueOf(pathTokens['id'])
 
-            cellaredDrinkService.findById(id).single().subscribe { CellaredDrink drink ->
+            cellaredDrinkService.findById(id).then { CellaredDrink drink ->
               requireSelf(context, profile, drink) {
-                cellaredDrinkService.delete(id).subscribe {
+                cellaredDrinkService.delete(id).then {
                   response.status(204).send()
                 }
               }

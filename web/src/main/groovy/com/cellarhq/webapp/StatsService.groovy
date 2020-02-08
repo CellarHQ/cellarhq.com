@@ -9,11 +9,11 @@ import org.jooq.DSLContext
 import org.jooq.Field
 import org.jooq.impl.DSL
 import ratpack.exec.Blocking
+import ratpack.exec.Promise
 
 import javax.sql.DataSource
 
 import static com.cellarhq.generated.Tables.*
-import static ratpack.rx.RxRatpack.observeEach
 
 @CompileStatic
 class StatsService extends BaseJooqService {
@@ -23,8 +23,8 @@ class StatsService extends BaseJooqService {
     super(dataSource)
   }
 
-  rx.Observable<HomepageStatistics> homepageStatistics() {
-    observeEach(Blocking.get {
+  Promise<HomepageStatistics> homepageStatistics() {
+    Blocking.get {
       jooq({ Configuration c ->
         c.set(new HomepageStatisticsRecordMapperProvider())
       }) { DSLContext create ->
@@ -42,9 +42,8 @@ class StatsService extends BaseJooqService {
           .asField('cellaredDrinks')
 
         create.select(organizations, drinks, cellars, cellaredDrinks)
-          .fetchInto(HomepageStatistics)
-
+          .fetchOneInto(HomepageStatistics)
       }
-    }).asObservable()
+    }
   }
 }

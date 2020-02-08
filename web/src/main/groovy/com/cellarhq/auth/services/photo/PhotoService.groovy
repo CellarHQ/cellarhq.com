@@ -11,12 +11,13 @@ import com.cellarhq.generated.tables.records.PhotoRecord
 import com.cellarhq.jooq.BaseJooqService
 import com.google.common.io.Files
 import com.google.inject.Inject
+import groovy.transform.CompileStatic
 import io.netty.buffer.ByteBufInputStream
 import org.imgscalr.Scalr
 import org.jooq.DSLContext
 import ratpack.exec.Blocking
+import ratpack.exec.Promise
 import ratpack.form.UploadedFile
-import rx.Observable
 
 import javax.imageio.ImageIO
 import javax.sql.DataSource
@@ -24,7 +25,7 @@ import java.awt.image.BufferedImage
 import java.time.LocalDate
 
 import static com.cellarhq.generated.Tables.*
-import static ratpack.rx.RxRatpack.observe
+import static com.cellarhq.generated.Tables.CELLAR
 
 /**
  * Provides a generic interface for working with photos in the application.
@@ -69,20 +70,20 @@ class PhotoService extends BaseJooqService {
 
   }
 
-  Observable<Photo> findByCellarId(Long cellarId) {
-    observe(Blocking.get {
+  Promise<Photo> findByCellarId(Long cellarId) {
+   Blocking.get {
       jooq { DSLContext create ->
         create.select(PHOTO.fields())
-          .from(PHOTO)
-          .join(Tables.CELLAR).onKey()
-          .where(Tables.CELLAR.ID.eq(cellarId))
-          .fetchOneInto(Photo)
+              .from(PHOTO)
+              .join(CELLAR).onKey()
+              .where(CELLAR.ID.eq(cellarId))
+              .fetchOneInto(Photo)
       }
-    }).asObservable()
+    }
   }
 
-  Observable<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
-    observe(Blocking.get {
+  Promise<Photo> findByOrganizationAndDrink(String brewerySlug, String beerSlug) {
+   Blocking.get {
       jooq { DSLContext create ->
         create.select(PHOTO.fields())
           .from(PHOTO)
@@ -91,11 +92,11 @@ class PhotoService extends BaseJooqService {
           .where(DRINK.SLUG.eq(beerSlug).and(ORGANIZATION.SLUG.eq(brewerySlug)))
           .fetchOneInto(Photo)
       }
-    }).asObservable()
+    }
   }
 
-  Observable<Photo> findByOrganization(String brewerySlug) {
-    observe(Blocking.get {
+  Promise<Photo> findByOrganization(String brewerySlug) {
+   Blocking.get {
       jooq { DSLContext create ->
         create.select(PHOTO.fields())
           .from(PHOTO)
@@ -103,19 +104,19 @@ class PhotoService extends BaseJooqService {
           .where(ORGANIZATION.SLUG.eq(brewerySlug))
           .fetchOneInto(Photo)
       }
-    }).asObservable()
+    }
   }
 
-  Observable<Photo> findByCellarSlug(String cellarSlug) {
-    observe(Blocking.get {
+  Promise<Photo> findByCellarSlug(String cellarSlug) {
+   Blocking.get {
       jooq { DSLContext create ->
         create.select(PHOTO.fields())
-          .from(PHOTO)
-          .join(Tables.CELLAR).onKey()
-          .where(Tables.CELLAR.SLUG.eq(cellarSlug))
-          .fetchOneInto(Photo)
+              .from(PHOTO)
+              .join(CELLAR).onKey()
+              .where(CELLAR.SLUG.eq(cellarSlug))
+              .fetchOneInto(Photo)
       }
-    }).asObservable()
+    }
   }
 
   /**
@@ -176,7 +177,7 @@ class PhotoService extends BaseJooqService {
     if (is instanceof ByteBufInputStream) {
       // Something is totally fucked up with file uploads in Ratpack. Haven't figured out what yet, but it seems
       // that either Ratpack or Netty marks the buffer at the last index, so it can never be read from.
-      baos = new ByteArrayInputStream((byte[]) ((ByteBufInputStream) is).buffer.array())
+      baos = new ByteArrayInputStream((byte[]) ((ByteBufInputStream) is).bytes)
     } else {
       baos = new ByteArrayInputStream(is.bytes)
     }
@@ -204,6 +205,4 @@ class PhotoService extends BaseJooqService {
     String uuid = UUID.randomUUID().toString()
     return "${root}/${now}/${uuid}.${extension}"
   }
-
-
 }

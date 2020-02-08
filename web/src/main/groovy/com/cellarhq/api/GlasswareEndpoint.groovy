@@ -22,9 +22,7 @@ class GlasswareEndpoint implements Action<Chain> {
   void execute(Chain chain) throws Exception {
     Groovy.chain(chain) {
       get('glassware/live-search') {
-        glasswareService.search(request.queryParams.name, 20, 0)
-          .toList()
-          .subscribe { List<Glassware> glassware ->
+        glasswareService.search(request.queryParams.name, 20, 0).then { List<Glassware> glassware ->
 
           render json(glassware.collect {
             [
@@ -35,9 +33,7 @@ class GlasswareEndpoint implements Action<Chain> {
         }
       }
       put('glassware/validate-name') {
-        glasswareService.search(request.queryParams.name, 1, 0)
-          .toList()
-          .subscribe { List<Glassware> glassware ->
+        glasswareService.search(request.queryParams.name, 1, 0).then { List<Glassware> glassware ->
 
           if (request.queryParams.exists) {
             render json(!glassware.empty)

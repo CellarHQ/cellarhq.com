@@ -22,7 +22,7 @@ class StyleEndpoint implements Action<Chain> {
   void execute(Chain chain) throws Exception {
     Groovy.chain(chain) {
       get('styles/live-search') {
-        styleService.search(request.queryParams.name, 20, 0).toList().subscribe { List<Style> styles ->
+        styleService.search(request.queryParams.name, 20, 0).then { List<Style> styles ->
           render json(styles.collect {
             [
               id  : it.id,
@@ -32,7 +32,7 @@ class StyleEndpoint implements Action<Chain> {
         }
       }
       put('styles/validate-name') {
-        styleService.search(request.queryParams.name, 1, 0).toList().subscribe { List<Style> styles ->
+        styleService.search(request.queryParams.name, 1, 0).then { List<Style> styles ->
           if (request.queryParams.exists) {
             render json(!styles.empty)
           } else {

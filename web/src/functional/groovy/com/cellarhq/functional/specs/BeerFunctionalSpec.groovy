@@ -12,7 +12,6 @@ import com.cellarhq.functional.pages.breweries.ShowBreweryPage
 import groovy.sql.Sql
 import io.remotecontrol.client.UnserializableResultStrategy
 import org.h2.jdbc.JdbcSQLException
-import ratpack.rx.RxRatpack
 import ratpack.test.ApplicationUnderTest
 import ratpack.test.exec.ExecHarness
 import ratpack.test.remote.RemoteControl
