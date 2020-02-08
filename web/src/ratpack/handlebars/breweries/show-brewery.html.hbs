@@ -27,16 +27,13 @@
 
 				<div class="row">
 					<div class="brewery-photo">
-                      {{#if photo}}
+              {{#if photo}}
 						  <img class="img-thumbnail pull-left"
 						       src="{{photo.largeUrl}}"
 						       alt="{{organization.name}} photo"
 						       width="{{photo.thumbWidth}}"
 						       height="{{photo.thumbHeight}}"/>
-                      {{else}}
-						  <img class="img-thumbnail pull-left"
-						       src="/images/icon152.png" alt="no photo"/>
-                      {{/if}}
+              {{/if}}
 					</div>
 
                   {{#if organization.description}}
