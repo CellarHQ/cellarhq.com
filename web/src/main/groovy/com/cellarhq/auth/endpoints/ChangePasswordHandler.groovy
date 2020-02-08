@@ -20,13 +20,13 @@ import javax.validation.ValidatorFactory
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class ChangePasswordEndpoint extends GroovyHandler {
+class ChangePasswordHandler extends GroovyHandler {
 
   private final AccountService accountService
   private final ValidatorFactory validatorFactory
 
   @Inject
-  ChangePasswordEndpoint(AccountService accountService, ValidatorFactory validatorFactory) {
+  ChangePasswordHandler(AccountService accountService, ValidatorFactory validatorFactory) {
     this.accountService = accountService
     this.validatorFactory = validatorFactory
   }

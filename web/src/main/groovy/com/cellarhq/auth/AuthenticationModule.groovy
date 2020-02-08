@@ -26,7 +26,7 @@ class AuthenticationModule extends ConfigurableModule<CellarHQConfig> {
 
     [
       ForgotPasswordEndpoint,
-      ChangePasswordEndpoint,
+      ChangePasswordHandler,
       SettingsEndpoint,
       LinkEmailAccountEndpoint,
       LinkTwitterAccountEndpoint,
