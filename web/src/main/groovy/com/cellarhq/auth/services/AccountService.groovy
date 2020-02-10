@@ -19,7 +19,6 @@ import org.jooq.impl.DSL
 import ratpack.form.UploadedFile
 
 import javax.sql.DataSource
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 import static com.cellarhq.generated.Tables.*
@@ -200,7 +199,7 @@ class AccountService extends BaseJooqService {
     jooq { DSLContext create ->
       create.update(ACCOUNT_EMAIL)
         .set(ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER, ACCOUNT_EMAIL.LOGIN_ATTEMPT_COUNTER.add(1))
-        .set(ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT, Timestamp.valueOf(LocalDateTime.now()))
+        .set(ACCOUNT_EMAIL.LAST_LOGIN_ATTEMPT, LocalDateTime.now())
         .where(ACCOUNT_EMAIL.ID.eq(emailAccount.id))
     }
   }
@@ -220,7 +219,7 @@ class AccountService extends BaseJooqService {
       PasswordChangeRequestRecord record = create.newRecord(PASSWORD_CHANGE_REQUEST)
       record.id = uuid
       record.accountEmailId = email.id
-      record.createdDate = Timestamp.valueOf(LocalDateTime.now())
+      record.createdDate = LocalDateTime.now()
       record.store()
     }
     return uuid

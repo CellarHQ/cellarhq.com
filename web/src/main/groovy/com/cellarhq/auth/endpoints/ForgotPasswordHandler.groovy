@@ -18,14 +18,14 @@ import ratpack.groovy.handling.GroovyHandler
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class ForgotPasswordEndpoint extends GroovyHandler {
+class ForgotPasswordHandler extends GroovyHandler {
 
   private final AccountService accountService
   private final EmailService emailService
   private final CellarHQConfig cellarHQConfig
 
   @Inject
-  ForgotPasswordEndpoint(AccountService accountService, EmailService emailService, CellarHQConfig cellarHQConfig) {
+  ForgotPasswordHandler(AccountService accountService, EmailService emailService, CellarHQConfig cellarHQConfig) {
     this.accountService = accountService
     this.emailService = emailService
     this.cellarHQConfig = cellarHQConfig

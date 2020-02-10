@@ -31,8 +31,12 @@ class BeersHtmlHandler implements Handler {
   ValidatorFactory validatorFactory
 
   @Inject
-  BeersHtmlHandler(DrinkService drinkService) {
+  BeersHtmlHandler(DrinkService drinkService,
+                   OrganizationService organizationService,
+                   ValidatorFactory validatorFactory) {
     this.drinkService = drinkService
+    this.organizationService = organizationService
+    this.validatorFactory = validatorFactory
   }
 
   @Override

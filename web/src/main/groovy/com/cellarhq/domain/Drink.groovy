@@ -6,7 +6,6 @@ import com.github.slugify.Slugify
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
 
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 @Sanitize(recordType = DrinkRecord, fields = [

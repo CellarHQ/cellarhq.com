@@ -10,12 +10,12 @@ class ApiModule extends ConfigurableModule<CellarHQConfig> {
   @Override
   protected void configure() {
     [
-      CellarEndpoint,
-      CellaredDrinkEndpoint,
-      OrganizationEndpoint,
-      DrinkEndpoint,
-      StyleEndpoint,
-      GlasswareEndpoint
+      CellarChain,
+      CellaredDrinkChain,
+      OrganizationChain,
+      DrinkChain,
+      StyleChain,
+      GlasswareChain
     ].each {
       bind(it).in(SINGLETON)
     }

@@ -24,12 +24,12 @@ import static com.cellarhq.common.session.FlashMessage.success
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class LinkAccountEndpoint extends GroovyChainAction {
+class LinkAccountChain extends GroovyChainAction {
 
   private final AccountService accountService
 
   @Inject
-  LinkAccountEndpoint(AccountService accountService) {
+  LinkAccountChain(AccountService accountService) {
     this.accountService = accountService
   }
 

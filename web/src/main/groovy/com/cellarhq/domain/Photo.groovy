@@ -3,7 +3,6 @@ package com.cellarhq.domain
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
 
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 @CompileStatic

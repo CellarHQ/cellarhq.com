@@ -20,7 +20,6 @@ import ratpack.exec.Operation
 import ratpack.exec.Promise
 
 import javax.sql.DataSource
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 import static com.cellarhq.generated.Tables.*

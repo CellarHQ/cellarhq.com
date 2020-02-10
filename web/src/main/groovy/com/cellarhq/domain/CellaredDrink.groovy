@@ -7,7 +7,6 @@ import groovy.transform.InheritConstructors
 
 import javax.persistence.Column
 import javax.validation.constraints.Min
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 @Sanitize(recordType = CellaredDrinkRecord, fields = [

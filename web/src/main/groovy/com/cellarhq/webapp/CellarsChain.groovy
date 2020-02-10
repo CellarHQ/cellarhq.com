@@ -46,7 +46,7 @@ import static java.lang.String.format
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class CellarsEndpoint extends GroovyChainAction {
+class CellarsChain extends GroovyChainAction {
 
   ValidatorFactory validatorFactory
   CellarService cellarService
@@ -57,13 +57,13 @@ class CellarsEndpoint extends GroovyChainAction {
   BinStatsService binStatsService
 
   @Inject
-  CellarsEndpoint(ValidatorFactory validatorFactory,
-                  CellarService cellarService,
-                  CellaredDrinkService cellaredDrinkService,
-                  DrinkService drinkService,
-                  OrganizationService organizationService,
-                  PhotoService photoService,
-                  BinStatsService binStatsService) {
+  CellarsChain(ValidatorFactory validatorFactory,
+               CellarService cellarService,
+               CellaredDrinkService cellaredDrinkService,
+               DrinkService drinkService,
+               OrganizationService organizationService,
+               PhotoService photoService,
+               BinStatsService binStatsService) {
     this.validatorFactory = validatorFactory
     this.cellarService = cellarService
     this.cellaredDrinkService = cellaredDrinkService

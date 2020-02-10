@@ -18,7 +18,7 @@ import ratpack.groovy.handling.GroovyChainAction
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class YourCellarEndpoint extends GroovyChainAction {
+class YourCellarChain extends GroovyChainAction {
 
   private final CellarService cellarService
   private final CellaredDrinkService cellaredDrinkService
@@ -26,10 +26,10 @@ class YourCellarEndpoint extends GroovyChainAction {
   private final BinStatsService binStatsService
 
   @Inject
-  YourCellarEndpoint(CellarService cellarService,
-                     CellaredDrinkService cellaredDrinkService,
-                     PhotoService photoService,
-                     BinStatsService binStatsService) {
+  YourCellarChain(CellarService cellarService,
+                  CellaredDrinkService cellaredDrinkService,
+                  PhotoService photoService,
+                  BinStatsService binStatsService) {
     this.cellarService = cellarService
     this.cellaredDrinkService = cellaredDrinkService
     this.photoService = photoService

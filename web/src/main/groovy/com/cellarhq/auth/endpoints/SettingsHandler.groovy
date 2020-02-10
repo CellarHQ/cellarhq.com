@@ -27,14 +27,14 @@ import static com.cellarhq.util.SessionUtil.setFlash
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class SettingsEndpoint extends GroovyHandler {
+class SettingsHandler extends GroovyHandler {
 
   private final CellarService cellarService
   private final PhotoService photoService
   private final ValidatorFactory validatorFactory
 
   @Inject
-  SettingsEndpoint(ValidatorFactory validatorFactory, CellarService cellarService, PhotoService photoService) {
+  SettingsHandler(ValidatorFactory validatorFactory, CellarService cellarService, PhotoService photoService) {
     this.validatorFactory = validatorFactory
     this.cellarService = cellarService
     this.photoService = photoService

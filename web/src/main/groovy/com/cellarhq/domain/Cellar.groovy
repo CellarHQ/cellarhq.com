@@ -7,13 +7,11 @@ import com.github.slugify.Slugify
 import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
 import org.hibernate.validator.constraints.Length
-import org.hibernate.validator.constraints.NotEmpty
 import org.pac4j.oauth.profile.twitter.TwitterProfile
 
 import javax.persistence.Column
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 @Sanitize(recordType = CellarRecord, fields = [

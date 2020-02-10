@@ -29,16 +29,16 @@ import java.time.LocalDateTime
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class RegisterEndpoint extends GroovyHandler {
+class RegisterHandler extends GroovyHandler {
 
   private final AccountService accountService
   private final ValidatorFactory validatorFactory
   private final CellarHQProfileCreator cellarHQProfileCreator
 
   @Inject
-  RegisterEndpoint(AccountService accountService,
-                   ValidatorFactory validatorFactory,
-                   CellarHQProfileCreator cellarHQProfileCreator) {
+  RegisterHandler(AccountService accountService,
+                  ValidatorFactory validatorFactory,
+                  CellarHQProfileCreator cellarHQProfileCreator) {
     this.accountService = accountService
     this.validatorFactory = validatorFactory
     this.cellarHQProfileCreator = cellarHQProfileCreator

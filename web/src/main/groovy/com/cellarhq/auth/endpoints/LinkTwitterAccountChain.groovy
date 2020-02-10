@@ -18,12 +18,12 @@ import static java.lang.String.format
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class LinkTwitterAccountEndpoint extends GroovyChainAction {
+class LinkTwitterAccountChain extends GroovyChainAction {
 
   TwitterAccountVerificationService verificationService
 
   @Inject
-  LinkTwitterAccountEndpoint(TwitterAccountVerificationService verificationService) {
+  LinkTwitterAccountChain(TwitterAccountVerificationService verificationService) {
     this.verificationService = verificationService
   }
 

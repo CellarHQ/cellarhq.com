@@ -25,13 +25,15 @@ class AuthenticationModule extends ConfigurableModule<CellarHQConfig> {
     bind(CellarHQProfileCreator)
 
     [
-      ForgotPasswordEndpoint,
+      RequireAuthHandler,
+      ForgotPasswordHandler,
       ChangePasswordHandler,
-      SettingsEndpoint,
-      LinkEmailAccountEndpoint,
-      LinkTwitterAccountEndpoint,
-      LinkAccountEndpoint,
-      RegisterEndpoint
+      SettingsHandler,
+      LinkEmailAccountChain,
+      LinkTwitterAccountChain,
+      LinkAccountChain,
+      RegisterHandler,
+      AuthenticationChain
     ].each {
       bind(it).in(SINGLETON)
     }

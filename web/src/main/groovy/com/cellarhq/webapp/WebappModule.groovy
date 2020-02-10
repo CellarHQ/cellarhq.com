@@ -1,5 +1,9 @@
 package com.cellarhq.webapp
 
+import com.cellarhq.ForceSslHandler
+import com.cellarhq.HomepageHandler
+import com.cellarhq.StaticPageChain
+import com.cellarhq.UserProfileHandler
 import com.cellarhq.common.CellarHQConfig
 import com.cellarhq.webapp.handlers.AddBeersHtmlHandler
 import com.cellarhq.webapp.handlers.BeersHtmlHandler
@@ -11,11 +15,15 @@ class WebappModule extends ConfigurableModule<CellarHQConfig> {
   @Override
   protected void configure() {
     bind(BinStatsService)
+    bind(StaticPageChain).in(SINGLETON)
+    bind(ForceSslHandler).in(SINGLETON)
+    bind(HomepageHandler).in(SINGLETON)
+    bind(UserProfileHandler).in(SINGLETON)
     bind(AddBeersHtmlHandler).in(SINGLETON)
     bind(BeersHtmlHandler).in(SINGLETON)
     bind(BreweryChain).in(SINGLETON)
     bind(BeerHtmlChain).in(SINGLETON)
-    bind(CellarsEndpoint).in(SINGLETON)
-    bind(YourCellarEndpoint).in(SINGLETON)
+    bind(CellarsChain).in(SINGLETON)
+    bind(YourCellarChain).in(SINGLETON)
   }
 }

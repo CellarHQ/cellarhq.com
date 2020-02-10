@@ -24,15 +24,15 @@ import static com.cellarhq.util.SessionUtil.setFlash
 import static ratpack.handlebars.Template.handlebarsTemplate
 
 @Slf4j
-class LinkEmailAccountEndpoint extends GroovyChainAction {
+class LinkEmailAccountChain extends GroovyChainAction {
 
   EmailAccountVerificationService verificationService
 
   ValidatorFactory validatorFactory
 
   @Inject
-  LinkEmailAccountEndpoint(ValidatorFactory validatorFactory,
-                           EmailAccountVerificationService emailAccountVerificationService) {
+  LinkEmailAccountChain(ValidatorFactory validatorFactory,
+                        EmailAccountVerificationService emailAccountVerificationService) {
     this.verificationService = emailAccountVerificationService
     this.validatorFactory = validatorFactory
   }
