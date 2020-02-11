@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+  <!--
+   ACCOUNT_EMAIL.CELLAR_ID
+  ACCOUNT_OAUTH.CELLAR_ID
+  -->
+
+
+  <changeSet id="adding-indexes" author="kboon" dbms="postgresql">
+    <createIndex tableName="cellared_drink" indexName="idx_cellared_drink_quantity">
+      <column name="quantity"/>
+    </createIndex>
+    <createIndex tableName="cellared_drink" indexName="idx_cellared_drink_cellar_id">
+      <column name="cellar_id"/>
+    </createIndex>
+  </changeSet>
+  <changeSet id="adding-drink-indexes" author="kboon" dbms="postgresql">
+    <createIndex tableName="drink" indexName="idx_drink_name">
+      <column name="name"/>
+    </createIndex>
+    <createIndex tableName="drink" indexName="idx_drink_cellar_id">
+      <column name="organization_id"/>
+      <column name="name"/>
+    </createIndex>
+  </changeSet>
+  <changeSet id="adding-cellar-indexes" author="kboon" dbms="postgresql">
+    <createIndex tableName="cellar" indexName="idx_cellar_private">
+      <column name="private"/>
+    </createIndex>
+    <createIndex tableName="cellar" indexName="idx_cellar_screen_name_private">
+      <column name="screen_name"/>
+      <column name="private"/>
+    </createIndex>
+  </changeSet>
+  <changeSet id="adding-organixation-indexes" author="kboon" dbms="postgresql">
+    <createIndex tableName="organization" indexName="idx_organization_name">
+      <column name="name"/>
+    </createIndex>
+  </changeSet>
+  <changeSet id="adding-account-indexes" author="kboon" dbms="postgresql">
+    <createIndex tableName="account_email" indexName="idx_account_email_cellar_id">
+      <column name="cellar_id"/>
+    </createIndex>
+    <createIndex tableName="account_oauth" indexName="idx_account_oauth_cellar_id">
+      <column name="cellar_id"/>
+    </createIndex>
+  </changeSet>
+</databaseChangeLog>
