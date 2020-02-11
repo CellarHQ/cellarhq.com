@@ -1,3 +1,4 @@
+import cellarhq.SlowRequestLogger
 import com.cellarhq.ForceSslHandler
 import com.cellarhq.HomepageHandler
 import com.cellarhq.StaticPageChain
@@ -31,7 +32,6 @@ import org.slf4j.LoggerFactory
 import ratpack.error.ClientErrorHandler
 import ratpack.error.ServerErrorHandler
 import ratpack.handlebars.HandlebarsModule
-import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
 import ratpack.server.BaseDir
 import ratpack.session.SessionModule
@@ -83,7 +83,7 @@ ratpack {
   }
 
   handlers {
-    all(RequestLogger.ncsa(log))
+    all(SlowRequestLogger)
     all(ForceSslHandler)
     all(UserProfileHandler)
     insert(AuthenticationChain)
