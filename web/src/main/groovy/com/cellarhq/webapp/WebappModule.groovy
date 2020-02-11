@@ -1,5 +1,6 @@
 package com.cellarhq.webapp
 
+import cellarhq.SlowRequestLogger
 import com.cellarhq.ForceSslHandler
 import com.cellarhq.HomepageHandler
 import com.cellarhq.StaticPageChain
@@ -15,6 +16,7 @@ class WebappModule extends ConfigurableModule<CellarHQConfig> {
   @Override
   protected void configure() {
     bind(BinStatsService)
+    bind(SlowRequestLogger).in(SINGLETON)
     bind(StaticPageChain).in(SINGLETON)
     bind(ForceSslHandler).in(SINGLETON)
     bind(HomepageHandler).in(SINGLETON)
