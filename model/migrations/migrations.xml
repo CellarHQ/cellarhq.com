@@ -7,32 +7,31 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!-- initial release -->
-    <include file="releases/initial-schema.xml" relativeToChangelogFile="true"/>
-    <include file="releases/forgot-password-support.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add-data-columns-for-brewerydb.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add-base-data.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add-region-column.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add-cellar-social-fields.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add-cellar-beer-organizing-fields.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add-cellar-stat-fields.xml" relativeToChangelogFile="true"/>
-    <include file="releases/rapid-login-attempt-prevention.xml" relativeToChangelogFile="true"/>
-    <include file="releases/misc_updates_from_importing_data.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add_warning_flag.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add-organization-count-fields.xml" relativeToChangelogFile="true"/>
-    <include file="releases/drop-drink-constraints.xml" relativeToChangelogFile="true"/>
+    <!--<include file="releases/initial-schema.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/forgot-password-support.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add-data-columns-for-brewerydb.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add-base-data.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add-region-column.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add-cellar-social-fields.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add-cellar-beer-organizing-fields.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add-cellar-stat-fields.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/rapid-login-attempt-prevention.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/misc_updates_from_importing_data.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add_warning_flag.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add-organization-count-fields.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/drop-drink-constraints.xml" relativeToChangelogFile="true"/>-->
 
-    <!-- 2.1 -->
-    <include file="releases/increase-drink-name-length.xml" relativeToChangelogFile="true"/>
-    <include file="releases/sorting-fixes.xml" relativeToChangelogFile="true"/>
-    <include file="releases/add_cellar_slug.xml" relativeToChangelogFile="true"/>
+    <!--&lt;!&ndash; 2.1 &ndash;&gt;-->
+    <!--<include file="releases/increase-drink-name-length.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/sorting-fixes.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/add_cellar_slug.xml" relativeToChangelogFile="true"/>-->
 
-    <!-- 2.2 -->
-    <include file="releases/simplify-roles.xml" relativeToChangelogFile="true"/>
-    <include file="releases/organization-collaborations.xml" relativeToChangelogFile="true"/>
+    <!--&lt;!&ndash; 2.2 &ndash;&gt;-->
+    <!--<include file="releases/simplify-roles.xml" relativeToChangelogFile="true"/>-->
+    <!--<include file="releases/organization-collaborations.xml" relativeToChangelogFile="true"/>-->
 
-    <!-- next -->
-    <include file="releases/account-linking.xml" relativeToChangelogFile="true"/>
-
+    <!--&lt;!&ndash; next &ndash;&gt;-->
+    <!--<include file="releases/account-linking.xml" relativeToChangelogFile="true"/>-->
 
     <include file="releases/new-indexes.xml" relativeToChangelogFile="true"/>
 
