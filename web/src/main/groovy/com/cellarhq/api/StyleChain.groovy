@@ -22,12 +22,12 @@ class StyleChain implements Action<Chain> {
   void execute(Chain chain) throws Exception {
     chain
     .get('styles/live-search') { ctx ->
-      styleService.search(request.queryParams.name, 20, 0).then { List<Style> styles ->
+      styleService.search(ctx.request.queryParams.name, 20, 0).then { List<Style> styles ->
         ctx.render json(styles)
       }
     }
     .put('styles/validate-name') { ctx ->
-      styleService.search(request.queryParams.name, 1, 0).then { List<Style> styles ->
+      styleService.search(ctx.request.queryParams.name, 1, 0).then { List<Style> styles ->
         if (ctx.request.queryParams.exists) {
           ctx.render json(!styles.empty)
         } else {
